@@ -90,7 +90,7 @@
 
 'use server';
 
-import { signInAction } from '@/features/auth/server/actions';
+import { signInAction } from '@/features/auth/server/signInAction';
 
 const page = async () => {
   const { data, error } = await signInAction();
