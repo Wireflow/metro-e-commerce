@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Generate Supabase types
+npm run types
+
+# First, run fixes
+echo "🔍 Running formatters and linters..."
+npm run fix:all
+
+# Stage the fixed files
+git add .
+
+# Then verify everything is fixed
+echo "✨ Verifying fixes..."
+npm run format:check || (echo "❌ Prettier check failed after fixes" && exit 1)
+npm run lint:check || (echo "❌ ESLint check failed after fixes" && exit 1)
+
+echo "✅ Pre-commit checks passed!"

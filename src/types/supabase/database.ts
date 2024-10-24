@@ -1,0 +1,3676 @@
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+
+export type Database = {
+  public: {
+    Tables: {
+      addresses: {
+        Row: {
+          city: string;
+          country: string;
+          created_at: string;
+          customer_id: string;
+          id: string;
+          name: string | null;
+          state: string;
+          street: string;
+          type: Database['public']['Enums']['address_type'];
+          updated_at: string;
+          zip_code: string;
+        };
+        Insert: {
+          city: string;
+          country?: string;
+          created_at?: string;
+          customer_id: string;
+          id?: string;
+          name?: string | null;
+          state: string;
+          street: string;
+          type: Database['public']['Enums']['address_type'];
+          updated_at?: string;
+          zip_code: string;
+        };
+        Update: {
+          city?: string;
+          country?: string;
+          created_at?: string;
+          customer_id?: string;
+          id?: string;
+          name?: string | null;
+          state?: string;
+          street?: string;
+          type?: Database['public']['Enums']['address_type'];
+          updated_at?: string;
+          zip_code?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      app_releases: {
+        Row: {
+          branch_id: string;
+          id: string;
+          message: string | null;
+          must_update: boolean;
+          released_at: string;
+          version: string;
+        };
+        Insert: {
+          branch_id: string;
+          id?: string;
+          message?: string | null;
+          must_update?: boolean;
+          released_at?: string;
+          version: string;
+        };
+        Update: {
+          branch_id?: string;
+          id?: string;
+          message?: string | null;
+          must_update?: boolean;
+          released_at?: string;
+          version?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'app_releases_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      barcodes: {
+        Row: {
+          barcode: string;
+          created_at: string;
+          id: string;
+          product_id: string;
+        };
+        Insert: {
+          barcode: string;
+          created_at?: string;
+          id?: string;
+          product_id: string;
+        };
+        Update: {
+          barcode?: string;
+          created_at?: string;
+          id?: string;
+          product_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'barcodes_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      branch_settings: {
+        Row: {
+          branch_id: string;
+          delivery_miles_radius: number;
+          delivery_minimum: number;
+          id: string;
+          is_app_disabled: boolean;
+          is_card_payment_disabled: boolean;
+          is_ordering_disabled: boolean;
+          is_pay_on_delivery_disabled: boolean;
+          is_pay_on_pickup_disabled: boolean;
+          is_shipment_disabled: boolean;
+          pickup_minimum: number;
+          shipment_minimum: number;
+          tax_percentage: number;
+          updated_at: string;
+        };
+        Insert: {
+          branch_id: string;
+          delivery_miles_radius?: number;
+          delivery_minimum?: number;
+          id?: string;
+          is_app_disabled?: boolean;
+          is_card_payment_disabled?: boolean;
+          is_ordering_disabled?: boolean;
+          is_pay_on_delivery_disabled?: boolean;
+          is_pay_on_pickup_disabled?: boolean;
+          is_shipment_disabled?: boolean;
+          pickup_minimum?: number;
+          shipment_minimum?: number;
+          tax_percentage?: number;
+          updated_at?: string;
+        };
+        Update: {
+          branch_id?: string;
+          delivery_miles_radius?: number;
+          delivery_minimum?: number;
+          id?: string;
+          is_app_disabled?: boolean;
+          is_card_payment_disabled?: boolean;
+          is_ordering_disabled?: boolean;
+          is_pay_on_delivery_disabled?: boolean;
+          is_pay_on_pickup_disabled?: boolean;
+          is_shipment_disabled?: boolean;
+          pickup_minimum?: number;
+          shipment_minimum?: number;
+          tax_percentage?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'branch_settings_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: true;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      branches: {
+        Row: {
+          address: string;
+          city: string;
+          country: string;
+          created_at: string | null;
+          email: string;
+          id: string;
+          name: string;
+          phone: string;
+          state: string;
+          updated_at: string | null;
+          zip_code: string;
+        };
+        Insert: {
+          address: string;
+          city: string;
+          country: string;
+          created_at?: string | null;
+          email: string;
+          id?: string;
+          name: string;
+          phone: string;
+          state: string;
+          updated_at?: string | null;
+          zip_code: string;
+        };
+        Update: {
+          address?: string;
+          city?: string;
+          country?: string;
+          created_at?: string | null;
+          email?: string;
+          id?: string;
+          name?: string;
+          phone?: string;
+          state?: string;
+          updated_at?: string | null;
+          zip_code?: string;
+        };
+        Relationships: [];
+      };
+      cart_items: {
+        Row: {
+          created_at: string;
+          customer_id: string;
+          id: string;
+          product_id: string;
+          quantity: number;
+        };
+        Insert: {
+          created_at?: string;
+          customer_id: string;
+          id?: string;
+          product_id: string;
+          quantity?: number;
+        };
+        Update: {
+          created_at?: string;
+          customer_id?: string;
+          id?: string;
+          product_id?: string;
+          quantity?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      categories: {
+        Row: {
+          branch_id: string;
+          created_at: string;
+          description: string | null;
+          hide: boolean;
+          id: string;
+          image_path: string | null;
+          image_url: string | null;
+          is_featured: boolean;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          branch_id: string;
+          created_at?: string;
+          description?: string | null;
+          hide?: boolean;
+          id?: string;
+          image_path?: string | null;
+          image_url?: string | null;
+          is_featured?: boolean;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          branch_id?: string;
+          created_at?: string;
+          description?: string | null;
+          hide?: boolean;
+          id?: string;
+          image_path?: string | null;
+          image_url?: string | null;
+          is_featured?: boolean;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'categories_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      customers: {
+        Row: {
+          approved: boolean;
+          approved_at: string | null;
+          approved_tobacco: boolean;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'];
+          blocked: boolean;
+          branch_id: string;
+          business_name: string;
+          created_at: string;
+          customer_type: Database['public']['Enums']['customer_type'];
+          email: string;
+          first_name: string;
+          id: string;
+          independent_sales_id: string | null;
+          last_name: string;
+          opted_in_text: boolean;
+          phone: string;
+          tax_id: string | null;
+          tax_id_image_url: string | null;
+          tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          approved?: boolean;
+          approved_at?: string | null;
+          approved_tobacco?: boolean;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'];
+          blocked?: boolean;
+          branch_id: string;
+          business_name: string;
+          created_at?: string;
+          customer_type?: Database['public']['Enums']['customer_type'];
+          email: string;
+          first_name: string;
+          id?: string;
+          independent_sales_id?: string | null;
+          last_name: string;
+          opted_in_text?: boolean;
+          phone: string;
+          tax_id?: string | null;
+          tax_id_image_url?: string | null;
+          tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          approved?: boolean;
+          approved_at?: string | null;
+          approved_tobacco?: boolean;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'];
+          blocked?: boolean;
+          branch_id?: string;
+          business_name?: string;
+          created_at?: string;
+          customer_type?: Database['public']['Enums']['customer_type'];
+          email?: string;
+          first_name?: string;
+          id?: string;
+          independent_sales_id?: string | null;
+          last_name?: string;
+          opted_in_text?: boolean;
+          phone?: string;
+          tax_id?: string | null;
+          tax_id_image_url?: string | null;
+          tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      delete_requests: {
+        Row: {
+          additional_info: string | null;
+          branch_id: string;
+          confirm_ownership: boolean;
+          created_at: string;
+          email: string;
+          full_name: string;
+          id: string;
+          password: string;
+          reason: string;
+          request_number: number;
+          understand_irreversible: boolean;
+        };
+        Insert: {
+          additional_info?: string | null;
+          branch_id: string;
+          confirm_ownership: boolean;
+          created_at?: string;
+          email: string;
+          full_name: string;
+          id?: string;
+          password: string;
+          reason: string;
+          request_number?: number;
+          understand_irreversible: boolean;
+        };
+        Update: {
+          additional_info?: string | null;
+          branch_id?: string;
+          confirm_ownership?: boolean;
+          created_at?: string;
+          email?: string;
+          full_name?: string;
+          id?: string;
+          password?: string;
+          reason?: string;
+          request_number?: number;
+          understand_irreversible?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'delete_request_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      newsletter_emails: {
+        Row: {
+          branch_id: string;
+          created_at: string;
+          email: string;
+          id: string;
+          is_subscribed: boolean;
+          subscription_date: string;
+          updated_at: string;
+        };
+        Insert: {
+          branch_id: string;
+          created_at?: string;
+          email: string;
+          id?: string;
+          is_subscribed?: boolean;
+          subscription_date?: string;
+          updated_at?: string;
+        };
+        Update: {
+          branch_id?: string;
+          created_at?: string;
+          email?: string;
+          id?: string;
+          is_subscribed?: boolean;
+          subscription_date?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'newsletter_emails_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      order_items: {
+        Row: {
+          created_at: string;
+          discount_amount: number;
+          id: string;
+          order_id: string;
+          product_id: string;
+          quantity: number;
+          refunded_amount: number;
+          refunded_quantity: number;
+          sku: string | null;
+          status: Database['public']['Enums']['order_item_status'];
+          tax_amount: number;
+          total_price: number;
+          unit_price: number;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          discount_amount?: number;
+          id?: string;
+          order_id: string;
+          product_id: string;
+          quantity: number;
+          refunded_amount: number;
+          refunded_quantity?: number;
+          sku?: string | null;
+          status?: Database['public']['Enums']['order_item_status'];
+          tax_amount?: number;
+          total_price: number;
+          unit_price: number;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          discount_amount?: number;
+          id?: string;
+          order_id?: string;
+          product_id?: string;
+          quantity?: number;
+          refunded_amount?: number;
+          refunded_quantity?: number;
+          sku?: string | null;
+          status?: Database['public']['Enums']['order_item_status'];
+          tax_amount?: number;
+          total_price?: number;
+          unit_price?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'completed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'confirmed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'pending_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'ready_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
+            referencedRelation: 'refunded_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      order_payments: {
+        Row: {
+          created_at: string;
+          id: string;
+          order_id: string;
+          payment_amount: number;
+          payment_date: string | null;
+          payment_method_id: string | null;
+          payment_status: Database['public']['Enums']['payment_status'];
+          payment_type: Database['public']['Enums']['payment_type'];
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          order_id: string;
+          payment_amount: number;
+          payment_date?: string | null;
+          payment_method_id?: string | null;
+          payment_status?: Database['public']['Enums']['payment_status'];
+          payment_type: Database['public']['Enums']['payment_type'];
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          order_id?: string;
+          payment_amount?: number;
+          payment_date?: string | null;
+          payment_method_id?: string | null;
+          payment_status?: Database['public']['Enums']['payment_status'];
+          payment_type?: Database['public']['Enums']['payment_type'];
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'completed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'confirmed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'pending_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'ready_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'refunded_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_payment_method_id_fkey';
+            columns: ['payment_method_id'];
+            isOneToOne: false;
+            referencedRelation: 'payment_methods';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      order_shipping: {
+        Row: {
+          id: string;
+          order_id: string;
+          provider: string;
+          shipped_at: string;
+          tracking_number: string;
+        };
+        Insert: {
+          id?: string;
+          order_id: string;
+          provider: string;
+          shipped_at: string;
+          tracking_number: string;
+        };
+        Update: {
+          id?: string;
+          order_id?: string;
+          provider?: string;
+          shipped_at?: string;
+          tracking_number?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'completed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'confirmed_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'pending_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'ready_orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'refunded_orders';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      orders: {
+        Row: {
+          branch_id: string;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string;
+          customer_id: string;
+          delivery_address_id: string;
+          expected_delivery_at: string | null;
+          id: string;
+          order_number: number;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'];
+          total_amount: number;
+          total_quantity: number;
+          type: Database['public']['Enums']['order_type'];
+          updated_at: string;
+        };
+        Insert: {
+          branch_id: string;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string;
+          customer_id: string;
+          delivery_address_id: string;
+          expected_delivery_at?: string | null;
+          id?: string;
+          order_number?: number;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'];
+          total_amount: number;
+          total_quantity: number;
+          type: Database['public']['Enums']['order_type'];
+          updated_at?: string;
+        };
+        Update: {
+          branch_id?: string;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string;
+          customer_id?: string;
+          delivery_address_id?: string;
+          expected_delivery_at?: string | null;
+          id?: string;
+          order_number?: number;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'];
+          total_amount?: number;
+          total_quantity?: number;
+          type?: Database['public']['Enums']['order_type'];
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      payment_methods: {
+        Row: {
+          added_at: string;
+          billing_address_id: string | null;
+          customer_id: string;
+          id: string;
+          last_four: string;
+          provider: Database['public']['Enums']['card_provider'];
+          token: string;
+        };
+        Insert: {
+          added_at?: string;
+          billing_address_id?: string | null;
+          customer_id: string;
+          id?: string;
+          last_four: string;
+          provider: Database['public']['Enums']['card_provider'];
+          token: string;
+        };
+        Update: {
+          added_at?: string;
+          billing_address_id?: string | null;
+          customer_id?: string;
+          id?: string;
+          last_four?: string;
+          provider?: Database['public']['Enums']['card_provider'];
+          token?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      product_images: {
+        Row: {
+          created_at: string;
+          id: string;
+          path: string;
+          product_id: string;
+          url: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          path: string;
+          product_id: string;
+          url: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          path?: string;
+          product_id?: string;
+          url?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'product_images_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      products: {
+        Row: {
+          branch_id: string;
+          categoryId: string;
+          cost_price: number;
+          created_at: string;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean;
+          id: string;
+          in_stock: boolean;
+          is_featured: boolean;
+          is_tobacco: boolean;
+          manufacturer: string | null;
+          name: string;
+          retail_price: number;
+          unit: string | null;
+          updated_at: string;
+          wholesale_price: number;
+        };
+        Insert: {
+          branch_id: string;
+          categoryId: string;
+          cost_price?: number;
+          created_at?: string;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean;
+          id?: string;
+          in_stock?: boolean;
+          is_featured?: boolean;
+          is_tobacco?: boolean;
+          manufacturer?: string | null;
+          name: string;
+          retail_price: number;
+          unit?: string | null;
+          updated_at?: string;
+          wholesale_price: number;
+        };
+        Update: {
+          branch_id?: string;
+          categoryId?: string;
+          cost_price?: number;
+          created_at?: string;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean;
+          id?: string;
+          in_stock?: boolean;
+          is_featured?: boolean;
+          is_tobacco?: boolean;
+          manufacturer?: string | null;
+          name?: string;
+          retail_price?: number;
+          unit?: string | null;
+          updated_at?: string;
+          wholesale_price?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      users: {
+        Row: {
+          admin_pin: string;
+          blocked: boolean;
+          branch_id: string;
+          created_at: string;
+          email: string;
+          first_name: string;
+          id: string;
+          last_name: string;
+          role: Database['public']['Enums']['user_role'];
+          updated_at: string;
+        };
+        Insert: {
+          admin_pin?: string;
+          blocked?: boolean;
+          branch_id: string;
+          created_at?: string;
+          email: string;
+          first_name: string;
+          id?: string;
+          last_name: string;
+          role: Database['public']['Enums']['user_role'];
+          updated_at?: string;
+        };
+        Update: {
+          admin_pin?: string;
+          blocked?: boolean;
+          branch_id?: string;
+          created_at?: string;
+          email?: string;
+          first_name?: string;
+          id?: string;
+          last_name?: string;
+          role?: Database['public']['Enums']['user_role'];
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'users_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      wishlist_items: {
+        Row: {
+          added_at: string;
+          customer_id: string;
+          id: string;
+          product_id: string;
+        };
+        Insert: {
+          added_at?: string;
+          customer_id: string;
+          id?: string;
+          product_id: string;
+        };
+        Update: {
+          added_at?: string;
+          customer_id?: string;
+          id?: string;
+          product_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+    };
+    Views: {
+      admin_users: {
+        Row: {
+          admin_pin: string | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          created_at: string | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          last_name: string | null;
+          role: Database['public']['Enums']['user_role'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'users_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      approved_customers: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          phone: string | null;
+          tax_id: string | null;
+          tobacco_license: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      belongs_independent_customers: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          phone: string | null;
+          tax_id: string | null;
+          tobacco_license: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      belongs_wholesale_customers: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          phone: string | null;
+          tax_id: string | null;
+          tobacco_license: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      billing_addresses: {
+        Row: {
+          city: string | null;
+          country: string | null;
+          created_at: string | null;
+          id: string | null;
+          state: string | null;
+          street: string | null;
+          type: Database['public']['Enums']['address_type'] | null;
+          updated_at: string | null;
+          user_id: string | null;
+          zip_code: string | null;
+        };
+        Insert: {
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: string | null;
+          state?: string | null;
+          street?: string | null;
+          type?: Database['public']['Enums']['address_type'] | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+          zip_code?: string | null;
+        };
+        Update: {
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: string | null;
+          state?: string | null;
+          street?: string | null;
+          type?: Database['public']['Enums']['address_type'] | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+          zip_code?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      completed_orders: {
+        Row: {
+          branch_id: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          expected_delivery_at: string | null;
+          id: string | null;
+          order_number: number | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          total_amount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      confirmed_orders: {
+        Row: {
+          branch_id: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          expected_delivery_at: string | null;
+          id: string | null;
+          order_number: number | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          total_amount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      delivery_addresses: {
+        Row: {
+          city: string | null;
+          country: string | null;
+          created_at: string | null;
+          id: string | null;
+          state: string | null;
+          street: string | null;
+          type: Database['public']['Enums']['address_type'] | null;
+          updated_at: string | null;
+          user_id: string | null;
+          zip_code: string | null;
+        };
+        Insert: {
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: string | null;
+          state?: string | null;
+          street?: string | null;
+          type?: Database['public']['Enums']['address_type'] | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+          zip_code?: string | null;
+        };
+        Update: {
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: string | null;
+          state?: string | null;
+          street?: string | null;
+          type?: Database['public']['Enums']['address_type'] | null;
+          updated_at?: string | null;
+          user_id?: string | null;
+          zip_code?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      discounted_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      featured_categories: {
+        Row: {
+          created_at: string | null;
+          description: string | null;
+          hide: boolean | null;
+          id: string | null;
+          is_featured: boolean | null;
+          name: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          description?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          is_featured?: boolean | null;
+          name?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          description?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          is_featured?: boolean | null;
+          name?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+      featured_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      hidden_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      in_stock_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      independent_sales_users: {
+        Row: {
+          admin_pin: string | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          created_at: string | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          last_name: string | null;
+          role: Database['public']['Enums']['user_role'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'users_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      inhouse_sales_users: {
+        Row: {
+          admin_pin: string | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          created_at: string | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          last_name: string | null;
+          role: Database['public']['Enums']['user_role'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          admin_pin?: string | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          last_name?: string | null;
+          role?: Database['public']['Enums']['user_role'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'users_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      out_of_stock_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      pending_orders: {
+        Row: {
+          branch_id: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          expected_delivery_at: string | null;
+          id: string | null;
+          order_number: number | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          total_amount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      ready_orders: {
+        Row: {
+          branch_id: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          expected_delivery_at: string | null;
+          id: string | null;
+          order_number: number | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          total_amount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      refunded_orders: {
+        Row: {
+          branch_id: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          expected_delivery_at: string | null;
+          id: string | null;
+          order_number: number | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          total_amount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          cancelled_at?: string | null;
+          completed_at?: string | null;
+          confirmed_at?: string | null;
+          created_at?: string | null;
+          customer_id?: string | null;
+          delivery_address_id?: string | null;
+          expected_delivery_at?: string | null;
+          id?: string | null;
+          order_number?: number | null;
+          preparing_at?: string | null;
+          ready_at?: string | null;
+          refunded_at?: string | null;
+          salesperson_customer_id?: string | null;
+          salesperson_id?: string | null;
+          shipping_costs?: number | null;
+          status?: Database['public']['Enums']['order_status'] | null;
+          total_amount?: number | null;
+          total_quantity?: number | null;
+          type?: Database['public']['Enums']['order_type'] | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      shown_products: {
+        Row: {
+          branch_id: string | null;
+          categoryId: string | null;
+          cost_price: number | null;
+          created_at: string | null;
+          description: string | null;
+          discount: number | null;
+          discounted_until: string | null;
+          hide: boolean | null;
+          id: string | null;
+          in_stock: boolean | null;
+          is_featured: boolean | null;
+          is_tobacco: boolean | null;
+          manufacturer: string | null;
+          name: string | null;
+          retail_price: number | null;
+          unit: string | null;
+          updated_at: string | null;
+          wholesale_price: number | null;
+        };
+        Insert: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Update: {
+          branch_id?: string | null;
+          categoryId?: string | null;
+          cost_price?: number | null;
+          created_at?: string | null;
+          description?: string | null;
+          discount?: number | null;
+          discounted_until?: string | null;
+          hide?: boolean | null;
+          id?: string | null;
+          in_stock?: boolean | null;
+          is_featured?: boolean | null;
+          is_tobacco?: boolean | null;
+          manufacturer?: string | null;
+          name?: string | null;
+          retail_price?: number | null;
+          unit?: string | null;
+          updated_at?: string | null;
+          wholesale_price?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_categoryId_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      unapproved_customers: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          phone: string | null;
+          tax_id: string | null;
+          tobacco_license: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          approved?: boolean | null;
+          approved_at?: string | null;
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked?: boolean | null;
+          branch_id?: string | null;
+          business_name?: string | null;
+          created_at?: string | null;
+          customer_type?: Database['public']['Enums']['customer_type'] | null;
+          email?: string | null;
+          first_name?: string | null;
+          id?: string | null;
+          independent_sales_id?: string | null;
+          last_name?: string | null;
+          opted_in_text?: boolean | null;
+          phone?: string | null;
+          tax_id?: string | null;
+          tobacco_license?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+    };
+    Functions: {
+      get_user_branch: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
+      };
+      is_admin: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+      is_sales: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+    };
+    Enums: {
+      address_type: 'billing' | 'delivery';
+      card_provider: 'visa' | 'amex' | 'master' | 'discover' | 'unknown';
+      customer_belongs_to: 'wholesale' | 'independent';
+      customer_type: 'wholesale' | 'retail';
+      order_item_status: 'confirmed' | 'returned';
+      order_status:
+        | 'created'
+        | 'pending'
+        | 'confirmed'
+        | 'preparing'
+        | 'ready'
+        | 'completed'
+        | 'cancelled'
+        | 'refunded';
+      order_type: 'delivery' | 'pickup' | 'shipment';
+      payment_status: 'pending' | 'approved' | 'declined';
+      payment_type: 'cash' | 'check' | 'later' | 'card' | 'online';
+      user_role: 'admin' | 'driver' | 'sales' | 'independent_sales';
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
+};
+
+type PublicSchema = Database[Extract<keyof Database, 'public'>];
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+        Database[PublicTableNameOrOptions['schema']]['Views'])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+      Row: infer R;
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    ? (PublicSchema['Tables'] & PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Insert: infer I;
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Update: infer U;
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
+
+export type Enums<
+  PublicEnumNameOrOptions extends keyof PublicSchema['Enums'] | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
+    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+    : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema['CompositeTypes']
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database;
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
+    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+    : never;
