@@ -1,7 +1,7 @@
 import ServerAuthWrapper from '@/components/protected/ServerAuthWrapper';
 import SignInPage from '@/features/auth/pages/SignInPage';
 
-const SignIn = async () => {
+const CustomerSignIn = async () => {
   return (
     <ServerAuthWrapper authorizedRedirect={'/'}>
       <SignInPage />
@@ -9,4 +9,4 @@ const SignIn = async () => {
   );
 };
 
-export default SignIn;
+export default CustomerSignIn;

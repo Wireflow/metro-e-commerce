@@ -25,11 +25,11 @@ const BusinessInfoSchema = z.object({
     .regex(/^[a-zA-Z0-9\s,.-]+$/, 'Please enter a valid street address'),
   city: z
     .string()
-    .min(2, 'City must be at least 2 characters')
+    .min(2, 'City must be at least 2 letters')
     .regex(/^[a-zA-Z\s.-]+$/, 'Please enter a valid city name'),
   state: z
     .string()
-    .min(2, 'State must be at least 2 characters')
+    .min(2, 'State must be at least 2 letters')
     .regex(/^[a-zA-Z\s.-]+$/, 'Please enter a valid state name'),
   zip_code: z
     .string()
@@ -37,7 +37,7 @@ const BusinessInfoSchema = z.object({
     .min(5, 'ZIP code must be at least 5 digits'),
   country: z
     .string()
-    .min(2, 'Country must be at least 2 characters')
+    .min(2, 'Country must be at least 2 letters')
     .regex(/^[a-zA-Z\s.-]+$/, 'Please enter a valid country name'),
 });
 

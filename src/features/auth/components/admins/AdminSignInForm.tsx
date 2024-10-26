@@ -13,19 +13,19 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import { SignInSchema, SignInType } from '../../schemas/sign-in';
-import { signInAction } from '../../server/signInAction';
+import { signInAdminAction } from '../../server/signInAdminAction';
 
-const SignInForm = () => {
+const AdminSignInForm = () => {
   const router = useRouter();
 
-  const { execute, isExecuting } = useAction(signInAction, {
+  const { execute, isExecuting } = useAction(signInAdminAction, {
     onSuccess: ({ data }) => {
       if (!data?.success) {
         toast.error(data?.message || 'An error occurred during sign in');
         return;
       }
       toast.success('Signed in successfully');
-      router.push('/');
+      router.push('/admin');
     },
     onError: () => {
       toast.error('An unexpected error occurred');
@@ -65,15 +65,10 @@ const SignInForm = () => {
           <Button type="submit" disabled={isExecuting} className="w-full" size={'lg'}>
             {isExecuting ? 'Signing in...' : 'Sign in'}
           </Button>
-          <Link href={'/customers/register'}>
-            <Button type="button" className="w-full" size={'lg'} variant={'ghost'}>
-              Don&apos;t have an account? Sign up
-            </Button>
-          </Link>
         </div>
       </form>
     </Form>
   );
 };
 
-export default SignInForm;
+export default AdminSignInForm;

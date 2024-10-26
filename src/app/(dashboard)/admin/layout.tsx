@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+import AdminSidebar from '@/components/layout/AdminSidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { validateAdminAccess } from '@/server/users/validateAdminAccess';
+
 export const metadata: Metadata = {
   title: 'Metro Admin',
   description: 'The best way to shop for your business.',
@@ -33,10 +37,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  await validateAdminAccess();
+
+  return (
+    <SidebarProvider>
+      <AdminSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
 }
