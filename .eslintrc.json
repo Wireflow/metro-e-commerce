@@ -21,9 +21,29 @@
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/display-name": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
 
     // Import sorting and organization
-    "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^use client"],
+          // Exact next/* imports
+          ["^next/"],
+          // External packages including next-* packages
+          ["^@?\\w"],
+          // Internal aliases starting with @/
+          ["^@/"],
+          // Relative imports
+          ["^\\."],
+          // Side effect imports
+          ["^\\u0000"]
+        ]
+      }
+    ],
     "simple-import-sort/exports": "error",
     "import/first": "error",
     "import/newline-after-import": "error",

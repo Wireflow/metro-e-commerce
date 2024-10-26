@@ -1,5 +1,6 @@
-import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+
+import { createServerClient } from '@supabase/ssr';
 
 import { Database } from '@/types/supabase/database';
 
@@ -31,12 +32,14 @@ export const createClient = () => {
   );
 };
 
-export const getUserBranchId = async (): Promise<string> => {
-  const client = createClient();
+export const getUser = async () => {
+  const supabase = createClient();
 
-  const {
-    data: { user },
-  } = await client.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
 
-  return user?.user_metadata.branchId || '';
+  if (error) {
+    throw error;
+  }
+
+  return data;
 };

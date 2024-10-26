@@ -1,23 +1,49 @@
 'use server';
 
+import { actionClient } from '@/lib/safe-action';
 import { createClient } from '@/utils/supabase/server';
 
-const supabase = createClient();
+import { SignInSchema } from '../schemas/sign-in';
 
-export const signInAction = async () => {
-  const result = await supabase.auth.signUp({
-    email: 'independentsales@gmail.com',
-    password: 'nader2002',
-    options: {
-      data: {
-        first_name: 'Independent Sales',
-        last_name: 'Abdulrub',
-        role: 'independent_sales',
-        branch_id: '91fa325f-48ad-4957-b16d-80f608e4c5db',
-        email: 'indpendentsales@gmail.com',
-      },
+export const signInAction = actionClient.schema(SignInSchema).action(async ({ parsedInput }) => {
+  const supabase = createClient();
+
+  const { email, password } = parsedInput;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    // Return only the message from the error
+    return { success: false, message: error.message };
+  }
+
+  const { data: customer, error: customerError } = await supabase
+    .from('customers')
+    .select('*')
+    .eq('id', data.user.id)
+    .single();
+
+  if (customerError) {
+    await supabase.auth.signOut();
+    return { success: false, message: 'Customer not found' };
+  }
+
+  if (!customer.approved) {
+    await supabase.auth.signOut();
+    return { success: false, message: 'Your account is pending approval' };
+  }
+
+  if (customer.blocked) {
+    await supabase.auth.signOut();
+    return { success: false, message: 'Your account has been blocked' };
+  }
+
+  // Return only necessary data that's serializable
+  return {
+    success: true,
+    user: {
+      id: data.user.id,
+      email: data.user.email,
     },
-  });
-
-  return result;
-};
+  };
+});

@@ -1,0 +1,75 @@
+import { ReactNode } from 'react';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { cn } from '@/lib/utils';
+
+export type SelectOptions = {
+  value: string;
+  label: string;
+  disabled?: boolean;
+};
+
+export type QuickSelectProps = {
+  options: SelectOptions[];
+  onValueChange: (option?: string) => void;
+  defaultValue?: string;
+  className?: string;
+  placeholder?: string;
+  value?: string;
+  emptyMessage?: string;
+  action?: ReactNode;
+};
+
+const QuickSelect = ({
+  options,
+  onValueChange,
+  defaultValue,
+  className,
+  placeholder,
+  emptyMessage = 'No options available',
+  value,
+  action,
+}: QuickSelectProps) => {
+  const hasOptions = options && options.length > 0;
+
+  return (
+    <Select onValueChange={onValueChange} defaultValue={defaultValue} value={value}>
+      <SelectTrigger className={cn('bg-white', className, { capitalize: !!value })}>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent
+        ref={ref =>
+          // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+          ref?.addEventListener('touchend', e => e.preventDefault())
+        }
+      >
+        {hasOptions ? (
+          options.map(option => (
+            <SelectItem
+              key={option.value}
+              className={cn(
+                'px-4 py-3 capitalize focus:bg-black focus:text-white',
+                option.disabled && 'cursor-not-allowed opacity-50'
+              )}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              {option.label.toLowerCase()}
+            </SelectItem>
+          ))
+        ) : (
+          <div className="h-12 px-4 py-2 text-sm text-gray-500">{emptyMessage}</div>
+        )}
+        {action}
+      </SelectContent>
+    </Select>
+  );
+};
+
+export default QuickSelect;
