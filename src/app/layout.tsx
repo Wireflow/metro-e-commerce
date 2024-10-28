@@ -3,6 +3,7 @@ import { Public_Sans } from 'next/font/google';
 
 import type { Metadata } from 'next';
 
+import Providers from '@/components/layout/Providers';
 import { Toaster } from '@/components/ui/sonner';
 
 import './globals.css';
@@ -57,7 +58,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${publicSans.variable} font-sans antialiased`}>
         <Toaster />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -10,12 +10,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
 
 interface Props<TFieldValues extends FieldValues> {
   control: UseControllerProps<TFieldValues>['control'];
   name: Path<TFieldValues>;
   label?: ReactNode;
   description?: string;
+  className?: string;
 }
 
 export default function CheckboxField<TFieldValues extends FieldValues>({
@@ -23,6 +25,7 @@ export default function CheckboxField<TFieldValues extends FieldValues>({
   label,
   description,
   control,
+  className,
 }: Props<TFieldValues>) {
   return (
     <FormField
@@ -30,13 +33,19 @@ export default function CheckboxField<TFieldValues extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <div className="flex flex-row items-start space-x-3 space-y-0 rounded-[3px] border px-4 py-3">
             <FormControl>
-              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                className={cn(className)}
+              />
             </FormControl>
             <div className="space-y-1 leading-none">
               {label && <FormLabel>{label}</FormLabel>}
-              {description && <FormDescription>{description}</FormDescription>}
+              {description && (
+                <FormDescription className="leading-4">{description}</FormDescription>
+              )}
             </div>
           </div>
           <FormMessage />

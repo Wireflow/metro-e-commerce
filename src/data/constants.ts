@@ -69,3 +69,5 @@ export const STATES = [
 
 // Optional: Add type for state values
 export type StateValue = (typeof STATES)[number]['value'];
+
+export const PLACEHOLDER_IMG_URL = '/placeholder.webp';

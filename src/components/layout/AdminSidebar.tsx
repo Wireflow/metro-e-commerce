@@ -1,80 +1,163 @@
-import { Calendar, ChevronDown, Home, Inbox, Search, Settings } from 'lucide-react';
+'use client';
 
+import { redirect } from 'next/navigation';
+
+import {
+  BarChart,
+  FolderTree,
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Store,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
+import * as React from 'react';
+
+import { NavMain } from '@/components/layout/NavMain';
+import { NavUser } from '@/components/layout/NavUser';
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
 } from '@/components/ui/sidebar';
+import { useCurrentBranch } from '@/hooks/queries/useCurrentBranch';
+import { useUser } from '@/hooks/useUser';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
+import SidebarSkeleton from '../skeletons/SidebarSkeleton';
+import { BranchDisplay } from './BranchDisplay';
 
-// Menu items.
-const items = [
+// Updated navigation structure
+const navigationGroups = [
   {
-    title: 'Home',
-    url: '#',
-    icon: Home,
+    label: 'Overview',
+    items: [
+      {
+        title: 'Dashboard',
+        url: '/admin',
+        icon: LayoutDashboard,
+      },
+    ],
   },
   {
-    title: 'Inbox',
-    url: '#',
-    icon: Inbox,
+    label: 'Inventory',
+    items: [
+      {
+        title: 'Products',
+        url: '/admin/products',
+        icon: Package,
+        items: [
+          {
+            title: 'All Products',
+            url: '/admin/products/all',
+          },
+          {
+            title: 'Add Product',
+            url: '/admin/products/add',
+          },
+        ],
+      },
+      {
+        title: 'Categories',
+        url: '/admin/categories',
+        icon: FolderTree,
+        items: [
+          {
+            title: 'All Categories',
+            url: '/admin/categories',
+          },
+          {
+            title: 'Add Category',
+            url: '/admin/categories/add',
+          },
+        ],
+      },
+    ],
   },
   {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
+    label: 'Financials',
+    items: [
+      {
+        title: 'Sales',
+        url: '/sales',
+        icon: ShoppingCart,
+        items: [
+          {
+            title: 'Orders',
+            url: '/admin/sales/orders',
+          },
+          {
+            title: 'Financials',
+            url: '/admin/sales/financials',
+          },
+        ],
+      },
+      {
+        title: 'Customers',
+        url: '/admin/customers',
+        icon: Users,
+      },
+    ],
   },
   {
-    title: 'Search',
-    url: '#',
-    icon: Search,
+    label: 'Store',
+    items: [
+      {
+        title: 'Online Store',
+        url: '/admin/store',
+        icon: Store,
+        items: [
+          {
+            title: 'Store Status',
+            url: '/admin/store/status',
+          },
+        ],
+      },
+    ],
   },
   {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
+    label: 'Analytics',
+    items: [
+      {
+        title: 'Reports',
+        url: '/admin/analytics/reports',
+        icon: BarChart,
+      },
+      {
+        title: 'Performance',
+        url: '/admin/analytics/performance',
+        icon: TrendingUp,
+      },
+    ],
   },
 ];
 
-function AdminSidebar() {
+export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user, isLoading } = useUser();
+  const { branch, isLoading: isBranchLoading } = useCurrentBranch();
+
+  if (isLoading || isBranchLoading) {
+    return <SidebarSkeleton />;
+  }
+
+  if (!user || !branch) {
+    redirect('/');
+  }
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <BranchDisplay branch={branch} />
+      </SidebarHeader>
       <SidebarContent>
-        <Collapsible defaultOpen className="group/collapsible">
-          <SidebarGroup>
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger>
-                Products
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu className="flex flex-col gap-4">
-                  {items.map(item => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
+        <NavMain groups={navigationGroups} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }
-
-export default AdminSidebar;

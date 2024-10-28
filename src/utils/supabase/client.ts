@@ -13,3 +13,9 @@ export const getSession = async () => {
 
   return await supabase.auth.getSession();
 };
+
+export const getUser = async () => {
+  const supabase = createClient();
+
+  return await supabase.auth.getUser();
+};

@@ -4,14 +4,12 @@ import { PartyPopper, Rocket, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { createClient } from '@/utils/supabase/client';
 
 import Container from '../layout/Container';
 import { Button } from '../ui/button';
 
 const SiteBanner = () => {
   const [open, setOpen] = useState(true);
-  const supabase = createClient();
 
   return (
     <div
@@ -55,7 +53,6 @@ const SiteBanner = () => {
           </div>
         </div>
       </Container>
-      <Button onClick={() => supabase.auth.signOut()}>Sign Out</Button>
     </div>
   );
 };

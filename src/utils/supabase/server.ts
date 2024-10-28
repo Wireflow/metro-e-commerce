@@ -5,21 +5,21 @@ import { createServerClient } from '@supabase/ssr';
 import { Database } from '@/types/supabase/database';
 
 export const createClient = () => {
-  const cookieStore = cookies();
-
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
+        async getAll() {
+          const cookieStore = await cookies();
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        async setAll(cookieList) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
+            const cookieStore = await cookies();
+            for (const cookie of cookieList) {
+              cookieStore.set(cookie.name, cookie.value, cookie.options);
+            }
           } catch (error) {
             // The `set` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
@@ -34,12 +34,10 @@ export const createClient = () => {
 
 export const getUser = async () => {
   const supabase = createClient();
-
   return await supabase.auth.getUser();
 };
 
 export const getSession = async () => {
   const supabase = createClient();
-
   return await supabase.auth.getSession();
 };

@@ -41,16 +41,13 @@ export default function InputField<TFieldValues extends FieldValues>({
     let value: string | number | null = e.target.value;
 
     if (type === 'number') {
-      const regex = /^[0-9\b]+$/;
+      // Remove any non-numeric characters except decimal point
+      value = value.replace(/[^0-9.]/g, '');
 
-      if (e.target.value === '' || regex.test(e.target.value)) {
-        if (e.target.value === '') {
-          value = null;
-        } else {
-          value = Number(value);
-        }
+      if (value === '') {
+        value = null;
       } else {
-        return; // Don't update if not a valid number
+        value = parseFloat(value) || null;
       }
     }
 
@@ -69,18 +66,22 @@ export default function InputField<TFieldValues extends FieldValues>({
             <div className="relative">
               <Input
                 {...props}
-                type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+                type={
+                  type === 'password'
+                    ? showPassword
+                      ? 'text'
+                      : 'password'
+                    : type === 'number'
+                      ? 'text'
+                      : type
+                }
                 value={field.value ?? ''}
                 onChange={handleChange}
                 onBlur={field.onBlur}
                 name={field.name}
                 ref={field.ref}
                 inputMode={type === 'number' ? 'decimal' : undefined}
-                className={cn(
-                  type === 'password' && 'pr-10',
-
-                  className
-                )}
+                className={cn(type === 'password' && 'pr-10', className)}
               />
               {type === 'password' && (
                 <button

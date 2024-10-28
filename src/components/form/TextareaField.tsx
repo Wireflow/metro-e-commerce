@@ -1,4 +1,5 @@
-import { useController, UseControllerProps } from 'react-hook-form';
+import { ReactNode } from 'react';
+import { FieldValues, Path, useController, UseControllerProps } from 'react-hook-form';
 
 import {
   FormControl,
@@ -10,14 +11,19 @@ import {
 } from '../ui/form';
 import { Textarea, TextareaProps } from '../ui/textarea';
 
-type Props = TextareaProps & {
-  control: UseControllerProps['control'];
-  name: string;
-  label?: string;
+interface Props<TFieldValues extends FieldValues> extends Omit<TextareaProps, 'name'> {
+  control: UseControllerProps<TFieldValues>['control'];
+  name: Path<TFieldValues>;
+  label?: ReactNode;
   description?: string;
-};
-
-const TextareaField = ({ control, name, label, description, ...props }: Props) => {
+}
+export default function TextareaField<TFieldValues extends FieldValues>({
+  control,
+  name,
+  label,
+  description,
+  ...props
+}: Props<TFieldValues>) {
   const { field } = useController({
     name,
     control,
@@ -46,6 +52,4 @@ const TextareaField = ({ control, name, label, description, ...props }: Props) =
       )}
     />
   );
-};
-
-export default TextareaField;
+}

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 
-import AdminSidebar from '@/components/layout/AdminSidebar';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import AdminHeader from '@/components/layout/AdminHeader';
+import { AdminSidebar } from '@/components/layout/AdminSidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { validateAdminAccess } from '@/server/users/validateAdminAccess';
 
 export const metadata: Metadata = {
@@ -47,10 +48,10 @@ export default async function RootLayout({
   return (
     <SidebarProvider>
       <AdminSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
+      <div className="flex w-full flex-col">
+        <AdminHeader />
+        <main className="w-full p-4">{children}</main>
+      </div>
     </SidebarProvider>
   );
 }

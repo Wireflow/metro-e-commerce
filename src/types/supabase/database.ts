@@ -190,6 +190,7 @@ export type Database = {
       branch_settings: {
         Row: {
           branch_id: string;
+          delivery_fee_percentage: number;
           delivery_miles_radius: number;
           delivery_minimum: number;
           id: string;
@@ -206,6 +207,7 @@ export type Database = {
         };
         Insert: {
           branch_id: string;
+          delivery_fee_percentage?: number;
           delivery_miles_radius?: number;
           delivery_minimum?: number;
           id?: string;
@@ -222,6 +224,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string;
+          delivery_fee_percentage?: number;
           delivery_miles_radius?: number;
           delivery_minimum?: number;
           id?: string;
@@ -402,36 +405,36 @@ export type Database = {
           branch_id: string;
           created_at: string;
           description: string | null;
-          hide: boolean;
           id: string;
           image_path: string | null;
           image_url: string | null;
           is_featured: boolean;
           name: string;
+          published: boolean;
           updated_at: string;
         };
         Insert: {
           branch_id: string;
           created_at?: string;
           description?: string | null;
-          hide?: boolean;
           id?: string;
           image_path?: string | null;
           image_url?: string | null;
           is_featured?: boolean;
           name: string;
+          published?: boolean;
           updated_at?: string;
         };
         Update: {
           branch_id?: string;
           created_at?: string;
           description?: string | null;
-          hide?: boolean;
           id?: string;
           image_path?: string | null;
           image_url?: string | null;
           is_featured?: boolean;
           name?: string;
+          published?: boolean;
           updated_at?: string;
         };
         Relationships: [
@@ -650,7 +653,6 @@ export type Database = {
           quantity: number;
           refunded_amount: number;
           refunded_quantity: number;
-          sku: string | null;
           status: Database['public']['Enums']['order_item_status'];
           tax_amount: number;
           total_price: number;
@@ -666,7 +668,6 @@ export type Database = {
           quantity: number;
           refunded_amount: number;
           refunded_quantity?: number;
-          sku?: string | null;
           status?: Database['public']['Enums']['order_item_status'];
           tax_amount?: number;
           total_price: number;
@@ -682,7 +683,6 @@ export type Database = {
           quantity?: number;
           refunded_amount?: number;
           refunded_quantity?: number;
-          sku?: string | null;
           status?: Database['public']['Enums']['order_item_status'];
           tax_amount?: number;
           total_price?: number;
@@ -941,7 +941,7 @@ export type Database = {
           confirmed_at: string | null;
           created_at: string;
           customer_id: string;
-          delivery_address_id: string;
+          delivery_address_id: string | null;
           expected_delivery_at: string | null;
           id: string;
           order_number: number;
@@ -964,7 +964,7 @@ export type Database = {
           confirmed_at?: string | null;
           created_at?: string;
           customer_id: string;
-          delivery_address_id: string;
+          delivery_address_id?: string | null;
           expected_delivery_at?: string | null;
           id?: string;
           order_number?: number;
@@ -987,7 +987,7 @@ export type Database = {
           confirmed_at?: string | null;
           created_at?: string;
           customer_id?: string;
-          delivery_address_id?: string;
+          delivery_address_id?: string | null;
           expected_delivery_at?: string | null;
           id?: string;
           order_number?: number;
@@ -1261,19 +1261,19 @@ export type Database = {
       products: {
         Row: {
           branch_id: string;
-          categoryId: string;
+          category_id: string;
           cost_price: number;
           created_at: string;
           description: string | null;
           discount: number | null;
           discounted_until: string | null;
-          hide: boolean;
           id: string;
           in_stock: boolean;
           is_featured: boolean;
           is_tobacco: boolean;
           manufacturer: string | null;
           name: string;
+          published: boolean;
           retail_price: number;
           unit: string | null;
           updated_at: string;
@@ -1281,19 +1281,19 @@ export type Database = {
         };
         Insert: {
           branch_id: string;
-          categoryId: string;
+          category_id: string;
           cost_price?: number;
           created_at?: string;
           description?: string | null;
           discount?: number | null;
           discounted_until?: string | null;
-          hide?: boolean;
           id?: string;
           in_stock?: boolean;
           is_featured?: boolean;
           is_tobacco?: boolean;
           manufacturer?: string | null;
           name: string;
+          published?: boolean;
           retail_price: number;
           unit?: string | null;
           updated_at?: string;
@@ -1301,19 +1301,19 @@ export type Database = {
         };
         Update: {
           branch_id?: string;
-          categoryId?: string;
+          category_id?: string;
           cost_price?: number;
           created_at?: string;
           description?: string | null;
           discount?: number | null;
           discounted_until?: string | null;
-          hide?: boolean;
           id?: string;
           in_stock?: boolean;
           is_featured?: boolean;
           is_tobacco?: boolean;
           manufacturer?: string | null;
           name?: string;
+          published?: boolean;
           retail_price?: number;
           unit?: string | null;
           updated_at?: string;
@@ -1328,15 +1328,15 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
-            columns: ['categoryId'];
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['category_id'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
-            columns: ['categoryId'];
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['category_id'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
@@ -1353,6 +1353,7 @@ export type Database = {
           first_name: string;
           id: string;
           last_name: string;
+          phone: string | null;
           role: Database['public']['Enums']['user_role'];
           updated_at: string;
         };
@@ -1365,6 +1366,7 @@ export type Database = {
           first_name: string;
           id?: string;
           last_name: string;
+          phone?: string | null;
           role: Database['public']['Enums']['user_role'];
           updated_at?: string;
         };
@@ -1377,6 +1379,7 @@ export type Database = {
           first_name?: string;
           id?: string;
           last_name?: string;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'];
           updated_at?: string;
         };
@@ -2390,14 +2393,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
@@ -2505,14 +2508,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
@@ -2590,14 +2593,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
@@ -2675,14 +2678,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
@@ -2854,14 +2857,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
@@ -3029,6 +3032,83 @@ export type Database = {
             columns: ['salesperson_id'];
             isOneToOne: false;
             referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      product_analytics: {
+        Row: {
+          branch_id: string | null;
+          in_stock_count: number | null;
+          out_of_stock_count: number | null;
+          published_products_count: number | null;
+          total_products_count: number | null;
+          unpublished_products_count: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      product_sales_analytics: {
+        Row: {
+          product_id: string | null;
+          sales: number | null;
+          total_sales_value: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_product_id_fkey1';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
             referencedColumns: ['id'];
           },
         ];
@@ -3431,14 +3511,14 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'products_categoryId_fkey';
+            foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
