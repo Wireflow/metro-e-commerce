@@ -3,7 +3,7 @@
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 
-import AddProductForm from '../components/forms/AddProductForm';
+import AddProductForm from '../../components/products/forms/AddProductForm';
 
 const AddProductPage = () => {
   const breadcrumbs = [

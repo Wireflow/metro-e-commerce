@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { CreateProductFormData } from '../../schemas/create-product';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
 interface ProductDiscountProps {
   control: Control<CreateProductFormData>;
@@ -48,7 +48,7 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
           name="pricing_info.discount"
           control={control}
           label="Discount $"
-          description="Discount percentage"
+          description="Discount amount"
           placeholder="0.00"
           prefix="$"
           max={100}

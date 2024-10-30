@@ -4,7 +4,7 @@ import { Control, Controller } from 'react-hook-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 
-import { CreateProductFormData } from '../../schemas/create-product';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
 interface ProductSettingsProps {
   control: Control<CreateProductFormData>;

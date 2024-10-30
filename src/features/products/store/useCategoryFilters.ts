@@ -2,33 +2,27 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { ProductFilters } from '../hooks/product-query-hooks';
+import { CategoryFilters } from '../hooks/category-paginated-query';
 
-interface ProductFiltersStore {
-  filters: ProductFilters;
+interface CategoryFiltersStore {
+  filters: CategoryFilters;
   pagination: {
     page: number;
     pageSize: number;
   };
-  setFilter: <K extends keyof ProductFilters>(key: K, value: ProductFilters[K]) => void;
+  setFilter: <K extends keyof CategoryFilters>(key: K, value: CategoryFilters[K]) => void;
   setPagination: (pagination: { page: number; pageSize: number }) => void;
   resetFilters: () => void;
 }
 
-const initialFilters: ProductFilters = {
+const initialFilters: CategoryFilters = {
   search: '',
   searchFields: ['name', 'description'],
-  inStock: undefined,
-  published: undefined,
-  category_id: undefined,
-  minPrice: undefined,
-  maxPrice: undefined,
   sortBy: 'created_at',
   sortOrder: 'desc',
-  is_discounted: undefined,
 };
 
-export const useProductFiltersStore = create<ProductFiltersStore>()(
+export const useCategoryFiltersStore = create<CategoryFiltersStore>()(
   devtools(
     set => ({
       filters: initialFilters,
@@ -50,6 +44,6 @@ export const useProductFiltersStore = create<ProductFiltersStore>()(
         ),
       resetFilters: () => set({ filters: initialFilters }, false, 'resetFilters'),
     }),
-    { name: 'ProductFiltersStore' }
+    { name: 'CategoryFiltersStore' }
   )
 );

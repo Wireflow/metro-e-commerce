@@ -5,9 +5,9 @@ import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 import { formatCurrency } from '@/utils/utils';
 
-import UpdateProductForm from '../components/forms/UpdateProductForm';
-import { Product } from '../schemas/products';
-import { ProductSales } from '../server/products/getProductSalesById';
+import UpdateProductForm from '../../components/products/forms/UpdateProductForm';
+import { Product } from '../../schemas/products';
+import { ProductSales } from '../../server/products/getProductSalesById';
 
 type Props = {
   product: Product;

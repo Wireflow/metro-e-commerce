@@ -1270,6 +1270,7 @@ export type Database = {
           id: string;
           in_stock: boolean;
           is_featured: boolean;
+          is_taxed: boolean;
           is_tobacco: boolean;
           manufacturer: string | null;
           name: string;
@@ -1290,6 +1291,7 @@ export type Database = {
           id?: string;
           in_stock?: boolean;
           is_featured?: boolean;
+          is_taxed?: boolean;
           is_tobacco?: boolean;
           manufacturer?: string | null;
           name: string;
@@ -1310,6 +1312,7 @@ export type Database = {
           id?: string;
           in_stock?: boolean;
           is_featured?: boolean;
+          is_taxed?: boolean;
           is_tobacco?: boolean;
           manufacturer?: string | null;
           name?: string;
@@ -1332,6 +1335,13 @@ export type Database = {
             columns: ['category_id'];
             isOneToOne: false;
             referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
             referencedColumns: ['id'];
           },
           {
@@ -1920,6 +1930,31 @@ export type Database = {
           },
         ];
       };
+      categories_sales_and_products_count: {
+        Row: {
+          branch_id: string | null;
+          created_at: string | null;
+          description: string | null;
+          id: string | null;
+          image_path: string | null;
+          image_url: string | null;
+          is_featured: boolean | null;
+          name: string | null;
+          product_count: number | null;
+          published: boolean | null;
+          sales: number | null;
+          updated_at: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'categories_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       completed_orders: {
         Row: {
           branch_id: string | null;
@@ -2403,6 +2438,13 @@ export type Database = {
             foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
             referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
           },
@@ -2518,6 +2560,13 @@ export type Database = {
             foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
             referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
           },
@@ -2603,6 +2652,13 @@ export type Database = {
             foreignKeyName: 'products_category_id_fkey';
             columns: ['categoryId'];
             isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
             referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
           },
@@ -2682,6 +2738,13 @@ export type Database = {
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
             referencedColumns: ['id'];
           },
           {
@@ -2861,6 +2924,13 @@ export type Database = {
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
             referencedColumns: ['id'];
           },
           {
@@ -3515,6 +3585,13 @@ export type Database = {
             columns: ['categoryId'];
             isOneToOne: false;
             referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_category_id_fkey';
+            columns: ['categoryId'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
             referencedColumns: ['id'];
           },
           {

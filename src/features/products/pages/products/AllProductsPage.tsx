@@ -9,14 +9,14 @@ import PageHeader from '@/components/layout/PageHeader';
 import Pagination from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 
-import ProductsPageSkeleton from '../components/products/AllProductsSkeleton';
-import ExportProducts from '../components/products/ExportProducts';
-import ProductFiltersSheet from '../components/products/ProductFiltersSheet';
-import ProductList from '../components/products/ProductList';
-import ProductsAnalytics from '../components/products/ProductsAnalytics';
-import { usePaginatedProducts } from '../hooks/product-paginated-query';
-import { useAnalytics } from '../hooks/product-query-hooks';
-import { useProductFiltersStore } from '../store/useProductFilters';
+import ProductsPageSkeleton from '../../components/products/AllProductsSkeleton';
+import ExportProducts from '../../components/products/ExportProducts';
+import ProductFiltersSheet from '../../components/products/ProductFiltersSheet';
+import ProductList from '../../components/products/ProductList';
+import ProductsAnalytics from '../../components/products/ProductsAnalytics';
+import { usePaginatedProducts } from '../../hooks/product-paginated-query';
+import { useAnalytics } from '../../hooks/product-query-hooks';
+import { useProductFiltersStore } from '../../store/useProductFilters';
 
 const AllProductsPage = () => {
   const filters = useProductFiltersStore(state => state.filters);

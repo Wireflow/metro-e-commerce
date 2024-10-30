@@ -5,7 +5,7 @@ import InputField from '@/components/form/InputField';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { CreateProductFormData } from '../../schemas/create-product';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
 interface ProductBarcodesProps {
   control: Control<CreateProductFormData>;

@@ -9,8 +9,8 @@ import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
-import { usePublishProduct } from '../hooks/product-mutations-hooks';
-import { Product } from '../schemas/products';
+import { usePublishProduct } from '../../hooks/product-mutations-hooks';
+import { Product } from '../../schemas/products';
 
 type Props = {
   product: Product;

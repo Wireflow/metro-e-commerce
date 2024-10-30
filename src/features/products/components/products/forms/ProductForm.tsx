@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 
-import { CreateProductFormData } from '../../schemas/create-product';
-import GeneralInfo from './GeneralInfo';
+import { CreateProductFormData } from '../../../schemas/create-product';
 import ProductBarcodes from './ProductBarcodes';
 import ProductCategory from './ProductCategory';
 import ProductDiscount from './ProductDiscount';
+import GeneralInfo from './ProductGeneralInfo';
 import ProductMedia from './ProductMedia';
 import ProductPricing from './ProductPricing';
 import ProductSettings from './ProductSettings';

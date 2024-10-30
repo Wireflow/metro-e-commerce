@@ -8,11 +8,11 @@ import { toast } from 'sonner';
 
 import { ImageFile } from '@/components/form/MultiImageUpload';
 
-import { useDeleteBarcode } from '../../hooks/barcode-mutuations-hooks';
-import { useDeleteProductImage } from '../../hooks/product-mutations-hooks';
-import { CreateProductFormData, CreateProductSchema } from '../../schemas/create-product';
-import { Product } from '../../schemas/products';
-import { updateProduct } from '../../server/products/updateProduct';
+import { useDeleteBarcode } from '../../../hooks/barcode-mutuations-hooks';
+import { useDeleteProductImage } from '../../../hooks/product-mutations-hooks';
+import { CreateProductFormData, CreateProductSchema } from '../../../schemas/create-product';
+import { Product } from '../../../schemas/products';
+import { updateProduct } from '../../../server/products/updateProduct';
 import ProductForm from './ProductForm';
 
 type Props = {

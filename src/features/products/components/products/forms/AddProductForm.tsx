@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 
 import { ImageFile } from '@/components/form/MultiImageUpload';
 
-import { CreateProductFormData, CreateProductSchema } from '../../schemas/create-product';
-import { createProduct } from '../../server/products/createProduct';
+import { CreateProductFormData, CreateProductSchema } from '../../../schemas/create-product';
+import { createProduct } from '../../../server/products/createProduct';
 import ProductForm from './ProductForm';
 
 const AddProductForm = () => {

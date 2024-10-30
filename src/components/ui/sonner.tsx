@@ -22,7 +22,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           success: 'group-[.toaster]:bg-green-500 group-[.toaster]:text-white',
           error: 'group-[.toaster]:bg-red-500 group-[.toaster]:text-white',
           warning:
-            'group-[.toaster]:bg-yellow-500 group-[.toaster]:text-black group-[.toaster]:border-black',
+            'group-[.toaster]:bg-yellow-500 group-[.toaster]:text-white group-[.toaster]:border-black',
         },
       }}
       {...props}

@@ -4,8 +4,8 @@ import { SelectField } from '@/components/form/SelectField';
 import { SelectOptions } from '@/components/quick/Select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { useCategories } from '../../hooks/category-query-hooks';
-import { CreateProductFormData } from '../../schemas/create-product';
+import { useCategories } from '../../../hooks/category-query-hooks';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
 interface ProductCategoryProps {
   control: Control<CreateProductFormData>;

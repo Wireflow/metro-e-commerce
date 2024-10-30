@@ -3,7 +3,7 @@ import { Control } from 'react-hook-form';
 import NumberInputField from '@/components/form/NumberInputField';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { CreateProductFormData } from '../../schemas/create-product';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
 interface ProductPricingProps {
   control: Control<CreateProductFormData>;

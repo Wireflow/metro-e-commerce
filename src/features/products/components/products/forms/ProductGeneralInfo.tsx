@@ -5,13 +5,13 @@ import InputField from '@/components/form/InputField';
 import TextareaField from '@/components/form/TextareaField';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { CreateProductFormData } from '../../schemas/create-product';
+import { CreateProductFormData } from '../../../schemas/create-product';
 
-interface GeneralInfoProps {
+interface ProductGeneralInfoProps {
   control: Control<CreateProductFormData>;
 }
 
-const GeneralInfo = ({ control }: GeneralInfoProps) => {
+const ProductGeneralInfo = ({ control }: ProductGeneralInfoProps) => {
   return (
     <Card>
       <CardHeader>
@@ -63,4 +63,4 @@ const GeneralInfo = ({ control }: GeneralInfoProps) => {
   );
 };
 
-export default GeneralInfo;
+export default ProductGeneralInfo;

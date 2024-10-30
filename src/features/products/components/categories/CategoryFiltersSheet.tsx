@@ -3,7 +3,7 @@
 import { Filter, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import QuickSelect, { SelectOptions } from '@/components/quick/Select';
+import QuickSelect from '@/components/quick/Select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -17,17 +17,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Switch } from '@/components/ui/switch';
 
-import { useCategories } from '../../hooks/category-query-hooks';
-import { ProductFilters } from '../../hooks/product-query-hooks';
-import { useProductFiltersStore } from '../../store/useProductFilters';
+import { CategoryFilters } from '../../hooks/category-paginated-query';
+import { useCategoryFiltersStore } from '../../store/useCategoryFilters';
 
-const ProductFiltersSheet = () => {
+const CategoryFiltersSheet = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { filters, setFilter, resetFilters } = useProductFiltersStore();
-  const { data: categories } = useCategories();
-  const [tempFilters, setTempFilters] = useState<ProductFilters>(filters);
+  const { filters, setFilter, resetFilters } = useCategoryFiltersStore();
+  const [tempFilters, setTempFilters] = useState<CategoryFilters>(filters);
 
   // Update temp filters when store filters change (e.g., on reset)
   useEffect(() => {
@@ -37,19 +34,13 @@ const ProductFiltersSheet = () => {
   const searchFields = [
     { value: 'name', label: 'Name' },
     { value: 'description', label: 'Description' },
-    { value: 'manufacturer', label: 'Brand' },
   ];
 
   const sortOptions = [
-    { value: 'retail_price', label: 'Retail Price' },
+    { value: 'product_count', label: 'Retail Price' },
     { value: 'name', label: 'Name' },
     { value: 'created_at', label: 'Date Created' },
-  ];
-
-  const stockStatusOptions = [
-    { value: 'undefined', label: 'All Stock Status' },
-    { value: 'true', label: 'In Stock' },
-    { value: 'false', label: 'Out of Stock' },
+    { value: 'sales', label: 'Sales' },
   ];
 
   const orderOptions = [
@@ -57,13 +48,7 @@ const ProductFiltersSheet = () => {
     { label: 'Descending', value: 'desc' },
   ];
 
-  const publishStatusOptions = [
-    { value: 'undefined', label: 'All Publication Status' },
-    { value: 'true', label: 'Published' },
-    { value: 'false', label: 'Not Published' },
-  ];
-
-  const handleSearchFieldToggle = (field: 'name' | 'description' | 'manufacturer') => {
+  const handleSearchFieldToggle = (field: 'name' | 'description') => {
     const currentFields = tempFilters.searchFields || [];
     const newFields = currentFields.includes(field)
       ? currentFields.filter(f => f !== field)
@@ -76,31 +61,13 @@ const ProductFiltersSheet = () => {
     setIsOpen(false);
   };
 
-  const handleStatusChange = (key: 'inStock' | 'published', value?: string) => {
-    const valueMap = {
-      true: true,
-      false: false,
-      undefined: undefined,
-    };
-    setTempFilters(prev => ({
-      ...prev,
-      [key]: valueMap[value as keyof typeof valueMap],
-    }));
-  };
-
   const handleApplyFilters = () => {
     // Apply all temp filters to the store
     Object.entries(tempFilters).forEach(([key, value]) => {
-      setFilter(key as keyof ProductFilters, value);
+      setFilter(key as keyof CategoryFilters, value);
     });
     setIsOpen(false);
   };
-
-  const categoryOptions: SelectOptions[] =
-    categories?.map(category => ({
-      label: category.name,
-      value: category.id,
-    })) ?? [];
 
   return (
     <Sheet
@@ -120,8 +87,8 @@ const ProductFiltersSheet = () => {
       </SheetTrigger>
       <SheetContent className="w-[400px]">
         <SheetHeader>
-          <SheetTitle>Product Filters</SheetTitle>
-          <SheetDescription>Filter products by category, price, and more.</SheetDescription>
+          <SheetTitle>Category Filters</SheetTitle>
+          <SheetDescription>Filter categories by name, description, and more.</SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-6">
@@ -144,9 +111,7 @@ const ProductFiltersSheet = () => {
                       checked={tempFilters.searchFields?.includes(field.value as any)}
                       className="data-[state=checked]:bg-black"
                       onCheckedChange={() =>
-                        handleSearchFieldToggle(
-                          field.value as 'name' | 'description' | 'manufacturer'
-                        )
+                        handleSearchFieldToggle(field.value as 'name' | 'description')
                       }
                     />
                     <label htmlFor={field.value} className="text-sm">
@@ -155,76 +120,6 @@ const ProductFiltersSheet = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-          {/* Category Filters */}
-          <div className="space-y-2">
-            <Label>Category</Label>
-            <QuickSelect
-              placeholder="Select category"
-              options={categoryOptions}
-              value={tempFilters.category_id}
-              onValueChange={value => setTempFilters(prev => ({ ...prev, category_id: value }))}
-            />
-          </div>
-
-          {/* Status Filters */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Stock Status</Label>
-              <QuickSelect
-                placeholder="Select stock status"
-                options={stockStatusOptions}
-                value={String(tempFilters.inStock)}
-                onValueChange={value => handleStatusChange('inStock', value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Publication Status</Label>
-              <QuickSelect
-                placeholder="Select publication status"
-                options={publishStatusOptions}
-                value={String(tempFilters.published)}
-                onValueChange={value => handleStatusChange('published', value)}
-              />
-            </div>
-          </div>
-
-          {/* Discount Filters */}
-          <div className="flex w-full items-center justify-between space-x-2 rounded-sm border p-2">
-            <Label>Active Discounts</Label>
-            <Switch
-              checked={tempFilters.is_discounted}
-              onCheckedChange={e => setTempFilters(prev => ({ ...prev, is_discounted: e }))}
-            />
-          </div>
-
-          {/* Price Range */}
-          <div className="space-y-2">
-            <Label>Price Range</Label>
-            <div className="flex space-x-2">
-              <Input
-                type="number"
-                placeholder="Min"
-                value={tempFilters.minPrice || ''}
-                onChange={e =>
-                  setTempFilters(prev => ({
-                    ...prev,
-                    minPrice: Number(e.target.value) || undefined,
-                  }))
-                }
-              />
-              <Input
-                type="number"
-                placeholder="Max"
-                value={tempFilters.maxPrice || ''}
-                onChange={e =>
-                  setTempFilters(prev => ({
-                    ...prev,
-                    maxPrice: Number(e.target.value) || undefined,
-                  }))
-                }
-              />
             </div>
           </div>
 
@@ -268,4 +163,4 @@ const ProductFiltersSheet = () => {
   );
 };
 
-export default ProductFiltersSheet;
+export default CategoryFiltersSheet;

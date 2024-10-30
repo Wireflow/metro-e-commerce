@@ -13,6 +13,7 @@ export interface ProductFilters {
   maxPrice?: number;
   sortBy?: 'retail_price' | 'name' | 'created_at';
   sortOrder?: 'asc' | 'desc';
+  is_discounted?: boolean;
 }
 
 interface UseProductsOptions {

@@ -1,4 +1,4 @@
-import ProductDetailsPage from '@/features/products/pages/ProductDetailsPage';
+import ProductDetailsPage from '@/features/products/pages/products/ProductDetailsPage';
 import { getProductById } from '@/features/products/server/products/getProductById';
 import { getProductSalesById } from '@/features/products/server/products/getProductSalesById';
 

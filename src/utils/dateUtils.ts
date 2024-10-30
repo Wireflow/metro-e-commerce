@@ -14,13 +14,14 @@ export function millisecondsToHoursAndMinutes(milliseconds: number) {
   return { hours, minutes };
 }
 
-export const formatDateToString = (date: Date) => {
+export const formatDateToString = (date: Date, options?: Intl.DateTimeFormatOptions) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
+    ...options,
   });
 };
 

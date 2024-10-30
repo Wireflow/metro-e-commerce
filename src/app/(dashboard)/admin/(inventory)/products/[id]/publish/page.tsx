@@ -1,4 +1,4 @@
-import PublishProductPage from '@/features/products/pages/PublishProductPage';
+import PublishProductPage from '@/features/products/pages/products/PublishProductPage';
 import { getProductById } from '@/features/products/server/products/getProductById';
 
 type Props = {

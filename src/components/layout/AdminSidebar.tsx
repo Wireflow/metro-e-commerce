@@ -26,6 +26,7 @@ import {
 import { useCurrentBranch } from '@/hooks/queries/useCurrentBranch';
 import { useUser } from '@/hooks/useUser';
 
+import AnimatedDiv from '../animation/AnimatedDiv';
 import SidebarSkeleton from '../skeletons/SidebarSkeleton';
 import { BranchDisplay } from './BranchDisplay';
 
@@ -46,7 +47,7 @@ const navigationGroups = [
     items: [
       {
         title: 'Products',
-        url: '/admin/products',
+        url: '/admin/products/all',
         icon: Package,
         items: [
           {
@@ -61,12 +62,12 @@ const navigationGroups = [
       },
       {
         title: 'Categories',
-        url: '/admin/categories',
+        url: '/admin/categories/all',
         icon: FolderTree,
         items: [
           {
             title: 'All Categories',
-            url: '/admin/categories',
+            url: '/admin/categories/all',
           },
           {
             title: 'Add Category',
@@ -147,17 +148,19 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
   }
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <BranchDisplay branch={branch} />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain groups={navigationGroups} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+    <AnimatedDiv>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarHeader>
+          <BranchDisplay branch={branch} />
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain groups={navigationGroups} />
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser user={user} />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+    </AnimatedDiv>
   );
 }

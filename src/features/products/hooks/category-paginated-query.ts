@@ -3,8 +3,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
-import { applyProductFilters } from '../utils/applyProductFilters';
-import { ProductFilters } from './product-query-hooks';
+import { applyCategoryFilters } from '../utils/applyCategoryFilters';
 
 export interface PaginationParams {
   page?: number;
@@ -22,30 +21,39 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export const usePaginatedProducts = (
-  filters: ProductFilters = {},
+export const usePaginedCategories = (
+  filters: CategoryFilters = {},
   pagination: PaginationParams = { page: 1, pageSize: 10 }
 ) => {
   return useQuery({
-    queryKey: ['products', JSON.stringify(filters), pagination.page, pagination.pageSize],
-    queryFn: () => getPaginatedProducts(filters, pagination),
+    queryKey: ['categories', JSON.stringify(filters), pagination.page, pagination.pageSize],
+    queryFn: () => getPaginatedCategories(filters, pagination),
     enabled: true,
     placeholderData: keepPreviousData,
   });
 };
 
-export const getPaginatedProducts = async (
-  filters: ProductFilters = {},
+export interface CategoryFilters {
+  search?: string;
+  searchFields?: ('name' | 'description')[];
+  sortBy?: 'product_count' | 'name' | 'created_at' | 'sales';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export const getPaginatedCategories = async (
+  filters: CategoryFilters = {},
   pagination: PaginationParams = { page: 1, pageSize: 10 }
 ): Promise<PaginatedResponse<any>> => {
   const supabase = createClient();
   const { page = 1, pageSize = 10 } = pagination;
 
-  let countQuery = supabase.from('products').select('*', { count: 'exact', head: true });
+  let countQuery = supabase
+    .from('categories_sales_and_products_count')
+    .select('*', { count: 'exact', head: true });
 
-  let query = supabase.from('products').select('*, images:product_images(*), barcodes:barcodes(*)');
+  let query = supabase.from('categories_sales_and_products_count').select('*');
 
-  [countQuery, query] = applyProductFilters([countQuery, query], filters);
+  [countQuery, query] = applyCategoryFilters([countQuery, query], filters);
 
   const { count: total } = await countQuery;
 
@@ -64,7 +72,7 @@ export const getPaginatedProducts = async (
   const { data, error } = await query;
 
   if (error) {
-    throw new Error(`Failed to retrieve products: ${error.message}`);
+    throw new Error(`Failed to retrieve categories: ${error.message}`);
   }
 
   // Calculate pagination metadata
