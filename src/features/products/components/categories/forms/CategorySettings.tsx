@@ -1,16 +1,15 @@
-import { Eye, Package, Star } from 'lucide-react';
+import { Eye, Star } from 'lucide-react';
 import { Control, Controller } from 'react-hook-form';
 
 import FeatureToggle from '@/components/FeatureToggle';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CreateCategoryFormData } from '@/features/products/schemas/create-category';
 
-import { CreateProductFormData } from '../../../schemas/create-product';
-
-interface ProductSettingsProps {
-  control: Control<CreateProductFormData>;
+interface CategorySettingsProps {
+  control: Control<CreateCategoryFormData>;
 }
 
-const ProductSettings = ({ control }: ProductSettingsProps) => {
+const CategorySettings = ({ control }: CategorySettingsProps) => {
   return (
     <Card>
       <CardHeader>
@@ -18,22 +17,7 @@ const ProductSettings = ({ control }: ProductSettingsProps) => {
       </CardHeader>
       <CardContent className="flex flex-col divide-y divide-gray-100">
         <Controller
-          name="general_info.in_stock"
-          control={control}
-          render={({ field }) => (
-            <FeatureToggle
-              title="Available for Purchase"
-              description="When enabled, customers can buy this product"
-              icon={Package}
-              switchClassName="data-[state=checked]:bg-green-600"
-              checked={field.value ?? false}
-              onCheckedChange={field.onChange}
-            />
-          )}
-        />
-
-        <Controller
-          name="general_info.published"
+          name="published"
           control={control}
           render={({ field }) => (
             <FeatureToggle
@@ -48,7 +32,7 @@ const ProductSettings = ({ control }: ProductSettingsProps) => {
         />
 
         <Controller
-          name="general_info.is_featured"
+          name="is_featured"
           control={control}
           render={({ field }) => (
             <FeatureToggle
@@ -66,4 +50,4 @@ const ProductSettings = ({ control }: ProductSettingsProps) => {
   );
 };
 
-export default ProductSettings;
+export default CategorySettings;

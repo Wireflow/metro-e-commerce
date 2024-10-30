@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { ImageFile } from '@/components/form/MultiImageUpload';
+import { useNavigationWarning } from '@/hooks/useNavigationWarning';
 
 import { CreateProductFormData, CreateProductSchema } from '../../../schemas/create-product';
 import { createProduct } from '../../../server/products/createProduct';
@@ -69,22 +70,27 @@ const AddProductForm = () => {
     mutate(data);
   };
 
+  const { navigate, NavigationWarningDialog } = useNavigationWarning({
+    isDirty: form.formState.isDirty || selectedImages.length > 0,
+  });
+
   const handleCancel = () => {
-    form.reset();
-    setSelectedImages([]);
-    router.push('/admin/products/all');
+    navigate('/admin/products/all');
   };
 
   return (
-    <ProductForm
-      form={form}
-      onSubmit={onSubmit}
-      onCancel={handleCancel}
-      isMutating={isPending}
-      mode="add"
-      selectedImages={selectedImages}
-      setSelectedImages={setSelectedImages}
-    />
+    <>
+      <ProductForm
+        form={form}
+        onSubmit={onSubmit}
+        onCancel={handleCancel}
+        isMutating={isPending}
+        mode="add"
+        selectedImages={selectedImages}
+        setSelectedImages={setSelectedImages}
+      />
+      <NavigationWarningDialog />
+    </>
   );
 };
 

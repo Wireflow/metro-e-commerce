@@ -13,7 +13,7 @@ import {
   CreateCategoryFormData,
   CreateCategorySchema,
 } from '@/features/products/schemas/create-category';
-import { createCategory } from '@/features/products/server/categories/createCategory';
+import { updateCategory } from '@/features/products/server/categories/updateCategory';
 
 import CategoryForm from './CategoryForm';
 
@@ -36,12 +36,11 @@ const UpdateCategoryForm = ({ category }: Props) => {
         formData.append(`image`, selectedImage);
       }
 
-      return createCategory(data, formData);
+      return updateCategory(data, formData);
     },
     onSuccess: data => {
       if (data.success) {
-        toast.success('Category created!');
-        router.push('/admin/categories/all');
+        toast.success('Category changes saved!');
       } else {
         toast.error(data.error);
       }
@@ -54,6 +53,7 @@ const UpdateCategoryForm = ({ category }: Props) => {
   const form = useForm<CreateCategoryFormData>({
     resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
+      id: category.id,
       name: category.name,
       description: category?.description ?? undefined,
       is_featured: category.is_featured,
@@ -62,7 +62,7 @@ const UpdateCategoryForm = ({ category }: Props) => {
   });
 
   const onSubmit = (data: CreateCategoryFormData) => {
-    if (!selectedImage) {
+    if (!category.image_url && !selectedImage) {
       toast.warning('Please upload a category image');
       return;
     }
@@ -85,6 +85,8 @@ const UpdateCategoryForm = ({ category }: Props) => {
       mode="update"
       selectedImage={selectedImage}
       setSelectedImage={setSelectedImage}
+      isDirty={form.formState.isDirty || !!selectedImage}
+      previewUrl={category?.image_url ?? undefined}
     />
   );
 };

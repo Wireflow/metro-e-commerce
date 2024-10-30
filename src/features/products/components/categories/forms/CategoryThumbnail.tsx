@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 type Props = {
   onImageSelect: (file: File | null) => void;
   image: File | null;
+  previewUrl?: string;
 };
 
-const CategoryThumbnail = (props: Props) => {
+const CategoryThumbnail = ({ onImageSelect, image, previewUrl }: Props) => {
   return (
     <Card>
       <CardHeader>
@@ -14,7 +15,12 @@ const CategoryThumbnail = (props: Props) => {
       </CardHeader>
       <CardContent>
         <CardDescription className="mb-2">Photo</CardDescription>
-        <ImageDropzone {...props} height={244} />
+        <ImageDropzone
+          onImageSelect={onImageSelect}
+          image={image}
+          height={244}
+          previewUrl={previewUrl}
+        />
       </CardContent>
     </Card>
   );

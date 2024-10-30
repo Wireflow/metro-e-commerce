@@ -37,7 +37,7 @@ const CategoryFiltersSheet = () => {
   ];
 
   const sortOptions = [
-    { value: 'product_count', label: 'Retail Price' },
+    { value: 'product_count', label: 'Product Count' },
     { value: 'name', label: 'Name' },
     { value: 'created_at', label: 'Date Created' },
     { value: 'sales', label: 'Sales' },
@@ -96,7 +96,7 @@ const CategoryFiltersSheet = () => {
           <div className="space-y-2">
             <Label>Search</Label>
             <Input
-              placeholder="Search products..."
+              placeholder="Search categories..."
               value={tempFilters.search || ''}
               onChange={e => setTempFilters(prev => ({ ...prev, search: e.target.value }))}
             />

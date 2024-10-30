@@ -1,3 +1,5 @@
+'use client';
+
 import AnalyticCard from '@/components/AnalyticCard';
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';

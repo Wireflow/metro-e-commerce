@@ -13,6 +13,7 @@ import {
   CreateCategorySchema,
 } from '@/features/products/schemas/create-category';
 import { createCategory } from '@/features/products/server/categories/createCategory';
+import { useNavigationWarning } from '@/hooks/useNavigationWarning';
 
 import CategoryForm from './CategoryForm';
 
@@ -65,22 +66,27 @@ const AddCategoryForm = () => {
     mutate(data);
   };
 
+  const { navigate, NavigationWarningDialog } = useNavigationWarning({
+    isDirty: form.formState.isDirty || !!selectedImage,
+  });
+
   const handleCancel = () => {
-    form.reset();
-    setSelectedImage(null);
-    router.push('/admin/categories/all');
+    navigate('/admin/categories/all');
   };
 
   return (
-    <CategoryForm
-      form={form}
-      onSubmit={onSubmit}
-      onCancel={handleCancel}
-      isMutating={isPending}
-      mode="add"
-      selectedImage={selectedImage}
-      setSelectedImage={setSelectedImage}
-    />
+    <>
+      <CategoryForm
+        form={form}
+        onSubmit={onSubmit}
+        onCancel={handleCancel}
+        isMutating={isPending}
+        mode="add"
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+      />
+      <NavigationWarningDialog />
+    </>
   );
 };
 

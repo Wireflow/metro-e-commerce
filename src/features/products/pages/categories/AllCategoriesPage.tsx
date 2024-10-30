@@ -54,7 +54,7 @@ const AllCategoriesPage = () => {
           </div>
         }
       />
-      <div className="mt-4 flex items-start justify-between">
+      <div className="flex items-start justify-between">
         <InfoCard title="Total Categories" value={categories?.metadata.total ?? 0} variant="info" />
         <div className="md:seld-auto self-end">
           <CategoryFiltersSheet />

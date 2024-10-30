@@ -82,6 +82,7 @@ const UpdateProductForm = ({ product }: Props) => {
         wholesale_price: product.wholesale_price,
         discount: product.discount ?? undefined,
         discounted_until: product.discounted_until ?? undefined,
+        is_taxed: product.is_taxed ?? false,
       },
       barcodes: product.barcodes.map(b => ({
         barcode: b.barcode,
@@ -104,33 +105,6 @@ const UpdateProductForm = ({ product }: Props) => {
   };
 
   const handleReset = () => {
-    form.reset({
-      id: product.id,
-      general_info: {
-        name: product.name,
-        description: product.description ?? undefined,
-        unit: product.unit ?? undefined,
-        manufacturer: product.manufacturer ?? undefined,
-        is_tobacco: product.is_tobacco,
-        is_featured: product.is_featured,
-        in_stock: product.in_stock,
-        published: product.published,
-      },
-      pricing_info: {
-        cost_price: product.cost_price,
-        retail_price: product.retail_price,
-        wholesale_price: product.wholesale_price,
-        discount: product.discount ?? undefined,
-        discounted_until: product.discounted_until ?? undefined,
-      },
-      barcodes: product.barcodes.map(b => ({
-        barcode: b.barcode,
-        barcode_id: b.id,
-        disabled: true,
-      })),
-      category_id: product.category_id,
-    });
-
     setSelectedImages(
       product.images?.map(img => ({
         file: new File([], img.url),

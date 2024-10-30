@@ -37,7 +37,12 @@ const variants: Record<AnimationDirection, Variants> = {
   },
 };
 
-const AnimatedDiv = ({ children, direction = 'fade', delay = 0, duration = 0.5 }: Props) => {
+export default function AnimatedDiv({
+  children,
+  direction = 'fade',
+  delay = 0,
+  duration = 0.5,
+}: Props) {
   return (
     <motion.div
       initial="hidden"
@@ -53,6 +58,4 @@ const AnimatedDiv = ({ children, direction = 'fade', delay = 0, duration = 0.5 }
       {children}
     </motion.div>
   );
-};
-
-export default AnimatedDiv;
+}

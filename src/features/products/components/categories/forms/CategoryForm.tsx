@@ -9,6 +9,7 @@ import { CreateCategoryFormData } from '@/features/products/schemas/create-categ
 import { cn } from '@/lib/utils';
 
 import CategoryGeneralInfo from './CategoryGeneralInfo';
+import CategorySettings from './CategorySettings';
 import CategoryThumbnail from './CategoryThumbnail';
 
 type Props = {
@@ -20,6 +21,7 @@ type Props = {
   selectedImage: File | null;
   isDirty?: boolean;
   mode: 'add' | 'update';
+  previewUrl?: string;
 };
 
 const CategoryForm = ({
@@ -29,6 +31,7 @@ const CategoryForm = ({
   isMutating,
   setSelectedImage,
   selectedImage,
+  previewUrl,
   mode,
   isDirty = false,
 }: Props) => {
@@ -67,12 +70,17 @@ const CategoryForm = ({
                   : 'Save Changes'}
             </Button>
           </div>
-          <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="flex flex-col gap-6 xl:flex-row">
             <div className="flex-1">
               <CategoryGeneralInfo control={form.control} />
             </div>
-            <div className="flex-[0.5]">
-              <CategoryThumbnail onImageSelect={setSelectedImage} image={selectedImage} />
+            <div className="flex-[0.5] space-y-6">
+              <CategoryThumbnail
+                onImageSelect={setSelectedImage}
+                image={selectedImage}
+                previewUrl={previewUrl}
+              />
+              {mode === 'update' && <CategorySettings control={form.control} />}
             </div>
           </div>
         </form>
