@@ -1,14 +1,4 @@
-import {
-  Ban,
-  CheckCircle,
-  Clock,
-  FileText,
-  Mail,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Store,
-} from 'lucide-react';
+import { Ban, Clock, FileText, Mail, MapPin, Phone, ShieldCheck, Store } from 'lucide-react';
 
 import ImageViewer from '@/components/quick/ImageViewer';
 import { Badge } from '@/components/ui/badge';
@@ -17,15 +7,18 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 import { Customer } from '../schemas/customer';
+import ApproveCustomerDialog from './ApproveCustomerDialog';
+import ApproveTobaccoDialog from './ApproveTobaccoDialog';
 
 type Props = {
   customer: Customer;
   onApprove?: () => void;
+  onApproveTobacco?: () => void;
   isMutating?: boolean;
   onBlock?: () => void;
 };
 
-const CustomerProfile = ({ customer, onApprove, onBlock, isMutating }: Props) => {
+const CustomerProfile = ({ customer, onApprove, onBlock, isMutating, onApproveTobacco }: Props) => {
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString();
@@ -44,7 +37,7 @@ const CustomerProfile = ({ customer, onApprove, onBlock, isMutating }: Props) =>
     }
     return (
       <Badge variant="secondary" className="font-medium">
-        Pending
+        Pending Approval
       </Badge>
     );
   };
@@ -100,24 +93,29 @@ const CustomerProfile = ({ customer, onApprove, onBlock, isMutating }: Props) =>
                   ID: {customer.id?.slice(0, 8)}
                 </span>
               </div>
-              {!customer.blocked && !customer.approved && (
-                <div className="flex gap-2 sm:justify-end">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="bg-emerald-500 hover:bg-emerald-600"
-                    onClick={onApprove}
-                    disabled={isMutating}
-                  >
-                    <CheckCircle className="mr-2 h-4 w-4" />
-                    Approve
-                  </Button>
-                  <Button variant="destructive" size="sm" onClick={onBlock} disabled={isMutating}>
-                    <Ban className="mr-2 h-4 w-4" />
-                    Block
-                  </Button>
-                </div>
-              )}
+              <div className="flex flex-col gap-2 lg:flex-row lg:justify-end">
+                {!customer.blocked && onApprove && onApproveTobacco && (
+                  <>
+                    <ApproveCustomerDialog
+                      onApprove={onApprove}
+                      onReject={onApprove}
+                      isMutating={isMutating ?? false}
+                      customer={customer}
+                    />
+                    <ApproveTobaccoDialog
+                      onApprove={onApproveTobacco}
+                      onReject={onApproveTobacco}
+                      isMutating={isMutating ?? false}
+                      customer={customer}
+                    />
+                  </>
+                )}
+
+                <Button variant="destructive" size="sm" onClick={onBlock} disabled={isMutating}>
+                  <Ban className="h-4 w-4" />
+                  {customer.blocked ? 'Unblock' : 'Block'}
+                </Button>
+              </div>
             </div>
           </div>
         </div>

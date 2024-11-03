@@ -23,7 +23,7 @@ const buttonVariants = cva(
           'bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-lg hover:translate-y-[-1px] active:translate-y-[1px]',
 
         success:
-          'bg-green-500 text-white hover:bg-green-600 shadow-sm hover:shadow-green-200/50 dark:hover:shadow-green-900/50',
+          'bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm hover:shadow-emerald-200/50 dark:hover:shadow-emerald-900/50',
 
         warning:
           'bg-amber-500 text-white hover:bg-amber-600 shadow-sm hover:shadow-amber-200/50 dark:hover:shadow-amber-900/50',

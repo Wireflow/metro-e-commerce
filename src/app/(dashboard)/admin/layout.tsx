@@ -48,7 +48,7 @@ export default async function RootLayout({
   return (
     <SidebarProvider>
       <AdminSidebar />
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-col overflow-x-hidden">
         <AdminHeader />
         <main className="w-full p-4">{children}</main>
       </div>
