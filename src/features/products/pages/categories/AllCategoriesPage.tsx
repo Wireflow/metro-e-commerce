@@ -10,9 +10,9 @@ import PageHeader from '@/components/layout/PageHeader';
 import Pagination from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 
+import CategoriesPageSkeleton from '../../components/categories/CategoriesPageSkeleton';
 import CategoryFiltersSheet from '../../components/categories/CategoryFiltersSheet';
 import CategoryList from '../../components/categories/CategoryList';
-import ProductsPageSkeleton from '../../components/products/AllProductsSkeleton';
 import { usePaginedCategories } from '../../hooks/category-paginated-query';
 import { useCategoryFiltersStore } from '../../store/useCategoryFilters';
 
@@ -31,7 +31,7 @@ const AllCategoriesPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoadingCategories) return <ProductsPageSkeleton />;
+  if (isLoadingCategories) return <CategoriesPageSkeleton />;
 
   const breadcrumbs = [
     { label: 'Dashboard', href: '/admin' },

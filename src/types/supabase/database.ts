@@ -76,6 +76,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -340,6 +347,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -1043,6 +1057,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -1173,6 +1194,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -1449,6 +1477,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -1925,6 +1960,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -2059,6 +2101,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -2229,6 +2278,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -2279,6 +2335,93 @@ export type Database = {
             columns: ['salesperson_id'];
             isOneToOne: false;
             referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      customers_with_address: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          approved_tobacco: boolean | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          city: string | null;
+          country: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          order_count: number | null;
+          phone: string | null;
+          state: string | null;
+          street: string | null;
+          tax_id: string | null;
+          tax_id_image_url: string | null;
+          tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
+          total_spent: number | null;
+          updated_at: string | null;
+          zip_code: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      daily_branch_analytics: {
+        Row: {
+          branch_id: string | null;
+          new_customers: number | null;
+          order_date: string | null;
+          revenue: number | null;
+          total_products_sold: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
             referencedColumns: ['id'];
           },
         ];
@@ -2347,6 +2490,13 @@ export type Database = {
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -3052,6 +3202,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -3127,6 +3284,8 @@ export type Database = {
       };
       product_sales_analytics: {
         Row: {
+          branch_id: string | null;
+          order_date: string | null;
           product_id: string | null;
           sales: number | null;
           total_sales_value: number | null;
@@ -3179,6 +3338,13 @@ export type Database = {
             columns: ['product_id'];
             isOneToOne: false;
             referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
             referencedColumns: ['id'];
           },
         ];
@@ -3287,6 +3453,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {
@@ -3451,6 +3624,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
             referencedColumns: ['id'];
           },
           {

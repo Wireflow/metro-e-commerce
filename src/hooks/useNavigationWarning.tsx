@@ -70,7 +70,6 @@ export const useNavigationWarning = ({ isDirty }: UseNavigationWarningProps) => 
     setPendingNavigation(null);
   }, []);
 
-  // Warning Dialog component
   const NavigationWarningDialog = useCallback(
     () => (
       <AlertDialog open={showWarning} onOpenChange={setShowWarning}>

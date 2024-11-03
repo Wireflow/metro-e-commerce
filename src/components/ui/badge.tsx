@@ -8,14 +8,28 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80',
+        default: 'border-transparent bg-primary text-primary-foreground  hover:bg-primary/80',
         secondary:
           'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
         destructive:
-          'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
-        success: 'border-transparent bg-green-500 text-white shadow hover:bg-green-500/80',
-        warning: 'border-transparent bg-yellow-400 text-black shadow hover:bg-yellow-500/80',
+          'border-transparent bg-destructive text-destructive-foreground  hover:bg-destructive/80',
+
+        // Soft variants with good contrast
+        success: 'border-transparent bg-emerald-100 text-emerald-700  hover:bg-emerald-200',
+        warning: 'border-transparent bg-amber-100 text-amber-700  hover:bg-amber-200',
+        error: 'border-transparent bg-rose-100 text-rose-700  hover:bg-rose-200',
+        info: 'border-transparent bg-sky-100 text-sky-700  hover:bg-sky-200',
+        purple: 'border-transparent bg-violet-100 text-violet-700  hover:bg-violet-200',
+        gray: 'border-transparent bg-slate-100 text-slate-700  hover:bg-slate-200',
+        pink: 'border-transparent bg-pink-100 text-pink-700  hover:bg-pink-200',
+        indigo: 'border-transparent bg-indigo-100 text-indigo-700  hover:bg-indigo-200',
+
+        // Outline variants
         outline: 'text-foreground',
+        'outline-success': 'border-emerald-200 text-emerald-700 hover:bg-emerald-100',
+        'outline-warning': 'border-amber-200 text-amber-700 hover:bg-amber-100',
+        'outline-error': 'border-rose-200 text-rose-700 hover:bg-rose-100',
+        'outline-info': 'border-sky-200 text-sky-700 hover:bg-sky-100',
       },
     },
     defaultVariants: {

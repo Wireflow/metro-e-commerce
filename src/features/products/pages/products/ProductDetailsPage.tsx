@@ -29,12 +29,11 @@ const ProductDetailsPage = ({ product, sales }: Props) => {
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="mb-4 grid gap-4 md:flex">
-        <AnalyticCard title="Total Sales" value={sales?.sales ?? 0} variant="minimal" />
+      <div className="mb-4 grid w-full gap-4 md:grid-cols-2">
+        <AnalyticCard title="Total Sales" value={sales?.sales ?? 0} />
         <AnalyticCard
           value={formatCurrency(sales?.total_sales_value ?? 0)}
           title="Total Sales Value"
-          variant="minimal"
         />
       </div>
 

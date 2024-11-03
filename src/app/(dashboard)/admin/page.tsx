@@ -1,12 +1,52 @@
-import AnalyticCard from '@/components/AnalyticCard';
-import { formatCurrency } from '@/utils/utils';
+import { endOfWeek, formatDate, startOfWeek, subWeeks } from 'date-fns';
+
+import DashboardPage from '@/features/dashboard/pages/DashboardPage';
+import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
+import { getSales } from '@/features/dashboard/server/getSales';
+import { getTopSellingProducts } from '@/features/dashboard/server/getTopSellingProducts';
+import { createChartData } from '@/features/dashboard/utils/createChartData';
 
 export default async function Admin() {
+  // Get current week's start (Sunday) and end (Saturday)
+  const thisWeekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+  const thisWeekEnd = endOfWeek(new Date(), { weekStartsOn: 0 });
+
+  // Get last week's start and end
+  const lastWeekStart = subWeeks(thisWeekStart, 1);
+  const lastWeekEnd = subWeeks(thisWeekEnd, 1);
+
+  const analytics = await getDailyAnalytics({
+    startDate: formatDate(new Date(), 'yyyy-MM-dd'),
+    endDate: formatDate(new Date(), 'yyyy-MM-dd'),
+  });
+
+  const topSellingProducts = await getTopSellingProducts({
+    startDate: formatDate(new Date(), 'yyyy-MM-dd'),
+    endDate: formatDate(new Date(), 'yyyy-MM-dd'),
+  });
+
+  const thisWeeksSales = await getSales({
+    startDate: formatDate(thisWeekStart, 'yyyy-MM-dd'),
+    endDate: formatDate(thisWeekEnd, 'yyyy-MM-dd'),
+  });
+
+  const lastWeekSales = await getSales({
+    startDate: formatDate(lastWeekStart, 'yyyy-MM-dd'),
+    endDate: formatDate(lastWeekEnd, 'yyyy-MM-dd'),
+  });
+
+  const formattedSales = createChartData(
+    thisWeeksSales,
+    lastWeekSales,
+    formatDate(thisWeekStart, 'yyyy-MM-dd'),
+    formatDate(thisWeekEnd, 'yyyy-MM-dd')
+  );
+
   return (
-    <div className="flex w-full gap-4">
-      <AnalyticCard title="Total Sales" value={formatCurrency(1000)} />
-      <AnalyticCard title="Total Sales" value={formatCurrency(1000)} />
-      <AnalyticCard title="Total Sales" value={formatCurrency(1000)} />
-    </div>
+    <DashboardPage
+      analytics={analytics}
+      topSellingProducts={topSellingProducts}
+      salesChartData={formattedSales}
+    />
   );
 }
