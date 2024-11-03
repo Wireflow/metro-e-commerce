@@ -15,7 +15,7 @@ export const useOrders = ({ enabled = true }) => {
 
 export interface OrdersFilters {
   search?: string;
-  searchFields?: ('order_number' | 'customer_name')[];
+  searchFields?: ('order_number' | 'customer.business_name')[];
   minPrice?: number;
   maxPrice?: number;
   sortBy?: 'order_number' | 'total_amount' | 'created_at';
@@ -48,6 +48,7 @@ export const usePaginatedOrders = (
     queryFn: () => getPaginatedOrders(filters, pagination),
     enabled: true,
     placeholderData: keepPreviousData,
+    retry: false,
   });
 };
 
@@ -61,7 +62,10 @@ export const getPaginatedOrders = async (
 
   let countQuery = supabase.from('orders').select('*', { count: 'exact', head: true });
 
-  let query = supabase.from('orders').select('*, customer:customers(*), payment:order_payments(*)');
+  let query = supabase.from('orders').select(`
+      *, 
+      customer:customers(*), 
+      payment:order_payments(*)`);
 
   [countQuery, query] = applyOrdersFilters([countQuery, query], filters);
 

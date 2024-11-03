@@ -13,10 +13,10 @@ import { cn } from '@/lib/utils';
 
 // Define available variants
 export const tableVariants = {
-  default: 'rounded-lg border border-gray-200 shadow-sm',
+  default: 'rounded-[4px] border border-gray-200 shadow-sm',
   bordered: 'rounded-none border-2 border-gray-300',
   minimal: 'border-0 shadow-none',
-  striped: 'rounded-lg border border-gray-200 [&_tr:nth-child(even)]:bg-gray-50',
+  striped: 'rounded-[4px] border border-gray-200 [&_tr:nth-child(even)]:bg-gray-50',
 } as const;
 
 export const tableHeaderVariants = {
@@ -161,12 +161,16 @@ export function DynamicTable<T extends Record<string, any>>({
               </TableRow>
             ))
           ) : (
-            <TableRow>
+            <TableRow className="h-44">
               <TableCell
-                colSpan={fields.length}
-                className={cn('text-center text-sm text-gray-500', tableCellVariants[variant])}
+                colSpan={fields.filter(f => !f.disabled).length}
+                className={cn('h-full', tableCellVariants[variant])}
               >
-                {emptyMessage}
+                <div className="flex h-full items-center justify-center">
+                  <span className="text-center text-sm font-medium text-gray-500">
+                    {emptyMessage}
+                  </span>
+                </div>
               </TableCell>
             </TableRow>
           )}

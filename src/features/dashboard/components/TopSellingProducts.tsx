@@ -9,7 +9,7 @@ interface TopSellingProductsProps {
 
 const TopSellingProducts = ({ topSellingProducts }: TopSellingProductsProps) => {
   return (
-    <Card className="shadow-none">
+    <Card className="h-full shadow-none">
       <CardHeader>
         <CardTitle className="md:text-xl">Top Selling Products</CardTitle>
       </CardHeader>

@@ -1,5 +1,6 @@
 'use server';
 
+import { Order } from '@/features/orders/schemas/orders';
 import { createClient } from '@/utils/supabase/server';
 
 const supabase = createClient();
@@ -7,7 +8,7 @@ const supabase = createClient();
 export const getLatestOrders = async () => {
   const { data, error } = await supabase
     .from('orders')
-    .select('*, order:order_id(*)')
+    .select('*, customer:customers(*), payment:order_payments(*)')
     .order('created_at', { ascending: false })
     .limit(5);
 
@@ -15,5 +16,10 @@ export const getLatestOrders = async () => {
     console.error('Error fetching latest orders:', error);
     throw new Error('Failed to fetch latest orders');
   }
-  return data;
+
+  if (!data) {
+    throw new Error('Failed to fetch latest orders');
+  }
+
+  return data as Order[];
 };

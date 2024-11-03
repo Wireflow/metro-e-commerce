@@ -2,6 +2,7 @@ import { endOfWeek, formatDate, startOfWeek, subWeeks } from 'date-fns';
 
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
 import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
+import { getLatestOrders } from '@/features/dashboard/server/getLatestOrders';
 import { getSales } from '@/features/dashboard/server/getSales';
 import { getTopSellingProducts } from '@/features/dashboard/server/getTopSellingProducts';
 import { createChartData } from '@/features/dashboard/utils/createChartData';
@@ -42,11 +43,14 @@ export default async function Admin() {
     formatDate(thisWeekEnd, 'yyyy-MM-dd')
   );
 
+  const latestOrders = await getLatestOrders();
+
   return (
     <DashboardPage
       analytics={analytics}
       topSellingProducts={topSellingProducts}
       salesChartData={formattedSales}
+      latestOrders={latestOrders}
     />
   );
 }

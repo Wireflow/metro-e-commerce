@@ -72,6 +72,7 @@ const TopProductsList = ({ topSellingProducts }: Props) => {
       data={topSellingProducts}
       fields={fields}
       variant="minimal"
+      className="h-full"
       emptyMessage="Not enough sales to show top selling products!"
     />
   );

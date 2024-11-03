@@ -17,7 +17,7 @@ interface OrdersFiltersStore {
 
 const initialFilters: OrdersFilters = {
   search: '',
-  searchFields: ['customer_name', 'order_number'],
+  searchFields: ['customer.business_name', 'order_number'],
   sortBy: 'created_at',
   sortOrder: 'desc',
 };

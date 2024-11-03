@@ -25,7 +25,6 @@ const AllOrdersPage = () => {
     pageSize,
   });
 
-  console.log(ordersData);
   const handlePageChange = (newPage: number) => {
     setPagination({ page: newPage, pageSize });
     window.scrollTo({ top: 0, behavior: 'smooth' });

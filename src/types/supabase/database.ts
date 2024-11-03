@@ -680,7 +680,7 @@ export type Database = {
           order_id: string;
           product_id: string;
           quantity: number;
-          refunded_amount: number;
+          refunded_amount?: number;
           refunded_quantity?: number;
           status?: Database['public']['Enums']['order_item_status'];
           tax_amount?: number;
@@ -957,6 +957,7 @@ export type Database = {
           customer_id: string;
           delivery_address_id: string | null;
           expected_delivery_at: string | null;
+          fees: number;
           id: string;
           order_number: number;
           preparing_at: string | null;
@@ -966,7 +967,10 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'];
+          tax: number;
           total_amount: number;
+          total_before_calculations: number;
+          total_discount: number;
           total_quantity: number;
           type: Database['public']['Enums']['order_type'];
           updated_at: string;
@@ -980,6 +984,7 @@ export type Database = {
           customer_id: string;
           delivery_address_id?: string | null;
           expected_delivery_at?: string | null;
+          fees?: number;
           id?: string;
           order_number?: number;
           preparing_at?: string | null;
@@ -989,7 +994,10 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'];
+          tax?: number;
           total_amount: number;
+          total_before_calculations?: number;
+          total_discount?: number;
           total_quantity: number;
           type: Database['public']['Enums']['order_type'];
           updated_at?: string;
@@ -1003,6 +1011,7 @@ export type Database = {
           customer_id?: string;
           delivery_address_id?: string | null;
           expected_delivery_at?: string | null;
+          fees?: number;
           id?: string;
           order_number?: number;
           preparing_at?: string | null;
@@ -1012,7 +1021,10 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'];
+          tax?: number;
           total_amount?: number;
+          total_before_calculations?: number;
+          total_discount?: number;
           total_quantity?: number;
           type?: Database['public']['Enums']['order_type'];
           updated_at?: string;
