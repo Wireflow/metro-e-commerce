@@ -87,11 +87,11 @@ const navigationGroups = [
         items: [
           {
             title: 'Orders',
-            url: '/admin/sales/orders',
+            url: '/admin/orders/all',
           },
           {
             title: 'Financials',
-            url: '/admin/sales/financials',
+            url: '/admin/financials',
           },
         ],
       },
