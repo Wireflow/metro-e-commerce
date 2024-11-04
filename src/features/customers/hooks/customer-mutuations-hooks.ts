@@ -3,14 +3,62 @@ import { toast } from 'sonner';
 
 import { updateCustomer } from '../server/updateCustomer';
 
+type ApproveParams = {
+  id: string;
+  approved: boolean;
+};
+
+type BlockParams = {
+  id: string;
+  blocked: boolean;
+};
+
 export const useApproveCustomer = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['approve-customer'],
-    mutationFn: updateCustomer,
-    onSuccess: data => {
+    mutationFn: (params: ApproveParams) =>
+      updateCustomer({ id: params.id, approved: params.approved }),
+    onSuccess: (data, ctx) => {
       if (data?.success) {
-        toast.success('Customer approved!');
+        toast.success(ctx.approved ? 'Customer approved!' : 'Customer rejected!');
+      } else {
+        toast.error(data.error);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+    },
+  });
+};
+
+export const useBlockCustomer = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['block-customer'],
+    mutationFn: (params: BlockParams) => updateCustomer({ id: params.id, blocked: params.blocked }),
+    onSuccess: (data, ctx) => {
+      if (data?.success) {
+        toast.success(ctx.blocked ? 'Customer blocked!' : 'Customer unblocked!');
+      } else {
+        toast.error(data.error);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+    },
+  });
+};
+
+export const useApproveCustomerTobacco = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['approve-customer-tobacco'],
+    mutationFn: (params: ApproveParams) =>
+      updateCustomer({ id: params.id, approved_tobacco: params.approved }),
+    onSuccess: (data, ctx) => {
+      if (data?.success) {
+        toast.success(ctx.approved ? 'Customer Approved!' : 'Customer Rejected!');
       } else {
         toast.error(data.error);
       }

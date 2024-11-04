@@ -40,7 +40,7 @@ const PageHeader = ({
   breadcrumbs,
 }: PageHeaderProps) => {
   return (
-    <div className={cn('space-y-4 pb-4 md:pb-6', className)}>
+    <div className={cn('space-y-4 pb-4', className)}>
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2">
           {/* Breadcrumbs */}
