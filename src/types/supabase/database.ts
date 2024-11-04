@@ -729,6 +729,13 @@ export type Database = {
             foreignKeyName: 'order_items_order_id_fkey1';
             columns: ['order_id'];
             isOneToOne: false;
+            referencedRelation: 'orders_with_customer';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_items_order_id_fkey1';
+            columns: ['order_id'];
+            isOneToOne: false;
             referencedRelation: 'pending_orders';
             referencedColumns: ['id'];
           },
@@ -854,6 +861,13 @@ export type Database = {
             foreignKeyName: 'order_payments_order_id_fkey';
             columns: ['order_id'];
             isOneToOne: true;
+            referencedRelation: 'orders_with_customer';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_payments_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
             referencedRelation: 'pending_orders';
             referencedColumns: ['id'];
           },
@@ -922,6 +936,13 @@ export type Database = {
             columns: ['order_id'];
             isOneToOne: true;
             referencedRelation: 'orders';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'order_shipping_order_id_fkey';
+            columns: ['order_id'];
+            isOneToOne: true;
+            referencedRelation: 'orders_with_customer';
             referencedColumns: ['id'];
           },
           {
@@ -3008,6 +3029,140 @@ export type Database = {
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      orders_with_customer: {
+        Row: {
+          branch_id: string | null;
+          business_name: string | null;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+          delivery_address_id: string | null;
+          email: string | null;
+          expected_delivery_at: string | null;
+          fees: number | null;
+          id: string | null;
+          order_number: number | null;
+          payment_status: Database['public']['Enums']['payment_status'] | null;
+          payment_type: Database['public']['Enums']['payment_type'] | null;
+          phone: string | null;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'] | null;
+          tax: number | null;
+          total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
+          total_quantity: number | null;
+          type: Database['public']['Enums']['order_type'] | null;
+          updated_at: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_delivery_address_id_fkey';
+            columns: ['delivery_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];

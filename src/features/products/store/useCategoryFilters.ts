@@ -10,7 +10,8 @@ interface CategoryFiltersStore {
     page: number;
     pageSize: number;
   };
-  setFilter: <K extends keyof CategoryFilters>(key: K, value: CategoryFilters[K]) => void;
+  setFilter: (key: keyof CategoryFilters, value: CategoryFilters[keyof CategoryFilters]) => void;
+  updateFilters: (updates: Partial<CategoryFilters>) => void;
   setPagination: (pagination: { page: number; pageSize: number }) => void;
   resetFilters: () => void;
 }
@@ -41,6 +42,17 @@ export const useCategoryFiltersStore = create<CategoryFiltersStore>()(
           }),
           false,
           'setFilter'
+        ),
+      updateFilters: updates =>
+        set(
+          state => ({
+            filters: {
+              ...state.filters,
+              ...updates,
+            },
+          }),
+          false,
+          'updateFilters'
         ),
       resetFilters: () => set({ filters: initialFilters }, false, 'resetFilters'),
     }),

@@ -2,6 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
+import { getOrderById } from '../server/orders/getOrderById';
 import { getOrders } from '../server/orders/getOrders';
 import { applyOrdersFilters } from '../utils/applyOrdersFilters';
 
@@ -15,7 +16,8 @@ export const useOrders = ({ enabled = true }) => {
 
 export interface OrdersFilters {
   search?: string;
-  searchFields?: ('order_number' | 'customer.business_name')[];
+  searchFields?: 'business_name'[];
+  orderNumber?: string;
   minPrice?: number;
   maxPrice?: number;
   sortBy?: 'order_number' | 'total_amount' | 'created_at';
@@ -60,9 +62,11 @@ export const getPaginatedOrders = async (
   const supabase = createClient();
   const { page = 1, pageSize = 10 } = pagination;
 
-  let countQuery = supabase.from('orders').select('*', { count: 'exact', head: true });
+  let countQuery = supabase
+    .from('orders_with_customer')
+    .select('*', { count: 'exact', head: true });
 
-  let query = supabase.from('orders').select(`
+  let query = supabase.from('orders_with_customer').select(`
       *, 
       customer:customers(*), 
       payment:order_payments(*)`);
@@ -103,4 +107,11 @@ export const getPaginatedOrders = async (
       hasMore,
     },
   };
+};
+
+export const useOrderById = (orderId: string) => {
+  return useQuery({
+    queryKey: ['order', orderId],
+    queryFn: () => getOrderById(orderId),
+  });
 };

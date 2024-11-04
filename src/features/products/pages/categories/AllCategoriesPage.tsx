@@ -11,6 +11,7 @@ import Pagination from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 
 import CategoriesPageSkeleton from '../../components/categories/CategoriesPageSkeleton';
+import CategoryActiveFilters from '../../components/categories/CategoryActiveFilters ';
 import CategoryFiltersSheet from '../../components/categories/CategoryFiltersSheet';
 import CategoryList from '../../components/categories/CategoryList';
 import { usePaginedCategories } from '../../hooks/category-paginated-query';
@@ -60,7 +61,7 @@ const AllCategoriesPage = () => {
           <CategoryFiltersSheet />
         </div>
       </div>
-
+      <CategoryActiveFilters />
       <CategoryList categories={categories?.data ?? []} />
 
       <div className="mt-6">

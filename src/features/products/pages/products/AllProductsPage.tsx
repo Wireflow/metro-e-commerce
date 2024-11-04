@@ -14,6 +14,7 @@ import ExportProducts from '../../components/products/ExportProducts';
 import ProductFiltersSheet from '../../components/products/ProductFiltersSheet';
 import ProductList from '../../components/products/ProductList';
 import ProductsAnalytics from '../../components/products/ProductsAnalytics';
+import ProductActiveFilters from '../../components/ProductsActiveFilters';
 import { usePaginatedProducts } from '../../hooks/product-paginated-query';
 import { useAnalytics } from '../../hooks/product-query-hooks';
 import { useProductFiltersStore } from '../../store/useProductFilters';
@@ -70,7 +71,7 @@ const AllProductsPage = () => {
           <ProductFiltersSheet />
         </div>
       </div>
-
+      <ProductActiveFilters />
       <ProductList products={productsData?.data ?? []} />
 
       <div className="mt-6">

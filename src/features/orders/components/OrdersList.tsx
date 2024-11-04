@@ -157,7 +157,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
         </div>
       ),
       label: 'Details',
-      className: 'min-w-[200px]',
+      className: 'min-w-[400px]',
     },
 
     {
@@ -243,7 +243,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     {
       key: order => (
         <Link href={`/admin/orders/${order.id}`}>
-          <Button variant="black" size="sm" className="gap-1 hover:bg-gray-800">
+          <Button variant="none" size="sm" className="gap-1 hover:bg-neutral-300">
             View <ArrowRight className="h-3 w-3" />
           </Button>
         </Link>

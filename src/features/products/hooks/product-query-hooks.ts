@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { getCategoryById } from '../server/categories/getCategoryById';
+import { getProductById } from '../server/products/getProductById';
 import { getProducts } from '../server/products/getProducts';
 import { getProductsAnalytics } from '../server/products/getProductsAnalytics';
 
@@ -35,3 +37,17 @@ export const useAnalytics = () => {
     queryFn: () => getProductsAnalytics(),
   });
 };
+
+export const useCategoryById = (categoryId: string) => {
+  return useQuery({
+    queryKey: ['categories', categoryId],
+    queryFn: () => getCategoryById(categoryId),
+  });
+};
+
+// export const useProductById = (productId: string) => {
+//   return useQuery({
+//     queryKey: ['product', productId],
+//     queryFn: () => getProductById(productId),
+//   });
+// };

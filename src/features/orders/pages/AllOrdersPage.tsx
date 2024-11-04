@@ -9,10 +9,11 @@ import { Button } from '@/components/ui/button';
 import ProductsPageSkeleton from '@/features/products/components/products/AllProductsSkeleton';
 import ExportProducts from '@/features/products/components/products/ExportProducts';
 
+import ActiveFilters from '../components/ActiveFilters';
+import OrderFiltersSheet from '../components/OrderFilterSheet';
+import OrdersList from '../components/OrdersList';
 import { usePaginatedOrders } from '../hooks/orders-query-hook';
 import { useOrdersFiltersStore } from '../store/useOrdersFilters';
-import OrderFiltersSheet from './OrderFilterSheet';
-import OrdersList from './OrdersList';
 
 const AllOrdersPage = () => {
   const filters = useOrdersFiltersStore(state => state.filters);
@@ -25,6 +26,7 @@ const AllOrdersPage = () => {
     pageSize,
   });
 
+  // console.log(ordersData?.data.map(order => order.customer?.business_name));
   const handlePageChange = (newPage: number) => {
     setPagination({ page: newPage, pageSize });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -54,12 +56,12 @@ const AllOrdersPage = () => {
         }
       />
 
-      <div className="flex flex-col items-start justify-between md:flex-row">
+      <div className="flex flex-col items-start justify-end md:flex-row">
         <div className="md:seld-auto self-end">
           <OrderFiltersSheet />
         </div>
       </div>
-
+      <ActiveFilters />
       <OrdersList orders={ordersData?.data ?? []} />
       <div className="mt-6">
         <Pagination

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 
 import QuickSelect from '@/components/quick/Select';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -31,11 +30,6 @@ const OrderFiltersSheet = () => {
     setTempFilters(filters);
   }, [filters]);
 
-  const searchFields = [
-    { value: 'order_number', label: 'Order ID' },
-    { value: 'customer.business_name', label: 'Business Name' },
-  ];
-
   const sortOptions = [
     { value: 'order_number', label: 'Order ID' },
     { value: 'total_amount', label: 'Total Amount' },
@@ -43,7 +37,8 @@ const OrderFiltersSheet = () => {
   ];
 
   const orderStatusOptions = [
-    { value: 'pending', label: 'All Order Status' },
+    { value: 'undefined', label: 'All Order Status' },
+    { value: 'pending', label: 'Pending' },
     { value: 'cancelled', label: 'Cancelled' },
     { value: 'completed', label: 'Completed' },
     { value: 'refunded', label: 'Refunded' },
@@ -56,12 +51,12 @@ const OrderFiltersSheet = () => {
     { label: 'Descending', value: 'desc' },
   ];
 
-  const handleSearchFieldToggle = (field: 'order_number' | 'customer.business_name') => {
-    const currentFields = tempFilters.searchFields || [];
-    const newFields = currentFields.includes(field)
-      ? currentFields.filter(f => f !== field)
-      : [...currentFields, field];
-    setTempFilters(prev => ({ ...prev, searchFields: newFields }));
+  const handleOrderNumberFieldSearch = (orderNumber: string) => {
+    if (orderNumber.length === 0) {
+      setTempFilters(prev => ({ ...prev, orderNumber: undefined }));
+      return;
+    }
+    setTempFilters(prev => ({ ...prev, orderNumber: orderNumber }));
   };
 
   const handleReset = () => {
@@ -69,15 +64,19 @@ const OrderFiltersSheet = () => {
     setIsOpen(false);
   };
 
-  const handleStatusChange = (key: 'inStock' | 'published', value?: string) => {
-    const valueMap = {
-      true: true,
-      false: false,
-      undefined: undefined,
-    };
+  type OrderStatus =
+    | 'pending'
+    | 'cancelled'
+    | 'completed'
+    | 'refunded'
+    | 'confirmed'
+    | 'preparing'
+    | undefined;
+
+  const handleStatusChange = (key: 'status', value?: string) => {
     setTempFilters(prev => ({
       ...prev,
-      [key]: valueMap[value as keyof typeof valueMap],
+      [key]: value as OrderStatus,
     }));
   };
 
@@ -107,43 +106,40 @@ const OrderFiltersSheet = () => {
       </SheetTrigger>
       <SheetContent className="w-[400px]">
         <SheetHeader>
-          <SheetTitle>Product Filters</SheetTitle>
-          <SheetDescription>Filter products by category, price, and more.</SheetDescription>
+          <SheetTitle>Orders Filters</SheetTitle>
+          <SheetDescription>
+            Filter orders by Business name, Order number, and more.
+          </SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-6">
           {/* Search */}
           <div className="space-y-2">
-            <Label>Search</Label>
+            <Label>Search by business name</Label>
             <Input
-              placeholder="Search products..."
+              placeholder="Search order by business name..."
               value={tempFilters.search || ''}
               onChange={e => setTempFilters(prev => ({ ...prev, search: e.target.value }))}
             />
-            <div className="space-y-2">
-              <Label className="text-sm text-muted-foreground">Search in:</Label>
-              <div className="space-y-2">
-                {searchFields.map(field => (
-                  <div key={field.value} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={field.value}
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      checked={tempFilters.searchFields?.includes(field.value as any)}
-                      className="data-[state=checked]:bg-black"
-                      onCheckedChange={() =>
-                        handleSearchFieldToggle(
-                          field.value as 'customer.business_name' | 'order_number'
-                        )
-                      }
-                    />
-                    <label htmlFor={field.value} className="text-sm">
-                      {field.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
+
+          <div className="space-y-2">
+            <Label>Search by order number</Label>
+            <Input
+              onKeyDown={e => {
+                if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                  e.preventDefault();
+                }
+              }}
+              type="number"
+              placeholder="Search order number..."
+              value={tempFilters.orderNumber || ''}
+              onChange={e => {
+                handleOrderNumberFieldSearch(e.target.value as string);
+              }}
+            />
+          </div>
+
           {/* Category Filters */}
 
           {/* Status Filters */}
@@ -151,10 +147,10 @@ const OrderFiltersSheet = () => {
             <div className="space-y-2">
               <Label>Order Status</Label>
               <QuickSelect
-                placeholder="Select stock status"
+                placeholder="Select order status"
                 options={orderStatusOptions}
                 value={String(tempFilters.status)}
-                onValueChange={value => handleStatusChange('inStock', value)}
+                onValueChange={value => handleStatusChange('status', value)}
               />
             </div>
           </div>

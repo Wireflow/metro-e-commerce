@@ -12,17 +12,12 @@ export const applyOrdersFilters = (
 
     // Apply text search across specified fields
     if (filters?.search && filters?.search?.length > 0) {
-      const searchFields = filters.searchFields || ['order_number'];
+      const searchFields = filters.searchFields || ['business_name'];
       const searchConditions = [];
 
-      if (searchFields.includes('customer.business_name')) {
+      if (searchFields.includes('business_name')) {
         // For joined tables, we need to use the proper filter syntax
-        searchConditions.push(`customers.business_name.ilike.%${filters.search}%`);
-      }
-
-      if (searchFields.includes('order_number')) {
-        // For exact matches on order number
-        searchConditions.push(`order_number.eq.${filters.search}`);
+        searchConditions.push(`business_name.ilike.%${filters.search}%`);
       }
 
       // Apply all search conditions with OR
@@ -30,7 +25,10 @@ export const applyOrdersFilters = (
         modifiedQuery = modifiedQuery.or(searchConditions.join(','));
       }
     }
-
+    if (filters.orderNumber !== undefined) {
+      // For exact matches on order number
+      modifiedQuery = modifiedQuery.eq('order_number', filters.orderNumber);
+    }
     // Apply price range filters
     if (filters.minPrice !== undefined) {
       modifiedQuery = modifiedQuery.gte('total_amount', filters.minPrice);

@@ -1,4 +1,3 @@
-// stores/useProductFiltersStore.ts
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -11,6 +10,7 @@ interface ProductFiltersStore {
     pageSize: number;
   };
   setFilter: <K extends keyof ProductFilters>(key: K, value: ProductFilters[K]) => void;
+  updateFilters: (updates: Partial<ProductFilters>) => void;
   setPagination: (pagination: { page: number; pageSize: number }) => void;
   resetFilters: () => void;
 }
@@ -47,6 +47,21 @@ export const useProductFiltersStore = create<ProductFiltersStore>()(
           }),
           false,
           'setFilter'
+        ),
+      updateFilters: updates =>
+        set(
+          state => ({
+            filters: {
+              ...state.filters,
+              ...updates,
+            },
+            pagination: {
+              ...state.pagination,
+              page: 1, // Reset to first page when filters change
+            },
+          }),
+          false,
+          'updateFilters'
         ),
       resetFilters: () => set({ filters: initialFilters }, false, 'resetFilters'),
     }),
