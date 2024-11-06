@@ -51,9 +51,9 @@ const OrderInfo = ({ order }: Props) => {
               <div className="rounded-full bg-gray-200 p-2">
                 <CalendarCheck className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Added</p>
+              <p className="text-[14px] font-bold">Created</p>
             </div>
-            <p className="text-[12px] text-gray-500">
+            <p className="text-[14px] text-gray-500">
               {formatDateToString(new Date(order?.created_at))}
             </p>
           </div>
@@ -62,20 +62,20 @@ const OrderInfo = ({ order }: Props) => {
               <div className="rounded-full bg-gray-200 p-2">
                 <CreditCardIcon className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Payment Method</p>
+              <p className="text-[14px] font-bold">Payment Method</p>
             </div>
 
-            <p className="text-[12px] text-gray-500">{order?.payment?.payment_type}</p>
+            <p className="text-[14px] text-gray-500">{order?.payment?.payment_type}</p>
           </div>
           <div className='pt-4" flex items-center justify-between gap-3'>
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-gray-200 p-2">
                 <Truck className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Order Type</p>
+              <p className="text-[14px] font-bold">Order Type</p>
             </div>
 
-            <p className="text-[12px] text-gray-500">
+            <p className="text-[14px] text-gray-500">
               {order?.type === 'delivery' ? 'Delivery' : 'Pick Up'}
             </p>
           </div>

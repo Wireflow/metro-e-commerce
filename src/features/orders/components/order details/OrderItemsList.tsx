@@ -1,7 +1,9 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { formatCurrency } from '@/utils/utils';
 
 import { OrderDetails } from '../../schemas/orders';
+import OrderItemsTable from './OrderItemsTable';
 
 type Props = {
   order: OrderDetails;
@@ -9,15 +11,40 @@ type Props = {
 
 const OrderItemsList = ({ order }: Props) => {
   return (
-    <div>
+    <div className="cols-span-2 md:cols-span-1">
       <Card>
-        <CardContent>
+        <CardContent className="flex flex-col gap-5">
           <div className="flex items-center gap-3 pt-4">
             <p className="text-lg font-semibold">Order List</p>
             <Badge variant={'success'}>
               <span className="text-md font-bold">{order.orderItems.length} Products</span>
             </Badge>
+          </div>{' '}
+          <div className="flex items-start justify-between gap-2">
+            <p>
+              <span className="text-lg font-bold">Invoice</span> #{order.order_number}
+            </p>
+            <div className="flex flex-col items-end gap-2">
+              <p className="md:text-md text-sm font-medium text-neutral-500">
+                Subtotal: {formatCurrency(order.total_before_calculations)}
+              </p>
+              <p className="md:text-md text-sm font-medium text-neutral-500">
+                Tax: {formatCurrency(order.tax)}
+              </p>
+              {order.shipping_costs && (
+                <p className="md:text-md text-sm font-medium text-neutral-500">
+                  Shipping Costs: {formatCurrency(order.shipping_costs)}
+                </p>
+              )}
+              <p className="md:text-md text-sm font-medium text-neutral-500">
+                Fees: {formatCurrency(order.fees)}
+              </p>
+              <p className="text-md font-bold md:text-lg">
+                Grand Total: {formatCurrency(order.total_amount)}
+              </p>
+            </div>
           </div>
+          <OrderItemsTable orderItems={order.orderItems} />{' '}
         </CardContent>
       </Card>
     </div>

@@ -9,11 +9,28 @@ export const getOrderById = async (orderId: string) => {
   const { data, error } = await supabase
     .from('orders')
     .select(
-      '*,customer:customers(*), payment:order_payments(*), orderItems:order_items(*, product:products(*, product_images:product_images(*)))'
+      `   *,
+      customer:customers(*),
+      payment:order_payments(
+        *,
+        payment_method:payment_methods(
+          *,
+          billingAddress:addresses(*)
+        )
+      ),
+      orderItems:order_items(
+        *,
+        product:products(
+          *,
+          product_images(*),
+          barcodes(*)
+        )
+      ),
+      deliveryAddress:addresses!delivery_address_id(*)`
     )
     .eq('id', orderId)
+    .returns<OrderDetails>()
     .single();
-
   if (error) {
     throw new Error('Failed to find order');
   }
@@ -22,5 +39,5 @@ export const getOrderById = async (orderId: string) => {
     throw new Error('order not found');
   }
 
-  return data as OrderDetails;
+  return data;
 };

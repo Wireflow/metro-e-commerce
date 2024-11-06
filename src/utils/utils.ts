@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
 
+import { Row } from '@/types/supabase/table';
+
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
  * @param {('error' | 'success')} type - The type of message, either 'error' or 'success'.
@@ -36,4 +38,8 @@ export function formatPhoneNumber(number?: number | string): string {
   }
 
   return String(number);
+}
+
+export function formatAddress(address: Row<'addresses'>) {
+  return `${address.street}, ${address.city}, ${address.state}, ${address.zip_code}  ${address.country}`;
 }
