@@ -7,12 +7,22 @@ export type Order = Row<'orders'> & {
 
 export type OrderDetails = Row<'orders'> & {
   customer: Row<'customers'>;
-  orderItems: Row<'order_items'>[];
-  payment: Row<'order_payments'>;
+  orderItems: OrderItemsDetails[];
+  payment:
+    | (Row<'order_payments'> & {
+        payment_method: Row<'payment_methods'> & {
+          billingAddress: Row<'addresses'> | null;
+        };
+      })
+    | null;
+  deliveryAddress: Row<'addresses'> | null;
 };
 
 export type OrderItemsDetails = Row<'order_items'> & {
   product: Row<'products'> & {
     product_images: Row<'product_images'>[];
+    barcodes: Row<'barcodes'>[];
   };
+  customer: Row<'customers'>;
+  payment: Row<'order_payments'>;
 };

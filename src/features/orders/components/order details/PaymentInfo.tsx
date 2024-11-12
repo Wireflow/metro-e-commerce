@@ -23,19 +23,19 @@ const PaymentInfo = ({ order }: Props) => {
               <div className="rounded-full bg-gray-200 p-2">
                 <CheckCircle className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Status</p>
+              <p className="text-[14px] font-bold">Status</p>
             </div>
-            <p className="text-[12px] capitalize text-gray-500">{order?.payment?.payment_status}</p>
+            <p className="text-[14px] capitalize text-gray-500">{order?.payment?.payment_status}</p>
           </div>
           <div className='pt-4" flex items-center justify-between gap-3'>
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-gray-200 p-2">
                 <CalendarClock className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Paid On</p>
+              <p className="text-[14px] font-bold">Paid On</p>
             </div>
 
-            <p className="text-[12px] capitalize text-gray-500">
+            <p className="text-[14px] capitalize text-gray-500">
               {order?.payment?.payment_date &&
                 formatDateToString(new Date(order?.payment?.payment_date))}
             </p>
@@ -45,10 +45,10 @@ const PaymentInfo = ({ order }: Props) => {
               <div className="rounded-full bg-gray-200 p-2">
                 <Banknote className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Amount</p>
+              <p className="text-[14px] font-bold">Amount</p>
             </div>
 
-            <p className="text-[12px] text-gray-500">
+            <p className="text-[14px] text-gray-500">
               {formatCurrency(order?.payment?.payment_amount)}
             </p>
           </div>

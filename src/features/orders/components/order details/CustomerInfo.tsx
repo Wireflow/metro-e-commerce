@@ -32,29 +32,29 @@ const CustomerInfo = ({ order }: Props) => {
               <div className="rounded-full bg-gray-200 p-2">
                 <User className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Customer</p>
+              <p className="text-[14px] font-bold">Customer</p>
             </div>
-            <p className="text-[12px] capitalize text-gray-500">{formatCustomerName(order)}</p>
+            <p className="text-[14px] capitalize text-gray-500">{formatCustomerName(order)}</p>
           </div>
           <div className='pt-4" flex items-center justify-between gap-3'>
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-gray-200 p-2">
                 <Mail className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Email</p>
+              <p className="text-[14px] font-bold">Email</p>
             </div>
 
-            <p className="text-[12px] text-gray-500">{order?.customer.email}</p>
+            <p className="text-[14px] text-gray-500">{order?.customer.email}</p>
           </div>
           <div className='pt-4" flex items-center justify-between gap-3'>
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-gray-200 p-2">
                 <MobileIcon className="h-5 w-5" color="gray" />
               </div>
-              <p className="text-[12px] font-bold">Phone</p>
+              <p className="text-[14px] font-bold">Phone</p>
             </div>
 
-            <p className="text-[12px] text-gray-500">{formatPhoneNumber(order?.customer.phone)}</p>
+            <p className="text-[14px] text-gray-500">{formatPhoneNumber(order?.customer.phone)}</p>
           </div>
         </div>
       </CardContent>

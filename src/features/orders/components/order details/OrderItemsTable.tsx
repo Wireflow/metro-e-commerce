@@ -9,14 +9,15 @@ import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import { formatCurrency } from '@/utils/utils';
 
-import { OrderDetails, OrderItemsDetails } from '../../schemas/orders';
+import { OrderItemsDetails } from '../../schemas/orders';
 
 type Props = {
-  order: OrderDetails;
+  orderItems: OrderItemsDetails[];
 };
 
-const OrderItemsTable = ({ order }: Props) => {
+const OrderItemsTable = ({ orderItems }: Props) => {
   const router = useRouter();
+  console.log(orderItems);
 
   const fields = useTableFields<OrderItemsDetails>([
     {
@@ -46,7 +47,24 @@ const OrderItemsTable = ({ order }: Props) => {
         </div>
       ),
       className: 'min-w-[300px] md:min-w-none',
-      label: 'Name',
+      label: '',
+    },
+    {
+      key: product => (
+        <div>
+          <p>{product.product?.barcodes?.[0]?.barcode}</p>
+        </div>
+      ),
+      label: 'SKU',
+      className: 'min-w-[120px]',
+    },
+    {
+      key: product => (
+        <div>
+          <p>{product?.quantity}</p>
+        </div>
+      ),
+      label: 'Qty',
     },
     {
       key: product => (
@@ -70,15 +88,7 @@ const OrderItemsTable = ({ order }: Props) => {
     {
       key: product => (
         <div>
-          <p>{product.quantity}</p>
-        </div>
-      ),
-      label: 'Qty',
-    },
-    {
-      key: product => (
-        <div>
-          <p>{product.product.retail_price * product.quantity}</p>
+          <p>{formatCurrency(product.total_price)}</p>
         </div>
       ),
       label: 'Total',
@@ -86,7 +96,7 @@ const OrderItemsTable = ({ order }: Props) => {
     },
   ]);
 
-  return <DynamicTable fields={fields} data={order.orderItems} />;
+  return <DynamicTable fields={fields} data={orderItems} />;
 };
 
 export default OrderItemsTable;
