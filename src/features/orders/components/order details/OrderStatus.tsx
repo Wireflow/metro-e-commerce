@@ -6,19 +6,6 @@ import { formatDateToString } from '@/utils/dateUtils';
 
 import { OrderDetails } from '../../schemas/orders';
 
-type Row = {
-  branch_id: string | null;
-  cancelled_at: string | null;
-  completed_at: string | null;
-  confirmed_at: string | null;
-  created_at: string | null;
-  preparing_at: string | null;
-  ready_at: string | null;
-  refunded_at: string | null;
-  status: string | null;
-  // ... other fields
-};
-
 export type StatusType =
   | 'created'
   | 'pending'
