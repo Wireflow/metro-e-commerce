@@ -203,12 +203,15 @@ export type Database = {
           id: string;
           is_app_disabled: boolean;
           is_card_payment_disabled: boolean;
+          is_delivery_disabled: boolean;
           is_ordering_disabled: boolean;
           is_pay_on_delivery_disabled: boolean;
           is_pay_on_pickup_disabled: boolean;
+          is_pickup_disabled: boolean;
           is_shipment_disabled: boolean;
           pickup_minimum: number;
           shipment_minimum: number;
+          status: Database['public']['Enums']['branch_status'];
           tax_percentage: number;
           updated_at: string;
         };
@@ -220,12 +223,15 @@ export type Database = {
           id?: string;
           is_app_disabled?: boolean;
           is_card_payment_disabled?: boolean;
+          is_delivery_disabled?: boolean;
           is_ordering_disabled?: boolean;
           is_pay_on_delivery_disabled?: boolean;
           is_pay_on_pickup_disabled?: boolean;
+          is_pickup_disabled?: boolean;
           is_shipment_disabled?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
+          status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
           updated_at?: string;
         };
@@ -237,12 +243,15 @@ export type Database = {
           id?: string;
           is_app_disabled?: boolean;
           is_card_payment_disabled?: boolean;
+          is_delivery_disabled?: boolean;
           is_ordering_disabled?: boolean;
           is_pay_on_delivery_disabled?: boolean;
           is_pay_on_pickup_disabled?: boolean;
+          is_pickup_disabled?: boolean;
           is_shipment_disabled?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
+          status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
           updated_at?: string;
         };
@@ -4066,6 +4075,7 @@ export type Database = {
     };
     Enums: {
       address_type: 'billing' | 'delivery';
+      branch_status: 'open' | 'busy' | 'closed';
       card_provider: 'visa' | 'amex' | 'master' | 'discover' | 'unknown';
       customer_belongs_to: 'wholesale' | 'independent';
       customer_type: 'wholesale' | 'retail';

@@ -10,6 +10,7 @@ type FeatureToggleProps = {
   description: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
+  disabled?: boolean;
   switchClassName?: string;
   IconComponent?: React.ComponentType<{ className?: string }>;
 };
@@ -20,6 +21,7 @@ const FeatureToggle = ({
   description,
   checked,
   onCheckedChange,
+  disabled,
   switchClassName,
   IconComponent,
 }: FeatureToggleProps) => {
@@ -38,7 +40,12 @@ const FeatureToggle = ({
             <h3 className="text-sm font-medium">{title}</h3>
             <p className="text-sm text-gray-500">{description}</p>
           </div>
-          <Switch checked={checked} onCheckedChange={onCheckedChange} className={switchClassName} />
+          <Switch
+            disabled={disabled}
+            checked={checked}
+            onCheckedChange={onCheckedChange}
+            className={switchClassName}
+          />
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ const navigationGroups = [
     items: [
       {
         title: 'Dashboard',
-        url: '/admin',
+        url: '/dashboard',
         icon: LayoutDashboard,
       },
     ],
@@ -111,8 +111,12 @@ const navigationGroups = [
         icon: Store,
         items: [
           {
-            title: 'Store Status',
-            url: '/admin/store/status',
+            title: 'Website Controls',
+            url: '/admin/status',
+          },
+          {
+            title: 'Users',
+            url: '/admin/users',
           },
         ],
       },
