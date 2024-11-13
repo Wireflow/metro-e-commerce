@@ -2,16 +2,7 @@
 
 import { redirect } from 'next/navigation';
 
-import {
-  BarChart,
-  FolderTree,
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Store,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import { FolderTree, LayoutDashboard, Package, ShoppingCart, Store, Users } from 'lucide-react';
 import * as React from 'react';
 
 import { NavMain } from '@/components/layout/NavMain';
@@ -37,7 +28,7 @@ const navigationGroups = [
     items: [
       {
         title: 'Dashboard',
-        url: '/dashboard',
+        url: '/admin',
         icon: LayoutDashboard,
       },
     ],
@@ -119,21 +110,6 @@ const navigationGroups = [
             url: '/admin/users',
           },
         ],
-      },
-    ],
-  },
-  {
-    label: 'Analytics',
-    items: [
-      {
-        title: 'Reports',
-        url: '/admin/analytics/reports',
-        icon: BarChart,
-      },
-      {
-        title: 'Performance',
-        url: '/admin/analytics/performance',
-        icon: TrendingUp,
       },
     ],
   },

@@ -52,6 +52,7 @@ export const getDailyAnalytics = async ({ startDate, endDate }: DateRange = {}) 
       (acc, day) => acc + (day.total_products_sold ? day?.total_products_sold : 0),
       0
     );
+    const totalCogsSold = data.reduce((acc, day) => acc + (day.cogs ? day?.cogs : 0), 0);
 
     const totalNewCustomers = data.reduce(
       (acc, day) => acc + (day.new_customers ? day?.new_customers : 0),
@@ -59,6 +60,7 @@ export const getDailyAnalytics = async ({ startDate, endDate }: DateRange = {}) 
     );
 
     const transformedData: DailyAnalytics = {
+      cogs: totalCogsSold,
       branch_id: data[0]?.branch_id,
       order_date: data[0]?.order_date,
       revenue: totalRevenue,
