@@ -12,6 +12,7 @@ type FeatureToggleProps = {
   onCheckedChange: (checked: boolean) => void;
   disabled?: boolean;
   switchClassName?: string;
+  badge?: React.ReactNode;
   IconComponent?: React.ComponentType<{ className?: string }>;
 };
 
@@ -24,6 +25,7 @@ const FeatureToggle = ({
   disabled,
   switchClassName,
   IconComponent,
+  badge,
 }: FeatureToggleProps) => {
   return (
     <div className="flex items-start py-4">
@@ -37,7 +39,9 @@ const FeatureToggle = ({
       <div className="ml-4 flex flex-1 flex-col">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <h3 className="text-sm font-medium">{title}</h3>
+            <h3 className="flex items-center gap-1 text-sm font-medium">
+              {title} {badge}
+            </h3>
             <p className="text-sm text-gray-500">{description}</p>
           </div>
           <Switch

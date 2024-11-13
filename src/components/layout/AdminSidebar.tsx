@@ -106,16 +106,20 @@ const navigationGroups = [
     label: 'Store',
     items: [
       {
-        title: 'Online Store',
+        title: 'Preferences',
         url: '/admin/store',
         icon: Store,
         items: [
           {
-            title: 'Website Controls',
-            url: '/admin/status',
+            title: 'Order Controls',
+            url: '/admin/controls/orders',
           },
           {
-            title: 'Users',
+            title: 'Website Controls',
+            url: '/admin/controls/website',
+          },
+          {
+            title: 'Sales Reps',
             url: '/admin/users',
           },
         ],

@@ -197,18 +197,19 @@ export type Database = {
       branch_settings: {
         Row: {
           branch_id: string;
-          delivery_fee_percentage: number;
+          delivery_fee: number;
+          delivery_fee_type: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius: number;
           delivery_minimum: number;
           id: string;
-          is_app_disabled: boolean;
-          is_card_payment_disabled: boolean;
-          is_delivery_disabled: boolean;
-          is_ordering_disabled: boolean;
-          is_pay_on_delivery_disabled: boolean;
-          is_pay_on_pickup_disabled: boolean;
-          is_pickup_disabled: boolean;
-          is_shipment_disabled: boolean;
+          is_app_enabled: boolean;
+          is_card_payment_allowed: boolean;
+          is_delivery_allowed: boolean;
+          is_ordering_allowed: boolean;
+          is_pay_on_delivery_allowed: boolean;
+          is_pay_on_pickup_allowed: boolean;
+          is_pickup_allowed: boolean;
+          is_shipment_allowed: boolean;
           pickup_minimum: number;
           shipment_minimum: number;
           status: Database['public']['Enums']['branch_status'];
@@ -217,18 +218,19 @@ export type Database = {
         };
         Insert: {
           branch_id: string;
-          delivery_fee_percentage?: number;
+          delivery_fee?: number;
+          delivery_fee_type?: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius?: number;
           delivery_minimum?: number;
           id?: string;
-          is_app_disabled?: boolean;
-          is_card_payment_disabled?: boolean;
-          is_delivery_disabled?: boolean;
-          is_ordering_disabled?: boolean;
-          is_pay_on_delivery_disabled?: boolean;
-          is_pay_on_pickup_disabled?: boolean;
-          is_pickup_disabled?: boolean;
-          is_shipment_disabled?: boolean;
+          is_app_enabled?: boolean;
+          is_card_payment_allowed?: boolean;
+          is_delivery_allowed?: boolean;
+          is_ordering_allowed?: boolean;
+          is_pay_on_delivery_allowed?: boolean;
+          is_pay_on_pickup_allowed?: boolean;
+          is_pickup_allowed?: boolean;
+          is_shipment_allowed?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
           status?: Database['public']['Enums']['branch_status'];
@@ -237,18 +239,19 @@ export type Database = {
         };
         Update: {
           branch_id?: string;
-          delivery_fee_percentage?: number;
+          delivery_fee?: number;
+          delivery_fee_type?: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius?: number;
           delivery_minimum?: number;
           id?: string;
-          is_app_disabled?: boolean;
-          is_card_payment_disabled?: boolean;
-          is_delivery_disabled?: boolean;
-          is_ordering_disabled?: boolean;
-          is_pay_on_delivery_disabled?: boolean;
-          is_pay_on_pickup_disabled?: boolean;
-          is_pickup_disabled?: boolean;
-          is_shipment_disabled?: boolean;
+          is_app_enabled?: boolean;
+          is_card_payment_allowed?: boolean;
+          is_delivery_allowed?: boolean;
+          is_ordering_allowed?: boolean;
+          is_pay_on_delivery_allowed?: boolean;
+          is_pay_on_pickup_allowed?: boolean;
+          is_pickup_allowed?: boolean;
+          is_shipment_allowed?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
           status?: Database['public']['Enums']['branch_status'];
@@ -2453,6 +2456,7 @@ export type Database = {
       daily_branch_analytics: {
         Row: {
           branch_id: string | null;
+          cogs: number | null;
           new_customers: number | null;
           order_date: string | null;
           revenue: number | null;
@@ -2991,6 +2995,52 @@ export type Database = {
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      independent_salesperson_branch_analytics: {
+        Row: {
+          branch_id: string | null;
+          order_date: string | null;
+          revenue: number | null;
+          salesperson_id: string | null;
+          total_products_sold: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
@@ -3867,6 +3917,52 @@ export type Database = {
           },
         ];
       };
+      salesperson_branch_analytics: {
+        Row: {
+          branch_id: string | null;
+          order_date: string | null;
+          revenue: number | null;
+          salesperson_id: string | null;
+          total_products_sold: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       shown_products: {
         Row: {
           branch_id: string | null;
@@ -4058,6 +4154,69 @@ export type Database = {
           },
         ];
       };
+      website_only_branch_analytics: {
+        Row: {
+          branch_id: string | null;
+          order_date: string | null;
+          revenue: number | null;
+          total_products_sold: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      wholesale_salesperson_branch_analytics: {
+        Row: {
+          branch_id: string | null;
+          order_date: string | null;
+          revenue: number | null;
+          salesperson_id: string | null;
+          total_products_sold: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'orders_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Functions: {
       get_user_branch: {
@@ -4079,6 +4238,7 @@ export type Database = {
       card_provider: 'visa' | 'amex' | 'master' | 'discover' | 'unknown';
       customer_belongs_to: 'wholesale' | 'independent';
       customer_type: 'wholesale' | 'retail';
+      delivery_fee_type: 'fixed' | 'percentage';
       order_item_status: 'confirmed' | 'returned';
       order_status:
         | 'created'
