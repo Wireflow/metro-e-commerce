@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { BadgeDollarSign, Package, Users } from 'lucide-react';
+import { parseAsIsoDate, useQueryState } from 'nuqs';
+import { DateRange } from 'react-day-picker';
 
 import AnalyticCard from '@/components/AnalyticCard';
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
@@ -21,6 +23,7 @@ import { formatCurrency } from '@/utils/utils';
 import { IndependantSalesChartData } from './CreateIndependantSalesChart';
 import { SalesPersonSalesChartData } from './CreateSalespersonSalesChart';
 import { WebsiteSalesChartData } from './CreateWebsiteSalesChart';
+import { DatePickerWithRange } from './DatePickerWithRange';
 import IndependantSalesChart from './IndependantSalesChart';
 import SalesPersonSalesChart from './SalespersonSalesChart';
 import WebsiteSalesChart from './WebsiteSalesChart';
@@ -49,11 +52,26 @@ const FinancialsPage = ({
   salesPersonOrders,
 }: Props) => {
   const navigate = useRouter();
+  const [toDate, setToDate] = useQueryState<Date>('to', parseAsIsoDate);
+  const [fromDate, setFromDate] = useQueryState<Date>('from', parseAsIsoDate);
+  const handleOnDateChange = async (date: DateRange) => {
+    if (date.from && date.to) {
+      await setFromDate(date.from);
+      await setToDate(date.to);
+      navigate.refresh();
+    }
+  };
   return (
     <AnimatedDiv>
       <div className="flex flex-col">
-        <PageHeader title="Financials" className="flex-none" />
-
+        <div className="flex items-center justify-between">
+          <PageHeader title="Financials" className="flex-none" />
+          <DatePickerWithRange
+            onDateChange={(date: DateRange | undefined) => date && handleOnDateChange(date)}
+            defaultDate={fromDate && toDate ? { from: fromDate, to: toDate } : undefined}
+            date={fromDate && toDate ? { from: fromDate, to: toDate } : undefined}
+          />
+        </div>
         <div className="flex min-h-0 flex-1 flex-col gap-6">
           {/* Analytics Cards Row */}
           <div className="grid flex-none grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -85,7 +103,7 @@ const FinancialsPage = ({
           </div>
 
           {/* Main Content Area */}
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             {/* Left Column - Sales Chart and Orders */}
 
             {/* Sales Chart */}
@@ -105,22 +123,22 @@ const FinancialsPage = ({
 
                 <TabsContent value="Website">
                   <WebsiteSalesChart
-                    startDate={new Date('2024-02-01')}
-                    endDate={new Date('2024-02-28')}
+                    startDate={fromDate as Date}
+                    endDate={toDate as Date}
                     data={WebsiteSalesChartData}
                   />
                 </TabsContent>
                 <TabsContent value="Salesperson">
                   <SalesPersonSalesChart
-                    startDate={new Date('2024-02-01')}
-                    endDate={new Date('2024-02-28')}
+                    startDate={fromDate as Date}
+                    endDate={toDate as Date}
                     data={SalespersonSalesChartData}
                   />
                 </TabsContent>
                 <TabsContent value="Independant">
                   <IndependantSalesChart
-                    startDate={new Date('2024-02-01')}
-                    endDate={new Date('2024-02-28')}
+                    startDate={fromDate as Date}
+                    endDate={toDate as Date}
                     data={IndependantSalesChartData}
                   />
                 </TabsContent>
@@ -173,7 +191,7 @@ const FinancialsPage = ({
                             </div>
                             <div>
                               <Link href={`/salesperson/${user.id}`}>
-                                <Button variant={'outline'}>View </Button>
+                                <Button variant={'outline'}>View</Button>
                               </Link>
                             </div>
                           </div>

@@ -14,8 +14,8 @@ export type DateRange = {
 export const getOrdersCount = async ({ startDate, endDate }: DateRange = {}) => {
   try {
     // Default to last 7 days if no dates provided
-    const defaultEndDate = new Date().toISOString();
-    const defaultStartDate = subDays(defaultEndDate, 7).toISOString();
+    // const defaultEndDate = new Date().toISOString();
+    // const defaultStartDate = subDays(defaultEndDate, 7).toISOString();
 
     const formattedStartDate = startDate?.toISOString();
     const formattedEndDate = endDate?.toISOString();
