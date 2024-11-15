@@ -1,5 +1,3 @@
-import { formatDate } from 'date-fns';
-
 import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
 import { getLatestOrders } from '@/features/dashboard/server/getLatestOrders';
 import { getTopSellingProducts } from '@/features/dashboard/server/getTopSellingProducts';
@@ -13,76 +11,79 @@ import { getSalespersons } from '@/features/financials/server/getSalespersons';
 import { getSalespersonSales } from '@/features/financials/server/getSalesPersonSales';
 import { getWebsiteSales } from '@/features/financials/server/getWebsiteSales';
 
-const page = async () => {
-  // Get the date range for the entire year
-  const currentDate = new Date();
-  const yearStart = new Date(currentDate.getFullYear(), 0, 1); // January 1st of current year
-  const yearEnd = new Date(currentDate.getFullYear(), 11, 31); // December 31st of current year
+type props = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+const page = async ({ searchParams }: props) => {
+  const searchP = await searchParams;
+  const { from, to } = searchP;
+  console.log(searchP);
 
   const analytics = await getDailyAnalytics({
-    startDate: formatDate('2024-10-01', 'yyyy-MM-dd'),
-    endDate: formatDate('2024-11-01', 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
   const SalesTeam = await getSalespersons();
+
   const ordersCount = await getOrdersCount({
-    startDate: yearStart,
-    endDate: yearEnd,
+    startDate: new Date(from as string),
+    endDate: new Date(to as string),
   });
-
+  console.log(new Date(from as string));
   const topSellingProducts = await getTopSellingProducts({
-    startDate: formatDate(currentDate, 'yyyy-MM-dd'),
-    endDate: formatDate(currentDate, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
-  const lastYearStart = new Date(yearStart.getFullYear() - 1, 0, 1);
-  const lastYearEnd = new Date(yearStart.getFullYear() - 1, 11, 31);
   const thisYearSales = await getWebsiteSales({
-    startDate: formatDate(yearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(yearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
   const lastYearSales = await getWebsiteSales({
-    startDate: formatDate(lastYearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(lastYearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
   const SalesPersonLastYearSales = await getSalespersonSales({
-    startDate: formatDate(lastYearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(lastYearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
   const SalesPersonThisYearSales = await getSalespersonSales({
-    startDate: formatDate(lastYearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(lastYearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
   const IndependantThisYearSales = await getSalespersonSales({
-    startDate: formatDate(lastYearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(lastYearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
 
   const IndependantLastYearSales = await getSalespersonSales({
-    startDate: formatDate(lastYearStart, 'yyyy-MM-dd'),
-    endDate: formatDate(lastYearEnd, 'yyyy-MM-dd'),
+    startDate: from as string,
+    endDate: to as string,
   });
   const formattedWebsiteSales = CreateWebsiteSalesChart(
     thisYearSales,
     lastYearSales,
-    formatDate(yearStart, 'yyyy-MM-dd'),
-    formatDate(yearEnd, 'yyyy-MM-dd')
+    from as string,
+    to as string
   );
   const formattedSalePersonSales = CreateSalespersonSalesChart(
     SalesPersonThisYearSales,
     SalesPersonLastYearSales,
-    formatDate(yearStart, 'yyyy-MM-dd'),
-    formatDate(yearEnd, 'yyyy-MM-dd')
+    from as string,
+    to as string
   );
 
   const formattedIndependantSales = CreateIndependantSalesChart(
-    SalesPersonThisYearSales,
-    SalesPersonLastYearSales,
-    formatDate(yearStart, 'yyyy-MM-dd'),
-    formatDate(yearEnd, 'yyyy-MM-dd')
+    IndependantThisYearSales,
+    IndependantLastYearSales,
+    from as string,
+    to as string
   );
   const latestOrders = await getLatestOrders();
   const SalespersonOrders = await getSalesPersonOrders();
