@@ -1,12 +1,11 @@
 'use client';
+
 import PageHeader from '@/components/layout/PageHeader';
 
 import UsersList from '../components/UsersList';
 import { useSalesReps } from '../hooks/queries/useSalesReps';
 
-type Props = {};
-
-const SalesRepsPage = (props: Props) => {
+const SalesRepsPage = () => {
   const { data: users, isLoading } = useSalesReps();
 
   if (isLoading) {

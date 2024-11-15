@@ -1,6 +1,6 @@
+import { endOfMonth, startOfMonth } from 'date-fns';
+
 import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
-import { getLatestOrders } from '@/features/dashboard/server/getLatestOrders';
-import { getTopSellingProducts } from '@/features/dashboard/server/getTopSellingProducts';
 import { CreateIndependantSalesChart } from '@/features/financials/components/CreateIndependantSalesChart';
 import { CreateSalespersonSalesChart } from '@/features/financials/components/CreateSalespersonSalesChart';
 import { CreateWebsiteSalesChart } from '@/features/financials/components/CreateWebsiteSalesChart';
@@ -19,54 +19,51 @@ type props = {
 const page = async ({ searchParams }: props) => {
   const searchP = await searchParams;
   const { from, to } = searchP;
-  console.log(searchP);
-  const currentDate = new Date();
+
+  const fromDate = from ? (from as string) : startOfMonth(new Date()).toLocaleDateString();
+  const toDate = to ? (to as string) : endOfMonth(new Date()).toLocaleDateString();
 
   const analytics = await getDailyAnalytics({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
 
-  const SalesTeam = await getSalespersons();
+  const salesTeam = await getSalespersons();
 
   const ordersCount = await getOrdersCount({
-    startDate: from ? new Date(from as string) : currentDate,
-    endDate: to ? new Date(to as string) : currentDate,
-  });
-
-  const topSellingProducts = await getTopSellingProducts({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: from ? new Date(from as string) : startOfMonth(new Date()),
+    endDate: to ? new Date(to as string) : endOfMonth(new Date()),
   });
 
   const thisYearSales = await getWebsiteSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
   const lastYearSales = await getWebsiteSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
 
   const SalesPersonLastYearSales = await getSalespersonSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
 
   const SalesPersonThisYearSales = await getSalespersonSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
 
   const IndependantThisYearSales = await getSalespersonSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
 
   const IndependantLastYearSales = await getSalespersonSales({
-    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
-    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
+    startDate: fromDate,
+    endDate: toDate,
   });
+
   const formattedWebsiteSales = CreateWebsiteSalesChart(
     thisYearSales,
     lastYearSales,
@@ -86,16 +83,14 @@ const page = async ({ searchParams }: props) => {
     from as string,
     to as string
   );
-  const latestOrders = await getLatestOrders();
+
   const SalespersonOrders = await getSalesPersonOrders();
 
   return (
     <div>
       <FinancialsPage
-        salesTeam={SalesTeam}
+        salesTeam={salesTeam}
         analytics={analytics}
-        topSellingProducts={topSellingProducts}
-        latestOrders={latestOrders}
         ordersCount={ordersCount}
         WebsiteSalesChartData={formattedWebsiteSales}
         SalespersonSalesChartData={formattedSalePersonSales}

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { endOfMonth, startOfMonth } from 'date-fns';
-import { BadgeDollarSign, Package, Users } from 'lucide-react';
+import { BadgeDollarSign, Logs, Package, ShoppingCart, Users } from 'lucide-react';
 import { parseAsIsoDate, useQueryState } from 'nuqs';
 import { DateRange } from 'react-day-picker';
 
@@ -16,8 +17,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DailyAnalytics } from '@/features/dashboard/schemas/daily-analytics';
-import { TopSellingProduct } from '@/features/dashboard/schemas/top-selling-product';
-import { Order } from '@/features/orders/schemas/orders';
 import { Row } from '@/types/supabase/table';
 import { formatCurrency } from '@/utils/utils';
 
@@ -31,11 +30,9 @@ import WebsiteSalesChart from './WebsiteSalesChart';
 
 type Props = {
   analytics: DailyAnalytics;
-  topSellingProducts: TopSellingProduct[];
   WebsiteSalesChartData: WebsiteSalesChartData[];
   SalespersonSalesChartData: SalesPersonSalesChartData[];
   IndependantSalesChartData: IndependantSalesChartData[];
-  latestOrders: Order[];
   ordersCount: number | null;
   salesTeam: Row<'users'>[];
   salesPersonOrders: Row<'orders'>[];
@@ -43,10 +40,8 @@ type Props = {
 
 const FinancialsPage = ({
   analytics,
-  topSellingProducts,
   WebsiteSalesChartData,
   SalespersonSalesChartData,
-  latestOrders,
   ordersCount,
   IndependantSalesChartData,
   salesTeam,
@@ -61,22 +56,40 @@ const FinancialsPage = ({
     'from',
     parseAsIsoDate.withDefault(startOfMonth(new Date()))
   );
+
   const handleOnDateChange = async (date: DateRange) => {
-    if (date.from && date.to) {
-      await setFromDate(date.from);
-      await setToDate(date.to);
-      navigate.refresh();
-    }
+    //@ts-ignore
+    await setFromDate(date?.from);
+    //@ts-ignore
+    await setToDate(date?.to);
+    navigate.refresh();
   };
+
+  const breadcrumbs = [
+    { label: 'Dashboard', href: '/admin' },
+    { label: 'Financials', href: '/admin/financials?from=11/1/2024&to=11/30/2024' },
+  ];
+
   return (
     <AnimatedDiv>
-      <div className="flex flex-col">
-        <div className="flex items-center justify-between">
-          <PageHeader title="Financials" className="flex-none" />
-          <DatePickerWithRange
-            onDateChange={(date: DateRange | undefined) => date && handleOnDateChange(date)}
-            defaultDate={fromDate && toDate ? { from: fromDate, to: toDate } : undefined}
-            date={fromDate && toDate ? { from: fromDate, to: toDate } : undefined}
+      <div className="flex flex-1 flex-col">
+        <div>
+          <PageHeader
+            title="Financials"
+            description="manage your financials"
+            className="flex-none"
+            breadcrumbs={breadcrumbs}
+            actions={
+              <DatePickerWithRange
+                onDateChange={(date: DateRange | undefined) =>
+                  handleOnDateChange({
+                    from: date?.from,
+                    to: date?.to,
+                  })
+                }
+                date={{ from: fromDate, to: toDate }}
+              />
+            }
           />
         </div>
         <div className="flex min-h-0 flex-1 flex-col gap-6">
@@ -93,7 +106,7 @@ const FinancialsPage = ({
               title="Products Sold"
               value={analytics?.total_products_sold ?? 0}
               variant="outlined"
-              icon={Package}
+              icon={Logs}
             />
             <AnalyticCard
               title="New Customers"
@@ -105,7 +118,7 @@ const FinancialsPage = ({
               title="Total Orders"
               value={ordersCount ?? 0}
               variant="outlined"
-              icon={Users}
+              icon={Package}
             />
           </div>
 
@@ -117,15 +130,9 @@ const FinancialsPage = ({
             <div className="col-span-2">
               <Tabs defaultValue="Website">
                 <TabsList>
-                  <TabsTrigger className="text-lg" value="Website">
-                    Website
-                  </TabsTrigger>
-                  <TabsTrigger className="text-lg" value="Salesperson">
-                    Salesperson
-                  </TabsTrigger>
-                  <TabsTrigger className="text-lg" value="Independant">
-                    Independant
-                  </TabsTrigger>
+                  <TabsTrigger value="Website">Website</TabsTrigger>
+                  <TabsTrigger value="Salesperson">Salesperson</TabsTrigger>
+                  <TabsTrigger value="Independant">Independant</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="Website">
@@ -153,16 +160,12 @@ const FinancialsPage = ({
             </div>
 
             <div className="flex flex-col gap-5">
-              <div>
-                <Card className="h-full min-h-0 flex-1 overflow-auto shadow-none">
-                  <CardHeader>
-                    <CardTitle className="md:text-md text-gray-500">
-                      Cost of goods sold (COGS)
-                    </CardTitle>
-                    <p className="text-2xl font-bold">{formatCurrency(analytics?.cogs ?? 0)}</p>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-4"></CardContent>
-                </Card>
+              <div className="mt-[43px]">
+                <AnalyticCard
+                  title="Cost of goods sold (COGS)"
+                  value={formatCurrency(analytics?.cogs ?? 0)}
+                  icon={ShoppingCart}
+                />
               </div>
               <div>
                 <Card className="h-full min-h-0 flex-1 overflow-auto shadow-none">
@@ -197,7 +200,7 @@ const FinancialsPage = ({
                               <p>{salesPersonOrders.length} orders</p>
                             </div>
                             <div>
-                              <Link href={`/salesperson/${user.id}`}>
+                              <Link href={`/admin/users/${user.id}`}>
                                 <Button variant={'outline'}>View</Button>
                               </Link>
                             </div>

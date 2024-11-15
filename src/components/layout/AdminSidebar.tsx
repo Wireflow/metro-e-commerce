@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { FolderTree, LayoutDashboard, Package, ShoppingCart, Store, Users } from 'lucide-react';
 import * as React from 'react';
 
@@ -82,7 +83,7 @@ const navigationGroups = [
           },
           {
             title: 'Financials',
-            url: '/admin/financials',
+            url: `/admin/financials?from=${startOfMonth(new Date()).toLocaleDateString()}&to=${endOfMonth(new Date()).toLocaleDateString()}`,
           },
         ],
       },
