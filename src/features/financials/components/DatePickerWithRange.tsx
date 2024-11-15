@@ -12,15 +12,9 @@ type DatePickerWithRangeProps = {
   onDateChange: (date?: DateRange) => void;
   defaultDate?: DateRange;
   date?: DateRange;
-  action?: React.ReactNode;
 };
 
-export function DatePickerWithRange({
-  onDateChange,
-  defaultDate,
-  date,
-  action,
-}: DatePickerWithRangeProps) {
+export function DatePickerWithRange({ onDateChange, defaultDate, date }: DatePickerWithRangeProps) {
   const currentDefaultDate = defaultDate
     ? defaultDate
     : {
@@ -76,7 +70,6 @@ export function DatePickerWithRange({
             onSelect={handleOnChange}
             numberOfMonths={2}
           />
-          {action && action}
         </PopoverContent>
       </Popover>
     </div>

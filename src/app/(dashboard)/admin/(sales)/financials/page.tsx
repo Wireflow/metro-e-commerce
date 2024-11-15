@@ -20,51 +20,52 @@ const page = async ({ searchParams }: props) => {
   const searchP = await searchParams;
   const { from, to } = searchP;
   console.log(searchP);
+  const currentDate = new Date();
 
   const analytics = await getDailyAnalytics({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const SalesTeam = await getSalespersons();
 
   const ordersCount = await getOrdersCount({
-    startDate: new Date(from as string),
-    endDate: new Date(to as string),
+    startDate: from ? new Date(from as string) : currentDate,
+    endDate: to ? new Date(to as string) : currentDate,
   });
-  console.log(new Date(from as string));
+
   const topSellingProducts = await getTopSellingProducts({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const thisYearSales = await getWebsiteSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
   const lastYearSales = await getWebsiteSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const SalesPersonLastYearSales = await getSalespersonSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const SalesPersonThisYearSales = await getSalespersonSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const IndependantThisYearSales = await getSalespersonSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
 
   const IndependantLastYearSales = await getSalespersonSales({
-    startDate: from as string,
-    endDate: to as string,
+    startDate: from ? (from as string) : currentDate.toLocaleDateString(),
+    endDate: to ? (to as string) : currentDate.toLocaleDateString(),
   });
   const formattedWebsiteSales = CreateWebsiteSalesChart(
     thisYearSales,

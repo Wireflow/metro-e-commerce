@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { BadgeDollarSign, Package, Users } from 'lucide-react';
 import { parseAsIsoDate, useQueryState } from 'nuqs';
 import { DateRange } from 'react-day-picker';
@@ -52,8 +53,14 @@ const FinancialsPage = ({
   salesPersonOrders,
 }: Props) => {
   const navigate = useRouter();
-  const [toDate, setToDate] = useQueryState<Date>('to', parseAsIsoDate);
-  const [fromDate, setFromDate] = useQueryState<Date>('from', parseAsIsoDate);
+  const [toDate, setToDate] = useQueryState<Date>(
+    'to',
+    parseAsIsoDate.withDefault(endOfMonth(new Date()))
+  );
+  const [fromDate, setFromDate] = useQueryState<Date>(
+    'from',
+    parseAsIsoDate.withDefault(startOfMonth(new Date()))
+  );
   const handleOnDateChange = async (date: DateRange) => {
     if (date.from && date.to) {
       await setFromDate(date.from);

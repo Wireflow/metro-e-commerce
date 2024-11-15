@@ -28,12 +28,31 @@ interface SalesData {
 
 interface WebsiteSalesChartProps {
   data: SalesData[];
-  startDate: Date;
-  endDate: Date;
+  startDate: string | Date;
+  endDate: string | Date;
 }
 
+const parseDate = (date: string | Date): Date => {
+  if (date instanceof Date) {
+    return date;
+  }
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate.getTime())) {
+    // If invalid date, return current date
+    return new Date();
+  }
+  return parsedDate;
+};
+
 // Helper to aggregate data by period
-const aggregateDataByPeriod = (data: SalesData[], startDate: Date, endDate: Date) => {
+const aggregateDataByPeriod = (
+  data: SalesData[],
+  startDateInput: string | Date,
+  endDateInput: string | Date
+) => {
+  const startDate = parseDate(startDateInput);
+  const endDate = parseDate(endDateInput);
+
   const diffYears = endDate.getFullYear() - startDate.getFullYear();
   const diffMonths = endDate.getMonth() - startDate.getMonth() + diffYears * 12;
 
@@ -41,37 +60,47 @@ const aggregateDataByPeriod = (data: SalesData[], startDate: Date, endDate: Date
   let periods: Date[];
   let dateFormat: string;
 
-  if (diffMonths <= 1) {
-    // Daily view for one month or less
-    periods = eachDayOfInterval({ start: startDate, end: endDate });
-    dateFormat = 'MMM d';
-  } else if (diffMonths <= 12) {
-    // Monthly view for up to a year
-    periods = eachMonthOfInterval({ start: startDate, end: endDate });
-    dateFormat = 'MMM yyyy';
-  } else {
-    // Yearly view for more than a year
-    periods = eachYearOfInterval({ start: startDate, end: endDate });
-    dateFormat = 'yyyy';
+  try {
+    if (diffMonths <= 1) {
+      // Daily view for one month or less
+      periods = eachDayOfInterval({ start: startDate, end: endDate });
+      dateFormat = 'MMM d';
+    } else if (diffMonths <= 12) {
+      // Monthly view for up to a year
+      periods = eachMonthOfInterval({ start: startDate, end: endDate });
+      dateFormat = 'MMM yyyy';
+    } else {
+      // Yearly view for more than a year
+      periods = eachYearOfInterval({ start: startDate, end: endDate });
+      dateFormat = 'yyyy';
+    }
+
+    return periods.map(period => {
+      const periodStart = format(period, 'yyyy-MM-dd');
+      const matchingData = data.find(d => d.date === periodStart) || {
+        this_week: 0,
+        last_week: 0,
+      };
+
+      return {
+        date: format(period, dateFormat),
+        current_period: matchingData.this_week,
+        previous_period: matchingData.last_week,
+      };
+    });
+  } catch (error) {
+    // Return empty array if date operations fail
+    console.error('Error processing dates:', error);
+    return [];
   }
-
-  return periods.map(period => {
-    const periodStart = format(period, 'yyyy-MM-dd');
-    const matchingData = data.find(d => d.date === periodStart) || {
-      this_week: 0,
-      last_week: 0,
-    };
-
-    return {
-      date: format(period, dateFormat),
-      current_period: matchingData.this_week,
-      previous_period: matchingData.last_week,
-    };
-  });
 };
 
 export default function WebsiteSalesChart({ data, startDate, endDate }: WebsiteSalesChartProps) {
-  const aggregatedData = aggregateDataByPeriod(data, startDate, endDate);
+  // Parse dates early
+  const parsedStartDate = parseDate(startDate);
+  const parsedEndDate = parseDate(endDate);
+
+  const aggregatedData = aggregateDataByPeriod(data, parsedStartDate, parsedEndDate);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -86,7 +115,7 @@ export default function WebsiteSalesChart({ data, startDate, endDate }: WebsiteS
       <CardHeader className="flex-none">
         <CardTitle className="md:text-2xl">Website Sales Chart</CardTitle>
         <CardDescription>
-          {format(startDate, 'MMM d, yyyy')} - {format(endDate, 'MMM d, yyyy')}
+          {format(parsedStartDate, 'MMM d, yyyy')} - {format(parsedEndDate, 'MMM d, yyyy')}
         </CardDescription>
       </CardHeader>
       <CardContent className="min-h-0 w-full flex-1">
@@ -103,7 +132,7 @@ export default function WebsiteSalesChart({ data, startDate, endDate }: WebsiteS
               </div>
             </div>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={aggregatedData} margin={{ top: 20, right: 80, bottom: 20, left: 20 }}>
+              <BarChart data={aggregatedData} margin={{ top: 20, right: 80, bottom: 20, left: 0 }}>
                 <XAxis
                   dataKey="date"
                   tickLine={false}
