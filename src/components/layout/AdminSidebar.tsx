@@ -111,7 +111,7 @@ const navigationGroups = [
           },
           {
             title: 'Sales Reps',
-            url: '/admin/users',
+            url: '/admin/users/sales',
           },
         ],
       },

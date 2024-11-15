@@ -1,3 +1,5 @@
+'use server';
+
 import { Order } from '@/features/orders/schemas/orders';
 import { createClient } from '@/utils/supabase/server';
 

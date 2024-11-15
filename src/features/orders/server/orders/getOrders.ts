@@ -2,11 +2,19 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export const getOrders = async () => {
+type Filters = {
+  salespersonId?: string;
+};
+
+export const getOrders = async (filters?: Filters) => {
   const supabase = createClient();
 
   // Start the query
-  const query = supabase.from('orders').select('*');
+  let query = supabase.from('orders').select('*');
+
+  if (filters?.salespersonId) {
+    query = query.eq('salesperson_id', filters.salespersonId);
+  }
 
   const { data, error } = await query;
 
