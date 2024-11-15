@@ -1,35 +1,18 @@
-import { eachDayOfInterval, eachMonthOfInterval, eachYearOfInterval, format } from 'date-fns';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { format } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
 
-const chartConfig = {
-  current: {
-    label: 'Current Period',
-    color: 'hsl(var(--chart-1))',
-  },
-  previous: {
-    label: 'Previous Period',
-    color: 'hsl(var(--chart-2))',
-  },
-} satisfies ChartConfig;
-
-interface SalesData {
+export interface SalespersonSalesData {
   date: string;
-  this_week: number;
-  last_week: number;
+  sales: number;
 }
 
-interface SalesPersonSalesChartProps {
-  data: SalesData[];
+interface SalespersonSalesChartProps {
   startDate: string | Date;
   endDate: string | Date;
+  SalespersonSalesData: SalespersonSalesData[];
 }
 
 const parseDate = (date: string | Date): Date => {
@@ -38,139 +21,126 @@ const parseDate = (date: string | Date): Date => {
   }
   const parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
-    // If invalid date, return current date
     return new Date();
   }
   return parsedDate;
 };
 
-// Helper to aggregate data by period
-const aggregateDataByPeriod = (
-  data: SalesData[],
-  startDateInput: string | Date,
-  endDateInput: string | Date
-) => {
-  const startDate = parseDate(startDateInput);
-  const endDate = parseDate(endDateInput);
+const getMonth = (dateString: string): string => {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
-  try {
-    const diffYears = endDate.getFullYear() - startDate.getFullYear();
-    const diffMonths = endDate.getMonth() - startDate.getMonth() + diffYears * 12;
-
-    // Determine the grouping period
-    let periods: Date[];
-    let dateFormat: string;
-
-    if (diffMonths <= 1) {
-      // Daily view for one month or less
-      periods = eachDayOfInterval({ start: startDate, end: endDate });
-      dateFormat = 'MMM d';
-    } else if (diffMonths <= 12) {
-      // Monthly view for up to a year
-      periods = eachMonthOfInterval({ start: startDate, end: endDate });
-      dateFormat = 'MMM yyyy';
-    } else {
-      // Yearly view for more than a year
-      periods = eachYearOfInterval({ start: startDate, end: endDate });
-      dateFormat = 'yyyy';
-    }
-
-    return periods.map(period => {
-      const periodStart = format(period, 'yyyy-MM-dd');
-      const matchingData = data.find(d => d.date === periodStart) || {
-        this_week: 0,
-        last_week: 0,
-      };
-
-      return {
-        date: format(period, dateFormat),
-        current_period: matchingData.this_week,
-        previous_period: matchingData.last_week,
-      };
-    });
-  } catch (error) {
-    console.error('Error processing dates:', error);
-    return [];
+  if (months.includes(dateString)) {
+    return dateString;
   }
+
+  const date = new Date(dateString);
+  return months[date.getMonth()];
 };
 
-export default function SalesPersonSalesChart({
-  data,
+const SalespersonSalesChart = ({
+  SalespersonSalesData,
   startDate,
   endDate,
-}: SalesPersonSalesChartProps) {
-  // Parse dates early
+}: SalespersonSalesChartProps) => {
+  const [chartDimensions, setChartDimensions] = useState({ width: 800, height: 400 });
+  const cardRef = useRef<HTMLDivElement>(null);
   const parsedStartDate = parseDate(startDate);
   const parsedEndDate = parseDate(endDate);
 
-  const aggregatedData = aggregateDataByPeriod(data, parsedStartDate, parsedEndDate);
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (cardRef.current) {
+        const { width, height } = cardRef.current.getBoundingClientRect();
+        setChartDimensions({
+          width: width - 40, // Account for padding
+          height: height - 40,
+        });
+      }
+    };
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  const formatData = SalespersonSalesData.map(item => ({
+    date: getMonth(item.date),
+    sales: item.sales,
+  }));
+
+  const aggregatedData = formatData.reduce(
+    (acc, curr) => {
+      if (!acc[curr.date]) {
+        acc[curr.date] = 0;
+      }
+      acc[curr.date] += curr.sales;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+
+  const chartData = Object.entries(aggregatedData).map(([month, sales]) => ({
+    month,
+    sales,
+  }));
 
   return (
-    <Card className="flex h-full w-full flex-col shadow-none">
+    <Card className="h-full w-full">
       <CardHeader className="flex-none">
-        <CardTitle className="md:text-2xl">Wholesale Salesperson Sales Chart</CardTitle>
+        <CardTitle className="text-2xl">Salesperson Sales Chart</CardTitle>
         <CardDescription>
           {format(parsedStartDate, 'MMM d, yyyy')} - {format(parsedEndDate, 'MMM d, yyyy')}
         </CardDescription>
       </CardHeader>
-      <CardContent className="min-h-0 w-full flex-1">
-        <ChartContainer config={chartConfig} className="h-full w-full [&>div]:!aspect-auto">
-          <div className="relative h-full w-full">
-            <div className="absolute right-0 top-0 flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-sm bg-black"></div>
-                <span className="text-sm text-gray-600">Current Period</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-sm bg-blue-500"></div>
-                <span className="text-sm text-gray-600">Previous Period</span>
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={aggregatedData} margin={{ top: 20, right: 80, bottom: 20, left: 0 }}>
-                <XAxis
-                  dataKey="date"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  interval="preserveStartEnd"
-                />
-                <YAxis
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={formatCurrency}
-                  width={80}
-                />
-                <Bar dataKey="current_period" fill="black" radius={[0, 0, 4, 4]} maxBarSize={10} />
-                <Bar
-                  dataKey="previous_period"
-                  fill="#3276E8"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={10}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={v => formatCurrency(v as number)}
-                      hideIndicator
-                    />
-                  }
-                  cursor={false}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </ChartContainer>
+      <CardContent ref={cardRef} className="flex-1">
+        <div className="h-full w-full">
+          <BarChart
+            width={chartDimensions.width}
+            height={chartDimensions.height}
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={value => value.substring(0, 3)}
+            />
+            <Tooltip
+              cursor={false}
+              content={({ active, payload }) => {
+                if (active && payload && payload.length) {
+                  return (
+                    <div className="rounded-lg bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <p className="text-sm font-medium">{payload[0].payload.month}</p>
+                      <p className="text-sm text-gray-500">Sales: {payload[0].value}</p>
+                    </div>
+                  );
+                }
+                return null;
+              }}
+            />
+            <Bar dataKey="sales" fill="#1a202c" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default SalespersonSalesChart;

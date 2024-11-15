@@ -5,6 +5,7 @@ import { CreateIndependantSalesChart } from '@/features/financials/components/Cr
 import { CreateSalespersonSalesChart } from '@/features/financials/components/CreateSalespersonSalesChart';
 import { CreateWebsiteSalesChart } from '@/features/financials/components/CreateWebsiteSalesChart';
 import FinancialsPage from '@/features/financials/components/FinancialsPage';
+import { getIndependantSales } from '@/features/financials/server/getIndependantSales';
 import { getOrdersCount } from '@/features/financials/server/getOrderCount';
 import { getSalesPersonOrders } from '@/features/financials/server/getSalesPersonOrders';
 import { getSalespersons } from '@/features/financials/server/getSalespersons';
@@ -35,56 +36,29 @@ const page = async ({ searchParams }: props) => {
     endDate: to ? new Date(to as string) : endOfMonth(new Date()),
   });
 
-  const thisYearSales = await getWebsiteSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
-  const lastYearSales = await getWebsiteSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
+  const formattedWebsiteSales = CreateWebsiteSalesChart(from as string, to as string);
+  const formattedSalePersonSales = CreateSalespersonSalesChart(from as string, to as string);
 
-  const SalesPersonLastYearSales = await getSalespersonSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
-
-  const SalesPersonThisYearSales = await getSalespersonSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
-
-  const IndependantThisYearSales = await getSalespersonSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
-
-  const IndependantLastYearSales = await getSalespersonSales({
-    startDate: fromDate,
-    endDate: toDate,
-  });
-
-  const formattedWebsiteSales = CreateWebsiteSalesChart(
-    thisYearSales,
-    lastYearSales,
-    from as string,
-    to as string
-  );
-  const formattedSalePersonSales = CreateSalespersonSalesChart(
-    SalesPersonThisYearSales,
-    SalesPersonLastYearSales,
-    from as string,
-    to as string
-  );
-
-  const formattedIndependantSales = CreateIndependantSalesChart(
-    IndependantThisYearSales,
-    IndependantLastYearSales,
-    from as string,
-    to as string
-  );
+  const formattedIndependantSales = CreateIndependantSalesChart(from as string, to as string);
 
   const SalespersonOrders = await getSalesPersonOrders();
+
+  const WebsiteSales = await getWebsiteSales();
+  const salesPersonSales = await getSalespersonSales();
+  const independantSales = await getIndependantSales();
+
+  const totalWebsiteRevenue = WebsiteSales.map(sales => ({
+    date: sales.order_date as string,
+    sales: sales.revenue as number,
+  }));
+  const totalSalepersonRevenue = salesPersonSales.map(sales => ({
+    date: sales.order_date as string,
+    sales: sales.revenue as number,
+  }));
+  const totalIndependantSalesRevenue = independantSales.map(sales => ({
+    date: sales.order_date as string,
+    sales: sales.revenue as number,
+  }));
 
   return (
     <div>
@@ -92,6 +66,9 @@ const page = async ({ searchParams }: props) => {
         salesTeam={salesTeam}
         analytics={analytics}
         ordersCount={ordersCount}
+        totalWebsiteRevenue={totalWebsiteRevenue}
+        totalSalepersonRevenue={totalSalepersonRevenue}
+        totalIndependantSalesRevenue={totalIndependantSalesRevenue}
         WebsiteSalesChartData={formattedWebsiteSales}
         SalespersonSalesChartData={formattedSalePersonSales}
         IndependantSalesChartData={formattedIndependantSales}
