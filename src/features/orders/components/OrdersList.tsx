@@ -253,7 +253,15 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     },
   ]);
 
-  return <DynamicTable fields={fields} data={orders} className="h-full" variant={variant} />;
+  return (
+    <DynamicTable
+      fields={fields}
+      data={orders}
+      className="h-full"
+      variant={variant}
+      emptyMessage="No order history"
+    />
+  );
 };
 
 export default OrdersList;

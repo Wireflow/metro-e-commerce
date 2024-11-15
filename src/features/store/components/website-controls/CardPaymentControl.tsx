@@ -35,6 +35,23 @@ const CardPaymentControl = ({ branchSettings }: Props) => {
     });
   };
 
+  const cardOptions = [
+    {
+      value: true,
+      label: 'Accept Cards',
+      icon: CreditCard,
+      color: 'text-green-500',
+      bg: 'bg-green-100',
+    },
+    {
+      value: false,
+      label: 'Cards Disabled',
+      icon: BanIcon,
+      color: 'text-red-500',
+      bg: 'bg-red-100',
+    },
+  ];
+
   return (
     <Card className="shadow-none">
       <CardHeader className="pb-4">
@@ -59,23 +76,8 @@ const CardPaymentControl = ({ branchSettings }: Props) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-3">
-          {[
-            {
-              value: true,
-              label: 'Accept Cards',
-              icon: CreditCard,
-              color: 'text-green-500',
-              bg: 'bg-green-100',
-            },
-            {
-              value: false,
-              label: 'Cards Disabled',
-              icon: BanIcon,
-              color: 'text-red-500',
-              bg: 'bg-red-100',
-            },
-          ].map(option => {
+        <div className="flex flex-col gap-3 sm:flex-row">
+          {cardOptions.map(option => {
             const Icon = option.icon;
             const isSelected = isCardPaymentAllowed === option.value;
 

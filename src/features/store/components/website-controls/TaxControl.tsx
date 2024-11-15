@@ -110,9 +110,8 @@ const TaxControl = ({ branchSettings }: Props) => {
             </div>
             {error && <div className="text-sm text-red-500">{error}</div>}
           </div>
-          <div className="hidden items-center rounded-lg border bg-gray-50 p-3 text-sm text-gray-500 sm:flex">
-            Example: {formatCurrency(100 * (parseFloat(taxPercentage) || 0 / 100))} tax on a $100
-            order
+          <div className="hidden items-center rounded-[2px] border bg-gray-50 p-2.5 text-sm text-gray-500 sm:flex">
+            Example: {formatCurrency(100 * (parseFloat(taxPercentage) / 100))} tax on a $100 order
           </div>
         </div>
       </CardContent>

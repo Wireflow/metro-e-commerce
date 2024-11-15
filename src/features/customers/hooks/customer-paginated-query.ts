@@ -73,9 +73,10 @@ export const getPaginatedCustomers = async (
 
   let countQuery = supabase
     .from('customers_with_address')
-    .select('*', { count: 'exact', head: true });
+    .select('*', { count: 'exact', head: true })
+    .eq('belongs_to', 'wholesale');
 
-  let query = supabase.from('customers_with_address').select('*');
+  let query = supabase.from('customers_with_address').select('*').eq('belongs_to', 'wholesale');
 
   [countQuery, query] = applyCustomerFilters([countQuery, query], filters);
 

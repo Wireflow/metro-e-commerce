@@ -2,14 +2,14 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export const getCustomerById = async (id: string) => {
+export const getSalespersonCustomers = async (salespersonId: string) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from('customers_with_address')
     .select('*')
-    .eq('id', id)
-    .single();
+    .eq('belongs_to', 'independent')
+    .eq('independent_sales_id', salespersonId);
 
   if (error) {
     throw new Error('Failed to find customer');
