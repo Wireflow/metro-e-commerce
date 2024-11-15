@@ -1,11 +1,5 @@
-import SiteBanner from '@/components/landing/SiteBanner';
-import SignOutButton from '@/features/auth/components/SignOutButton';
+import LandingPage from '@/components/pages/LandingPage';
 
 export default async function Landing() {
-  return (
-    <div>
-      <SiteBanner />
-      <SignOutButton />
-    </div>
-  );
+  return <LandingPage />;
 }

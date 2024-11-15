@@ -1,5 +1,6 @@
 'use client';
 
+import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 
 import UsersList from '../components/UsersList';
@@ -18,14 +19,14 @@ const SalesRepsPage = () => {
   ];
 
   return (
-    <div>
+    <AnimatedDiv>
       <PageHeader
         title="Sales Reps"
         description="Manage your sales reps"
         breadcrumbs={breadcrumbs}
       />
       <UsersList users={users ?? []} />
-    </div>
+    </AnimatedDiv>
   );
 };
 

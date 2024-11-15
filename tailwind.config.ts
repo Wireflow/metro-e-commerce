@@ -34,6 +34,11 @@ const config: Config = {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
+        theme: {
+          primary: '#1B6392',
+          secondary: '#191C1F',
+          accent: '#EFD33D',
+        },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
