@@ -3,6 +3,7 @@ import { Row } from '@/types/supabase/table';
 export type Order = Row<'orders'> & {
   customer: Row<'customers'>;
   payment: Row<'order_payments'>;
+  salesperson: Row<'users'>;
 };
 
 export type OrderDetails = Row<'orders'> & {

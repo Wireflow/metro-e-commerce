@@ -27,7 +27,7 @@ const DashboardPage = ({ analytics, topSellingProducts, salesChartData, latestOr
   return (
     <AnimatedDiv>
       <div className="flex flex-col">
-        <PageHeader title="Dashboard" className="flex-none" />
+        <PageHeader title="Dashboard" description="View your daily summary" className="flex-none" />
 
         <div className="flex min-h-0 flex-1 flex-col gap-6">
           {/* Analytics Cards Row */}

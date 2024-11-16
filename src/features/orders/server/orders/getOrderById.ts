@@ -11,6 +11,7 @@ export const getOrderById = async (orderId: string) => {
     .select(
       `   *,
       customer:customers(*),
+      salesperson:users(*),
       payment:order_payments(
         *,
         payment_method:payment_methods(

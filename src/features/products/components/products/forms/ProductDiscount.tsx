@@ -1,8 +1,11 @@
 import { endOfDay, isAfter, isBefore, isEqual, startOfDay } from 'date-fns';
-import { Control } from 'react-hook-form';
+import { AlertTriangle, XCircle } from 'lucide-react';
+import { useMemo } from 'react';
+import { Control, useWatch } from 'react-hook-form';
 
 import NumberInputField from '@/components/form/NumberInputField';
 import { DatePicker } from '@/components/quick/DatePicker';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -20,23 +23,49 @@ interface ProductDiscountProps {
   control: Control<CreateProductFormData>;
 }
 
+const getDiscountBadgeProps = (discountPercentage: number) => {
+  if (discountPercentage > 100) {
+    return {
+      variant: 'destructive' as const,
+      message: 'Impossible discount! Discount cannot exceed price.',
+    };
+  }
+  if (discountPercentage >= 50) {
+    return {
+      variant: 'destructive' as const,
+      message: 'High discount! This may affect your margins significantly.',
+    };
+  }
+  if (discountPercentage >= 25) {
+    return {
+      variant: 'warning' as const,
+      message: 'Moderate discount - ensure this aligns with your pricing strategy.',
+    };
+  }
+  return {
+    variant: 'success' as const,
+    message: 'Standard discount range',
+  };
+};
+
 const ProductDiscount = ({ control }: ProductDiscountProps) => {
   const today = startOfDay(new Date());
 
   // Get the initial discount date from form control
   const initialDiscountDate = control._defaultValues?.pricing_info?.discounted_until;
+  const discountAmount = useWatch({ control, name: 'pricing_info.discount' });
+  const wholesalePrice = useWatch({ control, name: 'pricing_info.wholesale_price' });
+  const retailPrice = useWatch({ control, name: 'pricing_info.retail_price' });
 
   const getDiscountStatus = (discountDate: string | undefined) => {
     if (!discountDate) return { variant: 'error' as const, label: 'Inactive' };
 
     const endDate = startOfDay(new Date(discountDate));
 
-    // Check if discount is expired (end date is before today)
     if (isBefore(endDate, today)) {
       return { variant: 'warning' as const, label: 'Expired' };
     }
 
-    // Check if discount is active (today is before or equal to end date)
     if (isAfter(endDate, today) || isEqual(endDate, today)) {
       return { variant: 'success' as const, label: 'Active' };
     }
@@ -44,12 +73,36 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
     return { variant: 'error' as const, label: 'Inactive' };
   };
 
+  const [retailDiscount, wholesaleDiscount] = useMemo(() => {
+    if (!discountAmount || !retailPrice || !wholesalePrice) return [0, 0];
+
+    const retailDiscount = (discountAmount / retailPrice) * 100;
+    const wholesaleDiscount = (discountAmount / wholesalePrice) * 100;
+
+    return [retailDiscount, wholesaleDiscount];
+  }, [discountAmount, retailPrice, wholesalePrice]);
+
+  const retailBadgeProps = getDiscountBadgeProps(retailDiscount);
+  const wholesaleBadgeProps = getDiscountBadgeProps(wholesaleDiscount);
+
+  const hasImpossibleDiscount = retailDiscount > 100 || wholesaleDiscount > 100;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="md:text-2xl">Discounts</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
+        {hasImpossibleDiscount && (
+          <Alert variant="destructive" className="mb-2">
+            <XCircle className="h-4 w-4" />
+            <AlertDescription>
+              Warning: Discount amount exceeds the product price! This will result in a negative
+              selling price, which is not possible. Please reduce the discount amount.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <FormField
           name={'pricing_info.discounted_until'}
           control={control}
@@ -86,6 +139,39 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
           prefix="$"
           max={100}
         />
+
+        {(retailDiscount > 0 || wholesaleDiscount > 0) && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-medium">Retail discount:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm">{retailDiscount.toFixed(0)}%</span>
+                <Badge variant={retailBadgeProps.variant}>{retailDiscount.toFixed(0)}% off</Badge>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-medium">Wholesale discount:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm">{wholesaleDiscount.toFixed(0)}%</span>
+                <Badge variant={wholesaleBadgeProps.variant}>
+                  {wholesaleDiscount.toFixed(0)}% off
+                </Badge>
+              </div>
+            </div>
+
+            {!hasImpossibleDiscount && (retailDiscount >= 25 || wholesaleDiscount >= 25) && (
+              <Alert variant="warning" className="mt-4">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>
+                  {retailDiscount >= 50 || wholesaleDiscount >= 50
+                    ? 'Warning: High discount percentage may significantly impact margins.'
+                    : 'Note: Consider reviewing the discount strategy for optimal pricing.'}
+                </AlertDescription>
+              </Alert>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

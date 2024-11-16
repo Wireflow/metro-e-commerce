@@ -1,9 +1,4 @@
-import { endOfMonth, startOfMonth } from 'date-fns';
-
 import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
-import { CreateIndependantSalesChart } from '@/features/financials/components/CreateIndependantSalesChart';
-import { CreateSalespersonSalesChart } from '@/features/financials/components/CreateSalespersonSalesChart';
-import { CreateWebsiteSalesChart } from '@/features/financials/components/CreateWebsiteSalesChart';
 import FinancialsPage from '@/features/financials/components/FinancialsPage';
 import { getIndependantSales } from '@/features/financials/server/getIndependantSales';
 import { getOrdersCount } from '@/features/financials/server/getOrderCount';
@@ -11,71 +6,55 @@ import { getSalesPersonOrders } from '@/features/financials/server/getSalesPerso
 import { getSalespersons } from '@/features/financials/server/getSalespersons';
 import { getSalespersonSales } from '@/features/financials/server/getSalesPersonSales';
 import { getWebsiteSales } from '@/features/financials/server/getWebsiteSales';
+import { formatSalesData, getDateRange } from '@/features/financials/utils/chartUtils';
 
-type props = {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
+type PageProps = {
+  searchParams: Promise<{
+    from?: string;
+    to?: string;
+  }>;
 };
-const page = async ({ searchParams }: props) => {
-  const searchP = await searchParams;
-  const { from, to } = searchP;
 
-  const fromDate = from ? (from as string) : startOfMonth(new Date()).toLocaleDateString();
-  const toDate = to ? (to as string) : endOfMonth(new Date()).toLocaleDateString();
+const Page = async ({ searchParams }: PageProps) => {
+  const params = await searchParams;
 
-  const analytics = await getDailyAnalytics({
-    startDate: fromDate,
-    endDate: toDate,
-  });
+  const { fromDate, toDate, startDate, endDate } = getDateRange(params?.from, params?.to);
 
-  const salesTeam = await getSalespersons();
+  const [
+    analytics,
+    salesTeam,
+    ordersCount,
+    salesPersonOrders,
+    websiteSales,
+    salesPersonSales,
+    independantSales,
+  ] = await Promise.all([
+    getDailyAnalytics({ startDate: fromDate, endDate: toDate }),
+    getSalespersons(),
+    getOrdersCount({ startDate, endDate }),
+    getSalesPersonOrders(),
+    getWebsiteSales({ startDate: fromDate, endDate: toDate }),
+    getSalespersonSales({ startDate: fromDate, endDate: toDate }),
+    getIndependantSales({ startDate: fromDate, endDate: toDate }),
+  ]);
 
-  const ordersCount = await getOrdersCount({
-    startDate: from ? new Date(from as string) : startOfMonth(new Date()),
-    endDate: to ? new Date(to as string) : endOfMonth(new Date()),
-  });
-
-  const formattedWebsiteSales = CreateWebsiteSalesChart(from as string, to as string);
-  const formattedSalePersonSales = CreateSalespersonSalesChart(from as string, to as string);
-
-  const formattedIndependantSales = CreateIndependantSalesChart(from as string, to as string);
-
-  const SalespersonOrders = await getSalesPersonOrders();
-
-  const WebsiteSales = await getWebsiteSales();
-  const salesPersonSales = await getSalespersonSales();
-  const independantSales = await getIndependantSales();
-
-  const totalWebsiteRevenue = WebsiteSales.map(sales => ({
-    date: sales.order_date as string,
-    sales: sales.revenue as number,
-  }));
-  const totalSalepersonRevenue = salesPersonSales.map(sales => ({
-    date: sales.order_date as string,
-    sales: sales.revenue as number,
-  }));
-  const totalIndependantSalesRevenue = independantSales.map(sales => ({
-    date: sales.order_date as string,
-    sales: sales.revenue as number,
-  }));
+  const chartData = {
+    website: formatSalesData(websiteSales),
+    salesperson: formatSalesData(salesPersonSales),
+    independent: formatSalesData(independantSales),
+  };
 
   return (
     <div>
       <FinancialsPage
         salesTeam={salesTeam}
         analytics={analytics}
+        chartData={chartData}
         ordersCount={ordersCount}
-        totalWebsiteRevenue={totalWebsiteRevenue}
-        totalSalepersonRevenue={totalSalepersonRevenue}
-        totalIndependantSalesRevenue={totalIndependantSalesRevenue}
-        WebsiteSalesChartData={formattedWebsiteSales}
-        SalespersonSalesChartData={formattedSalePersonSales}
-        IndependantSalesChartData={formattedIndependantSales}
-        salesPersonOrders={SalespersonOrders}
+        salesPersonOrders={salesPersonOrders}
       />
     </div>
   );
 };
 
-export default page;
+export default Page;

@@ -3,6 +3,7 @@
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 
+import SalesRepsPageSkeleton from '../components/SalesRepsPageSkeleton';
 import UsersList from '../components/UsersList';
 import { useSalesReps } from '../hooks/queries/useSalesReps';
 
@@ -10,7 +11,7 @@ const SalesRepsPage = () => {
   const { data: users, isLoading } = useSalesReps();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <SalesRepsPageSkeleton />;
   }
 
   const breadcrumbs = [

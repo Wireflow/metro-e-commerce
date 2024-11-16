@@ -10,6 +10,7 @@ import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 import { formatRelativeDateTime } from '@/utils/dateUtils';
+import { getUserFullName } from '@/utils/userUtils';
 import { formatCurrency, formatPhoneNumber } from '@/utils/utils';
 
 import { Order } from '../schemas/orders';
@@ -157,7 +158,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
         </div>
       ),
       label: 'Details',
-      className: 'min-w-[400px]',
+      className: 'min-w-[250px]',
     },
 
     {
@@ -180,7 +181,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     },
     {
       key: order => (
-        <div className="flex flex-col items-start gap-1">
+        <div className="flex flex-col items-start gap-1.5">
           <Badge
             variant={order?.payment?.payment_type ? 'outline-success' : 'outline-error'}
             className="capitalize"
@@ -194,20 +195,20 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
             )}
           </Badge>
 
-          {order.salesperson_id && (
+          {order.salesperson && (
             <span className="w-fit rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
-              Sales: {order.salesperson_id}
+              Sales: <span className="font-bold">{getUserFullName(order.salesperson)}</span>
             </span>
           )}
         </div>
       ),
       label: 'Payment',
-      className: 'min-w-[190px] text-start',
+      className: 'min-w-[200px] text-start',
       disabled: disabledFields?.includes('payment'),
     },
     {
       key: order => (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col items-center gap-1">
           <p className="font-medium text-gray-900">{formatCurrency(order.total_amount)}</p>
           <Badge variant="secondary" className="w-fit">
             {order.total_quantity} items
@@ -220,7 +221,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
         </div>
       ),
       label: 'Total',
-      className: 'min-w-[120px]',
+      className: 'min-w-[150px] text-center',
     },
 
     {
@@ -243,7 +244,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     {
       key: order => (
         <Link href={`/admin/orders/${order.id}`}>
-          <Button variant="none" size="sm" className="gap-1 hover:bg-neutral-300">
+          <Button variant="ghost" size="sm" className="gap-1 hover:bg-neutral-300">
             View <ArrowRight className="h-3 w-3" />
           </Button>
         </Link>

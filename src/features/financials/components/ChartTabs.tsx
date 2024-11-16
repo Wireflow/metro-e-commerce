@@ -1,24 +1,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import IndependantSalesChart, { IndependantSalesData } from './IndependantSalesChart';
-import SalespersonSalesChart, { SalespersonSalesData } from './SalespersonSalesChart';
-import WebsiteSalesChart, { WebsiteSalesData } from './WebsiteSalesChart';
+import DynamicDateSalesChart from './DynamicDateSalesChart';
+import { SalesData } from './FinancialsPage';
 
 type Props = {
-  totalSalepersonRevenue: SalespersonSalesData[];
-  totalWebsiteRevenue: WebsiteSalesData[];
-  totalIndependantSalesRevenue: IndependantSalesData[];
+  chartData: SalesData;
   fromDate: Date;
   toDate: Date;
 };
 
-const ChartTabs = ({
-  totalIndependantSalesRevenue,
-  totalSalepersonRevenue,
-  totalWebsiteRevenue,
-  fromDate,
-  toDate,
-}: Props) => {
+const ChartTabs = ({ chartData, fromDate, toDate }: Props) => {
   return (
     <Tabs defaultValue="Website">
       <TabsList>
@@ -28,24 +19,24 @@ const ChartTabs = ({
       </TabsList>
 
       <TabsContent value="Website">
-        <WebsiteSalesChart
-          websiteSalesData={totalWebsiteRevenue}
+        <DynamicDateSalesChart
+          data={chartData.website}
           startDate={fromDate as Date}
           endDate={toDate as Date}
         />
       </TabsContent>
       <TabsContent value="Salesperson">
-        <SalespersonSalesChart
+        <DynamicDateSalesChart
+          data={chartData.salesperson}
           startDate={fromDate as Date}
           endDate={toDate as Date}
-          SalespersonSalesData={totalSalepersonRevenue}
         />
       </TabsContent>
       <TabsContent value="Independant">
-        <IndependantSalesChart
+        <DynamicDateSalesChart
+          data={chartData.independent}
           startDate={fromDate as Date}
           endDate={toDate as Date}
-          IndependantSalesData={totalIndependantSalesRevenue}
         />
       </TabsContent>
     </Tabs>

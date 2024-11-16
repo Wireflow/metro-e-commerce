@@ -10,7 +10,11 @@ import { ImageFile } from '@/components/form/MultiImageUpload';
 
 import { useDeleteBarcode } from '../../../hooks/barcode-mutuations-hooks';
 import { useDeleteProductImage } from '../../../hooks/product-mutations-hooks';
-import { CreateProductFormData, CreateProductSchema } from '../../../schemas/create-product';
+import {
+  CreateProductFormData,
+  UpdateProductFormData,
+  UpdateProductSchema,
+} from '../../../schemas/create-product';
 import { Product } from '../../../schemas/products';
 import { updateProduct } from '../../../server/products/updateProduct';
 import ProductForm from './ProductForm';
@@ -62,8 +66,8 @@ const UpdateProductForm = ({ product }: Props) => {
     },
   });
 
-  const form = useForm<CreateProductFormData>({
-    resolver: zodResolver(CreateProductSchema),
+  const form = useForm<UpdateProductFormData>({
+    resolver: zodResolver(UpdateProductSchema),
     defaultValues: {
       id: product.id,
       general_info: {
@@ -80,7 +84,7 @@ const UpdateProductForm = ({ product }: Props) => {
         cost_price: product.cost_price,
         retail_price: product.retail_price,
         wholesale_price: product.wholesale_price,
-        discount: product.discount ?? undefined,
+        discount: product.discount ?? 0,
         discounted_until: product.discounted_until ?? undefined,
         is_taxed: product.is_taxed ?? false,
       },
@@ -142,6 +146,33 @@ const UpdateProductForm = ({ product }: Props) => {
         id: img.id,
       })) || []
     );
+    form.reset({
+      id: product.id,
+      general_info: {
+        name: product.name,
+        description: product.description ?? undefined,
+        unit: product.unit ?? undefined,
+        manufacturer: product.manufacturer ?? undefined,
+        is_tobacco: product.is_tobacco,
+        is_featured: product.is_featured,
+        in_stock: product.in_stock,
+        published: product.published,
+      },
+      pricing_info: {
+        cost_price: product.cost_price,
+        retail_price: product.retail_price,
+        wholesale_price: product.wholesale_price,
+        discount: product.discount ?? undefined,
+        discounted_until: product.discounted_until ?? undefined,
+        is_taxed: product.is_taxed ?? false,
+      },
+      barcodes: product.barcodes.map(b => ({
+        barcode: b.barcode,
+        barcode_id: b.id,
+        disabled: true,
+      })),
+      category_id: product.category_id,
+    });
     setNewImages([]);
   };
 

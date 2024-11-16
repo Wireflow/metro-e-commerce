@@ -8,7 +8,7 @@ const supabase = createClient();
 export const getLatestOrders = async () => {
   const { data, error } = await supabase
     .from('orders')
-    .select('*, customer:customers(*), payment:order_payments(*)')
+    .select('*, customer:customers(*), payment:order_payments(*), salesperson:users(*)')
     .order('created_at', { ascending: false })
     .limit(5);
 

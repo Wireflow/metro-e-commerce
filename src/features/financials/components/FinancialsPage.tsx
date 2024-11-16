@@ -13,94 +13,78 @@ import { DailyAnalytics } from '@/features/dashboard/schemas/daily-analytics';
 import { Row } from '@/types/supabase/table';
 
 import ChartTabs from './ChartTabs';
-import { IndependantSalesChartData } from './CreateIndependantSalesChart';
-import { SalesPersonSalesChartData } from './CreateSalespersonSalesChart';
-import { WebsiteSalesChartData } from './CreateWebsiteSalesChart';
 import { DatePickerWithRange } from './DatePickerWithRange';
+import { DynamicDateSalesData } from './DynamicDateSalesChart';
 import FinancialsAnalytics from './FinancialsAnalytics';
-import { IndependantSalesData } from './IndependantSalesChart';
 import RightComponents from './RightFinancialComponents';
-import { SalespersonSalesData } from './SalespersonSalesChart';
-import { WebsiteSalesData } from './WebsiteSalesChart';
 
-type Props = {
+export type SalesData = {
+  website: DynamicDateSalesData[];
+  salesperson: DynamicDateSalesData[];
+  independent: DynamicDateSalesData[];
+};
+
+type FinancialsPageProps = {
   analytics: DailyAnalytics;
-  WebsiteSalesChartData: WebsiteSalesChartData[];
-  SalespersonSalesChartData: SalesPersonSalesChartData[];
-  IndependantSalesChartData: IndependantSalesChartData[];
+  chartData: SalesData;
   ordersCount: number | null;
   salesTeam: Row<'users'>[];
   salesPersonOrders: Row<'orders'>[];
-  totalWebsiteRevenue: WebsiteSalesData[];
-  totalSalepersonRevenue: SalespersonSalesData[];
-  totalIndependantSalesRevenue: IndependantSalesData[];
 };
+
+const BREADCRUMBS = [
+  { label: 'Dashboard', href: '/admin' },
+  { label: 'Financials', href: '/admin/financials?from=11/1/2024&to=11/30/2024' },
+];
 
 const FinancialsPage = ({
   analytics,
   ordersCount,
   salesTeam,
+  chartData,
   salesPersonOrders,
-  totalWebsiteRevenue,
-  totalSalepersonRevenue,
-  totalIndependantSalesRevenue,
-}: Props) => {
-  const navigate = useRouter();
-  const [toDate, setToDate] = useQueryState<Date>(
+}: FinancialsPageProps) => {
+  const router = useRouter();
+  const defaultDate = new Date();
+
+  const [toDate, setToDate] = useQueryState(
     'to',
-    parseAsIsoDate.withDefault(endOfMonth(new Date()))
+    parseAsIsoDate.withDefault(endOfMonth(defaultDate))
   );
-  const [fromDate, setFromDate] = useQueryState<Date>(
+  const [fromDate, setFromDate] = useQueryState(
     'from',
-    parseAsIsoDate.withDefault(startOfMonth(new Date()))
+    parseAsIsoDate.withDefault(startOfMonth(defaultDate))
   );
 
-  const handleOnDateChange = async (date: DateRange) => {
+  const handleDateChange = async (date?: DateRange) => {
     //@ts-ignore
-    await setFromDate(date?.from);
-    //@ts-ignore
-    await setToDate(date?.to);
-    navigate.refresh();
-  };
+    await Promise.all([setFromDate(date.from), setToDate(date.to)]);
 
-  const breadcrumbs = [
-    { label: 'Dashboard', href: '/admin' },
-    { label: 'Financials', href: '/admin/financials?from=11/1/2024&to=11/30/2024' },
-  ];
+    router.refresh();
+  };
 
   return (
     <AnimatedDiv>
       <div className="flex flex-1 flex-col">
-        <div>
-          <PageHeader
-            title="Financials"
-            description="manage your financials"
-            className="flex-none"
-            breadcrumbs={breadcrumbs}
-            actions={
-              <DatePickerWithRange
-                onDateChange={(date: DateRange | undefined) =>
-                  handleOnDateChange({
-                    from: date?.from,
-                    to: date?.to,
-                  })
-                }
-                date={{ from: fromDate, to: toDate }}
-              />
-            }
-          />
-        </div>
+        <PageHeader
+          title="Financials"
+          description="manage your financials"
+          className="flex-none"
+          breadcrumbs={BREADCRUMBS}
+          actions={
+            <DatePickerWithRange
+              date={{ from: fromDate, to: toDate }}
+              onDateChange={handleDateChange}
+            />
+          }
+        />
+
         <div className="flex min-h-0 flex-1 flex-col gap-6">
           <FinancialsAnalytics analytics={analytics} ordersCount={ordersCount} />
+
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <div className="col-span-2">
-              <ChartTabs
-                fromDate={fromDate}
-                toDate={toDate}
-                totalWebsiteRevenue={totalWebsiteRevenue}
-                totalSalepersonRevenue={totalSalepersonRevenue}
-                totalIndependantSalesRevenue={totalIndependantSalesRevenue}
-              />
+              <ChartTabs fromDate={fromDate} toDate={toDate} chartData={chartData} />
             </div>
 
             <RightComponents

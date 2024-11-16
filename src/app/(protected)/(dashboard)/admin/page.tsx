@@ -8,11 +8,9 @@ import { getTopSellingProducts } from '@/features/dashboard/server/getTopSelling
 import { createChartData } from '@/features/dashboard/utils/createChartData';
 
 export default async function Admin() {
-  // Get current week's start (Sunday) and end (Saturday)
   const thisWeekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
   const thisWeekEnd = endOfWeek(new Date(), { weekStartsOn: 0 });
 
-  // Get last week's start and end
   const lastWeekStart = subWeeks(thisWeekStart, 1);
   const lastWeekEnd = subWeeks(thisWeekEnd, 1);
 
@@ -21,10 +19,7 @@ export default async function Admin() {
     endDate: formatDate(new Date(), 'yyyy-MM-dd'),
   });
 
-  const topSellingProducts = await getTopSellingProducts({
-    startDate: formatDate(new Date(), 'yyyy-MM-dd'),
-    endDate: formatDate(new Date(), 'yyyy-MM-dd'),
-  });
+  const topSellingProducts = await getTopSellingProducts();
 
   const thisWeeksSales = await getSales({
     startDate: formatDate(thisWeekStart, 'yyyy-MM-dd'),

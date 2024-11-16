@@ -16,8 +16,8 @@ type Props = {
 const TopProductsList = ({ topSellingProducts }: Props) => {
   const fields: TableField<TopSellingProduct>[] = [
     {
-      key: (p, index) => index,
-      label: 'No.',
+      key: (p, index) => index + 1,
+      label: 'Rank',
       className: 'md:w-[50px]',
     },
     {
@@ -38,7 +38,7 @@ const TopProductsList = ({ topSellingProducts }: Props) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <p className="font-medium">{product.product.name}</p>
+            <p className="max-w-[140px] truncate font-medium">{product.product.name}</p>
             <p className="text-xs text-gray-500">{product.product.manufacturer}</p>
           </div>
         </div>
@@ -60,10 +60,12 @@ const TopProductsList = ({ topSellingProducts }: Props) => {
         </div>
       ),
       label: 'Price',
+      className: 'text-right min-w-[150px] md:min-w-0',
     },
     {
       key: p => <p>{p.sales} pcs</p>,
       label: 'Items Sold',
+      className: 'text-right',
     },
   ];
 

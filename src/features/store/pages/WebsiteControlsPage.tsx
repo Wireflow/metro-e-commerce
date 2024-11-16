@@ -2,6 +2,7 @@
 
 import { Loader2 } from 'lucide-react';
 
+import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 
 import AppAvailability from '../components/website-controls/AppAvailability';
@@ -26,7 +27,7 @@ const WebsiteControlsPage = () => {
   }
 
   return (
-    <div>
+    <AnimatedDiv>
       <PageHeader title="Website Controls" description="Manage your website settings" />
       <div className="flex flex-col gap-8">
         <StoreStatus branchSettings={branchSettings} />
@@ -34,7 +35,7 @@ const WebsiteControlsPage = () => {
         <CardPaymentControl branchSettings={branchSettings} />
         <TaxControl branchSettings={branchSettings} />
       </div>
-    </div>
+    </AnimatedDiv>
   );
 };
 

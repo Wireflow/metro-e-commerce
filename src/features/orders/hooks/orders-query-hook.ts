@@ -69,7 +69,9 @@ export const getPaginatedOrders = async (
   let query = supabase.from('orders_with_customer').select(`
       *, 
       customer:customers(*), 
-      payment:order_payments(*)`);
+      payment:order_payments(*),
+      salesperson:users(*)
+    `);
 
   [countQuery, query] = applyOrdersFilters([countQuery, query], filters);
 
