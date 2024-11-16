@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { METRO_BRANCH_ID } from '@/data/constants';
 import { getBranchById } from '@/server/branches/getBranchById';
 
-export const useMetro = () => {
+export const useBranch = () => {
   const {
     data: branch,
     isLoading,

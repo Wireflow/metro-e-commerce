@@ -23,6 +23,7 @@ export type DynamicDateSalesData = {
 interface DynamicDateSalesChartProps {
   startDate: string | Date;
   endDate: string | Date;
+  title: string;
   data: DynamicDateSalesData[];
 }
 
@@ -132,7 +133,7 @@ const aggregateDataByInterval = (
   }));
 };
 
-const DynamicDateSalesChart = ({ data, startDate, endDate }: DynamicDateSalesChartProps) => {
+const DynamicDateSalesChart = ({ data, startDate, endDate, title }: DynamicDateSalesChartProps) => {
   const [chartDimensions, setChartDimensions] = useState({ width: 800, height: 400 });
   const cardRef = useRef<HTMLDivElement>(null);
   const parsedStartDate = parseDate(startDate);
@@ -160,7 +161,7 @@ const DynamicDateSalesChart = ({ data, startDate, endDate }: DynamicDateSalesCha
   return (
     <Card className="h-full w-full">
       <CardHeader className="flex-none">
-        <CardTitle className="text-2xl">Website Sales Chart</CardTitle>
+        <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>
           {format(parsedStartDate, 'MMM d, yyyy')} - {format(parsedEndDate, 'MMM d, yyyy')}
         </CardDescription>

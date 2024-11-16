@@ -2,12 +2,12 @@
 
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 
-import { useMetro } from '@/hooks/queries/useMetro';
+import { useBranch } from '@/hooks/queries/useMetro';
 
 import Container from '../layout/Container';
 
 const SocialsBanner = () => {
-  const { branch } = useMetro();
+  const { branch } = useBranch();
 
   const socials = [
     {
@@ -25,7 +25,7 @@ const SocialsBanner = () => {
   ];
 
   return (
-    <div className="border-b-[1.5px] border-b-white bg-theme-secondary">
+    <div className="border-b-1 border-b-white bg-theme-secondary">
       <Container>
         <div className="flex justify-between">
           <div>

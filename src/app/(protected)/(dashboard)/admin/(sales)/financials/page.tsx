@@ -45,15 +45,13 @@ const Page = async ({ searchParams }: PageProps) => {
   };
 
   return (
-    <div>
-      <FinancialsPage
-        salesTeam={salesTeam}
-        analytics={analytics}
-        chartData={chartData}
-        ordersCount={ordersCount}
-        salesPersonOrders={salesPersonOrders}
-      />
-    </div>
+    <FinancialsPage
+      salesTeam={salesTeam}
+      analytics={analytics}
+      chartData={chartData}
+      ordersCount={ordersCount}
+      salesPersonOrders={salesPersonOrders}
+    />
   );
 };
 

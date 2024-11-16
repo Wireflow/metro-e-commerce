@@ -20,6 +20,7 @@ const ChartTabs = ({ chartData, fromDate, toDate }: Props) => {
 
       <TabsContent value="Website">
         <DynamicDateSalesChart
+          title="Website Sales Chart"
           data={chartData.website}
           startDate={fromDate as Date}
           endDate={toDate as Date}
@@ -27,6 +28,7 @@ const ChartTabs = ({ chartData, fromDate, toDate }: Props) => {
       </TabsContent>
       <TabsContent value="Salesperson">
         <DynamicDateSalesChart
+          title="Salesperson Sales Chart"
           data={chartData.salesperson}
           startDate={fromDate as Date}
           endDate={toDate as Date}
@@ -34,6 +36,7 @@ const ChartTabs = ({ chartData, fromDate, toDate }: Props) => {
       </TabsContent>
       <TabsContent value="Independant">
         <DynamicDateSalesChart
+          title="Independant Sales Chart"
           data={chartData.independent}
           startDate={fromDate as Date}
           endDate={toDate as Date}

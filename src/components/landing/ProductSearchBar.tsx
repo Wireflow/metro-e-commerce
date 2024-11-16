@@ -2,7 +2,7 @@
 
 import { Heart, Search, ShoppingCart, User } from 'lucide-react';
 
-import { useMetro } from '@/hooks/queries/useMetro';
+import { useBranch } from '@/hooks/queries/useMetro';
 
 import Logo from '../branding/Logo';
 import Container from '../layout/Container';
@@ -11,7 +11,7 @@ import { Input } from '../ui/input';
 type Props = {};
 
 const ProductSearchBar = (props: Props) => {
-  const { branch } = useMetro();
+  const { branch } = useBranch();
 
   return (
     <div className="bg-theme-secondary">

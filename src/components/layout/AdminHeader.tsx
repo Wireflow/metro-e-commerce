@@ -1,8 +1,11 @@
 'use client';
 
+import Link from 'next/link';
+
 import { useUser } from '@/hooks/useUser';
 
 import { Avatar } from '../ui/avatar';
+import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
 import { Skeleton } from '../ui/skeleton';
 
@@ -22,7 +25,12 @@ const AdminHeader = () => {
   return (
     <div className="sticky top-0 z-20 flex h-14 w-full items-center justify-between border-b border-gray-200 bg-sidebar p-2 pr-3">
       <SidebarTrigger />
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
+        <Link href={'/?edit=true'}>
+          <Button variant={'outline'} className="mr-2 shadow-none" size="sm">
+            Edit Website
+          </Button>
+        </Link>
         <Avatar className="flex items-center justify-center bg-gray-200">
           <p className="text-lg">{initials}</p>
         </Avatar>
