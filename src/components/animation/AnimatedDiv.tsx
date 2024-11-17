@@ -8,6 +8,7 @@ type Props = {
   direction?: AnimationDirection;
   delay?: number;
   duration?: number;
+  className?: string;
 };
 
 const variants: Record<AnimationDirection, Variants> = {
@@ -42,11 +43,13 @@ export default function AnimatedDiv({
   direction = 'fade',
   delay = 0,
   duration = 0.5,
+  className,
 }: Props) {
   return (
     <motion.div
       initial="hidden"
       animate="visible"
+      className={className}
       variants={variants[direction]}
       transition={{
         duration,

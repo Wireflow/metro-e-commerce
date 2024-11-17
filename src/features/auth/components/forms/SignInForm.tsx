@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -15,8 +16,13 @@ import { Form } from '@/components/ui/form';
 import { SignInSchema, SignInType } from '../../schemas/sign-in';
 import { signInAction } from '../../server/signInAction';
 
-const SignInForm = () => {
+type Props = {
+  onSuccess?: () => void;
+};
+
+const SignInForm = ({ onSuccess }: Props) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { execute, isExecuting } = useAction(signInAction, {
     onSuccess: ({ data }) => {
@@ -25,10 +31,16 @@ const SignInForm = () => {
         return;
       }
       toast.success('Signed in successfully');
+
+      onSuccess?.();
       router.push('/');
     },
     onError: () => {
       toast.error('An unexpected error occurred');
+    },
+    onSettled: () => {
+      queryClient.refetchQueries({ queryKey: ['user'] });
+      queryClient.clear();
     },
   });
 

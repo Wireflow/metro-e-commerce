@@ -41,12 +41,9 @@ export const PricingInfoSchema = z
 
 export const UpdatePricingInfoSchema = z
   .object({
-    cost_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1).optional(),
-    retail_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1).optional(),
-    wholesale_price: z
-      .number({ invalid_type_error: 'Please enter a valid number' })
-      .min(1)
-      .optional(),
+    cost_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
+    retail_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
+    wholesale_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
     is_taxed: z.boolean().optional(),
     discount: z
       .number({

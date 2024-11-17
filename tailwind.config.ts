@@ -38,6 +38,7 @@ const config: Config = {
           primary: '#1B6392',
           secondary: '#191C1F',
           accent: '#EFD33D',
+          beige: '#FFE7D6',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

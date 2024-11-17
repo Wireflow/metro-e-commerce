@@ -2,9 +2,11 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { METRO_BRANCH_ID } from '@/data/constants';
+import { getCategories } from '@/features/products/server/categories/getCategories';
 import getQueryClient from '@/lib/react-query';
 import { getBranchById } from '@/server/branches/getBranchById';
 
+import Actions from '../landing/Actions';
 import ProductSearchBar from '../landing/ProductSearchBar';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
@@ -25,11 +27,17 @@ const LandingPage = async () => {
     },
   });
 
+  await queryClient.prefetchQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PromoBanner />
       <SocialsBanner />
       <ProductSearchBar />
+      <Actions />
     </HydrationBoundary>
   );
 };

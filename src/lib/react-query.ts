@@ -13,4 +13,12 @@ const getQueryClient = cache(
     })
 );
 
+export function invalidateAndClearCache() {
+  getQueryClient().invalidateQueries();
+}
+
+export function clearAllCaches() {
+  getQueryClient().clear();
+}
+
 export default getQueryClient;

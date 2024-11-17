@@ -25,7 +25,7 @@ const SocialsBanner = () => {
   ];
 
   return (
-    <div className="border-b-1 border-b-white bg-theme-secondary">
+    <div className="border-b-[0.5px] border-b-white bg-theme-secondary">
       <Container>
         <div className="flex justify-between">
           <div>

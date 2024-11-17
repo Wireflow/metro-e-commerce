@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { Sparkles } from 'lucide-react';
+
 import { useUser } from '@/hooks/useUser';
 
 import { Avatar } from '../ui/avatar';
@@ -27,8 +29,9 @@ const AdminHeader = () => {
       <SidebarTrigger />
       <div className="flex items-center gap-2">
         <Link href={'/?edit=true'}>
-          <Button variant={'outline'} className="mr-2 shadow-none" size="sm">
+          <Button variant={'gradient'} className="mr-2 shadow-none" size="sm">
             Edit Website
+            <Sparkles className="h-4 w-4" />
           </Button>
         </Link>
         <Avatar className="flex items-center justify-center bg-gray-200">
