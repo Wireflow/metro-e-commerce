@@ -7,6 +7,7 @@ import getQueryClient from '@/lib/react-query';
 import { getBranchById } from '@/server/branches/getBranchById';
 
 import Actions from '../landing/Actions';
+import Footer from '../landing/Footer/Footer';
 import ProductSearchBar from '../landing/ProductSearchBar';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
@@ -38,6 +39,7 @@ const LandingPage = async () => {
       <SocialsBanner />
       <ProductSearchBar />
       <Actions />
+      <Footer />
     </HydrationBoundary>
   );
 };
