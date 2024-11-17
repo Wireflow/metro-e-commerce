@@ -14,7 +14,7 @@ const Footer = async (props: Props) => {
   const manufacturers = await getManufacturers();
   return (
     // eslint-disable-next-line prettier/prettier
-    <div className="flex flex-col gap-10 bg-theme-secondary pt-10">
+    <div className="flex flex-col gap-10 border-t border-gray-600 bg-theme-secondary pt-10">
       <Container className="flex w-full flex-col gap-10 lg:flex-row lg:justify-between">
         <div className="flex flex-col items-start gap-10 sm:flex-row md:gap-14">
           <FooterBrandInfo />

@@ -1435,6 +1435,90 @@ export type Database = {
           },
         ];
       };
+      promoted_products: {
+        Row: {
+          branch_id: string;
+          created_at: string;
+          id: number;
+          label: string | null;
+          product_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          branch_id?: string;
+          created_at?: string;
+          id?: number;
+          label?: string | null;
+          product_id?: string;
+          updated_at?: string;
+        };
+        Update: {
+          branch_id?: string;
+          created_at?: string;
+          id?: number;
+          label?: string | null;
+          product_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'promoted_products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'discounted_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'hidden_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'in_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'out_of_stock_products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'products';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'promoted_products_product_id_fkey';
+            columns: ['product_id'];
+            isOneToOne: false;
+            referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       users: {
         Row: {
           admin_pin: string;
