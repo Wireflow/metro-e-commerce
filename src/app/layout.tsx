@@ -1,10 +1,18 @@
 // layout.tsx
 import { Public_Sans } from 'next/font/google';
 
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import type { Metadata } from 'next';
 
+import LayoutProvider from '@/components/layout/LayoutProvider';
 import Providers from '@/components/layout/Providers';
 import { Toaster } from '@/components/ui/sonner';
+import { METRO_BRANCH_ID } from '@/data/constants';
+import { getCategories } from '@/features/products/server/categories/getCategories';
+import getQueryClient from '@/lib/react-query';
+import { getBranchById } from '@/server/branches/getBranchById';
+import { getTopCategories } from '@/server/categories/getTopCategories';
+import { getManufacturers } from '@/server/manufacturers/getManufacturers';
 
 import './globals.css';
 
@@ -49,16 +57,51 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['branch', METRO_BRANCH_ID],
+    queryFn: async () => {
+      const { data: branch, error } = await getBranchById(METRO_BRANCH_ID);
+
+      if (error) {
+        throw error;
+      }
+
+      return branch;
+    },
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['manufacturers'],
+    queryFn: getManufacturers,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['categories', 'top'],
+    queryFn: getTopCategories,
+  });
+
   return (
     <html lang="en">
       <body className={`${publicSans.variable} font-sans antialiased`}>
         <Toaster />
-        <Providers>{children}</Providers>
+
+        <Providers>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <LayoutProvider>{children}</LayoutProvider>
+          </HydrationBoundary>
+        </Providers>
       </body>
     </html>
   );

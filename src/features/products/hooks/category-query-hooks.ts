@@ -59,3 +59,45 @@ export const useCategoryManufacturers = (categoryId: string) => {
     retry: false,
   });
 };
+
+export const useTopCategories = () => {
+  return useQuery({
+    queryKey: ['categories', 'top'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('categories_sales_and_products_count')
+        .select('*')
+        .order('sales', { ascending: false })
+        .limit(10);
+      if (error) {
+        throw new Error('Failed to find categories');
+      }
+
+      if (!data) {
+        throw new Error('Categories not found');
+      }
+      return data;
+    },
+  });
+};
+
+export const useManufacturers = () => {
+  return useQuery({
+    queryKey: ['manufacturers'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase.from('category_manufacturers').select('*').limit(10);
+      if (error) {
+        throw new Error('Failed to find manufacturers');
+      }
+
+      if (!data) {
+        throw new Error('Manufacturers not found');
+      }
+      return data;
+    },
+  });
+};
