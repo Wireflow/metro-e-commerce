@@ -35,7 +35,7 @@ const config: Config = {
           foreground: 'hsl(var(--secondary-foreground))',
         },
         theme: {
-          primary: '#1B6392',
+          primary: '#191C1F',
           secondary: '#191C1F',
           accent: '#EFD33D',
           beige: '#FFE7D6',

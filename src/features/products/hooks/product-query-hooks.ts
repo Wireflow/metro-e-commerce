@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { getProducts } from '../queries/getProducts';
 import { getCategoryById } from '../server/categories/getCategoryById';
-import { getProductById } from '../server/products/getProductById';
-import { getProducts } from '../server/products/getProducts';
 import { getProductsAnalytics } from '../server/products/getProductsAnalytics';
 
 export interface ProductFilters {
@@ -13,6 +12,7 @@ export interface ProductFilters {
   category_id?: string;
   minPrice?: number;
   maxPrice?: number;
+  limit?: number;
   sortBy?: 'retail_price' | 'name' | 'created_at';
   sortOrder?: 'asc' | 'desc';
   is_discounted?: boolean;
