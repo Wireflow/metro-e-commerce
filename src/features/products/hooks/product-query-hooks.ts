@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { Row } from '@/types/supabase/table';
+import { createClient } from '@/utils/supabase/client';
+
 import { getProducts } from '../queries/getProducts';
 import { getPublishedProducts } from '../queries/getPublishedProducts';
+import { Product } from '../schemas/products';
 import { getCategoryById } from '../server/categories/getCategoryById';
 import { getProductsAnalytics } from '../server/products/getProductsAnalytics';
 
@@ -23,6 +27,12 @@ interface UseProductsOptions {
   filters?: ProductFilters;
   enabled?: boolean;
 }
+
+export type ProductProps = Row<'products'> & {
+  images: {
+    product_images: Row<'product_images'>[];
+  };
+};
 
 export const useProducts = ({ filters = {}, enabled = true }: UseProductsOptions = {}) => {
   return useQuery({
@@ -54,9 +64,97 @@ export const useCategoryById = (categoryId: string) => {
   });
 };
 
-// export const useProductById = (productId: string) => {
-//   return useQuery({
-//     queryKey: ['product', productId],
-//     queryFn: () => getProductById(productId),
-//   });
-// };
+export const useProductSales = () => {
+  return useQuery({
+    queryKey: ['products', 'sales'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('discounted_products')
+        .select(
+          `
+          *,
+          images:product_images(*)
+        `
+        )
+        .eq('published', true)
+        .order('discounted_until', { ascending: true })
+        .limit(3);
+
+      if (error) {
+        throw new Error('Error getting sales products');
+      }
+
+      if (!data) {
+        throw new Error('No data returned from useProductSales');
+      }
+
+      return data as unknown as Product[];
+    },
+  });
+};
+
+export const useProductBestSellers = () => {
+  return useQuery({
+    queryKey: ['products', 'bestSellers'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('lifetime_product_sales')
+        .select(
+          `
+        *,
+          product:products(*, images:product_images(*))
+        `
+        )
+        .order('sales', { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error('Query error:', error);
+        throw new Error('Error getting products with sales data');
+      }
+
+      if (!data) {
+        throw new Error('No data returned from useProductBestSellers');
+      }
+
+      const products = data.map(item => item.product);
+
+      return products as Product[];
+    },
+  });
+};
+
+export const useProductNewArrivals = () => {
+  return useQuery({
+    queryKey: ['products', 'newArrivals'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('products')
+        .select(
+          `
+        *,
+           images:product_images(*)
+        `
+        )
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error('Query error:', error);
+        throw new Error('Error getting new arrival products');
+      }
+
+      if (!data) {
+        throw new Error('No data returned from useProductNewArrivals');
+      }
+
+      return data as Product[];
+    },
+  });
+};

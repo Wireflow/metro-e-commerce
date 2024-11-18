@@ -16,6 +16,7 @@ const badgeVariants = cva(
 
         // Soft variants with good contrast
         success: 'border-transparent bg-emerald-100 text-emerald-700  hover:bg-emerald-200',
+        yellow: 'border-transparent bg-yellow-400 text-black  hover:bg-emerald-200',
         warning: 'border-transparent bg-amber-100 text-amber-700  hover:bg-amber-200',
         error: 'border-transparent bg-rose-100 text-rose-700  hover:bg-rose-200',
         info: 'border-transparent bg-sky-100 text-sky-700  hover:bg-sky-200',

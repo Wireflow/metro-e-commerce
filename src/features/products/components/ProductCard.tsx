@@ -51,7 +51,7 @@ const PriceSection = ({
       <div className="flex items-center gap-2">
         <p
           className={cn('text-theme-primary', {
-            'text-sm text-gray-500 line-through': isValidDiscount,
+            'text-sm text-red-500 line-through': isValidDiscount,
           })}
         >
           {formatCurrency(price)}
@@ -177,7 +177,7 @@ const ProductImage = ({
   return (
     <div className={cn('relative aspect-square h-full w-full', className)}>
       {hasValidDiscount && disableSaleBadge !== true && (
-        <Badge variant={'success'} className="absolute left-0 top-0 z-20 rounded-none">
+        <Badge variant={'yellow'} className="rounded-none">
           Sale
         </Badge>
       )}
