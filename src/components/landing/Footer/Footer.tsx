@@ -1,3 +1,4 @@
+'use client';
 import Container from '@/components/layout/Container';
 import { useManufacturers, useTopCategories } from '@/features/products/hooks/category-query-hooks';
 

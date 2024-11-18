@@ -4,16 +4,16 @@ import { HydrationBoundary } from '@tanstack/react-query';
 
 import Actions from '../landing/Actions';
 import ProductOptions from '../landing/different-product-options/ProductOptions';
-import Footer from '../landing/Footer/Footer';
+import HeroSection from '../landing/Hero/HeroSection';
 import SubscribeToNewsLetter from '../landing/subscribe/SubscribeToNewsLetter';
 
 const LandingPage = async () => {
   return (
     <HydrationBoundary>
       <Actions />
+      <HeroSection />
       <ProductOptions />
       <SubscribeToNewsLetter />
-      <Footer />
     </HydrationBoundary>
   );
 };

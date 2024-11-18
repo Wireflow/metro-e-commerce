@@ -6,9 +6,14 @@ export const createSubscription = async (email: string, branchId: string) => {
     .from('newsletter_emails')
     .insert({ email: email, branch_id: branchId })
     .select();
+
+  if (error?.code === '23505') {
+    throw new Error('Email already subscribed');
+  }
   if (error) {
     throw error;
   }
+
   if (!data) {
     throw new Error('No data returned from createSubscription');
   }

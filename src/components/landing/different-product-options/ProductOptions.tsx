@@ -1,15 +1,28 @@
-import { getSalesProducts } from '@/server/products/getSalesProducts';
+'use client';
+import Container from '@/components/layout/Container';
+import {
+  useProductBestSellers,
+  useProductNewArrivals,
+  useProductSales,
+} from '@/features/products/hooks/product-query-hooks';
 
+import BestSellers from './BestSellers';
 import FlashSales from './FlashSales';
+import NewArrivals from './NewArrivals';
 
 type Props = {};
 
-const ProductOptions = async (props: Props) => {
-  const products = await getSalesProducts();
+const ProductOptions = (props: Props) => {
+  const { data: products } = useProductSales();
+  const { data: bestSellers } = useProductBestSellers();
+  const { data: newArrivals } = useProductNewArrivals();
+
   return (
-    <div>
+    <Container className="grid grid-cols-3 gap-5">
       <FlashSales data={products} />
-    </div>
+      <BestSellers data={bestSellers} />
+      <NewArrivals data={newArrivals} />
+    </Container>
   );
 };
 
