@@ -57,7 +57,9 @@ const PriceSection = ({
           {formatCurrency(price)}
         </p>
         {isValidDiscount && discount && (
-          <p className={cn('text-theme-primary')}>{formatCurrency(price - discount)}</p>
+          <p className={cn('font-semibold text-theme-sky-blue')}>
+            {formatCurrency(price - discount)}
+          </p>
         )}
       </div>
     </div>
@@ -72,9 +74,23 @@ const ProductCard = ({ children, className, onClick }: ProductCardProps) => {
   );
 };
 
-const ProductTitle = ({ product }: { product: Product }) => {
+const ProductTitle = ({
+  product,
+  size = 'md',
+  className,
+}: {
+  product: Product;
+  size?: 'sm' | 'md';
+  className?: string;
+}) => {
   return (
-    <p className="truncate">
+    <p
+      className={cn(
+        'truncate text-wrap',
+        { 'text-sm': size === 'sm', 'text-base': size === 'md' },
+        className
+      )}
+    >
       {product.name} | {product.manufacturer} | {product.unit}
     </p>
   );
@@ -82,25 +98,63 @@ const ProductTitle = ({ product }: { product: Product }) => {
 
 ProductCard.Title = ProductTitle;
 
-const ProductDescription = ({ product }: { product: Product }) => {
-  return <p className="text-sm text-gray-500">{product.description}</p>;
+const ProductDescription = ({ product, className }: { product: Product; className?: string }) => {
+  return <p className={cn('text-sm text-gray-500', className)}>{product.description}</p>;
 };
 
 ProductCard.Description = ProductDescription;
 
-const ProductSaleBadge = ({ product }: { product: Product }) => {
+type BadgeVariant = 'hot' | 'new' | 'best-seller' | 'discount';
+
+const badgeVariants: Record<BadgeVariant, { text: string; className: string }> = {
+  hot: {
+    text: 'Hot',
+    className: 'bg-red-500 hover:bg-red-600 text-white',
+  },
+  new: {
+    text: 'New',
+    className: 'bg-blue-500 hover:bg-blue-600 text-white',
+  },
+  'best-seller': {
+    text: 'Best Seller',
+    className: 'bg-yellow-500 hover:bg-yellow-600 text-white',
+  },
+  discount: {
+    text: 'Sale',
+    className: 'bg-green-500 hover:bg-green-600 text-white',
+  },
+};
+
+interface ProductSaleBadgeProps {
+  product: Product;
+  variant: BadgeVariant;
+  className?: string;
+}
+
+const ProductSaleBadge = ({ product, variant = 'discount', className }: ProductSaleBadgeProps) => {
   const hasValidDiscount = isDiscountValid(
     product?.discount,
     product?.discounted_until as ISOStringFormat
   );
 
-  if (!hasValidDiscount) {
+  if (!hasValidDiscount && variant === 'discount') {
     return null;
   }
 
+  const badgeConfig = badgeVariants[variant];
+
   return (
-    <Badge variant={hasValidDiscount && 'success'} className="w-fit rounded-none">
-      {hasValidDiscount ? 'Sale' : 'Discount'}
+    <Badge
+      variant="secondary"
+      className={cn(
+        'z-20 w-fit rounded-none font-medium uppercase',
+        badgeConfig.className,
+        className
+      )}
+    >
+      {variant === 'discount' && hasValidDiscount
+        ? `-${formatCurrency(product?.discount ?? 0)} Off`
+        : badgeConfig.text}
     </Badge>
   );
 };
@@ -121,17 +175,23 @@ const ProductImage = ({
     product?.discounted_until as ISOStringFormat
   );
   return (
-    <div className={cn('relative h-[70px] w-[70px]', className)}>
+    <div className={cn('relative aspect-square h-full w-full', className)}>
       {hasValidDiscount && disableSaleBadge !== true && (
         <Badge variant={'yellow'} className="rounded-none">
           Sale
         </Badge>
       )}
+      {product.in_stock === false && (
+        <Badge variant={'error'} className="absolute right-0 top-0 z-20 rounded-none">
+          Out of Stock
+        </Badge>
+      )}
       <Image
         alt={product.name}
         src={product.images[0]?.url ?? PLACEHOLDER_IMG_URL}
-        objectFit="cover"
+        objectFit="contain"
         fill
+        className="rounded-md"
       />
     </div>
   );
@@ -141,11 +201,11 @@ ProductCard.Image = ProductImage;
 
 const ProductPrice = ({ product }: { product: Product }) => {
   const { metadata } = useUser();
-  console.log(metadata);
   const hasValidDiscount = isDiscountValid(
     product?.discount,
     product?.discounted_until as ISOStringFormat
   );
+
   return (
     <div className="flex gap-4">
       <PriceSection

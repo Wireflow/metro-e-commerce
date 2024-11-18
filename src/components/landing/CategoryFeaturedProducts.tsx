@@ -68,7 +68,7 @@ const CategoryFeaturedProducts = ({ products, category, manufacturers, loading }
                 className="flex cursor-pointer gap-4"
                 onClick={() => router.push(`/products/${item.id}`)}
               >
-                <ProductCard.Image product={item} />
+                <ProductCard.Image product={item} className="h-[70px] w-[70px]" />
                 <div className="flex flex-col gap-1">
                   <ProductCard.Title product={item} />
                   <ProductCard.Price product={item} />

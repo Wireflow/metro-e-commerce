@@ -4,6 +4,7 @@ import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
 import { getProducts } from '../queries/getProducts';
+import { getPublishedProducts } from '../queries/getPublishedProducts';
 import { Product } from '../schemas/products';
 import { getCategoryById } from '../server/categories/getCategoryById';
 import { getProductsAnalytics } from '../server/products/getProductsAnalytics';
@@ -37,6 +38,14 @@ export const useProducts = ({ filters = {}, enabled = true }: UseProductsOptions
   return useQuery({
     queryKey: ['products', JSON.stringify(filters)],
     queryFn: () => getProducts(filters),
+    enabled,
+  });
+};
+
+export const usePublishedProducts = ({ filters = {}, enabled = true }: UseProductsOptions = {}) => {
+  return useQuery({
+    queryKey: ['products', 'published', JSON.stringify(filters)],
+    queryFn: () => getPublishedProducts(filters),
     enabled,
   });
 };
