@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
+import { CategoryWithProducts } from '../schemas/category';
 import { Product } from '../schemas/products';
 import { getCategories } from '../server/categories/getCategories';
 
@@ -9,6 +10,27 @@ export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
+  });
+};
+
+export const useFeaturedCategory = () => {
+  return useQuery({
+    queryKey: ['categories', 'featured'],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*, products(*, images:product_images(*), barcodes:barcodes(barcode, id))')
+        .eq('id', '164b57de-bb22-444c-9454-c3918fb954ef')
+        .single();
+      if (error) {
+        throw new Error('Faild to fetch featured category');
+      }
+      if (!data) {
+        throw new Error('No data returned from useFeaturedCategory');
+      }
+      return data as CategoryWithProducts;
+    },
   });
 };
 

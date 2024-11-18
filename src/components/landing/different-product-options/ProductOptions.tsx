@@ -18,7 +18,7 @@ const ProductOptions = (props: Props) => {
   const { data: newArrivals } = useProductNewArrivals();
 
   return (
-    <Container className="grid grid-cols-3 gap-5">
+    <Container className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       <FlashSales data={products} />
       <BestSellers data={bestSellers} />
       <NewArrivals data={newArrivals} />
