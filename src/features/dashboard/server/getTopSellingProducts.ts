@@ -19,7 +19,7 @@ export const getTopSellingProducts = async ({ startDate, endDate }: DateRange = 
 
   let query = supabase
     .from('product_sales_analytics')
-    .select('*, product:product_id(*, images:product_images(*))')
+    .select('*, product:products(*, images:product_images(*))')
     .order('sales', { ascending: false });
 
   if (startDate && endDate) {
@@ -35,6 +35,8 @@ export const getTopSellingProducts = async ({ startDate, endDate }: DateRange = 
   }
 
   const { data, error } = await query.returns<TopSellingProduct[]>().limit(5);
+
+  console.log(error);
 
   if (error) {
     console.error('Error fetching top selling products:', error);

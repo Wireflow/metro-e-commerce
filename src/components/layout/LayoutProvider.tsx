@@ -4,8 +4,9 @@ import { usePathname } from 'next/navigation';
 
 import React, { useMemo } from 'react';
 
+import ProductSearchBar from '../landing/AppNavigation';
 import Footer from '../landing/Footer/Footer';
-import ProductSearchBar from '../landing/ProductSearchBar';
+import EditModePrompt from '../landing/Header/EditModePrompt';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
 
@@ -19,7 +20,6 @@ const LayoutProvider = ({ children }: Props) => {
   const pathname = usePathname();
 
   const shouldShowComponents = useMemo(() => {
-    // Check if the current pathname includes any of the avoided keywords
     return !avoidKeywords.some(keyword => pathname.toLowerCase().includes(keyword.toLowerCase()));
   }, [pathname]);
 
@@ -27,6 +27,7 @@ const LayoutProvider = ({ children }: Props) => {
     <>
       {shouldShowComponents && (
         <>
+          <EditModePrompt />
           <PromoBanner />
           <SocialsBanner />
           <ProductSearchBar />

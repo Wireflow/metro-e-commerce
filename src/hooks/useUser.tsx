@@ -34,7 +34,7 @@ export const useUser = (): UserResponse => {
       return user;
     },
     retry: false,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: 'always',
     refetchOnReconnect: true,
   });
 

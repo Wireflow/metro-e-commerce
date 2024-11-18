@@ -4,16 +4,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { ISOStringFormat } from 'date-fns';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Edit } from 'lucide-react';
 import { createContext, useContext } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
+import WithAuth from '@/features/auth/components/WithAuth';
 import { Product } from '@/features/products/schemas/products';
 import { isDiscountValid } from '@/features/products/utils/validateDiscount';
+import { PromotedProduct } from '@/features/promotions/hooks/queries/usePromotedProducts';
 import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/utils';
+
+import { useIsEditMode } from '../hooks/useIsEditMode';
+import EditPromoForm from './forms/EditPromoForm';
 
 interface PromoCardContextType {
   product: Product;
@@ -33,24 +38,58 @@ const usePromoCard = () => {
 
 interface PromoCardProps {
   product: Product;
+  promotedProduct?: PromotedProduct;
   variant?: 'dark' | 'light';
   children?: React.ReactNode;
   className?: string;
   label?: string;
 }
 
-const PromoCard = ({ product, variant = 'light', children, label, className }: PromoCardProps) => {
+const PromoCard = ({
+  product,
+  variant = 'light',
+  children,
+  label,
+  className,
+  promotedProduct,
+}: PromoCardProps) => {
+  const isInEditMode = useIsEditMode();
+
   const isDark = variant === 'dark';
 
   return (
     <PromoCardContext.Provider value={{ product, variant, label }}>
       <Card
         className={cn(
-          `relative p-6 shadow-none ${isDark ? 'bg-theme-primary text-white' : 'border border-gray-200 bg-white'}`,
+          'relative overflow-hidden p-6 shadow-none',
+          isDark ? 'bg-theme-primary text-white' : 'border border-gray-200 bg-white',
           className
         )}
       >
         {children}
+
+        {isInEditMode && (
+          <WithAuth rules={{ requiredRole: 'admin' }}>
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity">
+              <EditPromoForm
+                promotedProduct={promotedProduct}
+                trigger={
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="w-fit gap-2"
+                    onClick={() => {
+                      // Handle edit action
+                    }}
+                  >
+                    <Edit className="h-4 w-4" />
+                    Edit Promo
+                  </Button>
+                }
+              />
+            </div>
+          </WithAuth>
+        )}
       </Card>
     </PromoCardContext.Provider>
   );
@@ -107,7 +146,7 @@ const PromoDiscount = () => {
   );
 
   return hasValidDiscount ? (
-    <span className="absolute right-4 top-4 rounded bg-yellow-400 px-3 py-1 font-medium text-black">
+    <span className="absolute right-4 top-4 z-20 rounded bg-yellow-400 px-3 py-1 font-medium text-black">
       {`${formatCurrency(product?.discount ?? 0)} OFF`}
     </span>
   ) : null;

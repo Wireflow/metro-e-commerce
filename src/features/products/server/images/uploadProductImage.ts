@@ -48,5 +48,7 @@ export const uploadProductImages = async (files: File[], productId: string) => {
     files.map(file => uploadProductImage(file, productId, Date.now() + '_' + productId))
   );
 
+  console.log(responses);
+
   return responses.filter(response => response.success);
 };

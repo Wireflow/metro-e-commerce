@@ -39,6 +39,7 @@ const config: Config = {
           secondary: '#191C1F',
           accent: '#EFD33D',
           beige: '#FFE7D6',
+          'sky-blue': '#2DA5F3',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -100,6 +101,25 @@ const config: Config = {
           '&[type="number"]': {
             '-moz-appearance': 'textfield',
           },
+        },
+        '.custom-scrollbar': {
+          '&::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f1f1f1',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#191C1F',
+            borderRadius: '4px',
+            '&:hover': {
+              backgroundColor: '#2A2F33',
+            },
+          },
+          'scrollbar-width': 'thin',
+          'scrollbar-color': '#191C1F #f1f1f1',
         },
       };
       addUtilities(newUtilities);
