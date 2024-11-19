@@ -20,7 +20,9 @@ export const useFeaturedCategory = () => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from('categories')
-        .select('*, products(*, images:product_images(*), barcodes:barcodes(barcode, id))')
+        .select(
+          '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_category:sub_categories(*)'
+        )
         .eq('id', '164b57de-bb22-444c-9454-c3918fb954ef')
         .single();
       if (error) {

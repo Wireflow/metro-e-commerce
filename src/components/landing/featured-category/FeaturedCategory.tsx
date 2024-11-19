@@ -12,7 +12,7 @@ import CategoryProducts from './CategoryProducts';
 
 const FeaturedCategory = () => {
   const { data: featuredCategory } = useFeaturedCategory();
-  const [activeManufacturer, setActiveManufacturer] = useState<string | null>('All Products');
+  const [activeTabs, setActiveTabs] = useState<string | null>('All Products');
   const { data: manufacturers } = useCategoryManufacturers(featuredCategory?.id ?? '');
 
   if (!manufacturers) return null;
@@ -22,14 +22,14 @@ const FeaturedCategory = () => {
     <Container>
       <CategoryListHeader
         category={featuredCategory}
-        activeManufacturer={activeManufacturer}
-        setActiveManufacturer={setActiveManufacturer}
+        activeTabs={activeTabs}
+        setActiveTabs={setActiveTabs}
         manufacturers={manufacturers}
       />
       <CategoryProducts
         manufacturers={manufacturers}
         category={featuredCategory}
-        activeManufacturer={activeManufacturer}
+        activeManufacturer={activeTabs}
       />
     </Container>
   );
