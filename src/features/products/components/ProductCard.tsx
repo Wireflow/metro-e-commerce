@@ -27,18 +27,20 @@ type ProductCardProps = {
   onClick?: () => void;
 };
 
-const PriceSection = ({
+export const PriceSection = ({
   type,
   price,
   label,
   isValidDiscount,
   discount,
+  disableCompare,
 }: {
   type: Enum<'customer_type'>;
   price: number;
   label?: string;
   isValidDiscount: boolean;
   discount: number | null;
+  disableCompare?: boolean;
 }) => (
   <WithAuth
     rules={{
@@ -49,18 +51,29 @@ const PriceSection = ({
     <div>
       {label && <p className="text-xs">{label}</p>}
       <div className="flex items-center gap-2">
-        <p
-          className={cn('text-theme-primary', {
-            'text-sm text-red-500 line-through': isValidDiscount,
-          })}
-        >
-          {formatCurrency(price)}
-        </p>
-        {isValidDiscount && discount && (
-          <p className={cn('font-semibold text-theme-sky-blue')}>
-            {formatCurrency(price - discount)}
-          </p>
+        {!disableCompare && (
+          <>
+            <p
+              className={cn('text-theme-primary', {
+                'text-sm text-red-500 line-through': isValidDiscount,
+              })}
+            >
+              {formatCurrency(price)}
+            </p>
+            {isValidDiscount && discount && (
+              <p className={cn('font-semibold text-theme-sky-blue')}>
+                {formatCurrency(price - discount)}
+              </p>
+            )}
+          </>
         )}
+        {disableCompare ? (
+          isValidDiscount ? (
+            <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
+          ) : (
+            <p className="font-medium text-black">{formatCurrency(price)}</p>
+          )
+        ) : null}
       </div>
     </div>
   </WithAuth>

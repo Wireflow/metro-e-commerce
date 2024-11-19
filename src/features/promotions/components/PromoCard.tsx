@@ -11,9 +11,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
+import { PriceSection } from '@/features/products/components/ProductCard';
 import { Product } from '@/features/products/schemas/products';
 import { isDiscountValid } from '@/features/products/utils/validateDiscount';
 import { PromotedProduct } from '@/features/promotions/hooks/queries/usePromotedProducts';
+import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/utils';
 
@@ -70,7 +72,7 @@ const PromoCard = ({
 
         {isInEditMode && (
           <WithAuth rules={{ requiredRole: 'admin' }}>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity">
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 transition-opacity">
               <EditPromoForm
                 promotedProduct={promotedProduct}
                 trigger={
@@ -100,32 +102,79 @@ const PromoLabel = () => {
   const isDark = variant === 'dark';
 
   return label ? (
-    <span className={`font-medium ${isDark ? 'text-yellow-400' : 'text-primary'}`}>{label}</span>
+    <span className={`font-medium uppercase ${isDark ? 'text-yellow-400' : 'text-primary'}`}>
+      {label}
+    </span>
   ) : null;
 };
 
 PromoCard.Label = PromoLabel;
 
-const PromoTitle = () => {
+const PromoTitle = ({ className }: { className?: string }) => {
   const { product } = usePromoCard();
 
   return (
-    <div className="flex flex-grow items-start justify-between">
-      <div>
-        <h2 className="mt-1 truncate text-2xl font-bold">{product?.name}</h2>
-      </div>
-    </div>
+    <h2
+      className={cn(
+        'mt-1 flex flex-grow items-start justify-between truncate text-2xl font-bold',
+        className
+      )}
+    >
+      {product?.name}
+    </h2>
   );
 };
 
 PromoCard.Title = PromoTitle;
 
+const PromoPrice = ({ className }: { className?: string }) => {
+  const { product } = usePromoCard();
+  const { metadata } = useUser();
+  const hasValidDiscount = isDiscountValid(
+    product?.discount,
+    product?.discounted_until as ISOStringFormat
+  );
+
+  return (
+    <div className={cn('flex gap-4', className)}>
+      <PriceSection
+        disableCompare
+        isValidDiscount={hasValidDiscount}
+        discount={product?.discount}
+        type={metadata?.customer_type}
+        price={
+          metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
+        }
+      />
+    </div>
+  );
+};
+
+PromoCard.Price = PromoPrice;
+
+const PromoDescription = ({ className }: { className?: string }) => {
+  const { product } = usePromoCard();
+
+  return (
+    <p
+      className={cn(
+        'mt-1 flex flex-grow items-start justify-between text-wrap text-sm text-gray-500',
+        className
+      )}
+    >
+      {product?.description}
+    </p>
+  );
+};
+
+PromoCard.Description = PromoDescription;
+
 const PromoAction = () => {
   const { product } = usePromoCard();
 
   return (
-    <Link href={`/products/${product?.id}`}>
-      <Button className="mt-4 flex items-center gap-2">
+    <Link href={`/products/${product?.id}`} className="w-fit">
+      <Button className="mt-4 flex w-fit items-center gap-2" size={'lg'}>
         SHOP NOW
         <ChevronRight size={20} />
       </Button>
@@ -154,17 +203,27 @@ const PromoDiscount = () => {
 
 PromoCard.Discount = PromoDiscount;
 
-const PromoImage = ({ className }: { className?: string }) => {
+const PromoImage = ({
+  className,
+  object = 'cover',
+}: {
+  className?: string;
+  object?: 'cover' | 'contain';
+}) => {
   const { product } = usePromoCard();
 
   return product?.images && product?.images.length > 0 ? (
-    <div className={cn('relative mb-4 h-[110px] w-[200px]', className)}>
+    <div className={cn('relative z-10 mb-4 h-[150px] w-[200px]', className)}>
       <Image
         src={product?.images[0].url ?? PLACEHOLDER_IMG_URL}
         alt={product?.name || 'Placeholder Image'}
         fill
-        objectFit="cover"
-        className="h-auto w-full rounded object-cover"
+        objectFit={object}
+        className={cn('h-auto p-4 mix-blend-multiply')}
+        style={{
+          maskImage: 'linear-gradient(to bottom, black, black)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+        }}
       />
     </div>
   ) : null;

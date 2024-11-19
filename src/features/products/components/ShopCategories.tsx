@@ -26,12 +26,12 @@ const ShopCategories = () => {
 
   return (
     <Container className="relative">
-      <div className="relative px-4 py-8 md:px-6 lg:px-8">
+      <div className="relative">
         <h2 className="mb-6 text-center text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
           Shop by Category
         </h2>
 
-        <div className="relative mx-auto max-w-[90rem]">
+        <div className="relative">
           <Carousel
             opts={{
               align: 'start',
@@ -39,7 +39,7 @@ const ShopCategories = () => {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-2 md:-ml-4">
+            <CarouselContent>
               {isLoading
                 ? Array.from([1, 2, 3, 4, 5, 6, 7, 8])?.map((_, index) => (
                     <CarouselItem
@@ -84,7 +84,7 @@ const ShopCategories = () => {
       </div>
       {isInEditMode && (
         <WithAuth rules={{ requiredRole: 'admin' }}>
-          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/50 transition-opacity">
+          <div className="absolute inset-0 flex items-center justify-center rounded-[2px] bg-black/50 transition-opacity">
             <Link href={`/admin/categories`}>
               <Button variant="secondary" size="lg" className="w-fit gap-2">
                 <Edit className="h-4 w-4" />
