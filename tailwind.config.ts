@@ -39,6 +39,7 @@ const config: Config = {
           secondary: '#191C1F',
           accent: '#EFD33D',
           beige: '#FFE7D6',
+          'beige-700': '#FFCEAD',
           'sky-blue': '#2DA5F3',
         },
         muted: {

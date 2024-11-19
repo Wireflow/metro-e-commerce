@@ -6,7 +6,7 @@ export type Category = Row<'categories'> & {
   product_count?: number;
   sales?: number;
   subcategory_count?: number;
-  sub_categories?: Pick<Row<'categories'>, 'id' | 'name' | 'image_url'>[];
+  sub_categories?: Pick<Row<'categories'>, 'id' | 'name' | 'image_url'>[] | null;
 };
 
 export type CategoryWithProducts = Row<'categories'> & {

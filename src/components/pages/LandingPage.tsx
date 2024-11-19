@@ -4,6 +4,8 @@ import { HydrationBoundary } from '@tanstack/react-query';
 
 import BestDeals from '@/features/products/components/BestDeals';
 import ShopCategories from '@/features/products/components/ShopCategories';
+import DualPromotions from '@/features/promotions/components/DualPromotions';
+import LargePromotion from '@/features/promotions/components/LargePromotion';
 
 import Actions from '../landing/Actions';
 import Benefits from '../landing/Benefits';
@@ -17,6 +19,8 @@ const LandingPage = async () => {
       <Benefits />
       <BestDeals />
       <ShopCategories />
+      <LargePromotion />
+      <DualPromotions />
       {/* <FeaturedCategory />
       <ProductOptions />
       <SubscribeToNewsLetter /> */}
