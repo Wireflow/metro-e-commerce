@@ -34,17 +34,31 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
           </Button>
         </div>
 
-        {/* Image Section */}
+        {/* Image Section with Background Removal */}
         <div className="relative h-[300px] w-full md:h-auto md:w-1/2">
           {promotion?.image_url && (
-            <Image
-              src={promotion.image_url ?? PLACEHOLDER_IMG_URL}
-              alt={promotion.title || 'Promotion image'}
-              fill
-              priority
-              className="object-contain p-4"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative h-full w-full">
+                {/* Main Image with Mix Blend Mode */}
+                <div className="absolute inset-0 mix-blend-multiply">
+                  <Image
+                    src={promotion.image_url ?? PLACEHOLDER_IMG_URL}
+                    alt={promotion.title || 'Promotion image'}
+                    fill
+                    priority
+                    className="object-contain p-4 mix-blend-multiply"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    style={{
+                      maskImage: 'linear-gradient(to bottom, black, black)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+                    }}
+                  />
+                </div>
+
+                {/* Overlay for better blending */}
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent to-transparent" />
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -55,7 +55,7 @@ const PickupSettings = () => {
 
   const handleSave = () => {
     updateBranchSettings({
-      is_pickup_allowed: settings.isPayOnPickupAllowed,
+      is_pickup_allowed: settings.isPickupAllowed,
       is_pay_on_pickup_allowed: settings.isPayOnPickupAllowed,
       pickup_minimum: settings.pickupMinimum,
     });

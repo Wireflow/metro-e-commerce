@@ -20,7 +20,7 @@ const PickupToggles = ({ state, onChange, disabled, publishedSettings }: PickupC
       description="Allow customers to place orders for pickup"
       icon={Package}
       disabled={disabled}
-      checked={state.isPayOnPickupAllowed}
+      checked={state.isPickupAllowed}
       badge={
         <Badge variant={publishedSettings?.is_pickup_allowed ? 'success' : 'error'}>
           {publishedSettings?.is_pickup_allowed ? 'Enabled' : 'Disabled'}

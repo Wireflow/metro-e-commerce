@@ -49,10 +49,17 @@ const CategoryList = ({ categories }: Props) => {
     {
       label: 'Sales',
       key: c => c.sales,
+      className: 'text-center md:max-w-[120px]',
     },
     {
       label: 'Products',
       key: c => c.product_count,
+      className: 'text-center md:max-w-[120px]',
+    },
+    {
+      label: 'Subcategories',
+      key: c => c.subcategory_count,
+      className: 'text-center md:max-w-[120px]',
     },
     {
       label: 'Added',

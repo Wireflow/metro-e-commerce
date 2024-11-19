@@ -473,6 +473,7 @@ export type Database = {
           image_url: string | null;
           is_featured: boolean;
           name: string;
+          parent_category_id: string | null;
           published: boolean;
           updated_at: string;
         };
@@ -485,6 +486,7 @@ export type Database = {
           image_url?: string | null;
           is_featured?: boolean;
           name: string;
+          parent_category_id?: string | null;
           published?: boolean;
           updated_at?: string;
         };
@@ -497,6 +499,7 @@ export type Database = {
           image_url?: string | null;
           is_featured?: boolean;
           name?: string;
+          parent_category_id?: string | null;
           published?: boolean;
           updated_at?: string;
         };
@@ -506,6 +509,27 @@ export type Database = {
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
           },
         ];
@@ -2251,9 +2275,11 @@ export type Database = {
           image_url: string | null;
           is_featured: boolean | null;
           name: string | null;
+          parent_category_id: string | null;
           product_count: number | null;
           published: boolean | null;
           sales: number | null;
+          subcategory_count: number | null;
           updated_at: string | null;
         };
         Relationships: [
@@ -2262,6 +2288,27 @@ export type Database = {
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories_sales_and_products_count';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'categories_parent_category_id_fkey';
+            columns: ['parent_category_id'];
+            isOneToOne: false;
+            referencedRelation: 'featured_categories';
             referencedColumns: ['id'];
           },
         ];

@@ -64,6 +64,7 @@ export const updateCategory = async (data: CreateCategoryFormData, image?: FormD
       published: data.published,
       image_url: imageResult?.publicUrl || undefined,
       image_path: imageResult?.path || undefined,
+      parent_category_id: data.parent_category_id || null,
     })
     .eq('id', data.id)
     .select()

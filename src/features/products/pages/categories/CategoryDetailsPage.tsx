@@ -27,8 +27,18 @@ const CategoryDetailsPage = ({ category }: Props) => {
       />
 
       <div className="mb-4 grid gap-4 md:flex">
-        <AnalyticCard title="Total Sales" value={category.sales} variant="minimal" />
-        <AnalyticCard value={category.product_count} title="Total Products" variant="minimal" />
+        <AnalyticCard
+          title="Total Sales"
+          value={category.sales}
+          variant="minimal"
+          className="w-full"
+        />
+        <AnalyticCard
+          value={category.product_count}
+          title="Total Products"
+          variant="minimal"
+          className="w-full"
+        />
       </div>
 
       <UpdateCategoryForm category={category} />

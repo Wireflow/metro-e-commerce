@@ -47,6 +47,7 @@ export const createCategory = async (data: CreateCategoryFormData, image?: FormD
       description: categoryData.description?.trim(),
       image_url: imageResult?.publicUrl || null,
       image_path: imageResult?.path || null,
+      parent_category_id: categoryData.parent_category_id || null,
       branch_id: METRO_BRANCH_ID,
     })
     .select()

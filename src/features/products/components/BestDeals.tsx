@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 
 import Container from '@/components/layout/Container';
 import List from '@/components/List';
+import BestDealsSkeleton from '@/components/skeletons/BestDealsSkeleton';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -19,11 +20,13 @@ type Props = {
 };
 
 const BestDeals = ({ className }: Props) => {
-  const { data: products } = useDiscountedProducts(9);
+  const { data: products, isLoading } = useDiscountedProducts(9);
   const router = useRouter();
 
   const topDeal = products?.slice(0)[0];
   const restDeals = products?.slice(1, 9); // Limit to 8 products for the grid
+
+  if (isLoading) return <BestDealsSkeleton />;
 
   const renderFeaturedCard = (product: Product) => (
     <ProductCard

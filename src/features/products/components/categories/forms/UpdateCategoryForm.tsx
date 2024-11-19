@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -58,8 +58,22 @@ const UpdateCategoryForm = ({ category }: Props) => {
       description: category?.description ?? undefined,
       is_featured: category.is_featured,
       published: category.published,
+      parent_category_id: category.parent_category_id ?? undefined,
     },
   });
+
+  useEffect(() => {
+    if (category) {
+      form.reset({
+        id: category.id,
+        name: category.name,
+        description: category?.description ?? undefined,
+        is_featured: category.is_featured,
+        published: category.published,
+        parent_category_id: category.parent_category_id ? category.parent_category_id : undefined,
+      });
+    }
+  }, [category, form]);
 
   const onSubmit = (data: CreateCategoryFormData) => {
     if (!category.image_url && !selectedImage) {
@@ -85,6 +99,7 @@ const UpdateCategoryForm = ({ category }: Props) => {
       mode="update"
       selectedImage={selectedImage}
       setSelectedImage={setSelectedImage}
+      subCategories={category?.sub_categories ?? []}
       isDirty={form.formState.isDirty || !!selectedImage}
       previewUrl={category?.image_url ?? undefined}
     />
