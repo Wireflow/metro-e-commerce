@@ -11,4 +11,5 @@ export type Category = Row<'categories'> & {
 
 export type CategoryWithProducts = Row<'categories'> & {
   products: Product[];
+  sub_categories: Row<'categories'>[];
 };

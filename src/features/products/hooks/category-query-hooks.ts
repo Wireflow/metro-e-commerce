@@ -21,9 +21,9 @@ export const useFeaturedCategory = () => {
       const { data, error } = await supabase
         .from('categories')
         .select(
-          '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_category:sub_categories(*)'
+          '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_categories:categories(id, name, image_url)'
         )
-        .eq('id', '164b57de-bb22-444c-9454-c3918fb954ef')
+        .eq('id', '46a4dbe6-4f4d-4ec6-bcc7-6f3e3672dc6c')
         .single();
       if (error) {
         throw new Error('Faild to fetch featured category');
@@ -31,7 +31,31 @@ export const useFeaturedCategory = () => {
       if (!data) {
         throw new Error('No data returned from useFeaturedCategory');
       }
-      return data as CategoryWithProducts;
+      return data as unknown as CategoryWithProducts;
+    },
+  });
+};
+
+export const useCategoryProducts = (categoryId: string) => {
+  return useQuery({
+    queryKey: ['categories', 'products', categoryId],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('categories')
+        .select(
+          '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_categories:categories(id, name, image_url)'
+        )
+        .eq('id', categoryId)
+        .eq('published', true)
+        .single();
+      if (error) {
+        throw new Error('Faild to fetch  category');
+      }
+      if (!data) {
+        throw new Error('No data returned from useCategoryProducts');
+      }
+      return data as unknown as CategoryWithProducts;
     },
   });
 };

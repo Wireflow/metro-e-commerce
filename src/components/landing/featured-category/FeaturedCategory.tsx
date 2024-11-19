@@ -2,10 +2,8 @@
 import { useState } from 'react';
 
 import Container from '@/components/layout/Container';
-import {
-  useCategoryManufacturers,
-  useFeaturedCategory,
-} from '@/features/products/hooks/category-query-hooks';
+import { useFeaturedCategory } from '@/features/products/hooks/category-query-hooks';
+import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 
 import CategoryListHeader from './CategoryListHeader';
 import CategoryProducts from './CategoryProducts';
@@ -13,24 +11,19 @@ import CategoryProducts from './CategoryProducts';
 const FeaturedCategory = () => {
   const { data: featuredCategory } = useFeaturedCategory();
   const [activeTabs, setActiveTabs] = useState<string | null>('All Products');
-  const { data: manufacturers } = useCategoryManufacturers(featuredCategory?.id ?? '');
+  const { data: categories } = useCategoryById(featuredCategory?.id ?? '');
 
-  if (!manufacturers) return null;
+  if (!categories) return null;
 
   if (!featuredCategory) return null;
   return (
-    <Container>
+    <Container className="flex flex-col gap-5">
       <CategoryListHeader
         category={featuredCategory}
         activeTabs={activeTabs}
         setActiveTabs={setActiveTabs}
-        manufacturers={manufacturers}
       />
-      <CategoryProducts
-        manufacturers={manufacturers}
-        category={featuredCategory}
-        activeManufacturer={activeTabs}
-      />
+      <CategoryProducts category={featuredCategory} activeTabs={activeTabs} />
     </Container>
   );
 };
