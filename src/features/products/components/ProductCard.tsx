@@ -147,7 +147,7 @@ const ProductSaleBadge = ({ product, variant = 'discount', className }: ProductS
     <Badge
       variant="secondary"
       className={cn(
-        'z-20 w-fit rounded-none font-medium uppercase',
+        'z-50 w-fit rounded-none font-medium uppercase',
         badgeConfig.className,
         className
       )}
@@ -174,25 +174,35 @@ const ProductImage = ({
     product?.discount,
     product?.discounted_until as ISOStringFormat
   );
+
   return (
     <div className={cn('relative aspect-square h-full w-full', className)}>
-      {hasValidDiscount && disableSaleBadge !== true && (
-        <Badge variant={'yellow'} className="rounded-none">
-          Sale
-        </Badge>
-      )}
-      {product.in_stock === false && (
-        <Badge variant={'error'} className="absolute right-0 top-0 z-20 rounded-none">
-          Out of Stock
-        </Badge>
-      )}
-      <Image
-        alt={product.name}
-        src={product.images[0]?.url ?? PLACEHOLDER_IMG_URL}
-        objectFit="contain"
-        fill
-        className="rounded-md"
-      />
+      <div className="absolute inset-0">
+        <Image
+          alt={product.name}
+          src={product.images[0]?.url ?? PLACEHOLDER_IMG_URL}
+          objectFit="contain"
+          className="object-contain p-4 mix-blend-multiply"
+          style={{
+            maskImage: 'linear-gradient(to bottom, black, black)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+          }}
+          fill
+        />
+      </div>
+
+      <div className="absolute left-0 top-0 z-10 flex w-full justify-between">
+        {hasValidDiscount && disableSaleBadge !== true && (
+          <Badge variant="yellow" className="rounded-none">
+            Sale
+          </Badge>
+        )}
+        {product.in_stock === false && (
+          <Badge variant="error" className="ml-auto rounded-none">
+            Out of Stock
+          </Badge>
+        )}
+      </div>
     </div>
   );
 };

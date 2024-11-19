@@ -28,7 +28,10 @@ const ProductSearchResults = ({ products }: Props) => {
               )}
               onClick={() => router.push(`/products/${product.id}`)}
             >
-              <ProductCard.Image product={product} className="h-[50px] w-[50px]" />
+              <ProductCard.Image
+                product={product}
+                className="h-[70px] w-[70px] md:h-[100px] md:w-[100px]"
+              />
               <div className="flex flex-col gap-1">
                 <ProductCard.Title product={product} />
                 <ProductCard.Price product={product} />

@@ -82,6 +82,7 @@ const AddCategoryForm = () => {
         onCancel={handleCancel}
         isMutating={isPending}
         mode="add"
+        subCategories={[]}
         selectedImage={selectedImage}
         setSelectedImage={setSelectedImage}
       />

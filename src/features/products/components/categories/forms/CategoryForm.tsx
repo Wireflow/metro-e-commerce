@@ -7,15 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { CreateCategoryFormData } from '@/features/products/schemas/create-category';
 import { cn } from '@/lib/utils';
+import { Row } from '@/types/supabase/table';
 
 import CategoryGeneralInfo from './CategoryGeneralInfo';
 import CategorySettings from './CategorySettings';
 import CategoryThumbnail from './CategoryThumbnail';
+import ParentCategory from './ParentCategory';
+import SubCategories from './SubCategories';
 
 type Props = {
   form: UseFormReturn<CreateCategoryFormData>;
   onSubmit: (data: CreateCategoryFormData) => void;
   onCancel: () => void;
+  subCategories: Pick<Row<'categories'>, 'id' | 'name' | 'image_url'>[];
   isMutating: boolean;
   setSelectedImage: (image: File | null) => void;
   selectedImage: File | null;
@@ -33,6 +37,7 @@ const CategoryForm = ({
   selectedImage,
   previewUrl,
   mode,
+  subCategories,
   isDirty = false,
 }: Props) => {
   return (
@@ -73,6 +78,14 @@ const CategoryForm = ({
           <div className="flex flex-col gap-6 xl:flex-row">
             <div className="flex-1">
               <CategoryGeneralInfo control={form.control} />
+              {mode === 'update' && subCategories.length > 0 && (
+                <div className="mt-6">
+                  <SubCategories
+                    subCategories={subCategories ?? []}
+                    parentCategoryName={form.getValues('name') ?? ''}
+                  />
+                </div>
+              )}
             </div>
             <div className="flex-[0.5] space-y-6">
               <CategoryThumbnail
@@ -80,6 +93,7 @@ const CategoryForm = ({
                 image={selectedImage}
                 previewUrl={previewUrl}
               />
+              <ParentCategory control={form.control} />
               {mode === 'update' && <CategorySettings control={form.control} />}
             </div>
           </div>

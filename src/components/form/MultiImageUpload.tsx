@@ -152,7 +152,11 @@ const MultiImageUpload = ({
               alt={`Main preview ${mainImageIndex + 1}`}
               layout="fill"
               objectFit="contain"
-              className="rounded-lg"
+              className="rounded-lg object-contain p-4 mix-blend-multiply"
+              style={{
+                maskImage: 'linear-gradient(to bottom, black, black)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+              }}
             />
           ) : (
             <Card
@@ -208,10 +212,14 @@ const MultiImageUpload = ({
               alt={`Thumbnail ${index + 1}`}
               layout="fill"
               objectFit="contain"
-              className={`cursor-pointer rounded-lg ${
+              className={`cursor-pointer rounded-lg object-contain p-4 mix-blend-multiply ${
                 mainImageIndex === index ? 'border-2 border-blue-500' : ''
               }`}
               onClick={() => setMainImageIndex(index)}
+              style={{
+                maskImage: 'linear-gradient(to bottom, black, black)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+              }}
             />
             <Button
               type="button"

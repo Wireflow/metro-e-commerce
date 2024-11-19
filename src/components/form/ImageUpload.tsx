@@ -110,7 +110,11 @@ const ImageDropzone = ({
               alt="Preview"
               layout="fill"
               objectFit="contain"
-              className="rounded-lg"
+              className="object-contain p-4 mix-blend-multiply"
+              style={{
+                maskImage: 'linear-gradient(to bottom, black, black)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+              }}
             />
             <Button
               type="button"
