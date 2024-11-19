@@ -8,18 +8,13 @@ import { CategoryWithProducts } from '@/features/products/schemas/category';
 import { ViewRow } from '@/types/supabase/table';
 
 type Props = {
-  activeManufacturer: string | null;
-  setActiveManufacturer: Dispatch<SetStateAction<string | null>>;
+  activeTabs: string | null;
+  setActiveTabs: Dispatch<SetStateAction<string | null>>;
   manufacturers: ViewRow<'category_manufacturers'>[];
   category: CategoryWithProducts;
 };
 
-const CategoryListHeader = ({
-  activeManufacturer,
-  setActiveManufacturer,
-  manufacturers,
-  category,
-}: Props) => {
+const CategoryListHeader = ({ activeTabs, setActiveTabs, manufacturers, category }: Props) => {
   return (
     <div className="flex w-full items-center justify-between">
       <p className="text-2xl font-semibold">{category?.name}</p>
@@ -28,13 +23,13 @@ const CategoryListHeader = ({
           <Button
             variant={'ghost'}
             className={`border-b-2 ${
-              activeManufacturer === 'All Products' ? 'border-primary' : 'border-transparent'
+              activeTabs === 'All Products' ? 'border-primary' : 'border-transparent'
             } text-gray-700 transition-colors hover:bg-primary hover:text-white`}
-            onClick={() => setActiveManufacturer('All Products')}
+            onClick={() => setActiveTabs('All Products')}
           >
             All Products
           </Button>
-          {manufacturers?.map(manufacturer => (
+          {/* {category?.map(manufacturer => (
             <Button
               variant={'ghost'}
               className={`border-b-2 ${
@@ -47,7 +42,7 @@ const CategoryListHeader = ({
             >
               {manufacturer.manufacturer}
             </Button>
-          ))}
+          ))} */}
         </div>
         <Link
           href={`/products?category=${category.id}`}

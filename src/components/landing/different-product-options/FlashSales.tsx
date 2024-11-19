@@ -19,7 +19,7 @@ const FlashSales = ({ data }: Props) => {
         {data.map(product => {
           return (
             <ProductCard key={product.id} className="flex cursor-pointer gap-4">
-              <ProductCard.Image product={product} />
+              <ProductCard.Image className="h-[70px] w-[70px]" product={product} />
               <div className="flex flex-col gap-1">
                 <ProductCard.Title product={product} />
                 <ProductCard.Price product={product} />
