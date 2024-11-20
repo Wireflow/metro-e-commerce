@@ -25,13 +25,13 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
     const updateVisibleTabs = () => {
       const width = window.innerWidth;
       if (width >= 1280) {
-        setVisibleTabs(category.sub_categories.length);
-      } else if (width >= 1024) {
         setVisibleTabs(Math.min(4, category.sub_categories.length));
+      } else if (width >= 1024) {
+        setVisibleTabs(Math.min(3, category.sub_categories.length));
       } else if (width >= 768) {
         setVisibleTabs(Math.min(2, category.sub_categories.length));
       } else {
-        setVisibleTabs(Math.min(1, category.sub_categories.length));
+        setVisibleTabs(Math.min(0, category.sub_categories.length));
       }
     };
 
@@ -44,73 +44,66 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
   const hiddenSubcategories = category.sub_categories.slice(visibleTabs);
 
   return (
-    <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center justify-between">
-        <h2 className="truncate text-xl font-semibold sm:text-2xl">{category?.name}</h2>
-        <Link
-          href="/products"
-          className="items-center whitespace-nowrap text-sm text-primary transition-colors hover:text-primary/90 md:hidden"
-        >
-          Browse All Products <ArrowRight className="ml-2 inline-block h-4 w-4" />
-        </Link>
+    <div className="flex w-full flex-col gap-4 md:justify-between xl:flex-row xl:items-center">
+      <div className="">
+        <p className="text-lg font-bold md:text-xl">{category?.name}</p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <Button
-          variant="ghost"
-          className={`min-w-fit whitespace-nowrap border-b-2 px-3 ${
-            activeTabs === 'All Products'
-              ? 'border-primary text-gray-700'
-              : 'border-transparent text-gray-700 hover:bg-primary hover:text-white'
-          }`}
-          onClick={() => setActiveTabs('All Products')}
-        >
-          All Products
-        </Button>
-
-        {visibleSubcategories.map(subcategory => (
+      <div className="flex items-center justify-between gap-1 lg:gap-2">
+        <div className="flex items-center gap-2">
           <Button
-            key={subcategory.id}
             variant="ghost"
-            className={`min-w-fit whitespace-nowrap border-b-2 px-3 ${
-              activeTabs === subcategory.id
-                ? 'border-primary hover:bg-gray-200 hover:text-black'
+            className={`min-w-fit whitespace-nowrap border-b-2 px-2 text-sm lg:px-3 lg:text-base ${
+              activeTabs === 'All Products'
+                ? 'border-primary text-gray-700'
                 : 'border-transparent text-gray-700 hover:bg-primary hover:text-white'
             }`}
-            onClick={() => setActiveTabs(subcategory.id)}
+            onClick={() => setActiveTabs('All Products')}
           >
-            {subcategory.name}
+            All Products
           </Button>
-        ))}
-
-        {hiddenSubcategories.length > 0 && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="min-w-fit border-b-2 border-transparent px-2 text-gray-700"
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {hiddenSubcategories.map(subcategory => (
-                <DropdownMenuItem
-                  key={subcategory.id}
-                  onClick={() => setActiveTabs(subcategory.id)}
+          {visibleSubcategories.map(subcategory => (
+            <Button
+              key={subcategory.id}
+              variant="ghost"
+              className={`min-w-fit whitespace-nowrap border-b-2 px-2 text-sm lg:px-3 lg:text-base ${
+                activeTabs === subcategory.id
+                  ? 'border-primary hover:bg-gray-200 hover:text-black'
+                  : 'border-transparent text-gray-700 hover:bg-primary hover:text-white'
+              }`}
+              onClick={() => setActiveTabs(subcategory.id)}
+            >
+              {subcategory.name}
+            </Button>
+          ))}
+          {hiddenSubcategories.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="min-w-fit border-b-2 border-transparent px-1 text-gray-700 lg:px-2"
                 >
-                  {subcategory.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {hiddenSubcategories.map(subcategory => (
+                  <DropdownMenuItem
+                    key={subcategory.id}
+                    onClick={() => setActiveTabs(subcategory.id)}
+                  >
+                    {subcategory.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
 
-        <Link
-          href="/products"
-          className="hidden items-center whitespace-nowrap text-sm text-primary transition-colors hover:text-primary/90 md:flex md:text-base"
-        >
-          Browse All Products <ArrowRight className="ml-2 h-4 w-4" />
+        <Link href={'/shop'}>
+          <Button className="w-fit text-theme-sky-blue" variant={'link'}>
+            Browse All Products <ArrowRight className="h-4 w-4" />
+          </Button>
         </Link>
       </div>
     </div>
