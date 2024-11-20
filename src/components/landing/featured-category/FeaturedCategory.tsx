@@ -27,7 +27,7 @@ const FeaturedCategory = () => {
   if (!categories || !promotion || !featuredCategory) return null;
 
   return (
-    <Container className="flex gap-5">
+    <Container className="flex flex-col-reverse gap-5 lg:flex-row">
       <div className="flex flex-1 flex-col gap-5">
         <CategoryListHeader
           category={featuredCategory}
@@ -43,18 +43,23 @@ const FeaturedCategory = () => {
       <PromoCard
         product={promotion?.product}
         promotedProduct={promotion}
+        // eslint-disable-next-line prettier/prettier
         className="grid min-w-[300px] place-items-center bg-theme-yellow"
       >
-        <div className="flex flex-col items-center">
-          <PromoCard.Image />
-          <PromoCard.Label />
-          <PromoCard.Title />
-          <PromoCard.Description />
-          <div className="mt-3 flex items-center justify-center gap-1">
-            <p>Only for</p>
-            <PromoCard.Price className="rounded-[2px] bg-white px-2 py-1 text-sm" suffix="USD" />
+        <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
+          <div>
+            <PromoCard.Image className="w-[300px]" />
           </div>
-          <PromoCard.Action className="w-full" />
+          <div>
+            <PromoCard.Label />
+            <PromoCard.Title />
+            <PromoCard.Description />
+            <div className="mt-3 flex items-center justify-center gap-1">
+              <p>Only for</p>
+              <PromoCard.Price className="rounded-[2px] bg-white px-2 py-1 text-sm" suffix="USD" />
+            </div>
+            <PromoCard.Action className="w-full" />
+          </div>
         </div>
       </PromoCard>
     </Container>

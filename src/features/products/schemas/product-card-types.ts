@@ -1,4 +1,3 @@
-import { ISOStringFormat } from 'date-fns';
 import { LucideIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -13,25 +12,6 @@ export interface ProductImage {
   url: string;
   alt?: string;
   product_id: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  sku: string;
-  barcode?: string;
-  manufacturer?: string;
-  unit?: string;
-  retail_price: number;
-  wholesale_price: number;
-  images: ProductImage[];
-  discount?: number;
-  discounted_until?: ISOStringFormat;
-  rating?: number;
-  rating_count?: number;
   created_at: string;
   updated_at: string;
 }

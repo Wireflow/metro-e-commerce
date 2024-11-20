@@ -158,3 +158,35 @@ export const useProductNewArrivals = () => {
     },
   });
 };
+
+export const useFeaturedProducts = () => {
+  return useQuery({
+    queryKey: ['products', 'featured'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('featured_products')
+        .select(
+          `
+        *,
+           images:product_images(*)
+        `
+        )
+        .eq('published', true)
+        .eq('is_featured', true)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Query error:', error);
+        throw new Error('Error getting featured products');
+      }
+
+      if (!data) {
+        throw new Error('No data returned from useFeaturedProducts');
+      }
+
+      return data as Product[];
+    },
+  });
+};
