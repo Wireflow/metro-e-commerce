@@ -17,10 +17,15 @@ const ProductShowcaseList = ({ data, title }: Props) => {
         {data?.map(product => {
           return (
             <ProductCard key={product.id} className="flex cursor-pointer gap-4">
-              <ProductCard.Image className="h-[70px] w-[70px]" product={product} />
+              <ProductCard.Image
+                className="h-[70px] w-[70px]"
+                product={product}
+                disableHoverEffect
+                disableSaleBadge
+              />
               <div className="flex flex-col gap-1">
                 <ProductCard.Title product={product} />
-                <ProductCard.Price product={product} />
+                <ProductCard.Price product={product} className="w-fit" />
               </div>
             </ProductCard>
           );

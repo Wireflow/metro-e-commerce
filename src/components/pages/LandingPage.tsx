@@ -1,6 +1,7 @@
 // LandingPage.tsx
 
 import BestDeals from '@/features/products/components/BestDeals';
+import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';
 import ShopCategories from '@/features/products/components/sections/ShopCategories';
 import DualPromotions from '@/features/promotions/components/DualPromotions';
 import LargePromotion from '@/features/promotions/components/LargePromotion';
@@ -25,6 +26,7 @@ const LandingPage = async () => {
       <LargePromotion />
       <ProductOptions />
       <SubscribeToNewsLetter />
+      <ProductDetailsDialog />
     </div>
   );
 };

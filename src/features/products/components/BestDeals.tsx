@@ -37,7 +37,12 @@ const BestDeals = ({ className }: Props) => {
       <div className="relative flex-1">
         <div className="absolute right-0 top-0 z-10 flex flex-col gap-2">
           <ProductCard.SaleBadge product={product} variant="discount" />
-          <ProductCard.SaleBadge product={product} variant="hot" />
+
+          <ProductCard.SaleBadge
+            product={product}
+            variant="hot"
+            className="absolute right-0 top-10"
+          />
         </div>
 
         <ProductCard.Image

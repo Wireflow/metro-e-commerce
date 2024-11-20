@@ -1,10 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { ISOStringFormat } from 'date-fns';
-import { Eye, Heart } from 'lucide-react';
+import { Eye, Heart, ShoppingCart } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -13,18 +12,28 @@ import { Card } from '@/components/ui/card';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import SignInButton from '@/features/auth/components/SignInButton';
 import WithAuth, { UserMetadata } from '@/features/auth/components/WithAuth';
+import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
+import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { Enum } from '@/types/supabase/enum';
 import { formatCurrency } from '@/utils/utils';
 
 import { Product } from '../schemas/products';
+import { useQuickViewStore } from '../store/useQuickViewStore';
 import { isDiscountValid } from '../utils/validateDiscount';
 
 type ProductCardProps = {
   children?: ReactNode[];
   className?: string;
   onClick?: () => void;
+};
+
+type CustomRenderProps = {
+  preDiscount: number;
+  afterDiscount: number;
+  isValidDiscount: boolean;
+  discount: number | null;
 };
 
 export const PriceSection = ({
@@ -34,6 +43,8 @@ export const PriceSection = ({
   isValidDiscount,
   discount,
   disableCompare,
+  signInClassname,
+  customRender,
 }: {
   type: Enum<'customer_type'>;
   price: number;
@@ -41,41 +52,58 @@ export const PriceSection = ({
   isValidDiscount: boolean;
   discount: number | null;
   disableCompare?: boolean;
+  signInClassname?: string;
+  customRender?: (data: CustomRenderProps) => React.ReactNode;
 }) => (
   <WithAuth
     rules={{
       customCheck: (metadata: UserMetadata) => metadata?.customer_type === type,
     }}
-    fallback={<SignInButton />}
+    fallback={
+      <SignInButton
+        className={cn('mt-1 w-full flex-1', signInClassname)}
+        text={'Sign in for pricing'}
+        variant={'soft'}
+      />
+    }
   >
-    <div>
-      {label && <p className="text-xs">{label}</p>}
-      <div className="flex items-center gap-2">
-        {!disableCompare && (
-          <>
-            <p
-              className={cn('text-theme-primary', {
-                'text-sm text-red-500 line-through': isValidDiscount,
-              })}
-            >
-              {formatCurrency(price)}
-            </p>
-            {isValidDiscount && discount && (
-              <p className={cn('font-semibold text-theme-sky-blue')}>
-                {formatCurrency(price - discount)}
+    {customRender ? (
+      customRender({
+        preDiscount: price,
+        afterDiscount: price - (discount ?? 0),
+        isValidDiscount,
+        discount,
+      })
+    ) : (
+      <div>
+        {label && <p className="text-xs">{label}</p>}
+        <div className="flex items-center gap-2">
+          {!disableCompare && (
+            <>
+              <p
+                className={cn('text-theme-primary', {
+                  'text-sm text-red-500 line-through': isValidDiscount,
+                })}
+              >
+                {formatCurrency(price)}
               </p>
-            )}
-          </>
-        )}
-        {disableCompare ? (
-          isValidDiscount ? (
-            <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
-          ) : (
-            <p className="font-medium text-black">{formatCurrency(price)}</p>
-          )
-        ) : null}
+              {isValidDiscount && discount && (
+                <p className={cn('font-semibold text-theme-sky-blue')}>
+                  {formatCurrency(price - discount)}
+                </p>
+              )}
+            </>
+          )}
+          {disableCompare ? (
+            isValidDiscount ? (
+              <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
+            ) : (
+              <p className="font-medium text-black">{formatCurrency(price)}</p>
+            )
+          ) : null}
+        </div>
       </div>
-    </div>
+    )}
   </WithAuth>
 );
 
@@ -178,10 +206,12 @@ const ProductImage = ({
   product,
   className,
   disableSaleBadge,
+  disableHoverEffect,
 }: {
   product: Product;
   className?: string;
   disableSaleBadge?: boolean;
+  disableHoverEffect?: boolean;
 }) => {
   const hasValidDiscount = isDiscountValid(
     product?.discount,
@@ -204,25 +234,56 @@ const ProductImage = ({
         />
       </div>
 
-      <div className="absolute left-0 top-0 z-10 flex w-full justify-between">
+      <div className="absolute left-1 top-1 z-10 flex w-full justify-between">
         {hasValidDiscount && disableSaleBadge !== true && (
-          <Badge variant="yellow" className="rounded-none">
+          <Badge variant="yellow" className="rounded-[2px] hover:bg-theme-accent">
             Sale
           </Badge>
         )}
-        {product.in_stock === false && (
-          <Badge variant="error" className="ml-auto rounded-none">
-            Out of Stock
-          </Badge>
-        )}
       </div>
+      {!disableHoverEffect && (
+        <WithAuth>
+          <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50 opacity-0 transition-all duration-300 hover:opacity-100">
+            <div className="flex items-center justify-center gap-1.5">
+              {product.in_stock && (
+                <ProductAddToCartButton
+                  product={product}
+                  size={'icon'}
+                  className={cn(
+                    'group/cart h-9 w-9 rounded-full bg-white group-hover/cart:bg-primary',
+                    {
+                      'bg-destructive': !product.in_stock,
+                    }
+                  )}
+                >
+                  <ShoppingCart
+                    className={cn('h-5 w-5 text-black group-hover/cart:text-white', {
+                      'text-white': !product.in_stock,
+                    })}
+                  />
+                </ProductAddToCartButton>
+              )}
+              <ProductWishlistButton
+                product={product}
+                size={'icon'}
+                className="group/wishlist rounded-full border-none bg-white hover:bg-primary"
+              />
+              <ProductQuickViewButton
+                product={product}
+                size={'icon'}
+                className="group/quickview rounded-full border-none bg-white hover:bg-primary"
+              />
+            </div>
+          </div>
+        </WithAuth>
+      )}
     </div>
   );
 };
 
 ProductCard.Image = ProductImage;
 
-const ProductPrice = ({ product }: { product: Product }) => {
+const ProductPrice = ({ product, className }: { product: Product; className?: string }) => {
   const { metadata } = useUser();
   const hasValidDiscount = isDiscountValid(
     product?.discount,
@@ -230,77 +291,110 @@ const ProductPrice = ({ product }: { product: Product }) => {
   );
 
   return (
-    <div className="flex gap-4">
-      <PriceSection
-        isValidDiscount={hasValidDiscount}
-        discount={product?.discount}
-        type={metadata?.customer_type}
-        price={
-          metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
-        }
-      />
-    </div>
+    <PriceSection
+      isValidDiscount={hasValidDiscount}
+      signInClassname={className}
+      discount={product?.discount}
+      type={metadata?.customer_type}
+      price={
+        metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
+      }
+    />
   );
 };
 
 ProductCard.Price = ProductPrice;
 
-const ProductAddToCartButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
+const ProductAddToCartButton = ({
+  product,
+  children,
+  ...props
+}: ButtonProps & { product: Product; children?: React.ReactNode }) => {
+  const { mutate: addToCart, isPending } = useAddToCart();
+
   const handleAddToCart = () => {
-    // TODO: Add to cart logic
-    console.log('add to cart');
+    addToCart({
+      product_id: product.id,
+      quantity: 1,
+    });
   };
 
+  const defaultChildren = !product.in_stock
+    ? 'Out of Stock'
+    : isPending
+      ? 'Adding...'
+      : 'Add to Cart';
+
   return (
-    <Button className={cn('w-full', props.className)} onClick={handleAddToCart} {...props}>
-      Add to Cart
-    </Button>
+    <WithAuth>
+      <Button
+        className={cn('w-full', props.className)}
+        variant={product.in_stock ? undefined : 'destructive'}
+        disabled={!product.in_stock || isPending}
+        onClick={e => {
+          e.stopPropagation();
+          handleAddToCart();
+        }}
+        {...props}
+      >
+        {children ?? defaultChildren}
+      </Button>
+    </WithAuth>
   );
 };
 
 ProductCard.AddToCartButton = ProductAddToCartButton;
 
 const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
+  const { mutate: addToWishlist, isPending } = useAddToWishlist();
+
   const handleWishlist = () => {
-    // TODO: Add to wishlist logic
-    console.log('add to wishlist');
+    addToWishlist(product.id);
   };
 
   return (
-    <div>
+    <WithAuth>
       <Button
         className={cn('border-none bg-theme-beige text-black', props.className)}
-        onClick={handleWishlist}
+        onClick={e => {
+          e.stopPropagation();
+          handleWishlist();
+        }}
+        disabled={isPending}
         size={'icon'}
         variant={'outline'}
         {...props}
       >
-        <Heart className="h-5 w-5" />
+        <Heart className="h-5 w-5 text-black group-hover/wishlist:text-white" />
       </Button>
-    </div>
+    </WithAuth>
   );
 };
 
 ProductCard.WishlistButton = ProductWishlistButton;
 
 const ProductQuickViewButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
+  const setProductAndOpen = useQuickViewStore(state => state.setProductAndOpen);
+
   const handleQuickView = () => {
-    // TODO: Add to quick view logic
-    console.log('quick view');
+    setProductAndOpen(product);
   };
 
   return (
-    <Link href={`/products/${product.id}`}>
+    <WithAuth>
       <Button
         className={cn('border-none bg-theme-beige text-black', props.className)}
-        onClick={handleQuickView}
+        onClick={e => {
+          e.stopPropagation();
+          handleQuickView();
+        }}
         size={'icon'}
         variant={'outline'}
         {...props}
       >
-        <Eye className="h-5 w-5" />
+        <Eye className="h-5 w-5 text-black group-hover/quickview:text-white" />
       </Button>
-    </Link>
+    </WithAuth>
   );
 };
 
