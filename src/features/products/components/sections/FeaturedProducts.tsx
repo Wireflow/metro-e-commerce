@@ -1,14 +1,12 @@
 'use client';
 import { useMemo, useState } from 'react';
 
+import CategoryProducts from '@/components/landing/featured-category/CategoryProducts';
 import Container from '@/components/layout/Container';
 import { useFeaturedCategory } from '@/features/products/hooks/category-query-hooks';
 import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 import PromoCard from '@/features/promotions/components/PromoCard';
 import { usePromotedProducts } from '@/features/promotions/hooks/queries/usePromotedProducts';
-
-import CategoryListHeader from './CategoryListHeader';
-import CategoryProducts from './CategoryProducts';
 
 const FeaturedCategory = () => {
   const { data: featuredCategory } = useFeaturedCategory('46a4dbe6-4f4d-4ec6-bcc7-6f3e3672dc6c');
@@ -29,11 +27,6 @@ const FeaturedCategory = () => {
   return (
     <Container className="flex gap-5">
       <div className="flex flex-1 flex-col gap-5">
-        <CategoryListHeader
-          category={featuredCategory}
-          activeTabs={activeTabs}
-          setActiveTabs={setActiveTabs}
-        />
         <CategoryProducts
           category={featuredCategory}
           activeTabs={activeTabs}

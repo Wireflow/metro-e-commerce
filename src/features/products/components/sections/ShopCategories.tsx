@@ -17,8 +17,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import WithAuth from '@/features/auth/components/WithAuth';
 import { useIsEditMode } from '@/features/promotions/hooks/useIsEditMode';
 
-import { usePublishedCategories } from '../hooks/queries/usePublishedCategories';
-import CategoryCard from './CategoryCard';
+import { usePublishedCategories } from '../../hooks/queries/usePublishedCategories';
+import { Category } from '../../schemas/category';
+import CategoryCard from '../CategoryCard';
 
 const ShopCategories = () => {
   const isInEditMode = useIsEditMode();
@@ -51,7 +52,7 @@ const ShopCategories = () => {
                       </div>
                     </CarouselItem>
                   ))
-                : categories?.map(category => (
+                : categories?.map((category: Category) => (
                     <CarouselItem
                       key={category.id}
                       className="max-w-[150px] pl-2 sm:basis-1/3 md:max-w-none md:basis-1/2 md:pl-4 lg:basis-1/5 xl:basis-1/6"

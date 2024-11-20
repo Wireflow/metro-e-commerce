@@ -1,9 +1,8 @@
-import { useRouter } from 'next/navigation';
-
 import { useEffect, useState } from 'react';
 
-import List from '@/components/List';
-import ProductCard from '@/features/products/components/ProductCard';
+import Container from '@/components/layout/Container';
+import { Skeleton } from '@/components/ui/skeleton';
+import PublicProductList from '@/features/products/components/partials/PublicProductList';
 import { useCategoryProducts } from '@/features/products/hooks/category-query-hooks';
 import { CategoryWithProducts } from '@/features/products/schemas/category';
 import { Product } from '@/features/products/schemas/products';
@@ -12,13 +11,12 @@ import { cn } from '@/lib/utils';
 type Props = {
   activeTabs: string | null;
   category: CategoryWithProducts;
+  isLoading: boolean;
 };
 
-const CategoryProducts = ({ activeTabs, category }: Props) => {
-  const [promotion] = useState(true);
+const CategoryProducts = ({ activeTabs, category, isLoading }: Props) => {
   const [activeProducts, setActiveProducts] = useState<Product[]>(category.products.slice(0, 8));
   const { data: categoryProducts } = useCategoryProducts(activeTabs as string);
-  const router = useRouter();
 
   useEffect(() => {
     if (activeTabs === 'All Products') {
@@ -28,25 +26,20 @@ const CategoryProducts = ({ activeTabs, category }: Props) => {
     }
   }, [setActiveProducts, categoryProducts, activeTabs, category.products]);
 
-  const renderItem = (item: Product) => (
-    <ProductCard
-      key={item.id}
-      className="group flex cursor-pointer flex-col gap-4 p-4 transition-all hover:shadow-lg"
-      onClick={() => router.push(`/products/${item.id}`)}
-    >
-      <ProductCard.Image product={item} className="aspect-square w-full object-contain" />
-      <div className="flex flex-col gap-1">
-        <ProductCard.Title product={item} size="sm" className="line-clamp-2" />
-        <ProductCard.Price product={item} />
-      </div>
-    </ProductCard>
-  );
+  if (isLoading) {
+    return (
+      <Container className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <Skeleton key={index} className="h-[300px] w-full rounded-[4px]" />
+        ))}
+      </Container>
+    );
+  }
 
   return (
     <div>
-      <List<Product>
+      <PublicProductList
         data={activeProducts}
-        renderItem={renderItem}
         ListEmptyComponent={
           <div className="flex h-full items-center justify-center p-8">
             <p className="text-muted-foreground">No products available in this category</p>
@@ -54,9 +47,7 @@ const CategoryProducts = ({ activeTabs, category }: Props) => {
         }
         contentClassName={cn(
           'grid gap-4',
-          promotion
-            ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' // 4 columns for 8 products
-            : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5' // 5 columns when no featured product
+          'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' // 5 columns when no featured product
         )}
       />
     </div>

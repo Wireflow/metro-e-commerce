@@ -1,9 +1,7 @@
 // LandingPage.tsx
 
-import { HydrationBoundary } from '@tanstack/react-query';
-
 import BestDeals from '@/features/products/components/BestDeals';
-import ShopCategories from '@/features/products/components/ShopCategories';
+import ShopCategories from '@/features/products/components/sections/ShopCategories';
 import DualPromotions from '@/features/promotions/components/DualPromotions';
 import LargePromotion from '@/features/promotions/components/LargePromotion';
 
@@ -16,7 +14,7 @@ import SubscribeToNewsLetter from '../landing/subscribe/SubscribeToNewsLetter';
 
 const LandingPage = async () => {
   return (
-    <HydrationBoundary>
+    <div className="space-y-16">
       <Actions />
       <HeroSection />
       <Benefits />
@@ -27,7 +25,7 @@ const LandingPage = async () => {
       <LargePromotion />
       <ProductOptions />
       <SubscribeToNewsLetter />
-    </HydrationBoundary>
+    </div>
   );
 };
 

@@ -4,8 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { ProductFilters, useCategoryById } from '../hooks/product-query-hooks';
-import { useProductFiltersStore } from '../store/useProductFilters';
+import { ProductFilters, useCategoryById } from '../../hooks/product-query-hooks';
+import { useProductFiltersStore } from '../../store/useProductFilters';
 
 const getFilterLabel = (key: string): string => {
   const labels: Record<string, string> = {

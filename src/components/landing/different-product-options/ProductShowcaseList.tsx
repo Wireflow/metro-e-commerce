@@ -1,22 +1,20 @@
-'use client';
-
 import ProductCard from '@/features/products/components/ProductCard';
 import { Product } from '@/features/products/schemas/products';
 
 type Props = {
   data: Product[] | undefined;
+  title: string;
 };
 
-const FlashSales = ({ data }: Props) => {
+const ProductShowcaseList = ({ data, title }: Props) => {
   if (!data || data.length === 0) {
     return null;
   }
-
   return (
-    <div className="">
-      <p className="mb-3 text-lg font-semibold text-gray-900">Flash Sales</p>
+    <div className="md:col-span-2 lg:col-span-1">
+      <p className="mb-3 text-lg font-semibold text-gray-900">{title}</p>
       <div className="flex flex-col gap-3">
-        {data.map(product => {
+        {data?.map(product => {
           return (
             <ProductCard key={product.id} className="flex cursor-pointer gap-4">
               <ProductCard.Image className="h-[70px] w-[70px]" product={product} />
@@ -32,4 +30,4 @@ const FlashSales = ({ data }: Props) => {
   );
 };
 
-export default FlashSales;
+export default ProductShowcaseList;

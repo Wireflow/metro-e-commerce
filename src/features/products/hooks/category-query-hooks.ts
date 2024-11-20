@@ -13,9 +13,9 @@ export const useCategories = () => {
   });
 };
 
-export const useFeaturedCategory = () => {
+export const useFeaturedCategory = (categoryId: string) => {
   return useQuery({
-    queryKey: ['categories', 'featured'],
+    queryKey: ['categories', 'featured', categoryId],
     queryFn: async () => {
       const supabase = createClient();
       const { data, error } = await supabase
@@ -23,7 +23,7 @@ export const useFeaturedCategory = () => {
         .select(
           '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_categories:categories(id, name, image_url)'
         )
-        .eq('id', '46a4dbe6-4f4d-4ec6-bcc7-6f3e3672dc6c')
+        .eq('id', categoryId)
         .single();
       if (error) {
         throw new Error('Faild to fetch featured category');

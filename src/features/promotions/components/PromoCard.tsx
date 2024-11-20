@@ -7,7 +7,7 @@ import { ISOStringFormat } from 'date-fns';
 import { ChevronRight, Edit } from 'lucide-react';
 import { createContext, useContext } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
@@ -127,7 +127,15 @@ const PromoTitle = ({ className }: { className?: string }) => {
 
 PromoCard.Title = PromoTitle;
 
-const PromoPrice = ({ className }: { className?: string }) => {
+const PromoPrice = ({
+  className,
+  prefix,
+  suffix,
+}: {
+  className?: string;
+  prefix?: string;
+  suffix?: string;
+}) => {
   const { product } = usePromoCard();
   const { metadata } = useUser();
   const hasValidDiscount = isDiscountValid(
@@ -136,7 +144,8 @@ const PromoPrice = ({ className }: { className?: string }) => {
   );
 
   return (
-    <div className={cn('flex gap-4', className)}>
+    <div className={cn('flex gap-1', className)}>
+      {prefix && <span className="font-medium text-black">{prefix}</span>}
       <PriceSection
         disableCompare
         isValidDiscount={hasValidDiscount}
@@ -146,6 +155,7 @@ const PromoPrice = ({ className }: { className?: string }) => {
           metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
         }
       />
+      {suffix && <span className="font-medium text-black">{suffix}</span>}
     </div>
   );
 };
@@ -169,15 +179,20 @@ const PromoDescription = ({ className }: { className?: string }) => {
 
 PromoCard.Description = PromoDescription;
 
-const PromoAction = () => {
+const PromoAction = ({ className }: { className?: string }) => {
   const { product } = usePromoCard();
 
   return (
-    <Link href={`/products/${product?.id}`} className="w-fit">
-      <Button className="mt-4 flex w-fit items-center gap-2" size={'lg'}>
-        SHOP NOW
-        <ChevronRight size={20} />
-      </Button>
+    <Link
+      href={`/products/${product?.id}`}
+      className={cn(
+        buttonVariants({ size: 'lg' }),
+        'mt-4 flex w-fit items-center gap-2',
+        className
+      )}
+    >
+      SHOP NOW
+      <ChevronRight size={20} />
     </Link>
   );
 };
