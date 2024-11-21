@@ -48,12 +48,12 @@ const FeaturedCategory = () => {
       >
         <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
           <div>
-            <PromoCard.Image className="w-[300px]" />
+            <PromoCard.Image className="h-[300px] w-[300px]" />
           </div>
-          <div>
+          <div className="flex flex-col items-center justify-center">
             <PromoCard.Label />
             <PromoCard.Title />
-            <PromoCard.Description />
+            <PromoCard.Description className="w-[300px] text-center" />
             <div className="mt-3 flex items-center justify-center gap-1">
               <p>Only for</p>
               <PromoCard.Price className="rounded-[2px] bg-white px-2 py-1 text-sm" suffix="USD" />

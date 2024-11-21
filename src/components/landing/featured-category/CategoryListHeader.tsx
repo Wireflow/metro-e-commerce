@@ -25,9 +25,9 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
     const updateVisibleTabs = () => {
       const width = window.innerWidth;
       if (width >= 1280) {
-        setVisibleTabs(Math.min(4, category.sub_categories.length));
-      } else if (width >= 1024) {
         setVisibleTabs(Math.min(3, category.sub_categories.length));
+      } else if (width >= 1024) {
+        setVisibleTabs(Math.min(2, category.sub_categories.length));
       } else if (width >= 768) {
         setVisibleTabs(Math.min(2, category.sub_categories.length));
       } else {

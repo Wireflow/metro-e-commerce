@@ -81,7 +81,10 @@ export const PriceSection = ({
 
 const ProductCard = ({ children, className, onClick }: ProductCardProps) => {
   return (
-    <Card onClick={onClick} className={cn('rounded-[2px] p-4 shadow-none', className)}>
+    <Card
+      onClick={onClick}
+      className={cn('border-gray-150 rounded-[2px] p-4 shadow-none', className)}
+    >
       {children}
     </Card>
   );
@@ -99,7 +102,7 @@ const ProductTitle = ({
   return (
     <p
       className={cn(
-        'truncate text-wrap',
+        'truncate',
         { 'text-sm': size === 'sm', 'text-base': size === 'md' },
         className
       )}
@@ -204,7 +207,7 @@ const ProductImage = ({
         />
       </div>
 
-      <div className="absolute left-0 top-0 z-10 flex w-full justify-between">
+      <div className="absolute left-0 top-0 z-10">
         {hasValidDiscount && disableSaleBadge !== true && (
           <Badge variant="yellow" className="rounded-none">
             Sale

@@ -20,7 +20,7 @@ const PublicProductList = ({ renderItem, ...props }: Props) => {
     >
       <ProductCard.Image product={item} className="aspect-square w-full object-contain" />
       <div className="flex flex-col gap-1">
-        <ProductCard.Title product={item} size="sm" className="line-clamp-2" />
+        <ProductCard.Title product={item} size="sm" className="truncate" />
         <ProductCard.Price product={item} />
       </div>
     </ProductCard>

@@ -45,7 +45,7 @@ const ShopCategories = () => {
                 ? Array.from([1, 2, 3, 4, 5, 6, 7, 8])?.map((_, index) => (
                     <CarouselItem
                       key={index}
-                      className="max-w-[150px] pl-2 sm:basis-1/3 md:max-w-none md:basis-1/2 md:pl-4 lg:basis-1/5 xl:basis-1/6"
+                      className="max-w-[150px] pl-2 sm:basis-1/5 md:max-w-none md:basis-1/4 md:pl-4 lg:basis-1/5 xl:basis-1/6"
                     >
                       <div className="p-1">
                         <Skeleton className="h-[158px] w-[134px] md:h-[240px] md:w-[210px]" />
@@ -55,7 +55,7 @@ const ShopCategories = () => {
                 : categories?.map((category: Category) => (
                     <CarouselItem
                       key={category.id}
-                      className="max-w-[150px] pl-2 sm:basis-1/3 md:max-w-none md:basis-1/2 md:pl-4 lg:basis-1/5 xl:basis-1/6"
+                      className="max-w-[150px] pl-2 sm:basis-1/3 md:max-w-none md:basis-1/4 md:pl-4 lg:basis-1/5 xl:basis-1/6"
                     >
                       <div className="p-1 transition-transform duration-200 ease-in-out hover:scale-105">
                         <CategoryCard category={category} />
