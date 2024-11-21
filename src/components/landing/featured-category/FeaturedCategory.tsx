@@ -43,7 +43,6 @@ const FeaturedCategory = () => {
       <PromoCard
         product={promotion?.product}
         promotedProduct={promotion}
-        // eslint-disable-next-line prettier/prettier
         className="grid min-w-[300px] place-items-center bg-theme-yellow"
       >
         <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
