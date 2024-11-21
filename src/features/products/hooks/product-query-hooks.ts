@@ -175,7 +175,8 @@ export const useFeaturedProducts = () => {
         )
         .eq('published', true)
         .eq('is_featured', true)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(4);
 
       if (error) {
         console.error('Query error:', error);

@@ -24,7 +24,11 @@ const BestDeals = ({ className }: Props) => {
   const router = useRouter();
 
   const topDeal = products?.slice(0)[0];
-  const restDeals = products?.slice(1, 9); // Limit to 8 products for the grid
+  const restDeals = products?.slice(1).map((product, index) => ({
+    ...product,
+    // Show all items in mobile, hide items after 6 in md, show all in lg
+    ...(index >= 6 && { className: 'block md:hidden lg:block' }),
+  }));
 
   if (isLoading) return <BestDealsSkeleton />;
 
@@ -47,18 +51,18 @@ const BestDeals = ({ className }: Props) => {
 
         <ProductCard.Image
           product={product}
-          className="h-full w-full object-contain"
+          className="h-64 w-full object-contain"
           disableSaleBadge
         />
       </div>
 
       <div className="flex flex-col gap-3">
         <div className="space-y-2">
-          <ProductCard.Title product={product} className="line-clamp-2" />
+          <ProductCard.Title product={product} className="line-clamp-2 min-h-[3rem]" />
           <ProductCard.Price product={product} />
           <ProductCard.Description
             product={product}
-            className="line-clamp-2 text-sm text-muted-foreground"
+            className="line-clamp-2 min-h-[3rem] text-sm text-muted-foreground"
           />
         </div>
 
@@ -71,15 +75,20 @@ const BestDeals = ({ className }: Props) => {
     </ProductCard>
   );
 
-  const renderItem = (item: Product) => (
+  const renderItem = (item: Product & { className?: string }) => (
     <ProductCard
       key={item.id}
-      className="group flex cursor-pointer flex-col gap-4 p-4 transition-all hover:shadow-lg"
+      className={cn(
+        'group flex h-full cursor-pointer flex-col gap-4 p-4 transition-all hover:shadow-lg',
+        item.className
+      )}
       onClick={() => router.push(`/products/${item.id}`)}
     >
-      <ProductCard.Image product={item} className="aspect-square w-full object-contain" />
-      <div className="flex flex-col gap-1">
-        <ProductCard.Title product={item} size="sm" className="line-clamp-2" />
+      <div className="relative aspect-square w-full">
+        <ProductCard.Image product={item} className="h-full w-full object-contain" />
+      </div>
+      <div className="flex flex-1 flex-col gap-1">
+        <ProductCard.Title product={item} size="sm" className="line-clamp-2 min-h-[2.5rem]" />
         <ProductCard.Price product={item} />
       </div>
     </ProductCard>
@@ -97,11 +106,13 @@ const BestDeals = ({ className }: Props) => {
       </div>
       <div className="grid gap-4 md:grid-cols-12">
         {/* Featured Product - Takes 4 columns on larger screens */}
-        {topDeal && <div className="bg-card md:col-span-4">{renderFeaturedCard(topDeal)}</div>}
+        {topDeal && (
+          <div className="h-full bg-card md:col-span-4">{renderFeaturedCard(topDeal)}</div>
+        )}
 
         {/* Product Grid - Takes 8 columns on larger screens */}
-        <div className={cn('bg-card', topDeal ? 'md:col-span-8' : 'md:col-span-12')}>
-          <List<Product>
+        <div className={cn('h-full bg-card', topDeal ? 'md:col-span-8' : 'md:col-span-12')}>
+          <List<Product & { className?: string }>
             data={restDeals ?? []}
             renderItem={renderItem}
             ListEmptyComponent={
@@ -110,10 +121,10 @@ const BestDeals = ({ className }: Props) => {
               </div>
             }
             contentClassName={cn(
-              'grid gap-4',
+              'grid auto-rows-fr gap-4',
               topDeal
                 ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' // 4 columns for 8 products
-                : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5' // 5 columns when no featured product
+                : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5' // 5 columns when no featured product
             )}
           />
         </div>

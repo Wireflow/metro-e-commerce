@@ -109,7 +109,10 @@ export const PriceSection = ({
 
 const ProductCard = ({ children, className, onClick }: ProductCardProps) => {
   return (
-    <Card onClick={onClick} className={cn('rounded-[2px] p-4 shadow-none', className)}>
+    <Card
+      onClick={onClick}
+      className={cn('border-gray-150 rounded-[2px] p-4 shadow-none', className)}
+    >
       {children}
     </Card>
   );
@@ -127,7 +130,7 @@ const ProductTitle = ({
   return (
     <p
       className={cn(
-        'truncate text-wrap',
+        'truncate',
         { 'text-sm': size === 'sm', 'text-base': size === 'md' },
         className
       )}
