@@ -55,6 +55,7 @@ export const useUpdateCartItem = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 };

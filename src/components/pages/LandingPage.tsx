@@ -1,5 +1,7 @@
+'use client';
 // LandingPage.tsx
 
+import { useCart } from '@/features/cart/hooks/queries/useCart';
 import BestDeals from '@/features/products/components/BestDeals';
 import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';
 import ShopCategories from '@/features/products/components/sections/ShopCategories';
@@ -14,7 +16,8 @@ import FeaturedProducts from '../landing/featured-products/FeaturedProducts';
 import HeroSection from '../landing/Hero/HeroSection';
 import SubscribeToNewsLetter from '../landing/subscribe/SubscribeToNewsLetter';
 
-const LandingPage = async () => {
+const LandingPage = () => {
+  const { data: cart } = useCart();
   return (
     <div className="space-y-16">
       <Actions />

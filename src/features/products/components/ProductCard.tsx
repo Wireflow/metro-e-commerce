@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { ISOStringFormat } from 'date-fns';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button, ButtonProps } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import SignInButton from '@/features/auth/components/SignInButton';
 import WithAuth, { UserMetadata } from '@/features/auth/components/WithAuth';
 import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
@@ -314,6 +315,7 @@ const ProductAddToCartButton = ({
   ...props
 }: ButtonProps & { product: Product; children?: React.ReactNode }) => {
   const { mutate: addToCart, isPending } = useAddToCart();
+  const getCartItemById = useCartStore(state => state.getCartItemById);
 
   const handleAddToCart = () => {
     addToCart({
@@ -321,6 +323,8 @@ const ProductAddToCartButton = ({
       quantity: 1,
     });
   };
+
+  const cartItem = useMemo(() => getCartItemById(product.id), [product.id, getCartItemById]);
 
   const defaultChildren = !product.in_stock
     ? 'Out of Stock'
@@ -333,7 +337,7 @@ const ProductAddToCartButton = ({
       <Button
         className={cn('w-full', props.className)}
         variant={product.in_stock ? undefined : 'destructive'}
-        disabled={!product.in_stock || isPending}
+        disabled={!product.in_stock || isPending || !!cartItem}
         onClick={e => {
           e.stopPropagation();
           handleAddToCart();
