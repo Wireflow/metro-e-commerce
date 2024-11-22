@@ -14,10 +14,10 @@ const ProductDetailsDialog = () => {
     <QuickDialog
       open={open}
       onOpenChange={setOpen}
-      className="max-w-[1000px]"
+      className="max-w-[1000px] overflow-auto"
       content={
         <div className="mt-2">
-          <ProductInfo product={product} />
+          <ProductInfo shortenText product={product} />
         </div>
       }
       onClose={() => {

@@ -59,7 +59,7 @@ const MultiImageViewer = ({ imagesUrls }: Props) => {
             key={url}
             onClick={() => goToIndex(index)}
             className={cn(
-              'relative aspect-square h-16 w-16 flex-shrink-0 overflow-hidden rounded border-2',
+              'relative aspect-square h-24 w-24 flex-shrink-0 overflow-hidden rounded border-2',
               currentIndex === index ? 'border-primary' : 'border-transparent'
             )}
           >

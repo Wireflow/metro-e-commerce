@@ -49,3 +49,8 @@ type AddressParams = {
 export function formatAddress(address: AddressParams) {
   return `${address.street}, ${address.city}, ${address.state}, ${address.zip_code}  ${address.country}`;
 }
+
+export const truncate = (text: string, length: number = 100) => {
+  if (text.length <= length) return text;
+  return text.slice(0, text.lastIndexOf(' ', length)).trim() + '...';
+};

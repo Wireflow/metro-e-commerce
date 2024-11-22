@@ -18,7 +18,7 @@ import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWi
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { Enum } from '@/types/supabase/enum';
-import { formatCurrency } from '@/utils/utils';
+import { formatCurrency, truncate } from '@/utils/utils';
 
 import { Product } from '../schemas/products';
 import { useQuickViewStore } from '../store/useQuickViewStore';
@@ -144,7 +144,11 @@ const ProductTitle = ({
 ProductCard.Title = ProductTitle;
 
 const ProductDescription = ({ product, className }: { product: Product; className?: string }) => {
-  return <p className={cn('text-sm text-gray-500', className)}>{product.description}</p>;
+  return (
+    <p className={cn('text-sm text-gray-500', className)}>
+      {truncate(product.description as string)}
+    </p>
+  );
 };
 
 ProductCard.Description = ProductDescription;

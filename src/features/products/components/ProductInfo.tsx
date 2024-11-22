@@ -6,7 +6,7 @@ import { useUpdateCartItem } from '@/features/cart/hooks/mutations/useUpdateCart
 import { useCartItemById } from '@/features/cart/hooks/queries/useCartItemById';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
-import { formatCurrency } from '@/utils/utils';
+import { formatCurrency, truncate } from '@/utils/utils';
 
 import { Product } from '../schemas/products';
 import { isDiscountValid } from '../utils/validateDiscount';
@@ -16,9 +16,11 @@ import QuantityControl from './QuantityControl';
 
 type Props = {
   product: Product;
+  border?: boolean;
+  shortenText?: boolean;
 };
 
-const ProductInfo = ({ product }: Props) => {
+const ProductInfo = ({ product, border, shortenText }: Props) => {
   const { metadata } = useUser();
   const { data: cartItem } = useCartItemById({ product_id: product.id });
   const { mutate: updatedCartItem, isPending: isUpdating } = useUpdateCartItem();
@@ -29,16 +31,20 @@ const ProductInfo = ({ product }: Props) => {
   );
 
   return (
-    <div className="flex flex-col gap-4 md:flex-row">
-      <div className="w-fll md:w-1/2">
+    <div
+      className={`${border ? 'border-b-2 border-b-border pb-5' : ''} flex w-full flex-col gap-4 md:flex-row`}
+    >
+      <div className="w-full md:w-1/2">
         <MultiImageViewer imagesUrls={imagesUrls} />
       </div>
-      <div className="flex w-1/2 flex-col gap-4">
+      <div className="flex w-full flex-col gap-4 md:w-1/2">
         <div className="flex flex-col gap-2">
           <p className="text-wrap text-2xl font-medium">
             {product.name} | {product.manufacturer} | {product.unit}
           </p>
-          <p className="text-sm text-gray-500">{product.description}</p>
+          {shortenText && (
+            <p className="text-sm text-gray-500">{truncate(product.description as string)}</p>
+          )}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
           <div className="flex gap-1 text-sm">
@@ -122,6 +128,10 @@ const ProductInfo = ({ product }: Props) => {
             size={'lg'}
             disabled={!!cartItem}
           />
+        </div>
+        <div className="flex items-center gap-2">
+          <ProductCard.WishlistButton className="border-none bg-white" product={product} />{' '}
+          <p>Add to Wishlist</p>
         </div>
         <SupportedPayments />
       </div>
