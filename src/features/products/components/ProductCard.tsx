@@ -216,11 +216,13 @@ const ProductImage = ({
   className,
   disableSaleBadge,
   disableHoverEffect,
+  object,
 }: {
   product: Product;
   className?: string;
   disableSaleBadge?: boolean;
   disableHoverEffect?: boolean;
+  object?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
 }) => {
   const hasValidDiscount = isDiscountValid(
     product?.discount,
