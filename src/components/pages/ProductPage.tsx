@@ -23,11 +23,7 @@ const ProductPage = ({ product }: Props) => {
 
   return (
     <div>
-      <div className="bg-gray-200">
-        <Container className="flex items-center">
-          <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
-        </Container>
-      </div>
+      <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
 
       <Container className="">
         <div className="flex flex-col gap-10">
