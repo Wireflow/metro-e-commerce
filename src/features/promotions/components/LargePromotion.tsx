@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import Container from '@/components/layout/Container';
 import { Skeleton } from '@/components/ui/skeleton';
+import WithAuth from '@/features/auth/components/WithAuth';
 
 import { usePromotedProducts } from '../hooks/queries/usePromotedProducts';
 import PromoCard from './PromoCard';
@@ -47,7 +48,9 @@ const LargePromotion = () => {
           </div>
 
           <div className="relative md:mt-0">
-            <PromoCard.Price className="absolute left-4 top-10 z-20 flex h-16 w-16 items-center justify-center gap-1 rounded-full border-4 border-white bg-theme-beige-700 text-sm text-white shadow-md sm:h-20 sm:w-20 sm:text-base" />
+            <WithAuth>
+              <PromoCard.Price className="absolute left-4 top-10 z-20 flex h-16 w-16 items-center justify-center gap-1 rounded-full border-4 border-white bg-theme-beige-700 text-sm text-white shadow-md sm:h-20 sm:w-20 sm:text-base" />
+            </WithAuth>
             <PromoCard.Image
               className="h-[250px] w-[300px] object-contain sm:h-[250px] sm:w-[340px] md:h-[280px] md:w-[360px] lg:h-[310px] lg:w-[400px]"
               object="contain"

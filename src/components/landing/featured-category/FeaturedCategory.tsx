@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react';
 
 import Container from '@/components/layout/Container';
+import WithAuth from '@/features/auth/components/WithAuth';
 import { useFeaturedCategory } from '@/features/products/hooks/category-query-hooks';
 import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 import PromoCard from '@/features/promotions/components/PromoCard';
@@ -53,10 +54,15 @@ const FeaturedCategory = () => {
             <PromoCard.Label />
             <PromoCard.Title />
             <PromoCard.Description className="w-[300px] text-center" />
-            <div className="mt-3 flex items-center justify-center gap-1">
-              <p>Only for</p>
-              <PromoCard.Price className="rounded-[2px] bg-white px-2 py-1 text-sm" suffix="USD" />
-            </div>
+            <WithAuth>
+              <div className="mt-3 flex items-center justify-center gap-1">
+                <p>Only for</p>
+                <PromoCard.Price
+                  className="rounded-[2px] bg-white px-2 py-1 text-sm"
+                  suffix="USD"
+                />
+              </div>
+            </WithAuth>
             <PromoCard.Action className="w-full" />
           </div>
         </div>

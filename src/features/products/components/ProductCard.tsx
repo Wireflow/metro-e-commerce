@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { ISOStringFormat } from 'date-fns';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button, ButtonProps } from '@/components/ui/button';
@@ -328,13 +328,15 @@ const ProductAddToCartButton = ({
     });
   };
 
-  const cartItem = useMemo(() => getCartItemById(product.id), [product.id, getCartItemById]);
+  const cartItem = getCartItemById(product.id);
 
   const defaultChildren = !product.in_stock
     ? 'Out of Stock'
-    : isPending
-      ? 'Adding...'
-      : 'Add to Cart';
+    : !!cartItem
+      ? 'In Cart'
+      : isPending
+        ? 'Adding...'
+        : 'Add to Cart';
 
   return (
     <WithAuth>

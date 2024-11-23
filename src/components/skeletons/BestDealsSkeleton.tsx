@@ -17,23 +17,18 @@ const BestDealsSkeleton = ({ className }: Props) => {
         <Skeleton className="h-6 w-40" /> {/* Browse All Button */}
       </div>
 
-      {/* Main Grid */}
       <div className="grid gap-4 md:grid-cols-12">
-        {/* Featured Product Skeleton */}
         <div className="bg-card md:col-span-4">
           <div className="flex h-full flex-col justify-between gap-4 p-4">
             <div className="relative flex-1">
-              {/* Badges */}
               <div className="absolute right-0 top-0 z-10 flex flex-col gap-2">
                 <Skeleton className="h-6 w-16" />
                 <Skeleton className="h-6 w-16" />
               </div>
-              {/* Featured Image */}
               <Skeleton className="aspect-square w-full" />
             </div>
 
             <div className="flex flex-col gap-3">
-              {/* Title and Price */}
               <div className="space-y-2">
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-5 w-24" />
@@ -41,7 +36,6 @@ const BestDealsSkeleton = ({ className }: Props) => {
                 <Skeleton className="h-4 w-3/4" />
               </div>
 
-              {/* Buttons */}
               <div className="flex flex-wrap gap-2">
                 <Skeleton className="h-9 w-9" />
                 <Skeleton className="h-9 flex-1" />
