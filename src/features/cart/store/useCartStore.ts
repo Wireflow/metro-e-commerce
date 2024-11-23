@@ -1,52 +1,28 @@
 import { create } from 'zustand';
 
+import { Product } from '@/features/products/schemas/products';
+import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 
+export type CartItem = Row<'cart_items'> & {
+  product: Product;
+};
+
 type CartState = {
-  cart: Partial<Row<'cart_items'>>[];
-  addToCart: (productId: string, quantity: number) => void;
-  removeFromCart: (productId: string) => void;
+  cart: CartItem[];
+  removeFromCart: (cartItemId: string) => void;
   clearCart: () => void;
   updateCart: (productId: string, quantity: number) => void;
-  setCart: (cart: Row<'cart_items'>[]) => void;
-  getCartItemById: (productId: string) => Partial<Row<'cart_items'>> | undefined;
+  setCart: (cart: CartItem[]) => void;
+  getCartItemById: (productId: string) => CartItem | undefined;
+  getTotalCartPrice: (customer_type: Enum<'customer_type'>) => number;
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
-  addToCart: (productId, quantity) => {
-    const cart = get().cart;
-    const existingItem = cart.find(item => item.product_id === productId);
-
-    if (existingItem) {
-      set({
-        cart: cart.map(item => {
-          if (item.product_id === productId) {
-            return {
-              ...item,
-              quantity: (item?.quantity ?? 0) + quantity,
-            };
-          }
-
-          return item;
-        }),
-      });
-    } else {
-      set({
-        cart: [
-          ...cart,
-          {
-            customer_id: '',
-            product_id: productId,
-            quantity,
-          },
-        ],
-      });
-    }
-  },
-  removeFromCart: productId => {
+  removeFromCart: cartItemId => {
     set({
-      cart: get().cart.filter(item => item.product_id !== productId),
+      cart: get().cart.filter(item => item.id !== cartItemId),
     });
   },
   clearCart: () => {
@@ -75,5 +51,13 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
   getCartItemById: productId => {
     return get().cart.find(item => item.product_id === productId);
+  },
+  getTotalCartPrice: customer_type => {
+    const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
+
+    return get().cart.reduce(
+      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+      0
+    );
   },
 }));

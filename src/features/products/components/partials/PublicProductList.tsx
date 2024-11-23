@@ -26,7 +26,13 @@ const PublicProductList = ({ renderItem, ...props }: Props) => {
     </ProductCard>
   );
 
-  return <List<Product> renderItem={renderItem ?? defaultRenderItem} {...props} />;
+  return (
+    <List<Product>
+      renderItem={renderItem ?? defaultRenderItem}
+      {...props}
+      ListEmptyComponent={<p>No Products Found</p>}
+    />
+  );
 };
 
 export default PublicProductList;

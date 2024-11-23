@@ -13,6 +13,7 @@ import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import SignInButton from '@/features/auth/components/SignInButton';
 import WithAuth, { UserMetadata } from '@/features/auth/components/WithAuth';
 import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
+import { useRemoveFromCart } from '@/features/cart/hooks/mutations/useRemoveFromCart';
 import { useCartStore } from '@/features/cart/store/useCartStore';
 import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
 import { useUser } from '@/hooks/useUser';
@@ -312,6 +313,37 @@ const ProductPrice = ({ product, className }: { product: Product; className?: st
 };
 
 ProductCard.Price = ProductPrice;
+
+const ProductRemoveFromCartButton = ({
+  children,
+  cartItemId,
+  ...props
+}: ButtonProps & { children?: React.ReactNode; cartItemId: string }) => {
+  const { mutate: removeFromCart, isPending } = useRemoveFromCart();
+
+  const handleRemoveFromCart = () => {
+    removeFromCart(cartItemId);
+  };
+
+  return (
+    <WithAuth>
+      <Button
+        className={cn('w-full', props.className)}
+        disabled={isPending}
+        size={props.size}
+        onClick={e => {
+          e.stopPropagation();
+          handleRemoveFromCart();
+        }}
+        {...props}
+      >
+        {children ?? 'Remove from Cart'}
+      </Button>
+    </WithAuth>
+  );
+};
+
+ProductCard.RemoveFromCartButton = ProductRemoveFromCartButton;
 
 const ProductAddToCartButton = ({
   product,
