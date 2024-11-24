@@ -59,6 +59,7 @@ interface DynamicTableProps<T> {
   variant?: keyof typeof tableVariants;
   className?: string;
   hover?: boolean;
+  headerClassname?: string;
 }
 
 const getNestedValue = <T,>(obj: T, path: string): any => {
@@ -73,6 +74,7 @@ export function DynamicTable<T extends Record<string, any>>({
   variant = 'default',
   className,
   hover = true,
+  headerClassname,
 }: DynamicTableProps<T>) {
   const renderCellValue = (item: T, field: TableField<T>, index: number) => {
     let value: any;
@@ -108,7 +110,7 @@ export function DynamicTable<T extends Record<string, any>>({
   return (
     <div className={cn(tableVariants[variant], className)}>
       <Table>
-        <TableHeader>
+        <TableHeader className={headerClassname}>
           <TableRow className={tableHeaderVariants[variant]}>
             {fields.map(
               (field, index) =>

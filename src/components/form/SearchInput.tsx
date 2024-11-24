@@ -53,7 +53,7 @@ const DebouncedSearchInput = ({
           value={query}
           onChange={e => setQuery(e.target.value)}
           placeholder={placeholder ?? 'Search...'}
-          className={cn('w-full pl-10 pr-4', inputClassName)}
+          className={cn('w-full pr-4', inputClassName)}
           style={{ width: '100%' }}
           {...props}
         />

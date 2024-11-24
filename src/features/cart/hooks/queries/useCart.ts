@@ -14,6 +14,7 @@ export const useCart = () => {
       const { data, error } = await supabase
         .from('cart_items')
         .select('*, product:products(*, images:product_images(*), barcodes:barcodes(*))')
+        .order('created_at', { ascending: false })
         .returns<CartItem[]>();
 
       if (error) {

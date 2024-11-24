@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { ArrowRight, ShoppingCart, X } from 'lucide-react';
@@ -29,7 +30,12 @@ const CartPopover = () => {
         className="flex max-h-[110px] cursor-pointer items-center gap-4"
         onClick={() => router.push(`/products/${item.product.id}`)}
       >
-        <ProductCard.Image product={item.product} className="h-[70px] w-[70px]" disableSaleBadge />
+        <ProductCard.Image
+          product={item.product}
+          className="h-[70px] w-[70px]"
+          disableSaleBadge
+          disableHoverEffect
+        />
         <div className="flex flex-col gap-1">
           <ProductCard.Title
             product={item.product}
@@ -38,7 +44,7 @@ const CartPopover = () => {
           <ProductCard.Price product={item.product} />
         </div>
         <ProductCard.RemoveFromCartButton
-          cartItemId={item.id}
+          product={item.product}
           size={'icon'}
           className="w-fit px-2"
           variant={'ghost'}
@@ -73,9 +79,11 @@ const CartPopover = () => {
             <p className="text-sm text-gray-500">Subtotal</p>
             <p>{formatCurrency(totalPrice)}</p>
           </div>
-          <Button className="mt-2 w-full" size={'lg'}>
-            CHECKOUT NOW <ArrowRight className="h-4 w-4" />
-          </Button>
+          <Link href={'/customer/cart'}>
+            <Button className="mt-2 w-full" size={'lg'}>
+              CHECKOUT NOW <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </PopoverContent>
     </Popover>

@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 
 import React, { useMemo } from 'react';
 
+import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';
+
 import ProductSearchBar from '../landing/AppNavigation';
 import Footer from '../landing/Footer/Footer';
 import EditModePrompt from '../landing/Header/EditModePrompt';
@@ -34,6 +36,8 @@ const LayoutProvider = ({ children }: Props) => {
         </>
       )}
       {children}
+      <ProductDetailsDialog />
+
       {shouldShowComponents && <Footer />}
     </>
   );

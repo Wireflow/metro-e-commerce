@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { formatDistanceToNow } from 'date-fns';
 import { CircleX } from 'lucide-react';
 
@@ -16,39 +15,33 @@ import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import DynamicTable, { useTableFields } from '../ui/dynamic-table';
 
-type Props = {};
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Wish List', href: '/customer/wishlist' },
+];
 
-const WishListPage = (props: Props) => {
+const WishListPage = () => {
   const { data: wishlist } = useWishList();
+
   const { mutate: deleteFromWishList } = useDeleteFromWishList();
-  const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Wish List', href: '/customer/wishlist' },
-  ];
 
   const handleProductWishListRemove = (productId: string) => {
     deleteFromWishList(productId);
   };
-  const queryClient = useQueryClient();
-
-  if (wishlist) {
-    queryClient.invalidateQueries({ queryKey: ['wishlist'] });
-  }
 
   const fields = useTableFields<Product>([
     {
       key: product => (
-        <div className="relative h-12 w-12 overflow-hidden rounded-md border">
-          <ProductCard.Image
-            disableHoverEffect
-            disableSaleBadge
-            product={product}
-            className="flex-1 object-cover"
-          />
-        </div>
+        <ProductCard.Image
+          disableHoverEffect
+          disableSaleBadge
+          product={product}
+          className="p-0"
+          object="cover"
+        />
       ),
       label: 'Image',
-      className: 'w-[68px]',
+      className: 'w-[68px] pl-4',
     },
     {
       key: product => (
@@ -86,18 +79,19 @@ const WishListPage = (props: Props) => {
     },
     {
       key: product => (
-        <div className="flex items-center">
-          <ProductCard.AddToCartButton product={product} className="flex-1" />
+        <div className="flex justify-end gap-2">
+          <ProductCard.AddToCartButton product={product} className="min-w-[200px]" />
           <Button
             variant={'none'}
+            size={'icon'}
             onClick={() => handleProductWishListRemove(product?.id)}
-            className="flex-1"
+            className="flex-[0.2] text-gray-500"
           >
             <CircleX />
           </Button>
         </div>
       ),
-      className: 'text-center ',
+      className: 'text-end pr-4  w-fit',
       label: 'Actions',
     },
   ]);
@@ -108,10 +102,16 @@ const WishListPage = (props: Props) => {
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
       <Container>
-        <Card>
-          <h1 className="p-5 text-lg font-bold">Wishlist</h1>
-          <CardContent>
-            <DynamicTable fields={fields} data={wishlist?.product as Product[]} />
+        <Card className="p-0 shadow-none">
+          <h1 className="p-5 text-lg font-semibold">Wishlist</h1>
+          <CardContent className="p-0">
+            <DynamicTable
+              fields={fields}
+              data={wishlist?.product as Product[]}
+              variant="minimal"
+              headerClassname="bg-gray-200 text-white"
+              emptyMessage="No products in wishlist"
+            />
           </CardContent>
         </Card>
       </Container>

@@ -13,6 +13,28 @@ export const useCategories = () => {
   });
 };
 
+export const useCategoriesWithSub = () => {
+  return useQuery({
+    queryKey: ['categories', 'with-sub'],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('categories')
+        .select(
+          '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_categories:categories(id, name, image_url)'
+        );
+
+      if (error) {
+        throw new Error('Faild to fetch categories');
+      }
+      if (!data) {
+        throw new Error('No data returned from useCategoriesWithSub');
+      }
+      return data as unknown as CategoryWithProducts;
+    },
+  });
+};
+
 export const useFeaturedCategory = (categoryId: string) => {
   return useQuery({
     queryKey: ['categories', 'featured', categoryId],
@@ -131,13 +153,17 @@ export const useTopCategories = () => {
   });
 };
 
-export const useManufacturers = () => {
+export const useManufacturers = (limit: number = 10) => {
   return useQuery({
     queryKey: ['manufacturers'],
     queryFn: async () => {
       const supabase = createClient();
 
-      const { data, error } = await supabase.from('category_manufacturers').select('*').limit(10);
+      const { data, error } = await supabase
+        .from('category_manufacturers')
+        .select('*')
+        .limit(limit);
+
       if (error) {
         throw new Error('Failed to find manufacturers');
       }

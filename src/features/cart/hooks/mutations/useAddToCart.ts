@@ -1,10 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDeleteFromWishlist';
 import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
 export const useAddToCart = () => {
+  const { mutateAsync: removeFromWishlist } = useDeleteFromWishList({ disableToast: true });
+
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -63,6 +66,8 @@ export const useAddToCart = () => {
       if (error) {
         throw new Error('Failed to add product to cart');
       }
+
+      removeFromWishlist(item.product_id);
 
       isNewItem = true;
 

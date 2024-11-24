@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import SupportedPayments from '@/features/cart/components/SupportedPayments';
 import { useUpdateCartItem } from '@/features/cart/hooks/mutations/useUpdateCartItem';
 import { useCartItemById } from '@/features/cart/hooks/queries/useCartItemById';
+import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { formatCurrency, truncate } from '@/utils/utils';
@@ -29,6 +30,9 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
     product?.discount,
     product?.discounted_until as ISOStringFormat
   );
+
+  const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
+  const wishlistItem = getWishlistItemById(product.id);
 
   return (
     <div
@@ -129,9 +133,9 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
             disabled={!!cartItem}
           />
         </div>
-        <div className="flex items-center gap-2">
-          <ProductCard.WishlistButton className="border-none bg-white" product={product} />{' '}
-          <p>Add to Wishlist</p>
+        <div className="flex items-center gap-1">
+          <ProductCard.WishlistButton className="border-none bg-white" product={product} />
+          <p>{wishlistItem ? 'Remove from Wishlist' : 'Add to Wishlist'}</p>
         </div>
         <SupportedPayments />
       </div>

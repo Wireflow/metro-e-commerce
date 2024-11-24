@@ -1,9 +1,7 @@
 import ShopPage from '@/components/pages/ShopPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const Shop = () => {
   return <ShopPage />;
 };
 
-export default page;
+export default Shop;

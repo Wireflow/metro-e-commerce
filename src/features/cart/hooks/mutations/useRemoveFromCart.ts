@@ -11,7 +11,7 @@ export const useRemoveFromCart = () => {
 
   return useMutation({
     mutationKey: ['cart', 'remove'],
-    mutationFn: async (cartItemId: string) => {
+    mutationFn: async (productId: string) => {
       const supabase = createClient();
       const {
         data: { user },
@@ -22,17 +22,20 @@ export const useRemoveFromCart = () => {
         throw new Error('Unauthorized');
       }
 
-      if (!cartItemId) {
+      if (!productId) {
         throw new Error('No cart item id provided');
       }
 
-      const { data, error } = await supabase.from('cart_items').delete().eq('id', cartItemId);
+      const { data, error } = await supabase
+        .from('cart_items')
+        .delete()
+        .match({ product_id: productId, customer_id: user?.id });
 
       if (error) {
         throw new Error('Failed to remove product from cart');
       }
 
-      removeFromCart(cartItemId);
+      removeFromCart(productId);
 
       return data;
     },
