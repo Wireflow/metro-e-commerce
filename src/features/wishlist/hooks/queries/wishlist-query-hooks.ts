@@ -10,7 +10,6 @@ export const useWishList = () => {
       const supabase = createClient();
       const session = await getSession();
 
-      // Changed from .single() to get all wishlist items
       const { data, error } = await supabase.from('wishlist_items').select(
         `
           *,
@@ -30,11 +29,10 @@ export const useWishList = () => {
         return { product: [] };
       }
 
-      // Map the data to get an array of products
       const products = data.map(item => item.product as Product);
 
       return {
-        product: products.filter(Boolean), // Remove any null values
+        product: products.filter(Boolean),
       };
     },
   });

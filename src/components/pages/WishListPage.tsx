@@ -7,7 +7,7 @@ import { CircleX } from 'lucide-react';
 import ProductCard from '@/features/products/components/ProductCard';
 import { Product } from '@/features/products/schemas/products';
 import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDeleteFromWishlist';
-import { useWishList } from '@/features/wishlist/hooks/mutations/wishlist-query-hooks';
+import { useWishList } from '@/features/wishlist/hooks/queries/wishlist-query-hooks';
 
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
@@ -111,7 +111,7 @@ const WishListPage = (props: Props) => {
         <Card>
           <h1 className="p-5 text-lg font-bold">Wishlist</h1>
           <CardContent>
-            <DynamicTable fields={fields} data={wishlist?.product as Product[]} />
+            <DynamicTable variant="minimal" fields={fields} data={wishlist?.product as Product[]} />
           </CardContent>
         </Card>
       </Container>
