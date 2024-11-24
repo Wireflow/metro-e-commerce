@@ -17,6 +17,7 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
     { label: 'Category', value: category?.name },
     { label: 'Tobacco Product', value: product?.is_tobacco ? 'Yes' : 'No' },
   ];
+
   return (
     <Tabs defaultValue="description" className="flex w-full flex-col items-start gap-5">
       <TabsList>
@@ -35,7 +36,7 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
       </TabsList>
       <div className="w-full">
         <TabsContent value="description">
-          <Card>
+          <Card className="shadow-none">
             <CardContent className="pt-6">
               <p className="max-w-prose leading-relaxed text-muted-foreground">
                 {product.description}
@@ -44,7 +45,7 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
           </Card>
         </TabsContent>
         <TabsContent value="Additional Information">
-          <Card>
+          <Card className="shadow-none">
             <CardContent className="pt-6">
               <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
                 {additionalInfo.map(({ label, value }) => (

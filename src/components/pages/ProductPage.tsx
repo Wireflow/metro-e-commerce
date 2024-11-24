@@ -1,8 +1,10 @@
 'use client';
 
+import { useCart } from '@/features/cart/hooks/queries/useCart';
 import ProductInfo from '@/features/products/components/ProductInfo';
 import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 import { Product } from '@/features/products/schemas/products';
+import { useWishList } from '@/features/wishlist/hooks/queries/wishlist-query-hooks';
 
 import ProductOptions from '../landing/different-product-options/ProductOptions';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
@@ -15,6 +17,9 @@ type Props = {
 
 const ProductPage = ({ product }: Props) => {
   const { data: category } = useCategoryById(product.category_id);
+
+  useCart();
+  useWishList();
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },

@@ -16,6 +16,8 @@ import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
 import { useRemoveFromCart } from '@/features/cart/hooks/mutations/useRemoveFromCart';
 import { useCartStore } from '@/features/cart/store/useCartStore';
 import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
+import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDeleteFromWishlist';
+import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { Enum } from '@/types/supabase/enum';
@@ -216,7 +218,7 @@ const ProductImage = ({
   className,
   disableSaleBadge,
   disableHoverEffect,
-  object,
+  object = 'contain',
 }: {
   product: Product;
   className?: string;
@@ -228,6 +230,9 @@ const ProductImage = ({
     product?.discount,
     product?.discounted_until as ISOStringFormat
   );
+  const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
+
+  const wishlistItem = getWishlistItemById(product.id);
 
   return (
     <div className={cn('relative aspect-square h-full w-full', className)}>
@@ -235,8 +240,8 @@ const ProductImage = ({
         <Image
           alt={product.name}
           src={product.images[0]?.url ?? PLACEHOLDER_IMG_URL}
-          objectFit="contain"
-          className="object-contain p-4 mix-blend-multiply"
+          objectFit={object}
+          className="p-4 mix-blend-multiply"
           style={{
             maskImage: 'linear-gradient(to bottom, black, black)',
             WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
@@ -277,7 +282,9 @@ const ProductImage = ({
               <ProductWishlistButton
                 product={product}
                 size={'icon'}
-                className="group/wishlist rounded-full border-none bg-white hover:bg-primary"
+                className={cn('group/wishlist rounded-full border-none bg-white hover:bg-primary', {
+                  'bg-red-200': !!wishlistItem,
+                })}
               />
               <ProductQuickViewButton
                 product={product}
@@ -318,13 +325,13 @@ ProductCard.Price = ProductPrice;
 
 const ProductRemoveFromCartButton = ({
   children,
-  cartItemId,
+  product,
   ...props
-}: ButtonProps & { children?: React.ReactNode; cartItemId: string }) => {
+}: ButtonProps & { children?: React.ReactNode; product: Product }) => {
   const { mutate: removeFromCart, isPending } = useRemoveFromCart();
 
   const handleRemoveFromCart = () => {
-    removeFromCart(cartItemId);
+    removeFromCart(product.id);
   };
 
   return (
@@ -394,25 +401,39 @@ ProductCard.AddToCartButton = ProductAddToCartButton;
 
 const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
   const { mutate: addToWishlist, isPending } = useAddToWishlist();
+  const { mutate: removeFromWishlist, isPending: isPendingRemove } = useDeleteFromWishList();
+  const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
+
+  const wishlistItem = getWishlistItemById(product.id);
 
   const handleWishlist = () => {
-    addToWishlist(product.id);
+    if (wishlistItem) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product.id);
+    }
   };
 
   return (
     <WithAuth>
       <Button
-        className={cn('border-none bg-theme-beige text-black', props.className)}
+        className={cn('border-none bg-theme-beige text-black', props.className, {
+          'bg-red-200': !!wishlistItem,
+        })}
         onClick={e => {
           e.stopPropagation();
           handleWishlist();
         }}
-        disabled={isPending}
+        disabled={isPending || isPendingRemove}
         size={'icon'}
         variant={'outline'}
         {...props}
       >
-        <Heart className="h-5 w-5 text-black group-hover/wishlist:text-white" />
+        <Heart
+          className={cn('h-5 w-5 text-black group-hover/wishlist:text-white', {
+            'fill-red-500 text-red-500': !!wishlistItem,
+          })}
+        />
       </Button>
     </WithAuth>
   );

@@ -41,7 +41,7 @@ export const getPaginatedProducts = async (
   const supabase = createClient();
   const { page = 1, pageSize = 10 } = pagination;
 
-  let countQuery = supabase.from('products').select('*', { count: 'exact', head: true });
+  let countQuery = supabase.from('products').select('id', { count: 'exact', head: true });
 
   let query = supabase.from('products').select('*, images:product_images(*), barcodes:barcodes(*)');
 

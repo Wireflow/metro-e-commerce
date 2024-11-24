@@ -1,9 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { createClient } from '@/utils/supabase/client';
 
 export const useAddToWishlist = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['wishlist', 'add'],
     mutationFn: async (productId: string) => {
@@ -44,6 +46,9 @@ export const useAddToWishlist = () => {
         return;
       }
       toast.error(error.message ?? 'Failed to add product to wishlist');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['wishlist'] });
     },
   });
 };
