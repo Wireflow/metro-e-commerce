@@ -13,6 +13,7 @@ type Props = {
 
 const TrackedOrder = ({ order }: Props) => {
   console.log(order?.status);
+
   return (
     <Card className="flex flex-col gap-2">
       <CardHeader className="m-5 bg-yellow-50">
