@@ -1,9 +1,15 @@
+import Link from 'next/link';
+
 import { Store } from 'lucide-react';
 
 type Props = {};
 
 const Logo = (props: Props) => {
-  return <Store className="text-red-500" />;
+  return (
+    <Link href={'/'}>
+      <Store className="text-red-500" />
+    </Link>
+  );
 };
 
 export default Logo;

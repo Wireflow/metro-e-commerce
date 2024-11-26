@@ -39,13 +39,22 @@ export const getPaginatedProducts = async (
   pagination: PaginationParams = { page: 1, pageSize: 10 }
 ): Promise<PaginatedResponse<any>> => {
   const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { page = 1, pageSize = 10 } = pagination;
 
   let countQuery = supabase.from('products').select('id', { count: 'exact', head: true });
 
   let query = supabase.from('products').select('*, images:product_images(*), barcodes:barcodes(*)');
 
-  [countQuery, query] = applyProductFilters([countQuery, query], filters);
+  [countQuery, query] = applyProductFilters(
+    [countQuery, query],
+    filters,
+    user?.user_metadata?.customer_type
+  );
 
   const { count: total } = await countQuery;
 

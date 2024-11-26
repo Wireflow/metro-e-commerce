@@ -6,6 +6,7 @@ import { ArrowRight, ShoppingCart, X } from 'lucide-react';
 import List from '@/components/List';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import WithAuth from '@/features/auth/components/WithAuth';
 import ProductCard from '@/features/products/components/ProductCard';
 import { useUser } from '@/hooks/useUser';
 import { formatCurrency } from '@/utils/utils';
@@ -58,7 +59,15 @@ const CartPopover = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+        <WithAuth
+          fallback={
+            <Link href={'/customers/sign-in'}>
+              <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+            </Link>
+          }
+        >
+          <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+        </WithAuth>
       </PopoverTrigger>
       <PopoverContent align="end" className="mt-3 p-0 md:min-w-[350px]">
         <div className="border-b border-b-gray-300 px-4 py-3">

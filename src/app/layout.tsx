@@ -8,11 +8,13 @@ import LayoutProvider from '@/components/layout/LayoutProvider';
 import Providers from '@/components/layout/Providers';
 import { Toaster } from '@/components/ui/sonner';
 import { METRO_BRANCH_ID } from '@/data/constants';
+import { getCustomerById } from '@/features/customers/server/getCustomerById';
 import { getCategories } from '@/features/products/server/categories/getCategories';
 import getQueryClient from '@/lib/react-query';
 import { getBranchById } from '@/server/branches/getBranchById';
 import { getTopCategories } from '@/server/categories/getTopCategories';
 import { getManufacturers } from '@/server/manufacturers/getManufacturers';
+import { getUser } from '@/utils/supabase/server';
 
 import './globals.css';
 
@@ -91,6 +93,14 @@ export default async function RootLayout({
     queryKey: ['categories', 'top'],
     queryFn: getTopCategories,
   });
+
+  const {
+    data: { user },
+  } = await getUser();
+
+  if (user) {
+    const {} = getCustomerById(user?.id);
+  }
 
   return (
     <html lang="en">

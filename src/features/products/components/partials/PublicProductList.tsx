@@ -30,7 +30,7 @@ const PublicProductList = ({ renderItem, ...props }: Props) => {
     <List<Product>
       renderItem={renderItem ?? defaultRenderItem}
       {...props}
-      ListEmptyComponent={<p>No Products Found</p>}
+      ListEmptyComponent={props.ListEmptyComponent ?? <p>No Products Found</p>}
     />
   );
 };

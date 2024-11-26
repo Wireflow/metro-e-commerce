@@ -30,9 +30,15 @@ const SignInForm = ({ onSuccess }: Props) => {
         toast.error(data?.message || 'An error occurred during sign in');
         return;
       }
-      toast.success('Signed in successfully');
 
+      toast.success('Signed in successfully');
       onSuccess?.();
+
+      if (data.redirect) {
+        router.push(data.redirect);
+        return;
+      }
+
       router.push('/');
     },
     onError: () => {

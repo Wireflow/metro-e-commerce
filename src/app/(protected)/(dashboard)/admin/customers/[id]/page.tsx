@@ -3,11 +3,11 @@ import { getCustomerById } from '@/features/customers/server/getCustomerById';
 import { getCustomerOrders } from '@/features/customers/server/getCustomerOrders';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 const CustomerDetails = async ({ params }: Props) => {
-  const id = await params?.id;
+  const { id } = await params;
   const customer = await getCustomerById(id);
   const orders = await getCustomerOrders(id);
 

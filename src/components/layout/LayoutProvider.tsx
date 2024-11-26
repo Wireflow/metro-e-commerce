@@ -11,12 +11,13 @@ import Footer from '../landing/Footer/Footer';
 import EditModePrompt from '../landing/Header/EditModePrompt';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
+import PendingApproval from './PendingApproval';
 
 type Props = {
   children: React.ReactNode;
 };
 
-const avoidKeywords = ['admin', 'sign-in', 'register', 'forgot-password'];
+const avoidKeywords = ['admin'];
 
 const LayoutProvider = ({ children }: Props) => {
   const pathname = usePathname();
@@ -33,6 +34,7 @@ const LayoutProvider = ({ children }: Props) => {
           <PromoBanner />
           <SocialsBanner />
           <ProductSearchBar />
+          <PendingApproval />
         </>
       )}
       {children}

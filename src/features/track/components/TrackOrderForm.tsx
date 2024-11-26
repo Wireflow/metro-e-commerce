@@ -78,7 +78,7 @@ const TrackOrderForm = () => {
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-sm font-semibold">Order ID</p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-2">
             <Input
               disabled={isSubmitting}
               value={inputValue}
@@ -91,7 +91,7 @@ const TrackOrderForm = () => {
                 }
               }}
             />
-            {(isSubmitting || isLoading) && <AnimtedLoadingSpinner className="mt-2" />}
+            {(!isSubmitting || !isLoading) && <AnimtedLoadingSpinner className="mt-2" size={30} />}
           </div>
         </div>
         <div className="flex items-center gap-2">

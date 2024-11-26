@@ -2,9 +2,9 @@ import CategoryDetailsPage from '@/features/products/pages/categories/CategoryDe
 import { getCategoryById } from '@/features/products/server/categories/getCategoryById';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const ProductDetails = async ({ params }: Props) => {

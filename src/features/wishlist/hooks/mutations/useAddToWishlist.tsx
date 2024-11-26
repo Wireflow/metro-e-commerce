@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import WishlistToast from '@/components/toasts/WishlistToast';
 import { createClient } from '@/utils/supabase/client';
 
 export const useAddToWishlist = () => {
@@ -38,14 +39,32 @@ export const useAddToWishlist = () => {
       return data;
     },
     onSuccess: () => {
-      toast.success('Product added to wishlist');
+      toast.custom(() => <WishlistToast variant="success" />, {
+        duration: 3000,
+        className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+      });
     },
     onError: error => {
       if (error.cause === '23505') {
-        toast.warning('Product already in wishlist');
+        toast.custom(() => <WishlistToast variant="warning" />, {
+          duration: 3000,
+          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+        });
         return;
       }
-      toast.error(error.message ?? 'Failed to add product to wishlist');
+
+      toast.custom(
+        () => (
+          <WishlistToast
+            variant="error"
+            description={error.message ?? 'Failed to add product to wishlist'}
+          />
+        ),
+        {
+          duration: 3000,
+          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+        }
+      );
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });

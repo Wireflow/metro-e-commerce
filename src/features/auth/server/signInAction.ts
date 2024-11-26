@@ -13,7 +13,6 @@ export const signInAction = actionClient.schema(SignInSchema).action(async ({ pa
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    // Return only the message from the error
     return { success: false, message: error.message };
   }
 
@@ -28,17 +27,24 @@ export const signInAction = actionClient.schema(SignInSchema).action(async ({ pa
     return { success: false, message: 'Customer not found' };
   }
 
-  if (!customer.approved) {
-    await supabase.auth.signOut();
-    return { success: false, message: 'Your account is pending approval' };
-  }
-
   if (customer.blocked) {
     await supabase.auth.signOut();
     return { success: false, message: 'Your account has been blocked' };
   }
 
-  // Return only necessary data that's serializable
+  // Check if customer needs to complete tax ID verification
+  if (!customer.approved && (!customer.tax_id || !customer.tax_id_image_url)) {
+    return {
+      success: true,
+      redirect: '/customers/approve/retail',
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+      },
+    };
+  }
+
+  // Return success with user data
   return {
     success: true,
     user: {

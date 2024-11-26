@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Heart } from 'lucide-react';
 
 import SignOutButton from '@/features/auth/components/SignOutButton';
+import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
 
@@ -33,9 +34,18 @@ const AppNavigation = () => {
 
           <div className="flex items-center justify-center gap-6">
             <CartPopover />
-            <Link href="/customer/wishlist">
-              <Heart className="h-7 w-7 text-white" />
-            </Link>
+
+            <WithAuth
+              fallback={
+                <Link href="/customers/sign-in">
+                  <Heart className="h-7 w-7 text-white" />
+                </Link>
+              }
+            >
+              <Link href="/customer/wishlist">
+                <Heart className="h-7 w-7 text-white" />
+              </Link>
+            </WithAuth>
             <LoginPopover />
             <SignOutButton />
           </div>

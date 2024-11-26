@@ -31,6 +31,7 @@ export type UserMetadata = {
   email_verified: boolean;
   phone_verified: boolean;
   tobacco_license: number;
+  tax_id_image_url: string;
   approved_tobacco: boolean;
   role: Enum<'user_role'>;
 };

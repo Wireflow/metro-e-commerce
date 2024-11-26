@@ -43,12 +43,7 @@ const QuickSelect = ({
       <SelectTrigger className={cn('bg-white', className, { capitalize: !!value })}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent
-        ref={ref =>
-          // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-          ref?.addEventListener('touchend', e => e.preventDefault())
-        }
-      >
+      <SelectContent>
         {hasOptions ? (
           options.map(option => (
             <SelectItem

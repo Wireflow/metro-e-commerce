@@ -1,13 +1,13 @@
 import OrderDetailsPage from '@/features/orders/pages/OrderDetailsPage';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-const page = ({ params }: Props) => {
-  const { id } = params;
+const page = async ({ params }: Props) => {
+  const { id } = await params;
   return <OrderDetailsPage id={id} />;
 };
 

@@ -2,10 +2,12 @@
 import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 
 import { ProductFilters } from '@/features/products/hooks/product-query-hooks';
+import { Enum } from '@/types/supabase/enum';
 
 export const applyProductFilters = (
   queries: PostgrestFilterBuilder<any, any, any>[],
-  filters: ProductFilters
+  filters: ProductFilters,
+  customerType?: Enum<'customer_type'>
 ) => {
   return queries.map(query => {
     let modifiedQuery = query;
@@ -37,11 +39,19 @@ export const applyProductFilters = (
 
     // Apply price range filters
     if (filters.minPrice !== undefined) {
-      modifiedQuery = modifiedQuery.gte('retail_price', filters.minPrice);
+      if (customerType === 'wholesale') {
+        modifiedQuery = modifiedQuery.gte('wholesale_price', filters.minPrice);
+      } else {
+        modifiedQuery = modifiedQuery.gte('retail_price', filters.minPrice);
+      }
     }
 
     if (filters.maxPrice !== undefined) {
-      modifiedQuery = modifiedQuery.lte('retail_price', filters.maxPrice);
+      if (customerType === 'wholesale') {
+        modifiedQuery = modifiedQuery.lte('wholesale_price', filters.maxPrice);
+      } else {
+        modifiedQuery = modifiedQuery.lte('retail_price', filters.maxPrice);
+      }
     }
 
     return modifiedQuery;

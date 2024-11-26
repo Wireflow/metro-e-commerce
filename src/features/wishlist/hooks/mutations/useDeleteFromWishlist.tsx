@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import WishlistToast from '@/components/toasts/WishlistToast';
 import { createClient } from '@/utils/supabase/client';
 
 type Params = {
@@ -33,14 +34,29 @@ export const useDeleteFromWishList = (params?: Params) => {
       }
       return data;
     },
+
     onSuccess: () => {
       if (!params?.disableToast) {
-        toast.success('Product removed from wishlist');
+        toast.custom(() => <WishlistToast variant="removed" />, {
+          duration: 3000,
+          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+        });
       }
     },
     onError: error => {
       if (!params?.disableToast) {
-        toast.error(error.message ?? 'Failed to remove product from wishlist');
+        toast.custom(
+          () => (
+            <WishlistToast
+              variant="warning"
+              description={error.message ?? 'Failed to remove product from wishlist'}
+            />
+          ),
+          {
+            duration: 3000,
+            className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+          }
+        );
       }
     },
     onSettled: () => {

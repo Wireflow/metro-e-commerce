@@ -82,7 +82,7 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
             <ProductCard key={promotedProduct?.product.id} className="flex gap-4 bg-gray-50">
               <ProductCard.Image product={promotedProduct?.product} className="h-[70px] w-[70px]" />
               <div className="flex flex-col gap-1">
-                <ProductCard.Title product={promotedProduct?.product} />
+                <ProductCard.Title product={promotedProduct?.product} className="text-wrap" />
                 <ProductCard.Price product={promotedProduct?.product} />
               </div>
             </ProductCard>

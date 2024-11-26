@@ -5,19 +5,20 @@ import { revalidatePath } from 'next/cache';
 import { Update } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/server';
 
-const supabase = createClient();
-
 export const updateCustomer = async (data: Update<'customers'>) => {
+  const supabase = createClient();
+
   if (!data.id) {
     return { success: false, error: 'Customer is required' };
   }
 
-  const { data: product, error } = await supabase
+  const { data: customer, error } = await supabase
     .from('customers')
     .update({
       ...data,
     })
-    .eq('id', data.id);
+    .eq('id', data.id)
+    .select('business_name');
 
   if (error) {
     return { success: false, error: error.message };
@@ -26,5 +27,5 @@ export const updateCustomer = async (data: Update<'customers'>) => {
   revalidatePath('/admin/customers');
   revalidatePath(`/admin/customers/${data.id}`);
 
-  return { success: true, data: product };
+  return { success: true, data: customer };
 };

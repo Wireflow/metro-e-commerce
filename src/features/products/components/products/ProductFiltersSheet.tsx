@@ -107,8 +107,8 @@ const ProductFiltersSheet = () => {
       open={isOpen}
       onOpenChange={open => {
         setIsOpen(open);
+
         if (open) {
-          // Reset temp filters to current store filters when opening
           setTempFilters(filters);
         }
       }}
@@ -124,132 +124,134 @@ const ProductFiltersSheet = () => {
           <SheetDescription>Filter products by category, price, and more.</SheetDescription>
         </SheetHeader>
 
-        <div className="mt-6 space-y-6">
-          {/* Search */}
-          <div className="space-y-2">
-            <Label>Search</Label>
-            <Input
-              placeholder="Search products..."
-              value={tempFilters.search || ''}
-              onChange={e => setTempFilters(prev => ({ ...prev, search: e.target.value }))}
-            />
+        <div className="mt-6 h-full space-y-6 overflow-auto pr-2 custom-scrollbar">
+          <div className="space-y-6 pb-[10rem]">
+            {/* Search */}
             <div className="space-y-2">
-              <Label className="text-sm text-muted-foreground">Search in:</Label>
+              <Label>Search</Label>
+              <Input
+                placeholder="Search products..."
+                value={tempFilters.search || ''}
+                onChange={e => setTempFilters(prev => ({ ...prev, search: e.target.value }))}
+              />
               <div className="space-y-2">
-                {searchFields.map(field => (
-                  <div key={field.value} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={field.value}
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      checked={tempFilters.searchFields?.includes(field.value as any)}
-                      className="data-[state=checked]:bg-black"
-                      onCheckedChange={() =>
-                        handleSearchFieldToggle(
-                          field.value as 'name' | 'description' | 'manufacturer'
-                        )
-                      }
-                    />
-                    <label htmlFor={field.value} className="text-sm">
-                      {field.label}
-                    </label>
-                  </div>
-                ))}
+                <Label className="text-sm text-muted-foreground">Search in:</Label>
+                <div className="space-y-2">
+                  {searchFields.map(field => (
+                    <div key={field.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={field.value}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        checked={tempFilters.searchFields?.includes(field.value as any)}
+                        className="data-[state=checked]:bg-black"
+                        onCheckedChange={() =>
+                          handleSearchFieldToggle(
+                            field.value as 'name' | 'description' | 'manufacturer'
+                          )
+                        }
+                      />
+                      <label htmlFor={field.value} className="text-sm">
+                        {field.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          {/* Category Filters */}
-          <div className="space-y-2">
-            <Label>Category</Label>
-            <QuickSelect
-              placeholder="Select category"
-              options={categoryOptions}
-              value={tempFilters.category_id}
-              onValueChange={value => setTempFilters(prev => ({ ...prev, category_id: value }))}
-            />
-          </div>
-
-          {/* Status Filters */}
-          <div className="space-y-4">
+            {/* Category Filters */}
             <div className="space-y-2">
-              <Label>Stock Status</Label>
+              <Label>Category</Label>
               <QuickSelect
-                placeholder="Select stock status"
-                options={stockStatusOptions}
-                value={String(tempFilters.inStock)}
-                onValueChange={value => handleStatusChange('inStock', value)}
+                placeholder="Select category"
+                options={categoryOptions}
+                value={tempFilters.category_id}
+                onValueChange={value => setTempFilters(prev => ({ ...prev, category_id: value }))}
               />
             </div>
-            <div className="space-y-2">
-              <Label>Publication Status</Label>
-              <QuickSelect
-                placeholder="Select publication status"
-                options={publishStatusOptions}
-                value={String(tempFilters.published)}
-                onValueChange={value => handleStatusChange('published', value)}
+
+            {/* Status Filters */}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Stock Status</Label>
+                <QuickSelect
+                  placeholder="Select stock status"
+                  options={stockStatusOptions}
+                  value={String(tempFilters.inStock)}
+                  onValueChange={value => handleStatusChange('inStock', value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Publication Status</Label>
+                <QuickSelect
+                  placeholder="Select publication status"
+                  options={publishStatusOptions}
+                  value={String(tempFilters.published)}
+                  onValueChange={value => handleStatusChange('published', value)}
+                />
+              </div>
+            </div>
+
+            {/* Discount Filters */}
+            <div className="flex w-full items-center justify-between space-x-2 rounded-sm border p-2">
+              <Label>Active Discounts</Label>
+              <Switch
+                checked={tempFilters.is_discounted}
+                onCheckedChange={e => setTempFilters(prev => ({ ...prev, is_discounted: e }))}
               />
             </div>
-          </div>
 
-          {/* Discount Filters */}
-          <div className="flex w-full items-center justify-between space-x-2 rounded-sm border p-2">
-            <Label>Active Discounts</Label>
-            <Switch
-              checked={tempFilters.is_discounted}
-              onCheckedChange={e => setTempFilters(prev => ({ ...prev, is_discounted: e }))}
-            />
-          </div>
+            {/* Price Range */}
+            <div className="space-y-2">
+              <Label>Price Range</Label>
+              <div className="flex space-x-2">
+                <Input
+                  type="number"
+                  placeholder="Min"
+                  value={tempFilters.minPrice || ''}
+                  onChange={e =>
+                    setTempFilters(prev => ({
+                      ...prev,
+                      minPrice: Number(e.target.value) || undefined,
+                    }))
+                  }
+                />
+                <Input
+                  type="number"
+                  placeholder="Max"
+                  value={tempFilters.maxPrice || ''}
+                  onChange={e =>
+                    setTempFilters(prev => ({
+                      ...prev,
+                      maxPrice: Number(e.target.value) || undefined,
+                    }))
+                  }
+                />
+              </div>
+            </div>
 
-          {/* Price Range */}
-          <div className="space-y-2">
-            <Label>Price Range</Label>
-            <div className="flex space-x-2">
-              <Input
-                type="number"
-                placeholder="Min"
-                value={tempFilters.minPrice || ''}
-                onChange={e =>
+            {/* Sort Options */}
+            <div className="space-y-2">
+              <Label>Sort By</Label>
+              <QuickSelect
+                placeholder="Select sort field"
+                options={sortOptions}
+                value={tempFilters.sortBy}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onValueChange={value => setTempFilters(prev => ({ ...prev, sortBy: value as any }))}
+              />
+
+              <QuickSelect
+                placeholder="Select sort order"
+                options={orderOptions}
+                value={tempFilters.sortOrder}
+                onValueChange={value =>
                   setTempFilters(prev => ({
                     ...prev,
-                    minPrice: Number(e.target.value) || undefined,
+                    sortOrder: value as 'asc' | 'desc',
                   }))
                 }
               />
-              <Input
-                type="number"
-                placeholder="Max"
-                value={tempFilters.maxPrice || ''}
-                onChange={e =>
-                  setTempFilters(prev => ({
-                    ...prev,
-                    maxPrice: Number(e.target.value) || undefined,
-                  }))
-                }
-              />
             </div>
-          </div>
-
-          {/* Sort Options */}
-          <div className="space-y-2">
-            <Label>Sort By</Label>
-            <QuickSelect
-              placeholder="Select sort field"
-              options={sortOptions}
-              value={tempFilters.sortBy}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onValueChange={value => setTempFilters(prev => ({ ...prev, sortBy: value as any }))}
-            />
-
-            <QuickSelect
-              placeholder="Select sort order"
-              options={orderOptions}
-              value={tempFilters.sortOrder}
-              onValueChange={value =>
-                setTempFilters(prev => ({
-                  ...prev,
-                  sortOrder: value as 'asc' | 'desc',
-                }))
-              }
-            />
           </div>
         </div>
 

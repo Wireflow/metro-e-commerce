@@ -61,7 +61,8 @@ export const PriceSection = ({
 }) => (
   <WithAuth
     rules={{
-      customCheck: (metadata: UserMetadata) => metadata?.customer_type === type,
+      customCheck: (metadata: UserMetadata) =>
+        metadata?.customer_type === type && !!metadata.approved,
     }}
     fallback={
       <SignInButton
@@ -258,7 +259,7 @@ const ProductImage = ({
         )}
       </div>
       {!disableHoverEffect && (
-        <WithAuth>
+        <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
           <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50 opacity-0 transition-all duration-300 hover:opacity-100">
             <div className="flex items-center justify-center gap-1.5">
               {product.in_stock && (
@@ -335,7 +336,7 @@ const ProductRemoveFromCartButton = ({
   };
 
   return (
-    <WithAuth>
+    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
       <Button
         className={cn('w-full', props.className)}
         disabled={isPending}
@@ -380,7 +381,7 @@ const ProductAddToCartButton = ({
         : 'Add to Cart';
 
   return (
-    <WithAuth>
+    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
       <Button
         className={cn('w-full', props.className)}
         variant={product.in_stock ? undefined : 'destructive'}
@@ -415,7 +416,7 @@ const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: P
   };
 
   return (
-    <WithAuth>
+    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
       <Button
         className={cn('border-none bg-theme-beige text-black', props.className, {
           'bg-red-200': !!wishlistItem,
@@ -449,7 +450,7 @@ const ProductQuickViewButton = ({ product, ...props }: ButtonProps & { product: 
   };
 
   return (
-    <WithAuth>
+    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
       <Button
         className={cn('border-none bg-theme-beige text-black', props.className)}
         onClick={e => {

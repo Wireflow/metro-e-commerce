@@ -54,3 +54,15 @@ export const truncate = (text: string, length: number = 100) => {
   if (text.length <= length) return text;
   return text.slice(0, text.lastIndexOf(' ', length)).trim() + '...';
 };
+
+export const formatTaxId = (value: string) => {
+  const numbers = value.replace(/\D/g, '');
+
+  const truncated = numbers.slice(0, 9);
+
+  if (truncated.length > 2) {
+    return `${truncated.slice(0, 2)}-${truncated.slice(2)}`;
+  }
+
+  return truncated;
+};

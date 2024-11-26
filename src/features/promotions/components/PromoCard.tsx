@@ -116,7 +116,7 @@ const PromoTitle = ({ className }: { className?: string }) => {
   return (
     <h2
       className={cn(
-        'mt-1 flex flex-grow items-start justify-between truncate text-2xl font-bold',
+        'mt-1 block max-w-[100%] truncate text-2xl font-bold', // Remove flex, make it block
         className
       )}
     >

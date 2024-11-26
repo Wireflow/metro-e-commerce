@@ -1,15 +1,11 @@
 'use client';
 
-import { Download } from 'lucide-react';
-
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 import Pagination from '@/components/Pagination';
-import { Button } from '@/components/ui/button';
-import ProductsPageSkeleton from '@/features/products/components/products/AllProductsSkeleton';
-import ExportProducts from '@/features/products/components/products/ExportProducts';
 
 import ActiveFilters from '../components/ActiveFilters';
+import AllOrdersSkeleton from '../components/AllOrdersSkeleton';
 import OrderFiltersSheet from '../components/OrderFilterSheet';
 import OrdersList from '../components/OrdersList';
 import { usePaginatedOrders } from '../hooks/orders-query-hook';
@@ -32,7 +28,7 @@ const AllOrdersPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoadingOrders) return <ProductsPageSkeleton />;
+  if (isLoadingOrders) return <AllOrdersSkeleton />;
 
   const breadcrumbs = [
     { label: 'Dashboard', href: '/admin' },
@@ -45,15 +41,15 @@ const AllOrdersPage = () => {
         title="Orders"
         description="View all orders"
         breadcrumbs={breadcrumbs}
-        actions={
-          <div className="flex gap-3">
-            <ExportProducts products={ordersData?.data ?? []}>
-              <Button variant={'outline'}>
-                <Download className="h-5 w-5" /> Export
-              </Button>
-            </ExportProducts>
-          </div>
-        }
+        // actions={
+        //   <div className="flex gap-3">
+        //     <ExportProducts products={ordersData?.data ?? []}>
+        //       <Button variant={'outline'}>
+        //         <Download className="h-5 w-5" /> Export
+        //       </Button>
+        //     </ExportProducts>
+        //   </div>
+        // }
       />
 
       <div className="flex flex-col items-start justify-end md:flex-row">

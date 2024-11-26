@@ -135,8 +135,8 @@ const CustomerFiltersSheet = () => {
           <SheetDescription>Filter customers by type, status, and more.</SheetDescription>
         </SheetHeader>
 
-        <div className="flex-1">
-          <div className="mt-6 space-y-6 pb-20">
+        <div className="h-full flex-1 overflow-auto pr-2 custom-scrollbar">
+          <div className="mt-6 space-y-6 pb-[8rem]">
             {/* Search */}
             <div className="space-y-2">
               <Label>Search</Label>

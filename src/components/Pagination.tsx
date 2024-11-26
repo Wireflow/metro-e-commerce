@@ -7,9 +7,15 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  variant?: 'round' | 'square';
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  variant = 'square',
+}) => {
   if (totalPages <= 1) return null;
 
   const pageNumbers = [];
@@ -25,13 +31,16 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     pageNumbers.push(i);
   }
 
+  const variantClass = variant === 'round' ? 'rounded-full' : '';
+
   return (
     <nav className="flex items-center justify-center space-x-2">
       <Button
         variant="outline"
-        size="sm"
+        size="icon"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        className={variantClass}
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
@@ -47,7 +56,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         <Button
           key={number}
           variant={currentPage === number ? 'black' : 'outline'}
-          size="sm"
+          size="icon"
+          className={variantClass}
           onClick={() => onPageChange(number)}
         >
           {number}
@@ -56,16 +66,22 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       {endPage < totalPages && (
         <>
           {endPage < totalPages - 1 && <span className="px-2">...</span>}
-          <Button variant="outline" size="sm" onClick={() => onPageChange(totalPages)}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => onPageChange(totalPages)}
+            className={variantClass}
+          >
             {totalPages}
           </Button>
         </>
       )}
       <Button
         variant="outline"
-        size="sm"
+        size="icon"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        className={variantClass}
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

@@ -1,5 +1,15 @@
+'use client';
+
+import { Filter } from 'lucide-react';
+
 import DebouncedSearchInput from '@/components/form/SearchInput';
 import QuickSelect, { SelectOptions } from '@/components/quick/Select';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+import { useShopFilters } from '../../hooks/useShopFilters';
+import ProductFilters from './ProductFilters';
 
 type ProductTopFiltersProps = {
   setSearchQuery: (query: string) => void;
@@ -16,17 +26,47 @@ const ProductTopFilters = ({
   sortBy,
   sortOptions,
 }: ProductTopFiltersProps) => {
+  const isMobile = useIsMobile();
+
+  const {
+    setCategoryId,
+    setPriceRange,
+    setSelectedManufacturers,
+    selectedManufacturers,
+    categoryId,
+    priceRange,
+  } = useShopFilters();
+
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
       <div className="max-w-[400px] flex-1">
         <DebouncedSearchInput value={searchQuery} onChange={setSearchQuery} />
       </div>
-      <div className="w-full max-w-[200px]">
+      <div className="flex w-full gap-2 md:max-w-[200px]">
         <QuickSelect
           options={sortOptions}
           onValueChange={option => setSortBy(option ?? '')}
           value={sortBy}
         />
+        {isMobile && (
+          <Sheet>
+            <SheetTrigger>
+              <Button>
+                Filters <Filter className="h-4 w-4 text-white" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-scroll">
+              <ProductFilters
+                setSelectedManufacturers={setSelectedManufacturers}
+                setCategoryId={setCategoryId}
+                setPriceRange={setPriceRange}
+                selectedManufacturers={selectedManufacturers}
+                categoryId={categoryId}
+                priceRange={priceRange}
+              />
+            </SheetContent>
+          </Sheet>
+        )}
       </div>
     </div>
   );
