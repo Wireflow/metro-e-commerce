@@ -19,7 +19,7 @@ const LoginPopover = (props: Props) => {
 
   const handleOpenChange = (open: boolean) => {
     if (open === true && user) {
-      router.push('/customer/account');
+      router.push('/customer/dashboard');
       return;
     }
 
