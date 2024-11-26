@@ -34,7 +34,8 @@ const ProductShowcaseList = ({ data, title }: Props) => {
                 />
               </div>
               <div className="flex min-w-0 flex-col gap-1">
-                <ProductCard.Title product={product} />
+                <ProductCard.Title size="sm" product={product} />
+
                 <ProductCard.Price product={product} className="w-fit" />
               </div>
             </ProductCard>
