@@ -6,7 +6,7 @@ interface CustomerTabsState {
 }
 
 const useCustomerTabs = create<CustomerTabsState>(set => ({
-  activeTab: 'Dashboard',
+  activeTab: '',
   setActiveTab: activeTab => set({ activeTab }),
 }));
 

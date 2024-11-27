@@ -38,7 +38,7 @@ export function formatPhoneNumber(number?: number | string): string {
   return String(number);
 }
 
-type AddressParams = {
+export type AddressParams = {
   street: string;
   city: string;
   state: string;
