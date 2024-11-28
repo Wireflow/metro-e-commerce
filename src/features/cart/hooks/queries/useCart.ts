@@ -11,6 +11,7 @@ export const useCart = () => {
     queryKey: ['cart'],
     queryFn: async () => {
       const supabase = createClient();
+
       const { data, error } = await supabase
         .from('cart_items')
         .select('*, product:products(*, images:product_images(*), barcodes:barcodes(*))')
@@ -20,11 +21,13 @@ export const useCart = () => {
       if (error) {
         throw new Error('Error fetching cart items');
       }
+
       if (!data) {
         throw new Error('No cart items found');
       }
 
       setCart(data);
+
       return data;
     },
   });

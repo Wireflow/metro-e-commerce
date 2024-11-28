@@ -9,6 +9,7 @@ import Container from '@/components/layout/Container';
 import List from '@/components/List';
 import BestDealsSkeleton from '@/components/skeletons/BestDealsSkeleton';
 import { Button } from '@/components/ui/button';
+import WithAuth from '@/features/auth/components/WithAuth';
 import { cn } from '@/lib/utils';
 
 import { useDiscountedProducts } from '../hooks/queries/useTopDeal';
@@ -58,19 +59,21 @@ const BestDeals = ({ className }: Props) => {
 
       <div className="flex flex-col gap-3">
         <div className="space-y-2">
-          <ProductCard.Title product={product} className="line-clamp-2 min-h-[3rem]" />
+          <ProductCard.Title product={product} className="truncate" />
           <ProductCard.Price product={product} />
           <ProductCard.Description
             product={product}
-            className="line-clamp-2 min-h-[3rem] text-sm text-muted-foreground"
+            className="line-clamp-2 text-sm text-muted-foreground"
           />
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <ProductCard.WishlistButton product={product} />
-          <ProductCard.AddToCartButton product={product} className="flex-1" />
-          <ProductCard.QuickViewButton product={product} />
-        </div>
+        <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
+          <div className="flex flex-wrap gap-2">
+            <ProductCard.WishlistButton product={product} />
+            <ProductCard.AddToCartButton product={product} className="flex-1" />
+            <ProductCard.QuickViewButton product={product} />
+          </div>
+        </WithAuth>
       </div>
     </ProductCard>
   );
@@ -88,7 +91,7 @@ const BestDeals = ({ className }: Props) => {
         <ProductCard.Image product={item} className="h-full w-full object-contain" />
       </div>
       <div className="flex flex-1 flex-col gap-1">
-        <ProductCard.Title product={item} size="sm" className="line-clamp-2 min-h-[2.5rem]" />
+        <ProductCard.Title product={item} size="sm" className="truncate" />
         <ProductCard.Price product={item} />
       </div>
     </ProductCard>

@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 
 import { ArrowRight } from 'lucide-react';
@@ -12,6 +13,7 @@ type props = {
 
 const FooterTopCategories = ({ categories }: props) => {
   const [activeCategory, setActiveCategory] = useState<string | null>();
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold text-white">Top Categories</p>
@@ -24,7 +26,7 @@ const FooterTopCategories = ({ categories }: props) => {
             <Link
               className={`${activeCategory === category.id ? 'font-semibold text-gray-100' : 'text-gray-300'}`}
               onClick={() => setActiveCategory(category.id)}
-              href={`/categories/${category.id}`}
+              href={`/shop?category=${category.id}`}
             >
               {category.name}
             </Link>

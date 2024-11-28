@@ -1,123 +1,55 @@
 'use client';
 
-import { formatDistanceToNow } from 'date-fns';
+import { useRouter } from 'next/navigation';
+
+import { ArrowLeft } from 'lucide-react';
 
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 import Container from '@/components/layout/Container';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
-import ProductCard from '@/features/products/components/ProductCard';
-import QuantityControl from '@/features/products/components/QuantityControl';
 
-import { useUpdateCartItem } from '../hooks/mutations/useUpdateCartItem';
+import CartProductList from '../components/CartProductList';
+import CartTotals from '../components/CartTotals';
+import OrderTypeSelector from '../components/OrderTypeSelector';
 import { useCart } from '../hooks/queries/useCart';
-import { CartItem } from '../store/useCartStore';
-
-type Props = {};
+import { useCartStore } from '../store/useCartStore';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Shopping Cart', href: '/customer/cart' },
 ];
 
-const CartPage = (props: Props) => {
+const CartPage = () => {
   const { data: cart } = useCart();
-  const { mutate: updatedCartItem, isPending: isUpdating } = useUpdateCartItem();
-
-  const fields = useTableFields<CartItem>([
-    {
-      key: item => (
-        <ProductCard.Image
-          disableHoverEffect
-          disableSaleBadge
-          product={item.product}
-          className="p-0"
-          object="cover"
-        />
-      ),
-      label: 'Image',
-      className: 'w-[68px] pl-4',
-    },
-    {
-      key: item => (
-        <div className="flex flex-col items-start gap-1">
-          {item?.product?.discounted_until &&
-            new Date(item?.product?.discounted_until) > new Date() && (
-              <Badge variant={'warning'} className="-ml-1 h-5 shadow-none">
-                Sale ends{' '}
-                {formatDistanceToNow(new Date(item?.product?.discounted_until), {
-                  addSuffix: true,
-                })}
-              </Badge>
-            )}
-          <p>{item.product.name}</p>
-        </div>
-      ),
-      className: 'min-w-[300px] md:min-w-none',
-      label: 'Name',
-    },
-    {
-      key: item => (
-        <div>
-          <ProductCard.Price product={item.product} className="flex-1" />
-        </div>
-      ),
-      label: 'Price',
-    },
-    {
-      key: item =>
-        item &&
-        item?.quantity > 0 && (
-          <QuantityControl
-            quantity={item?.quantity ?? 0}
-            onIncrease={() => {
-              updatedCartItem({
-                product_id: item.product.id,
-                quantity: (item?.quantity ?? 0) + 1,
-                id: item?.id ?? '',
-              });
-            }}
-            onDecrease={() => {
-              updatedCartItem({
-                product_id: item.product.id,
-                quantity: (item?.quantity ?? 0) - 1,
-                id: item?.id ?? '',
-              });
-            }}
-            disabled={!item.product.in_stock || isUpdating}
-          />
-        ),
-      label: 'Quantity',
-      className: 'min-w-[120px]',
-    },
-    {
-      key: item => (
-        <ProductCard.RemoveFromCartButton product={item.product} className="min-w-[100px]">
-          Remove
-        </ProductCard.RemoveFromCartButton>
-      ),
-      className: 'text-center w-fit',
-      label: 'Actions',
-    },
-  ]);
+  const { orderType, setOrderType } = useCartStore();
+  const router = useRouter();
 
   return (
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
-      <Container>
-        <Card className="p-0 shadow-none">
+      <Container className="flex flex-col items-start gap-8 py-10 md:flex-row md:py-20">
+        <Card className="w-full flex-1 p-0 shadow-none">
           <h1 className="p-5 text-lg font-semibold">Shopping Cart</h1>
           <CardContent className="p-0">
-            <DynamicTable
-              fields={fields}
-              data={cart ?? []}
-              variant="minimal"
-              headerClassname="bg-gray-200 text-white"
-              emptyMessage="No products in cart"
-            />
+            <CartProductList cartItems={cart ?? []} />
+            <div className="p-4">
+              <Button
+                variant={'soft'}
+                className="w-full md:w-auto"
+                onClick={() => router.push('/shop')}
+              >
+                <ArrowLeft className="h-4 w-4" /> Back to Shop
+              </Button>
+            </div>
           </CardContent>
         </Card>
+        <div className="w-full md:max-w-[350px]">
+          <div className="mb-4">
+            <OrderTypeSelector onSelect={setOrderType} selected={orderType} />
+          </div>
+          <CartTotals />
+        </div>
       </Container>
     </div>
   );

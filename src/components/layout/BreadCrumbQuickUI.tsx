@@ -24,7 +24,6 @@ interface PageHeaderProps {
 const BreadCrumbQuickUI = ({ breadcrumbs }: PageHeaderProps) => {
   return (
     <div className="bg-gray-200">
-      {' '}
       <Container className="flex items-center">
         {breadcrumbs && breadcrumbs.length > 0 && (
           <Breadcrumb>
