@@ -27,6 +27,8 @@ export const useMultiStepForm = <T extends Record<string, unknown>>({
   const [currentStep, setCurrentStep] = useState(0);
 
   const next = async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const fields = steps[currentStep].props.fields;
 
     // If fields are specified for the current step, validate only those fields
