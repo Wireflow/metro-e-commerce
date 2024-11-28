@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 
-import { ArrowRight, Package, Store, Truck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { formatCurrency } from '@/utils/utils';
 
 import { useCustomerOrdersClient } from '../server/getCustomerOrdersClient';
 import useCustomerTabs from '../store/useCustomerTabs';
+import { CustomerTab } from './CustomerAccountSideBar';
 
 type Props = {
   TableName?: string;
@@ -51,59 +52,6 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
       default:
         return 'secondary';
     }
-  };
-
-  const getOrderTypeInfo = (type: Enum<'order_type'>) => {
-    switch (type) {
-      case 'delivery':
-        return {
-          icon: <Truck className="h-4 w-4 text-blue-600" />,
-          color: 'bg-blue-50 text-blue-700',
-          label: 'Delivery',
-        };
-      case 'shipment':
-        return {
-          icon: <Package className="h-4 w-4 text-purple-600" />,
-          color: 'bg-purple-50 text-purple-700',
-          label: 'Shipment',
-        };
-      case 'pickup':
-        return {
-          icon: <Store className="h-4 w-4 text-green-600" />,
-          color: 'bg-green-50 text-green-700',
-          label: 'Pickup',
-        };
-      default:
-        return {
-          icon: null,
-          color: 'bg-gray-50 text-gray-700',
-          label: 'Unknown',
-        };
-    }
-  };
-
-  const formatCustomerName = (order: Order) => {
-    const businessName = order.customer?.business_name;
-    const firstName = order.customer?.first_name;
-    const lastName = order.customer?.last_name;
-
-    if (businessName) {
-      return businessName.toUpperCase();
-    }
-    if (firstName || lastName) {
-      return `${firstName || ''} ${lastName || ''}`.trim().toUpperCase();
-    }
-    return 'N/A';
-  };
-
-  const getOrderTimestamp = (order: Order) => {
-    return (
-      order.completed_at ||
-      order.ready_at ||
-      order.preparing_at ||
-      order.confirmed_at ||
-      order.created_at
-    );
   };
 
   const getOrderStatusDate = (order: Row<'orders'>) => {
@@ -174,8 +122,15 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
 
     {
       key: order => (
-        <Link onClick={() => setActiveTab(matchingHref)} href={`/customer/history/${order.id}`}>
-          <Button variant="ghost" size="sm" className="gap-1 hover:bg-neutral-300">
+        <Link
+          onClick={() => setActiveTab(matchingHref as CustomerTab)}
+          href={`/customer/history/${order.id}`}
+        >
+          <Button
+            variant="ghost"
+            size="lg"
+            className="gap-1 text-theme-sky-blue hover:bg-transparent"
+          >
             View <ArrowRight className="h-3 w-3" />
           </Button>
         </Link>
@@ -186,12 +141,12 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
   ]);
   return (
     <div className="rounded-md border border-gray-200">
-      <div className="flex items-center justify-between gap-5 p-5">
+      <div className="flex items-center justify-between gap-5 px-5 py-3">
         <p className="text-xl font-semibold capitalize">{TableName}</p>
         {action && (
           <Link
-            className="flex items-center text-primary"
-            onClick={() => setActiveTab(matchingHref)}
+            className="flex items-center text-sm text-primary"
+            onClick={() => setActiveTab(matchingHref as CustomerTab)}
             href={matchingHref}
           >
             View All <ArrowRight className="ml-2" />

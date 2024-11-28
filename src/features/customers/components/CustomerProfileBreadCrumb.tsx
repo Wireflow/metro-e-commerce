@@ -1,4 +1,7 @@
 'use client';
+
+import { usePathname } from 'next/navigation';
+
 import {
   CreditCard,
   Heart,
@@ -8,15 +11,25 @@ import {
   ShoppingCart,
   Store,
 } from 'lucide-react';
+import { useEffect } from 'react';
 
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 
 import useCustomerTabs from '../store/useCustomerTabs';
 
-type Props = {};
+type CustomerTab =
+  | 'dashboard'
+  | 'history'
+  | 'track'
+  | 'cart'
+  | 'wishlist'
+  | 'cards-address'
+  | 'settings';
 
-const CustomerProfileBreadCrumb = (props: Props) => {
-  const { activeTab } = useCustomerTabs();
+const CustomerProfileBreadCrumb = () => {
+  const { setActiveTab, resetActiveTab } = useCustomerTabs();
+  const path = usePathname();
+
   const tabs = [
     { label: 'Dashboard', href: 'dashboard', icon: <LayoutDashboard size={25} /> },
     { label: 'Order History', href: 'history', icon: <Store size={25} /> },
@@ -26,11 +39,58 @@ const CustomerProfileBreadCrumb = (props: Props) => {
     { label: 'Cards & Address', href: 'cards-address', icon: <CreditCard size={25} /> },
     { label: 'Settings', href: 'settings', icon: <Settings size={25} /> },
   ];
-  const activeTabHref = tabs.find(tab => tab.label === activeTab)?.href;
-  const breadcrumbs = [
+
+  const extractCurrentTab = (
+    path: string
+  ): { tab: CustomerTab | null; isOrderDetails: boolean } => {
+    // Check if we're on an order details page (UUID after history)
+    const uuidRegex =
+      /^\/customer\/history\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (uuidRegex.test(path)) {
+      return { tab: 'history', isOrderDetails: true };
+    }
+
+    // Check for regular customer pages
+    const customerMatch = path.match(/^\/customer\/([^/]+)/);
+    if (customerMatch) {
+      return { tab: customerMatch[1] as CustomerTab, isOrderDetails: false };
+    }
+
+    // Check for standalone pages
+    const standaloneMatch = path.match(/^\/((track))/);
+    if (standaloneMatch) {
+      return { tab: standaloneMatch[1] as CustomerTab, isOrderDetails: false };
+    }
+
+    return { tab: null, isOrderDetails: false };
+  };
+
+  const { tab: currentTab, isOrderDetails } = extractCurrentTab(path);
+
+  useEffect(() => {
+    if (currentTab) {
+      setActiveTab(currentTab);
+    } else {
+      resetActiveTab();
+    }
+  }, [path, currentTab, setActiveTab, resetActiveTab]);
+
+  let breadcrumbs = [
     { label: 'Home', href: '/' },
-    { label: `${activeTab}`, href: `${activeTabHref}` },
+    { label: 'Account', href: '/customer/dashboard' },
   ];
+
+  if (isOrderDetails) {
+    breadcrumbs = [
+      ...breadcrumbs,
+      { label: 'Order History', href: '/customer/history' },
+      { label: 'Order Details', href: path },
+    ];
+  } else {
+    const currentTabLabel = tabs.find(tab => tab.href === currentTab)?.label || 'Customer';
+    breadcrumbs.push({ label: currentTabLabel, href: path });
+  }
+
   return <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />;
 };
 

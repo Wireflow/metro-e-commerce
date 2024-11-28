@@ -2692,6 +2692,64 @@ export type Database = {
           },
         ];
       };
+      customer_cart_summary: {
+        Row: {
+          cart_items: Json | null;
+          cart_total: number | null;
+          cart_total_with_delivery: number | null;
+          customer_id: string | null;
+          expected_delivery_fee: number | null;
+          subtotal: number | null;
+          total_discount: number | null;
+          total_items: number | null;
+          total_quantity: number | null;
+          total_tax: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       customers_with_address: {
         Row: {
           approved: boolean | null;

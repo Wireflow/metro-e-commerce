@@ -8,11 +8,13 @@ type Props = {
 
 const layout = ({ children }: Props) => {
   return (
-    <div>
+    <div className="h-fit">
       <CustomerProfileBreadCrumb />
-      <Container className="flex gap-20">
+      <Container className="flex flex-col md:flex-row md:gap-14">
         <CustomerAccountSideBar />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 py-10 no-scrollbar md:max-h-[1200px] md:overflow-auto">
+          {children}
+        </div>
       </Container>
     </div>
   );

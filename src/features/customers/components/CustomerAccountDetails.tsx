@@ -25,10 +25,10 @@ const CustomerAccountDetails = (props: Props) => {
   });
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
       <CustomerAccountInfo />
       <CustomerBillingAddress />
-      <div className="flex flex-col gap-5">
+      <div className="col-span-1 flex flex-col gap-5 lg:col-span-2 xl:col-span-1">
         <CustomerOrdersDataCard
           className="bg-blue-100"
           title="Total Orders"
