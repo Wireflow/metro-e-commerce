@@ -30,8 +30,9 @@ export const getOrderById = async (orderId: string) => {
       deliveryAddress:addresses!delivery_address_id(*)`
     )
     .eq('id', orderId)
-    .returns<OrderDetails>()
-    .single();
+    .returns<OrderDetails[]>();
+
+  console.log(error);
   if (error) {
     throw new Error('Failed to find order');
   }
@@ -40,5 +41,5 @@ export const getOrderById = async (orderId: string) => {
     throw new Error('order not found');
   }
 
-  return data;
+  return data[0];
 };

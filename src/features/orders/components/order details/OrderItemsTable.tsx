@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Badge } from '@/components/ui/badge';
 // eslint-disable-next-line import/no-named-as-default
 import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
@@ -13,9 +12,10 @@ import { OrderItemsDetails } from '../../schemas/orders';
 
 type Props = {
   orderItems: OrderItemsDetails[];
+  variant?: 'default' | 'bordered' | 'minimal' | 'striped';
 };
 
-const OrderItemsTable = ({ orderItems }: Props) => {
+const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
   const router = useRouter();
   console.log(orderItems);
 
@@ -39,10 +39,6 @@ const OrderItemsTable = ({ orderItems }: Props) => {
     {
       key: product => (
         <div className="flex flex-col items-start gap-1">
-          <Badge variant={'warning'} className="-ml-1 h-5 shadow-none">
-            Discount {product.discount_amount}
-          </Badge>
-
           <p>{product.product.name}</p>
         </div>
       ),
@@ -83,7 +79,7 @@ const OrderItemsTable = ({ orderItems }: Props) => {
           )}
         </div>
       ),
-      label: 'Retail Price',
+      label: 'Price',
     },
     {
       key: product => (
@@ -96,7 +92,7 @@ const OrderItemsTable = ({ orderItems }: Props) => {
     },
   ]);
 
-  return <DynamicTable fields={fields} data={orderItems} />;
+  return <DynamicTable variant={variant} fields={fields} data={orderItems} />;
 };
 
 export default OrderItemsTable;

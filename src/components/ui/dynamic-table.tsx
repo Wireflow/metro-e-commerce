@@ -110,7 +110,7 @@ export function DynamicTable<T extends Record<string, any>>({
   return (
     <div className={cn(tableVariants[variant], className)}>
       <Table>
-        <TableHeader className={headerClassname}>
+        <TableHeader className={cn({ 'bg-gray-100': variant === 'minimal' }, headerClassname)}>
           <TableRow className={tableHeaderVariants[variant]}>
             {fields.map(
               (field, index) =>
