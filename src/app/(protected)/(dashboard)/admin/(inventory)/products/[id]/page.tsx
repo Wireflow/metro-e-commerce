@@ -3,9 +3,9 @@ import { getProductById } from '@/features/products/server/products/getProductBy
 import { getProductSalesById } from '@/features/products/server/products/getProductSalesById';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const ProductDetails = async ({ params }: Props) => {

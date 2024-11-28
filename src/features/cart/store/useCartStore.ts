@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 
 import { Product } from '@/features/products/schemas/products';
+import { useBranchSettings } from '@/features/store/hooks/queries/useBranchSettings';
+import { useUser } from '@/hooks/useUser';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 
@@ -10,16 +12,40 @@ export type CartItem = Row<'cart_items'> & {
 
 type CartState = {
   cart: CartItem[];
+  orderType: Enum<'order_type'>;
+  setOrderType: (orderType: Enum<'order_type'>) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
   updateCart: (productId: string, quantity: number) => void;
   setCart: (cart: CartItem[]) => void;
   getCartItemById: (productId: string) => CartItem | undefined;
   getTotalCartPrice: (customer_type: Enum<'customer_type'>) => number;
+  getCartTotals: (
+    customer_type: Enum<'customer_type'>,
+    branch: Row<'branch_settings'>
+  ) => {
+    subtotal: number;
+    shipping: number;
+    discount: number;
+    tax: number;
+    total: number;
+  };
+  getCartItemTotals: (
+    cartItemId: string,
+    customerType: Enum<'customer_type'>
+  ) => {
+    subtotal: number;
+  };
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
+  orderType: 'pickup',
+  setOrderType: orderType => {
+    set({
+      orderType,
+    });
+  },
   removeFromCart: productId => {
     set({
       cart: get().cart.filter(item => item.product_id !== productId),
@@ -30,6 +56,24 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({
       cart: [],
     });
+  },
+  getCartItemTotals: (cartItemId, customer_type) => {
+    const cartItem = get().cart.find(item => item.id === cartItemId);
+
+    if (!cartItem) {
+      return {
+        subtotal: 0,
+      };
+    }
+
+    const price =
+      customer_type === 'wholesale'
+        ? cartItem.product.wholesale_price
+        : cartItem.product.retail_price;
+
+    return {
+      subtotal: cartItem.quantity * price,
+    };
   },
   updateCart: (productId, quantity) => {
     set({
@@ -50,6 +94,36 @@ export const useCartStore = create<CartState>((set, get) => ({
       cart,
     });
   },
+  getCartTotals: (customer_type, settings) => {
+    const orderType = get().orderType;
+    const taxRate = settings?.tax_percentage / 100;
+    const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
+
+    const subtotal = get().cart.reduce(
+      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+      0
+    );
+
+    const taxableProducts = get().cart.filter(item => item.product.is_taxed);
+    const taxableTotal = taxableProducts.reduce(
+      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+      0
+    );
+
+    const tax = taxableTotal * taxRate;
+    const shipping = orderType === 'pickup' ? 0 : 0;
+    const discount = 0;
+
+    const total = subtotal + shipping + discount + tax;
+
+    return {
+      subtotal,
+      shipping,
+      discount,
+      tax,
+      total,
+    };
+  },
   getCartItemById: productId => {
     return get().cart.find(item => item.product_id === productId);
   },
@@ -62,3 +136,11 @@ export const useCartStore = create<CartState>((set, get) => ({
     );
   },
 }));
+
+export const useCartTotals = () => {
+  const { getCartTotals } = useCartStore();
+  const { metadata } = useUser();
+  const { data: settings } = useBranchSettings();
+
+  return getCartTotals(metadata?.customer_type, settings!);
+};

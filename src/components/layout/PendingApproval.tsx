@@ -19,11 +19,11 @@ const PendingApproval = ({ submissionDate, className }: Props) => {
         customCheck: m => !m.approved && !!m.tax_id && !!m.tax_id_image_url,
       }}
     >
-      <Container>
-        <Alert
-          variant="default"
-          className={`mb-4 border-yellow-200 bg-yellow-50 text-yellow-800 ${className}`}
-        >
+      <Alert
+        variant="default"
+        className={`rounded-none border-yellow-200 bg-yellow-50 text-yellow-800 ${className}`}
+      >
+        <Container className="p-2">
           <div className="flex items-center gap-4">
             <Clock className="h-5 w-5 text-yellow-600" />
             <div className="flex-1">
@@ -39,8 +39,8 @@ const PendingApproval = ({ submissionDate, className }: Props) => {
               </AlertDescription>
             </div>
           </div>
-        </Alert>
-      </Container>
+        </Container>
+      </Alert>
     </WithAuth>
   );
 };

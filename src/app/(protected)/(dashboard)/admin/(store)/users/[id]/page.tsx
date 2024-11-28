@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 10;
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const UserDetails = async ({ params }: Props) => {

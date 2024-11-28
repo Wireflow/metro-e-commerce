@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 
 import { Enum } from '@/types/supabase/enum';
 
+import { Product } from './products';
+
 // Basic type utilities
 export type StringOrNumber = string | number;
 

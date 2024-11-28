@@ -84,7 +84,11 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
             isValidDiscount={isValidDiscount}
             discount={product?.discount}
             type={metadata?.customer_type}
-            price={product?.retail_price}
+            price={
+              metadata?.customer_type === 'wholesale'
+                ? product.wholesale_price
+                : product.retail_price
+            }
             label={metadata?.customer_type === 'wholesale' ? 'Wholesale' : 'Retail'}
             customRender={({ preDiscount, afterDiscount, discount }) => (
               <div className="flex items-center gap-2">

@@ -54,7 +54,7 @@ const FeaturedCategory = () => {
             <PromoCard.Label />
             <PromoCard.Title />
             <PromoCard.Description className="w-[300px] text-center" />
-            <WithAuth>
+            <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
               <div className="mt-3 flex items-center justify-center gap-1">
                 <p>Only for</p>
                 <PromoCard.Price

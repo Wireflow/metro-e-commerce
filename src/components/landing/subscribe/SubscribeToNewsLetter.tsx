@@ -3,6 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,8 +21,11 @@ const SubscribeToNewsLetter = () => {
     },
     onSuccess: () => {
       setEmail('');
+      toast.success('You have successfully subscribed to our newsletter');
     },
-    onError: () => {},
+    onError: error => {
+      toast.error(error.message);
+    },
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

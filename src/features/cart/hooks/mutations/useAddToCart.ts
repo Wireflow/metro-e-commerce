@@ -82,6 +82,7 @@ export const useAddToCart = () => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart', 'summary'] });
     },
   });
 };

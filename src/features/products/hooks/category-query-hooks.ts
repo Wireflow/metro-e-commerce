@@ -141,6 +141,7 @@ export const useTopCategories = () => {
         .select('*')
         .order('sales', { ascending: false })
         .limit(10);
+
       if (error) {
         throw new Error('Failed to find categories');
       }

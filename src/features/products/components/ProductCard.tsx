@@ -58,59 +58,69 @@ export const PriceSection = ({
   disableCompare?: boolean;
   signInClassname?: string;
   customRender?: (data: CustomRenderProps) => React.ReactNode;
-}) => (
-  <WithAuth
-    rules={{
-      customCheck: (metadata: UserMetadata) =>
-        metadata?.customer_type === type && !!metadata.approved,
-    }}
-    fallback={
-      <SignInButton
-        className={cn('mt-1 w-full flex-1', signInClassname)}
-        text={'Sign in for pricing'}
-        variant={'soft'}
-      />
-    }
-  >
-    {customRender ? (
-      customRender({
-        preDiscount: price,
-        afterDiscount: price - (discount ?? 0),
-        isValidDiscount,
-        discount,
-      })
-    ) : (
-      <div>
-        {label && <p className="text-xs">{label}</p>}
-        <div className="flex items-center gap-2">
-          {!disableCompare && (
-            <>
-              <p
-                className={cn('text-theme-primary', {
-                  'text-sm text-red-500 line-through': isValidDiscount,
-                })}
-              >
-                {formatCurrency(price)}
-              </p>
-              {isValidDiscount && discount && (
-                <p className={cn('font-semibold text-theme-sky-blue')}>
-                  {formatCurrency(price - discount)}
+}) => {
+  const { user } = useUser();
+
+  return (
+    <WithAuth
+      rules={{
+        customCheck: (metadata: UserMetadata) =>
+          metadata?.customer_type === type && !!metadata.approved,
+      }}
+      fallback={
+        user ? (
+          <Button className={cn('mt-1 w-full flex-1 border', signInClassname)} variant={'warning'}>
+            Pending Approval
+          </Button>
+        ) : (
+          <SignInButton
+            className={cn('mt-1 w-full flex-1', signInClassname)}
+            text={'Sign in for pricing'}
+            variant={'soft'}
+          />
+        )
+      }
+    >
+      {customRender ? (
+        customRender({
+          preDiscount: price,
+          afterDiscount: price - (discount ?? 0),
+          isValidDiscount,
+          discount,
+        })
+      ) : (
+        <div>
+          {label && <p className="text-xs">{label}</p>}
+          <div className="flex items-center gap-2">
+            {!disableCompare && (
+              <>
+                <p
+                  className={cn('text-theme-primary', {
+                    'text-sm text-red-500 line-through': isValidDiscount,
+                  })}
+                >
+                  {formatCurrency(price)}
                 </p>
-              )}
-            </>
-          )}
-          {disableCompare ? (
-            isValidDiscount ? (
-              <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
-            ) : (
-              <p className="font-medium text-black">{formatCurrency(price)}</p>
-            )
-          ) : null}
+                {isValidDiscount && discount && (
+                  <p className={cn('font-semibold text-theme-sky-blue')}>
+                    {formatCurrency(price - discount)}
+                  </p>
+                )}
+              </>
+            )}
+            {disableCompare ? (
+              isValidDiscount ? (
+                <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
+              ) : (
+                <p className="font-medium text-black">{formatCurrency(price)}</p>
+              )
+            ) : null}
+          </div>
         </div>
-      </div>
-    )}
-  </WithAuth>
-);
+      )}
+    </WithAuth>
+  );
+};
 
 const ProductCard = ({ children, className, onClick }: ProductCardProps) => {
   return (
