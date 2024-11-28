@@ -4,14 +4,14 @@ import { useRouter } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { useCartStore } from '@/features/cart/store/useCartStore';
 import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
 import { createClient } from '@/utils/supabase/client';
 
 import { signOut } from '../server/signOut';
 
-const SignOutButton = () => {
+const SignOutButton = ({ children, ...props }: Omit<ButtonProps, 'onClick'>) => {
   const queryClient = useQueryClient();
   const supabase = createClient();
   const clearCart = useCartStore(state => state.clearCart);
@@ -37,9 +37,9 @@ const SignOutButton = () => {
   };
 
   return (
-    <div>
-      <Button onClick={handleSignOut}>Sign out</Button>;
-    </div>
+    <Button {...props} onClick={handleSignOut}>
+      {children ?? 'Sign Out'}
+    </Button>
   );
 };
 
