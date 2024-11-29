@@ -2,7 +2,6 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { createServerClient } from '@supabase/ssr';
 
-import { getCustomerById } from '@/features/customers/server/getCustomerById';
 import { Database } from '@/types/supabase/database';
 
 export const updateSession = async (request: NextRequest) => {
@@ -40,7 +39,14 @@ export const updateSession = async (request: NextRequest) => {
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
-    const customer = await getCustomerById(user.data.user?.id ?? '');
+
+    const { data: customer, error } = await supabase
+      .from('customers_with_address')
+      .select('*')
+      .eq('id', user?.data.user?.id as string)
+      .single();
+
+    const authError = user?.error || error;
 
     if (customer && !customer.approved) {
       if (!customer.tax_id || !customer.tax_id_image_url) {
@@ -49,15 +55,15 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // protected routes
-    if (request.nextUrl.pathname.startsWith('/customer') && user.error) {
+    if (request.nextUrl.pathname.startsWith('/customer') && authError) {
       return NextResponse.redirect(new URL('/customers/sign-in', request.url));
     }
 
-    if (request.nextUrl.pathname.startsWith('/cart') && user.error) {
+    if (request.nextUrl.pathname.startsWith('/cart') && authError) {
       return NextResponse.redirect(new URL('/customers/sign-in', request.url));
     }
 
-    if (request.nextUrl.pathname.startsWith('/wishlist') && user.error) {
+    if (request.nextUrl.pathname.startsWith('/wishlist') && authError) {
       return NextResponse.redirect(new URL('/customers/sign-in', request.url));
     }
 

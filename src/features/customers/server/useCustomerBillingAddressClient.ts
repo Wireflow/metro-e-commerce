@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 
 export const useCustomerBillingAddressClient = ({ customerId }: { customerId: string }) => {
   return useQuery({
-    queryKey: ['customer', customerId],
+    queryKey: ['addresses', customerId],
     queryFn: async () => {
       const supabase = createClient();
 
@@ -12,8 +12,7 @@ export const useCustomerBillingAddressClient = ({ customerId }: { customerId: st
         .from('addresses')
         .select('*')
         .eq('customer_id', customerId)
-        .eq('type', 'billing')
-        .single();
+        .eq('type', 'billing');
 
       if (error) {
         throw new Error('Failed to find customer billing address');

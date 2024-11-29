@@ -8,7 +8,6 @@ import DualPromotions from '@/features/promotions/components/DualPromotions';
 import LargePromotion from '@/features/promotions/components/LargePromotion';
 import { useWishList } from '@/features/wishlist/hooks/queries/wishlist-query-hooks';
 
-import Actions from '../landing/Actions';
 import Benefits from '../landing/Benefits';
 import ProductOptions from '../landing/different-product-options/ProductOptions';
 import FeaturedCategory from '../landing/featured-category/FeaturedCategory';
@@ -21,8 +20,7 @@ const LandingPage = () => {
   useWishList();
 
   return (
-    <div className="space-y-16">
-      <Actions />
+    <div className="md:space-y-4">
       <HeroSection />
       <Benefits />
       <BestDeals />

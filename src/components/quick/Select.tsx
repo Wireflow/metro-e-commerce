@@ -40,7 +40,9 @@ const QuickSelect = ({
 
   return (
     <Select onValueChange={onValueChange} defaultValue={defaultValue} value={value}>
-      <SelectTrigger className={cn('bg-white', className, { capitalize: !!value })}>
+      <SelectTrigger
+        className={cn('bg-white', className, { capitalize: !!value, 'text-gray-500': !value })}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

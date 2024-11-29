@@ -1114,6 +1114,7 @@ export type Database = {
           expected_delivery_at: string | null;
           fees: number;
           id: string;
+          instructions: string | null;
           order_number: number;
           preparing_at: string | null;
           ready_at: string | null;
@@ -1141,6 +1142,7 @@ export type Database = {
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
+          instructions?: string | null;
           order_number?: number;
           preparing_at?: string | null;
           ready_at?: string | null;
@@ -1168,6 +1170,7 @@ export type Database = {
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
+          instructions?: string | null;
           order_number?: number;
           preparing_at?: string | null;
           ready_at?: string | null;
