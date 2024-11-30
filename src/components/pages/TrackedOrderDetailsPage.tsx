@@ -11,9 +11,10 @@ import Container from '../layout/Container';
 
 type Props = {
   id: number;
+  Breadcrumb: boolean;
 };
 
-const TrackedOrderDetailsPage = ({ id }: Props) => {
+const TrackedOrderDetailsPage = ({ id, Breadcrumb = true }: Props) => {
   const { data: order, isLoading } = useOrderTracking({ orderNumber: id, enabled: !!id });
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -29,7 +30,7 @@ const TrackedOrderDetailsPage = ({ id }: Props) => {
 
   return (
     <div>
-      <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
+      {Breadcrumb && <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />}
       <Container>
         <TrackedOrder order={order} />
       </Container>

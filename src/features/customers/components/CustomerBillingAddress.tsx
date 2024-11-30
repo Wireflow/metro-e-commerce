@@ -26,14 +26,14 @@ const CustomerBillingAddress = (props: Props) => {
     <Card className="">
       <div className="border-b p-5 text-lg font-semibold">Billing Address</div>
       <div className="flex flex-col gap-5 p-5">
-        <div className="flex flex-col">
-          <div className="flex items-center gap-3">
-            <div>
-              <p className="text-lg font-semibold">
-                {metadata?.first_name + ' ' + metadata?.last_name}
-              </p>
-              <p className="text-md capitalize text-neutral-600">{address} </p>
-            </div>
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
+            <p className="text-lg font-semibold">
+              {metadata?.first_name + ' ' + metadata?.last_name}
+            </p>
+            <p className="text-sm capitalize text-neutral-600">
+              {address ? address : 'No billing address available'}
+            </p>
           </div>
           <div>
             {' '}

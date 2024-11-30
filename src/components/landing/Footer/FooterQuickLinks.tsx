@@ -4,36 +4,13 @@ import Link from 'next/link';
 
 import { useState } from 'react';
 
+import { quickLinks } from '@/data/constants';
+
 type Props = {};
 
 const FooterQuickLinks = (props: Props) => {
   const [activeLink, setActiveLink] = useState<string | null>('Contact Us');
-  const quickLinks = [
-    {
-      title: 'Shop Products',
-      href: '/products',
-    },
-    {
-      title: 'Shopping Cart',
-      href: '/cart',
-    },
-    {
-      title: 'Wishlist',
-      href: '/wishlist',
-    },
-    {
-      title: 'Track Orders',
-      href: '/track-orders',
-    },
-    {
-      title: 'Contact Us',
-      href: '/contact-us',
-    },
-    {
-      title: 'About Us',
-      href: '/about-us',
-    },
-  ];
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold text-white">Quick Links</p>

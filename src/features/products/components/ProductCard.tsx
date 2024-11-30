@@ -126,7 +126,7 @@ const ProductCard = ({ children, className, onClick }: ProductCardProps) => {
   return (
     <Card
       onClick={onClick}
-      className={cn('border-gray-150 rounded-[2px] p-4 shadow-none', className)}
+      className={cn('rounded-[2px] border-gray-100 p-4 shadow-none', className)}
     >
       {children}
     </Card>

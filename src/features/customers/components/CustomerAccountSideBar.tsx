@@ -33,13 +33,13 @@ const CustomerAccountSideBar = () => {
   const pathName = usePathname();
 
   const tabs = [
-    { label: 'Dashboard', href: 'dashboard', icon: <LayoutDashboard size={25} /> },
-    { label: 'Order History', href: 'history', icon: <Store size={25} /> },
-    { label: 'Track Order', href: 'track', icon: <MapPin size={25} /> },
-    { label: 'Shopping Cart', href: '/cart', icon: <ShoppingCart size={25} /> },
-    { label: 'Wishlist', href: '/wishlist', icon: <Heart size={25} /> },
-    { label: 'Cards & Address', href: 'cards-address', icon: <CreditCard size={25} /> },
-    { label: 'Settings', href: 'settings', icon: <Settings size={25} /> },
+    { label: 'Dashboard', href: 'dashboard', icon: <LayoutDashboard size={20} /> },
+    { label: 'Order History', href: 'history', icon: <Store size={20} /> },
+    { label: 'Track Order', href: 'track', icon: <MapPin size={20} /> },
+    { label: 'Shopping Cart', href: '/cart', icon: <ShoppingCart size={20} /> },
+    { label: 'Wishlist', href: '/wishlist', icon: <Heart size={20} /> },
+    { label: 'Cards & Address', href: 'cards-address', icon: <CreditCard size={20} /> },
+    { label: 'Settings', href: 'settings', icon: <Settings size={20} /> },
   ];
 
   const extractCurrentTab = (path: string): CustomerTab | null => {
@@ -73,7 +73,7 @@ const CustomerAccountSideBar = () => {
           {tabs.map((tab, index) => (
             <div key={index} className="w-full">
               <Link
-                className={`text-md flex w-full items-center gap-5 px-5 py-3 md:w-80 ${
+                className={`flex w-full items-center gap-5 px-5 py-3 text-sm md:w-80 ${
                   currentTab === tab.href
                     ? 'bg-primary text-white'
                     : 'text-neutral-500 hover:text-primary'
@@ -95,7 +95,7 @@ const CustomerAccountSideBar = () => {
         <div className="w-full">
           <SignOutButton
             variant={'none'}
-            className="text-md mt-2 flex items-center gap-5 px-5 py-3 text-neutral-500 [&_svg]:size-6"
+            className="mt-2 flex items-center gap-5 px-5 py-3 text-sm text-neutral-500 [&_svg]:size-6"
           >
             <LogOut size={25} className="h-10" /> Logout
           </SignOutButton>

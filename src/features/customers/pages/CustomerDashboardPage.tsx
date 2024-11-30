@@ -15,7 +15,7 @@ const CustomerDashboardPage = (props: Props) => {
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <p className="text-2xl font-semibold capitalize">Hello, {metadata.business_name}</p>
-        <p className="w-[440px] text-sm">
+        <p className="text-sm lg:w-[440px]">
           From your account dashboard. you can easily check & view your{' '}
           <Link className="text-theme-sky-blue" href={'/customer/history'}>
             Recent Orders

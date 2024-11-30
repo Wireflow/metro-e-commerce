@@ -1026,6 +1026,13 @@ export type Database = {
             referencedRelation: 'payment_methods';
             referencedColumns: ['id'];
           },
+          {
+            foreignKeyName: 'order_payments_payment_method_id_fkey';
+            columns: ['payment_method_id'];
+            isOneToOne: false;
+            referencedRelation: 'payment_methods_with_spending';
+            referencedColumns: ['id'];
+          },
         ];
       };
       order_shipping: {
@@ -1114,6 +1121,7 @@ export type Database = {
           expected_delivery_at: string | null;
           fees: number;
           id: string;
+          instructions: string | null;
           order_number: number;
           preparing_at: string | null;
           ready_at: string | null;
@@ -1141,6 +1149,7 @@ export type Database = {
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
+          instructions?: string | null;
           order_number?: number;
           preparing_at?: string | null;
           ready_at?: string | null;
@@ -1168,6 +1177,7 @@ export type Database = {
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
+          instructions?: string | null;
           order_number?: number;
           preparing_at?: string | null;
           ready_at?: string | null;
@@ -1289,8 +1299,10 @@ export type Database = {
         Row: {
           added_at: string;
           billing_address_id: string | null;
+          card_holder: string;
           customer_id: string;
           id: string;
+          is_default: boolean;
           last_four: string;
           provider: Database['public']['Enums']['card_provider'];
           token: string;
@@ -1298,8 +1310,10 @@ export type Database = {
         Insert: {
           added_at?: string;
           billing_address_id?: string | null;
+          card_holder?: string;
           customer_id: string;
           id?: string;
+          is_default?: boolean;
           last_four: string;
           provider: Database['public']['Enums']['card_provider'];
           token: string;
@@ -1307,8 +1321,10 @@ export type Database = {
         Update: {
           added_at?: string;
           billing_address_id?: string | null;
+          card_holder?: string;
           customer_id?: string;
           id?: string;
+          is_default?: boolean;
           last_four?: string;
           provider?: Database['public']['Enums']['card_provider'];
           token?: string;
@@ -3776,6 +3792,85 @@ export type Database = {
             columns: ['category_id'];
             isOneToOne: false;
             referencedRelation: 'featured_categories';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      payment_methods_with_spending: {
+        Row: {
+          added_at: string | null;
+          billing_address_id: string | null;
+          card_holder: string | null;
+          customer_id: string | null;
+          id: string | null;
+          is_default: boolean | null;
+          last_four: string | null;
+          provider: Database['public']['Enums']['card_provider'] | null;
+          token: string | null;
+          total_approved_spending: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'billing_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_billing_address_id_fkey';
+            columns: ['billing_address_id'];
+            isOneToOne: false;
+            referencedRelation: 'delivery_addresses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
         ];
