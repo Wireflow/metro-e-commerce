@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useUser } from '@/hooks/useUser';
-import { formatPhoneNumber } from '@/utils/utils';
+import { formatAddress, formatPhoneNumber } from '@/utils/utils';
 
 import { useCustomerBillingAddressClient } from '../server/useCustomerBillingAddressClient';
 
@@ -12,16 +12,8 @@ type Props = {};
 const CustomerBillingAddress = (props: Props) => {
   const { metadata } = useUser();
   const { data } = useCustomerBillingAddressClient({ customerId: metadata?.id });
-  const address =
-    data?.street +
-    ', ' +
-    data?.city +
-    ', ' +
-    data?.state +
-    ' ' +
-    data?.zip_code +
-    ' ' +
-    data?.country;
+  const address = data ? formatAddress({ ...data[0] }) : null;
+
   return (
     <Card className="">
       <div className="border-b p-5 text-lg font-semibold">Billing Address</div>
@@ -36,9 +28,8 @@ const CustomerBillingAddress = (props: Props) => {
             </p>
           </div>
           <div>
-            {' '}
             <p className="text-sm">
-              Phone:{' '}
+              Phone:
               <span className="text-neutral-600">+1 {formatPhoneNumber(metadata?.phone)}</span>
             </p>
             <p className="text-sm">

@@ -31,7 +31,7 @@ const CustomerOrderDetailsPage = ({ id }: Props) => {
       </Link>
       <div className="flex flex-col gap-5">
         <div className="px-5">
-          <TrackedOrderDetailsPage Breadcrumb={false} id={order?.order_number} />
+          <TrackedOrderDetailsPage breadcrumbs={false} id={order?.order_number} />
         </div>
 
         <div className="flex flex-col gap-3 p-5">
