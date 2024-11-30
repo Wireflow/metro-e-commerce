@@ -1,7 +1,7 @@
 # LANDING PAGE
 
-1.  Allow the promo banner to take custom text from db branch
-
-- Mustafa
-
-1.  make the product options reuseable and cleaner
+1.  clear filters button doesnt work
+2.  choosing multiple categories doesnt work'
+3.  add pagination to order history page
+4.  all categories dropdown fix
+5.  categories slide doesnt route

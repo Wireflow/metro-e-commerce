@@ -26,16 +26,16 @@ const CustomerAccountInfo = (props: Props) => {
               <p className="text-lg font-semibold">
                 {metadata?.first_name + ' ' + metadata?.last_name}
               </p>
-              <p className="text-md capitalize text-neutral-600">
+              <p className="text-sm capitalize text-neutral-600">
                 {metadata.customer_type} Account
               </p>
             </div>
           </div>
           <div>
-            <p>
+            <p className="text-sm">
               Email: <span className="text-neutral-600">{metadata?.email}</span>
             </p>
-            <p>
+            <p className="text-sm">
               Phone:{' '}
               <span className="text-neutral-600">+1 {formatPhoneNumber(metadata?.phone)}</span>
             </p>

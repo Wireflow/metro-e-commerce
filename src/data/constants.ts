@@ -144,3 +144,30 @@ export const ourFeatures = [
     title: 'Reliable Pricing',
   },
 ];
+
+export const quickLinks = [
+  {
+    title: 'Shop Products',
+    href: '/shop',
+  },
+  {
+    title: 'Shopping Cart',
+    href: '/customer/cart',
+  },
+  {
+    title: 'Wishlist',
+    href: '/customer/wishlist',
+  },
+  {
+    title: 'Track Orders',
+    href: '/track',
+  },
+  {
+    title: 'Contact Us',
+    href: '/FAQ',
+  },
+  {
+    title: 'About Us',
+    href: '/about',
+  },
+];

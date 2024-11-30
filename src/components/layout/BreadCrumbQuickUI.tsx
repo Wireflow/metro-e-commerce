@@ -40,7 +40,7 @@ const BreadCrumbQuickUI = ({ breadcrumbs }: PageHeaderProps) => {
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     {index === breadcrumbs.length - 1 ? (
-                      <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                      <BreadcrumbPage className="text-theme-sky-blue">{item.label}</BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
                         <Link href={item.href}>{item.label}</Link>

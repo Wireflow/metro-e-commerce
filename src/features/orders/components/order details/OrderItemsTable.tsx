@@ -33,7 +33,7 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
           />
         </div>
       ),
-      label: 'Image',
+      label: 'Product',
       className: 'w-[68px]',
     },
     {

@@ -142,7 +142,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
   return (
     <div className="rounded-md border border-gray-200">
       <div className="flex items-center justify-between gap-5 px-5 py-3">
-        <p className="text-xl font-semibold capitalize">{TableName}</p>
+        <p className="text-md font-semibold capitalize">{TableName}</p>
         {action && (
           <Link
             className="flex items-center text-sm text-primary"

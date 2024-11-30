@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -62,7 +62,7 @@ const CategoryMenu = () => {
             variant="secondary"
             className="h-12 min-w-[200px] justify-between shadow-none hover:bg-theme-primary hover:text-white"
           >
-            All Categories
+            All Categories <ChevronDown size={20} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

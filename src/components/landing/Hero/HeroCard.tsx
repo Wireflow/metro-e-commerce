@@ -24,7 +24,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
           {promotion?.label && <span className="font-medium text-primary">{promotion?.label}</span>}
           <h1 className="mb-4 mt-2 text-4xl font-bold">{promotion?.title}</h1>
           {promotion?.description && (
-            <p className="mb-6 whitespace-pre-line text-gray-600 md:max-w-[500px]">
+            <p className="mb-6 whitespace-pre-line text-gray-600 sm:max-w-[500px]">
               {promotion?.description}
             </p>
           )}
@@ -44,9 +44,9 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
                   <Image
                     src={promotion.image_url ?? PLACEHOLDER_IMG_URL}
                     alt={promotion.title || 'Promotion image'}
-                    fill
                     priority
-                    className="object-contain p-4 mix-blend-multiply"
+                    fill
+                    className="max-w-[700px] object-contain mix-blend-multiply"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{
                       maskImage: 'linear-gradient(to bottom, black, black)',

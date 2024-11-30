@@ -30,10 +30,12 @@ const Actions = (props: Props) => {
             </Button>
           </Link>
 
-          <Button className="h-12 px-2 text-gray-500 hover:text-black md:px-4" variant="ghost">
-            <AlertCircle className="h-5 w-5 md:mr-2" />
-            <span className="hidden md:inline">Need Help</span>
-          </Button>
+          <Link href={'/FAQ'}>
+            <Button className="h-12 px-2 text-gray-500 hover:text-black md:px-4" variant="ghost">
+              <AlertCircle className="h-5 w-5 md:mr-2" />
+              <span className="hidden md:inline">Need Help</span>
+            </Button>
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">
