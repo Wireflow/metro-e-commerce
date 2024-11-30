@@ -33,6 +33,8 @@ const BestDeals = ({ className }: Props) => {
 
   if (isLoading) return <BestDealsSkeleton />;
 
+  if (!products || (products && products?.length > 0)) return null;
+
   const renderFeaturedCard = (product: Product) => (
     <ProductCard
       key={product.id}
@@ -108,12 +110,10 @@ const BestDeals = ({ className }: Props) => {
         </Link>
       </div>
       <div className="grid gap-4 md:grid-cols-12">
-        {/* Featured Product - Takes 4 columns on larger screens */}
         {topDeal && (
           <div className="h-full bg-card md:col-span-4">{renderFeaturedCard(topDeal)}</div>
         )}
 
-        {/* Product Grid - Takes 8 columns on larger screens */}
         <div className={cn('h-full bg-card', topDeal ? 'md:col-span-8' : 'md:col-span-12')}>
           <List<Product & { className?: string }>
             data={restDeals ?? []}

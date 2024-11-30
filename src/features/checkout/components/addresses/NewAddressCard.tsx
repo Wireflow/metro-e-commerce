@@ -10,7 +10,7 @@ const NewAddressCard = ({ onClick }: NewAddressCardProps) => {
   return (
     <Card
       onClick={() => onClick?.()}
-      className="group cursor-pointer shadow-none transition-all duration-300 hover:border-primary hover:shadow-lg"
+      className="group relative cursor-pointer shadow-none transition-all duration-300 hover:border-primary hover:shadow-lg"
     >
       <CardHeader>
         <CardTitle className="text-center font-medium capitalize text-gray-700 group-hover:text-primary">

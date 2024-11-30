@@ -52,7 +52,6 @@ const AddressForm = ({ type, onSuccess }: Props) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4">
-            {/* Personal Information */}
             <div>
               <h3 className="mb-3 text-base font-semibold sm:text-lg">Personal Information</h3>
               <InputField
@@ -64,7 +63,6 @@ const AddressForm = ({ type, onSuccess }: Props) => {
               />
             </div>
 
-            {/* Street Address */}
             <div>
               <h3 className="mb-3 text-base font-semibold sm:text-lg">Address</h3>
               <InputField
@@ -76,7 +74,6 @@ const AddressForm = ({ type, onSuccess }: Props) => {
               />
             </div>
 
-            {/* City & State */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <InputField
@@ -98,7 +95,6 @@ const AddressForm = ({ type, onSuccess }: Props) => {
               </div>
             </div>
 
-            {/* Postal Code & Country */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <InputField

@@ -12,8 +12,12 @@ export type CartItem = Row<'cart_items'> & {
 
 type CartState = {
   cart: CartItem[];
-  orderType: Enum<'order_type'>;
-  setOrderType: (orderType: Enum<'order_type'>) => void;
+  orderType?: Enum<'order_type'>;
+  setOrderType: (orderType?: Enum<'order_type'>) => void;
+  notes: string;
+  setNotes: (notes: string) => void;
+  paymentOption: Enum<'payment_type'>;
+  setPaymentOption: (paymentOption: Enum<'payment_type'>) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
   updateCart: (productId: string, quantity: number) => void;
@@ -41,6 +45,18 @@ type CartState = {
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
   orderType: 'pickup',
+  notes: '',
+  setNotes: notes => {
+    set({
+      notes,
+    });
+  },
+  paymentOption: 'online',
+  setPaymentOption: paymentOption => {
+    set({
+      paymentOption,
+    });
+  },
   setOrderType: orderType => {
     set({
       orderType,

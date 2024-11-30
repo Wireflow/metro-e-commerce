@@ -1,8 +1,11 @@
 import { CheckCircle } from 'lucide-react';
 
+import ActionsPopover from '@/components/quick/ActionsPopover';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Row } from '@/types/supabase/table';
 import { formatAddress } from '@/utils/utils';
+
+import { useDeleteAddress } from '../../hooks/mutations/useDeleteAddress';
 
 interface AddressCardProps {
   address: Row<'addresses'>;
@@ -38,6 +41,8 @@ const AddressCard = ({
   const displayTitle = title?.(address) ?? `${address.type} Address`;
   const isSelected = selected?.id === address.id;
 
+  const { mutate: deleteAddress, isPending: deleting } = useDeleteAddress();
+
   return (
     <Card
       className={`relative shadow-none transition-all duration-300 ${onSelect ? 'cursor-pointer hover:bg-gray-50' : ''} ${
@@ -45,6 +50,14 @@ const AddressCard = ({
       }`}
       onClick={() => onSelect?.(address)}
     >
+      {!isSelected && (
+        <ActionsPopover
+          disabled={deleting}
+          className="absolute right-2 top-2"
+          onDelete={() => deleteAddress(address.id)}
+        />
+      )}
+
       {isSelected && showSelection && (
         <div className="absolute right-2 top-2 transition-all duration-200">
           <CheckCircle className="h-5 w-5 text-primary" />

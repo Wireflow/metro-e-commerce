@@ -9,6 +9,7 @@ import SummaryRow from '@/components/SummaryRow';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useStoreStatus } from '@/hooks/useStoreStatus';
 // Utility imports
 import { formatCurrency } from '@/utils/utils';
 
@@ -20,6 +21,7 @@ import { useCartStore } from '../store/useCartStore';
 const CartTotals = () => {
   const router = useRouter();
   const { orderType } = useCartStore();
+  const { isOrderingAllowed } = useStoreStatus();
   const { data: summary, isLoading, isFetching } = useCartSummary();
 
   if (isLoading) {
@@ -64,7 +66,7 @@ const CartTotals = () => {
             size="xl"
             className="w-full text-sm"
             onClick={() => router.push('/customer/checkout')}
-            disabled={!summary || !orderType || isFetching}
+            disabled={!summary || !orderType || isFetching || !isOrderingAllowed}
           >
             Proceed to Checkout
             <ArrowRight className="h-4 w-4" />

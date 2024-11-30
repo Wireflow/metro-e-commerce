@@ -24,7 +24,7 @@ const CartPopover = () => {
   const router = useRouter();
 
   const totalPrice = getTotalCartPrice(metadata?.customer_type ?? 'retail');
-  const cartSlice = cart?.slice(0, 3);
+  const cartSlice = cart?.slice(0, 2);
 
   const renderItem = (item: CartItem) => {
     return (

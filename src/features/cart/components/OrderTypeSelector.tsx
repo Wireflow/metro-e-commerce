@@ -1,28 +1,82 @@
+import { useEffect } from 'react';
+
+import Conditional from '@/components/Conditional';
+import QuickAlert from '@/components/quick/QuickAlert';
 import { Button } from '@/components/ui/button';
+import { OrderType, useStoreStatus } from '@/hooks/useStoreStatus';
 import { cn } from '@/lib/utils';
 import { Enum } from '@/types/supabase/enum';
 
-const ORDER_TYPES: Enum<'order_type'>[] = ['pickup', 'delivery', 'shipment'];
-
 type Props = {
-  onSelect: (orderType: Enum<'order_type'>) => void;
-  selected: Enum<'order_type'>;
+  onSelect: (orderType?: Enum<'order_type'>) => void;
+  selected?: Enum<'order_type'>;
 };
 
 const OrderTypeSelector = ({ onSelect, selected }: Props) => {
+  const { isOrderingAllowed, reason, settings, isOrderTypeEnabled, getEnabledOrderType } =
+    useStoreStatus();
+
+  const orderTypes: OrderType[] = [
+    {
+      id: 'pickup',
+      name: 'Pickup',
+      disabled: !settings?.is_pickup_allowed,
+    },
+    {
+      id: 'delivery',
+      name: 'Delivery',
+      disabled: !settings?.is_delivery_allowed,
+    },
+    {
+      id: 'shipment',
+      name: 'Shipment',
+      disabled: !settings?.is_shipment_allowed,
+    },
+  ];
+
+  useEffect(() => {
+    if (!selected && settings) {
+      const enabledType = getEnabledOrderType();
+      onSelect(enabledType);
+    }
+
+    if (selected && !isOrderTypeEnabled(selected)) {
+      const enabledType = getEnabledOrderType();
+      onSelect(enabledType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
+
   return (
-    <div className="flex w-full">
-      {ORDER_TYPES.map(orderType => (
-        <Button
-          key={orderType}
-          onClick={() => onSelect(orderType)}
-          className={cn('flex-1 rounded-none capitalize')}
-          variant={orderType === selected ? 'default' : 'soft'}
-          size={'lg'}
-        >
-          {orderType}
-        </Button>
-      ))}
+    <div className="space-y-4">
+      <div className="flex w-full">
+        {orderTypes.map(orderType => (
+          <Button
+            key={orderType.id}
+            onClick={() => onSelect(orderType.id)}
+            className={cn('flex-1 rounded-none capitalize')}
+            variant={orderType.id === selected ? 'default' : 'soft'}
+            disabled={orderType.disabled || !isOrderingAllowed}
+            size={'lg'}
+          >
+            {orderType.name}
+          </Button>
+        ))}
+      </div>
+      <Conditional condition={!isOrderingAllowed}>
+        <QuickAlert
+          variant="destructive"
+          title="Sorry for the inconvenience"
+          description={reason ?? 'Our store is currently unavailable'}
+        />
+      </Conditional>
+      <Conditional condition={isOrderingAllowed && !selected}>
+        <QuickAlert
+          variant="warning"
+          title="No Order Type Selected"
+          description={'Please select an order type to proceed'}
+        />
+      </Conditional>
     </div>
   );
 };

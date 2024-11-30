@@ -66,3 +66,18 @@ export const formatTaxId = (value: string) => {
 
   return truncated;
 };
+
+export const getColorHash = (lastFour: string): string => {
+  // Convert last four digits to a number and use it as a seed
+  const num = parseInt(lastFour);
+
+  // Use the number to generate HSL values
+  // Hue: Full 360 degrees of color based on number
+  const hue = num % 360;
+  // Saturation: Keep it between 60-80% for rich colors
+  const saturation = 70 + (num % 10);
+  // Lightness: Keep it between 15-25% to ensure dark colors
+  const lightness = 15 + (num % 20);
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+};
