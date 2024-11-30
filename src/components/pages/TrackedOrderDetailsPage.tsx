@@ -11,16 +11,18 @@ import Container from '../layout/Container';
 
 type Props = {
   id: number;
-  Breadcrumb: boolean;
+  breadcrumbs?: boolean;
 };
 
-const TrackedOrderDetailsPage = ({ id, Breadcrumb = true }: Props) => {
+const TrackedOrderDetailsPage = ({ id, breadcrumbs = true }: Props) => {
   const { data: order, isLoading } = useOrderTracking({ orderNumber: id, enabled: !!id });
-  const breadcrumbs = [
+
+  const pageBreadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'Track Order', href: '/track' },
     { label: 'Details', href: `/track/${id}` },
   ];
+
   if (isLoading) {
     return <AnimtedLoadingSpinner className="mt-10" />;
   }
@@ -30,7 +32,7 @@ const TrackedOrderDetailsPage = ({ id, Breadcrumb = true }: Props) => {
 
   return (
     <div>
-      {Breadcrumb && <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />}
+      {breadcrumbs && <BreadCrumbQuickUI breadcrumbs={pageBreadcrumbs} />}
       <Container>
         <TrackedOrder order={order} />
       </Container>
