@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 import { Product } from '@/features/products/schemas/products';
 import { useBranchSettings } from '@/features/store/hooks/queries/useBranchSettings';
@@ -42,116 +43,128 @@ type CartState = {
   };
 };
 
-export const useCartStore = create<CartState>((set, get) => ({
-  cart: [],
-  orderType: 'pickup',
-  notes: '',
-  setNotes: notes => {
-    set({
-      notes,
-    });
-  },
-  paymentOption: 'online',
-  setPaymentOption: paymentOption => {
-    set({
-      paymentOption,
-    });
-  },
-  setOrderType: orderType => {
-    set({
-      orderType,
-    });
-  },
-  removeFromCart: productId => {
-    set({
-      cart: get().cart.filter(item => item.product_id !== productId),
-    });
-  },
-
-  clearCart: () => {
-    set({
+export const useCartStore = create<CartState>()(
+  persist(
+    (set, get) => ({
       cart: [],
-    });
-  },
-  getCartItemTotals: (cartItemId, customer_type) => {
-    const cartItem = get().cart.find(item => item.id === cartItemId);
+      orderType: 'pickup',
+      notes: '',
+      setNotes: notes => {
+        set({
+          notes,
+        });
+      },
+      paymentOption: 'online',
+      setPaymentOption: paymentOption => {
+        set({
+          paymentOption,
+        });
+      },
+      setOrderType: orderType => {
+        set({
+          orderType,
+        });
+      },
+      removeFromCart: productId => {
+        set({
+          cart: get().cart.filter(item => item.product_id !== productId),
+        });
+      },
+      clearCart: () => {
+        set({
+          cart: [],
+        });
+      },
+      getCartItemTotals: (cartItemId, customer_type) => {
+        const cartItem = get().cart.find(item => item.id === cartItemId);
 
-    if (!cartItem) {
-      return {
-        subtotal: 0,
-      };
-    }
-
-    const price =
-      customer_type === 'wholesale'
-        ? cartItem.product.wholesale_price
-        : cartItem.product.retail_price;
-
-    return {
-      subtotal: cartItem.quantity * price,
-    };
-  },
-  updateCart: (productId, quantity) => {
-    set({
-      cart: get().cart.map(item => {
-        if (item.product_id === productId) {
+        if (!cartItem) {
           return {
-            ...item,
-            quantity,
+            subtotal: 0,
           };
         }
 
-        return item;
+        const price =
+          customer_type === 'wholesale'
+            ? cartItem.product.wholesale_price
+            : cartItem.product.retail_price;
+
+        return {
+          subtotal: cartItem.quantity * price,
+        };
+      },
+      updateCart: (productId, quantity) => {
+        set({
+          cart: get().cart.map(item => {
+            if (item.product_id === productId) {
+              return {
+                ...item,
+                quantity,
+              };
+            }
+
+            return item;
+          }),
+        });
+      },
+      setCart: cart => {
+        set({
+          cart,
+        });
+      },
+      getCartTotals: (customer_type, settings) => {
+        const orderType = get().orderType;
+        const taxRate = settings?.tax_percentage / 100;
+        const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
+
+        const subtotal = get().cart.reduce(
+          (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+          0
+        );
+
+        const taxableProducts = get().cart.filter(item => item.product.is_taxed);
+        const taxableTotal = taxableProducts.reduce(
+          (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+          0
+        );
+
+        const tax = taxableTotal * taxRate;
+        const shipping = orderType === 'pickup' ? 0 : 0;
+        const discount = 0;
+
+        const total = subtotal + shipping + discount + tax;
+
+        return {
+          subtotal,
+          shipping,
+          discount,
+          tax,
+          total,
+        };
+      },
+      getCartItemById: productId => {
+        return get().cart.find(item => item.product_id === productId);
+      },
+      getTotalCartPrice: customer_type => {
+        const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
+
+        return get().cart.reduce(
+          (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
+          0
+        );
+      },
+    }),
+    {
+      name: 'cart-storage',
+      partialize: state => ({
+        cart: state.cart,
+        orderType: state.orderType,
+        notes: state.notes,
+        paymentOption: state.paymentOption,
       }),
-    });
-  },
-  setCart: cart => {
-    set({
-      cart,
-    });
-  },
-  getCartTotals: (customer_type, settings) => {
-    const orderType = get().orderType;
-    const taxRate = settings?.tax_percentage / 100;
-    const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
-
-    const subtotal = get().cart.reduce(
-      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
-      0
-    );
-
-    const taxableProducts = get().cart.filter(item => item.product.is_taxed);
-    const taxableTotal = taxableProducts.reduce(
-      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
-      0
-    );
-
-    const tax = taxableTotal * taxRate;
-    const shipping = orderType === 'pickup' ? 0 : 0;
-    const discount = 0;
-
-    const total = subtotal + shipping + discount + tax;
-
-    return {
-      subtotal,
-      shipping,
-      discount,
-      tax,
-      total,
-    };
-  },
-  getCartItemById: productId => {
-    return get().cart.find(item => item.product_id === productId);
-  },
-  getTotalCartPrice: customer_type => {
-    const priceType = customer_type === 'wholesale' ? 'wholesale_price' : 'retail_price';
-
-    return get().cart.reduce(
-      (acc, item) => acc + (item.quantity ?? 0) * item.product[priceType],
-      0
-    );
-  },
-}));
+    }
+  )
+);
 
 export const useCartTotals = () => {
   const { getCartTotals } = useCartStore();

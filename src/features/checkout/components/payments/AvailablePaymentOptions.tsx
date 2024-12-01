@@ -24,7 +24,7 @@ const AvailablePaymentOptions = ({ selected, onSelect }: Props) => {
             <div>
               <Icon className="h-6 w-6 fill-primary/10 text-primary" />
             </div>
-            <p>{payment.name}</p>
+            <p className="text-center">{payment.name}</p>
             <p className="max-w-[120px] text-center text-sm text-gray-500">{payment.description}</p>
             <div className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-500 bg-white">
               {payment.id === selected && <Circle className="h-3 w-3 fill-black" />}

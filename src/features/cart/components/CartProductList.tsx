@@ -162,6 +162,7 @@ const CartProductList = ({ cartItems }: Props) => {
                       });
                     }}
                     disabled={!item.product.in_stock || isUpdating}
+                    debounceMs={100}
                   />
                 </div>
               </div>

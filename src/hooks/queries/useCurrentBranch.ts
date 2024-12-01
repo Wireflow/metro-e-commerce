@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getBranchById } from '@/server/branches/getBranchById';
+import { formatAddress } from '@/utils/utils';
 
 import { useUser } from '../useUser';
 
@@ -29,10 +30,18 @@ export const useCurrentBranch = () => {
     refetchOnReconnect: true,
   });
 
+  const pickupAddress =
+    branch &&
+    formatAddress({
+      street: branch?.address,
+      ...branch,
+    });
+
   return {
     branch,
     isLoading,
     isError,
     error: error as Error | null,
+    formattedAddress: pickupAddress,
   };
 };

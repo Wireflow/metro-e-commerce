@@ -66,7 +66,7 @@ const CartTotals = () => {
             size="xl"
             className="w-full text-sm"
             onClick={() => router.push('/customer/checkout')}
-            disabled={!summary || !orderType || isFetching || !isOrderingAllowed}
+            disabled={!summary || isFetching || !isOrderingAllowed}
           >
             Proceed to Checkout
             <ArrowRight className="h-4 w-4" />

@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useController, useForm } from 'react-hook-form';
 
 import InputField from '@/components/form/InputField';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { formatCardNumber, formatExpiration } from '@/utils/utils';
 
 import { useCreateCard } from '../../hooks/mutations/useCreateCard';
 import { CreateCardSchema, CreateCardType } from '../../schemas/create-card';
@@ -41,8 +42,18 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
     });
   };
 
+  const { field: numberField } = useController({
+    control: form.control,
+    name: 'number',
+  });
+
+  const { field: expirationField } = useController({
+    control: form.control,
+    name: 'expiration',
+  });
+
   return (
-    <div className="max-h-[calc(100vh-220px)] w-full">
+    <div className="w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4">
@@ -58,6 +69,11 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
               name="number"
               placeholder="ex 1234 5678 9012 3456"
               control={form.control}
+              value={formatCardNumber(numberField.value)}
+              onChange={e => {
+                const formattedValue = e.target.value.replace(/\D/g, '').slice(0, 16);
+                numberField.onChange(formattedValue);
+              }}
               className="w-full"
             />
             <div className="grid gap-4 md:grid-cols-2">
@@ -66,6 +82,11 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
                 name="expiration"
                 placeholder="ex. 12/20"
                 control={form.control}
+                value={formatExpiration(expirationField.value)}
+                onChange={e => {
+                  const formattedValue = e.target.value.replace(/\D/g, '').slice(0, 4);
+                  expirationField.onChange(formattedValue);
+                }}
                 className="w-full"
               />
               <InputField
@@ -73,6 +94,7 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
                 name="cvc"
                 placeholder="ex. 123"
                 control={form.control}
+                onChange={e => form.setValue('cvc', e.target.value.replace(/\D/g, '').slice(0, 3))}
                 className="w-full"
               />
             </div>

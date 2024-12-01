@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 // eslint-disable-next-line import/no-named-as-default
 import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
@@ -16,9 +15,6 @@ type Props = {
 };
 
 const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
-  const router = useRouter();
-  console.log(orderItems);
-
   const fields = useTableFields<OrderItemsDetails>([
     {
       key: product => (

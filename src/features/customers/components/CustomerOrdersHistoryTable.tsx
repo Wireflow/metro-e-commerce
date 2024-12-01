@@ -83,7 +83,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
         </div>
       ),
       label: 'No.',
-      className: 'w-[300px]',
+      className: 'pl-4 w-[300px]',
     },
     {
       key: order => (
@@ -159,6 +159,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
           data={customerOrders ?? []}
           className="h-full"
           emptyMessage="No order history"
+          variant="minimal"
         />
       </div>
     </div>

@@ -7,12 +7,10 @@ import { formatAddress, formatPhoneNumber } from '@/utils/utils';
 
 import { useCustomerBillingAddressClient } from '../server/useCustomerBillingAddressClient';
 
-type Props = {};
-
-const CustomerBillingAddress = (props: Props) => {
+const CustomerBillingAddress = () => {
   const { metadata } = useUser();
   const { data } = useCustomerBillingAddressClient({ customerId: metadata?.id });
-  const address = data ? formatAddress({ ...data[0] }) : null;
+  const address = data && data?.length > 0 ? formatAddress({ ...data[0] }) : null;
 
   return (
     <Card className="">

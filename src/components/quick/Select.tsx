@@ -24,11 +24,13 @@ export type QuickSelectProps = {
   value?: string;
   emptyMessage?: string;
   action?: ReactNode;
+  disabled?: boolean;
 };
 
 const QuickSelect = ({
   options,
   onValueChange,
+  disabled,
   defaultValue,
   className,
   placeholder,
@@ -39,7 +41,12 @@ const QuickSelect = ({
   const hasOptions = options && options.length > 0;
 
   return (
-    <Select onValueChange={onValueChange} defaultValue={defaultValue} value={value}>
+    <Select
+      onValueChange={onValueChange}
+      defaultValue={defaultValue}
+      value={value}
+      disabled={disabled}
+    >
       <SelectTrigger
         className={cn('bg-white', className, { capitalize: !!value, 'text-gray-500': !value })}
       >

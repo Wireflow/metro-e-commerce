@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Conditional from '@/components/Conditional';
 import QuickAlert from '@/components/quick/QuickAlert';
 import { Button } from '@/components/ui/button';
-import { OrderType, useStoreStatus } from '@/hooks/useStoreStatus';
+import { useStoreStatus } from '@/hooks/useStoreStatus';
 import { cn } from '@/lib/utils';
 import { Enum } from '@/types/supabase/enum';
 
@@ -13,26 +13,14 @@ type Props = {
 };
 
 const OrderTypeSelector = ({ onSelect, selected }: Props) => {
-  const { isOrderingAllowed, reason, settings, isOrderTypeEnabled, getEnabledOrderType } =
-    useStoreStatus();
-
-  const orderTypes: OrderType[] = [
-    {
-      id: 'pickup',
-      name: 'Pickup',
-      disabled: !settings?.is_pickup_allowed,
-    },
-    {
-      id: 'delivery',
-      name: 'Delivery',
-      disabled: !settings?.is_delivery_allowed,
-    },
-    {
-      id: 'shipment',
-      name: 'Shipment',
-      disabled: !settings?.is_shipment_allowed,
-    },
-  ];
+  const {
+    isOrderingAllowed,
+    reason,
+    settings,
+    isOrderTypeEnabled,
+    getEnabledOrderType,
+    availableOrderTypes,
+  } = useStoreStatus();
 
   useEffect(() => {
     if (!selected && settings) {
@@ -50,7 +38,7 @@ const OrderTypeSelector = ({ onSelect, selected }: Props) => {
   return (
     <div className="space-y-4">
       <div className="flex w-full">
-        {orderTypes.map(orderType => (
+        {availableOrderTypes.map(orderType => (
           <Button
             key={orderType.id}
             onClick={() => onSelect(orderType.id)}
@@ -65,8 +53,8 @@ const OrderTypeSelector = ({ onSelect, selected }: Props) => {
       </div>
       <Conditional condition={!isOrderingAllowed}>
         <QuickAlert
-          variant="destructive"
-          title="Sorry for the inconvenience"
+          variant="warning"
+          title="Look here!"
           description={reason ?? 'Our store is currently unavailable'}
         />
       </Conditional>

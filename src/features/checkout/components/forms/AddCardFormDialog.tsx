@@ -20,7 +20,7 @@ const AddCardFormDialog = ({ trigger }: Props) => {
       className="max-w-[500px]"
       trigger={trigger}
       content={
-        <div className="mt-4">
+        <div className="mt-4 pb-1">
           <AddCardForm setOpen={setOpen} />
         </div>
       }

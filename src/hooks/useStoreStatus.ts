@@ -23,10 +23,12 @@ export const useStoreStatus = () => {
   const { data: settings } = useBranchSettings();
 
   const type = useCartStore(state => state.orderType);
+  const cart = useCartStore(state => state.cart);
+
   const [isOrderingAllowed, setIsOrderingAllowed] = useState(false);
   const [reason, setReason] = useState<string | null>(null);
 
-  const availablePaymentOptions: PaymentOption[] = [
+  const paymentOptions: PaymentOption[] = [
     {
       id: 'online',
       name: 'Debit/Credit Card',
@@ -43,6 +45,24 @@ export const useStoreStatus = () => {
         (!settings?.is_pay_on_pickup_allowed && type === 'pickup') ||
         (!settings?.is_pay_on_delivery_allowed && type === 'delivery') ||
         type === 'shipment',
+    },
+  ];
+
+  const orderTypes: OrderType[] = [
+    {
+      id: 'pickup',
+      name: 'Pickup',
+      disabled: !settings?.is_pickup_allowed,
+    },
+    {
+      id: 'delivery',
+      name: 'Delivery',
+      disabled: !settings?.is_delivery_allowed,
+    },
+    {
+      id: 'shipment',
+      name: 'Shipment',
+      disabled: !settings?.is_shipment_allowed,
     },
   ];
 
@@ -80,10 +100,16 @@ export const useStoreStatus = () => {
       return;
     }
 
+    if (cart.length === 0) {
+      setIsOrderingAllowed(false);
+      setReason('Your cart is currently empty');
+      return;
+    }
+
     // If we reach here, ordering is allowed
     setIsOrderingAllowed(true);
     setReason(null);
-  }, [settings]);
+  }, [settings, type, cart]);
 
   const getEnabledOrderType = () => {
     if (!settings) return undefined;
@@ -116,6 +142,7 @@ export const useStoreStatus = () => {
     settings,
     isOrderTypeEnabled,
     getEnabledOrderType,
-    availablePayments: availablePaymentOptions.filter(p => !p.disabled),
+    availablePayments: paymentOptions.filter(p => !p.disabled),
+    availableOrderTypes: orderTypes.filter(p => !p.disabled),
   };
 };

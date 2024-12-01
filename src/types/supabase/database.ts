@@ -1118,6 +1118,7 @@ export type Database = {
           created_at: string;
           customer_id: string;
           delivery_address_id: string | null;
+          delivery_fee: number;
           expected_delivery_at: string | null;
           fees: number;
           id: string;
@@ -1146,6 +1147,7 @@ export type Database = {
           created_at?: string;
           customer_id: string;
           delivery_address_id?: string | null;
+          delivery_fee?: number;
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
@@ -1174,6 +1176,7 @@ export type Database = {
           created_at?: string;
           customer_id?: string;
           delivery_address_id?: string | null;
+          delivery_fee?: number;
           expected_delivery_at?: string | null;
           fees?: number;
           id?: string;
@@ -4794,6 +4797,14 @@ export type Database = {
       };
     };
     Functions: {
+      create_order_from_cart: {
+        Args: {
+          p_order_type: string;
+          p_instructions?: string;
+          p_shipment_cost?: number;
+        };
+        Returns: Json;
+      };
       get_user_branch: {
         Args: Record<PropertyKey, never>;
         Returns: string;

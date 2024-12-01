@@ -4,7 +4,6 @@ import { Animate } from '@/components/animation/Animate';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Row } from '@/types/supabase/table';
-import { formatAddress } from '@/utils/utils';
 
 import { useDeliveryAddress } from '../../hooks/queries/useDeliveryAddress';
 import AddressesList from './AddressesList';
@@ -18,7 +17,7 @@ const BillingAddresses = ({ addresses }: Props) => {
   const [prevouslySelected, setPreviouslySelected] = useState<Row<'addresses'> | null>(null);
   const [selected, setSelected] = useState<Row<'addresses'> | null>(null);
 
-  const { data: deliveryAddress } = useDeliveryAddress();
+  const { formattedAddress, address: deliveryAddress } = useDeliveryAddress();
 
   useEffect(() => {
     if (addresses.length > 0) {
@@ -62,9 +61,7 @@ const BillingAddresses = ({ addresses }: Props) => {
             <Label htmlFor="use-delivery-address">Same as business address</Label>
           </div>
           <div>
-            <p className="mt-2 text-xs text-gray-500">
-              {deliveryAddress && formatAddress(deliveryAddress)}
-            </p>
+            <p className="mt-2 text-xs text-gray-500">{formattedAddress}</p>
           </div>
         </Animate>
       </div>

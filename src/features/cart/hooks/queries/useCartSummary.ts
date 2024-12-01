@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ViewRow } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
-interface SummaryItem {
+export interface SummaryItem {
   product_id: string;
   product_name: string;
   quantity: number;
@@ -17,7 +17,7 @@ interface SummaryItem {
   discount_valid_until: string; // ISO 8601 date string
 }
 
-type Summary = ViewRow<'customer_cart_summary'> & {
+export type CartSummary = ViewRow<'customer_cart_summary'> & {
   cart_items: SummaryItem[];
 };
 
@@ -38,7 +38,7 @@ export const useCartSummary = () => {
         .from('customer_cart_summary')
         .select('*')
         .eq('customer_id', session?.user?.id)
-        .returns<Summary[]>();
+        .returns<CartSummary[]>();
 
       if (error) {
         throw new Error('Error fetching cart summary');

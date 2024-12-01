@@ -23,6 +23,9 @@ import SelectAccountType from './SelectAccountType';
 const RegisterForm = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [pendingHref, setPendingHref] = useState('');
+  const [showManualFields, setShowManualFields] = useState(false);
+  const [isAddressFromGoogle, setIsAddressFromGoogle] = useState(false);
+
   const router = useRouter();
 
   const { execute, isExecuting } = useAction(registerCustomerAction, {
@@ -73,7 +76,14 @@ const RegisterForm = () => {
   const formSteps = [
     <SelectAccountType key="account-type" form={form} />,
     <PersonalInfo key="personal-info" form={form} />,
-    <BusinessInfo key="business-info" form={form} />,
+    <BusinessInfo
+      key="business-info"
+      form={form}
+      setShowManualFields={setShowManualFields}
+      showManualFields={showManualFields}
+      setIsAddressFromGoogle={setIsAddressFromGoogle}
+      isAddressFromGoogle={isAddressFromGoogle}
+    />,
     <AccountInfo key="account-info" form={form} />,
   ];
 

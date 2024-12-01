@@ -1,5 +1,6 @@
 // layout.tsx
 import { Public_Sans } from 'next/font/google';
+import Script from 'next/script';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import type { Metadata } from 'next';
@@ -105,6 +106,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${publicSans.variable} font-sans antialiased`}>
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API_KEY}&libraries=places`}
+          strategy="afterInteractive"
+        />
         <Toaster />
 
         <Providers>

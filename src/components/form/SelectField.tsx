@@ -17,6 +17,7 @@ interface Props<TFieldValues extends FieldValues> extends Partial<QuickSelectPro
   name: Path<TFieldValues>;
   label?: ReactNode;
   description?: string;
+  disabled?: boolean;
 }
 
 export function SelectField<TFieldValues extends FieldValues>({
@@ -24,6 +25,7 @@ export function SelectField<TFieldValues extends FieldValues>({
   name,
   label,
   description,
+  disabled,
   options,
   ...props
 }: Props<TFieldValues>) {
@@ -46,6 +48,7 @@ export function SelectField<TFieldValues extends FieldValues>({
               value={field.value ?? ''}
               onValueChange={Value => field.onChange(Value)}
               defaultValue={field.value}
+              disabled={disabled}
             />
           </FormControl>
           <FormDescription>{description}</FormDescription>

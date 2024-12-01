@@ -2,10 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useUser } from '@/hooks/useUser';
 import { createClient } from '@/utils/supabase/client';
+import { formatAddress } from '@/utils/utils';
 
 export const useDeliveryAddress = () => {
   const { user } = useUser();
-  return useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['addresses', 'delivery'],
     queryFn: async () => {
       const supabase = createClient();
@@ -32,4 +33,11 @@ export const useDeliveryAddress = () => {
       return data;
     },
   });
+
+  return {
+    address: data,
+    isLoading,
+    error,
+    formattedAddress: data && formatAddress(data),
+  };
 };

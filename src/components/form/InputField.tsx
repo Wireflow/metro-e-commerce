@@ -51,8 +51,11 @@ export default function InputField<TFieldValues extends FieldValues>({
       }
     }
 
-    field.onChange(value);
-    onChange?.(e);
+    if (onChange) {
+      onChange(e);
+    } else {
+      field.onChange(value);
+    }
   };
 
   return (
@@ -75,7 +78,7 @@ export default function InputField<TFieldValues extends FieldValues>({
                       ? 'text'
                       : type
                 }
-                value={field.value ?? ''}
+                value={props.value ?? field.value ?? ''}
                 onChange={handleChange}
                 onBlur={field.onBlur}
                 name={field.name}

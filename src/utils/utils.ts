@@ -81,3 +81,47 @@ export const getColorHash = (lastFour: string): string => {
 
   return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };
+
+export const formatCardNumber = (value: string) => {
+  const cleaned = value.replace(/\D/g, '');
+  const matches = cleaned.match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
+
+  if (!matches) return '';
+
+  const output = matches
+    .slice(1)
+    .filter(group => group !== '')
+    .join(' ');
+
+  return output;
+};
+
+export const formatExpiration = (value: string) => {
+  // Remove any non-digit characters
+  const cleaned = value.replace(/\D/g, '');
+
+  // Handle backspace when the slash is present
+  if (value.endsWith('/')) {
+    return cleaned.substring(0, 2);
+  }
+
+  // Don't add slash if less than 2 digits
+  if (cleaned.length < 2) {
+    return cleaned;
+  }
+
+  // Add slash after month for 2 or more digits
+  const month = cleaned.substring(0, 2);
+  const year = cleaned.substring(2, 4);
+
+  // Validate month
+  if (parseInt(month) > 12) {
+    return '12' + (year ? '/' + year : '');
+  }
+
+  if (parseInt(month) === 0) {
+    return '01' + (year ? '/' + year : '');
+  }
+
+  return month + (year ? '/' + year : '');
+};
