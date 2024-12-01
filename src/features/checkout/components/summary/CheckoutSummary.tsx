@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { Animate } from '@/components/animation/Animate';
 import Conditional from '@/components/Conditional';
+import QuickAlert from '@/components/quick/QuickAlert';
 import SummaryRow from '@/components/SummaryRow';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -62,6 +63,17 @@ const CheckoutSummary = ({
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Order Summary</CardTitle>
       </CardHeader>
+      <Animate type="fade" className="px-4">
+        <QuickAlert
+          variant={isDeliveryPossible ? 'success' : 'destructive'}
+          title={isDeliveryPossible ? 'Want it delivered?' : 'Sorry for the inconvenience'}
+          description={
+            isDeliveryPossible
+              ? 'Your delivery address is within our delivery radius! 🚚'
+              : 'We are sorry, but your delivery address is not within our delivery radius. 😔'
+          }
+        />
+      </Animate>
       <div className="mb-4 grid gap-2 overflow-hidden border-b px-6 pb-2">
         {itemsToShow?.map((item, index) => {
           const product = cart.find(i => i.product_id === item.product_id)?.product;
@@ -136,7 +148,9 @@ const CheckoutSummary = ({
             size="xl"
             className="w-full text-sm"
             onClick={() => createOrder({ orderType: orderType as Enum<'order_type'>, notes })}
-            disabled={!summary || !orderType || !isOrderingAllowed || isCreatingOrder}
+            disabled={
+              !summary || !orderType || !isOrderingAllowed || isCreatingOrder || !isDeliveryPossible
+            }
           >
             <p>
               Place <span className="capitalize">{orderType}</span> Order
@@ -145,7 +159,6 @@ const CheckoutSummary = ({
               <ArrowRight className="h-4 w-4" />
             </Animate>
           </Button>
-          <p> Delivery is {isDeliveryPossible ? 'available' : 'not available'} for your location</p>
         </div>
       </CardFooter>
     </Card>

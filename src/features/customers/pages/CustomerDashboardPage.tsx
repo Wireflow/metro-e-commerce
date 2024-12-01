@@ -6,9 +6,7 @@ import { useUser } from '@/hooks/useUser';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerOrdersHistoryTable from '../components/CustomerOrdersHistoryTable';
 
-type Props = {};
-
-const CustomerDashboardPage = (props: Props) => {
+const CustomerDashboardPage = () => {
   const { metadata } = useUser();
 
   return (

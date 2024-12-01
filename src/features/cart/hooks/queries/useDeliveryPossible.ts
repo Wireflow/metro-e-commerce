@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { useCurrentCustomer } from '@/features/auth/hooks/useCurrentCustomer';
 import { useBranchSettings } from '@/features/store/hooks/queries/useBranchSettings';
 import { useCurrentBranch } from '@/hooks/queries/useCurrentBranch';
 
 export const useDeliveryPossible = () => {
-  const [possible, setPossible] = useState(false);
-
   const { data: customer } = useCurrentCustomer();
   const { branch } = useCurrentBranch();
   const { data: settings } = useBranchSettings();
@@ -51,7 +48,6 @@ export const useDeliveryPossible = () => {
 
         // Check if distance is within allowed radius
         const isWithinRadius = distanceInMiles <= allowedRadius;
-        setPossible(isWithinRadius);
         return isWithinRadius;
       } catch (error) {
         console.error('Error calculating distance:', error);

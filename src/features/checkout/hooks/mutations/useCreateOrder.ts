@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
 import { Enum } from '@/types/supabase/enum';
 import { createClient } from '@/utils/supabase/client';
 
@@ -10,10 +11,16 @@ type OrderData = {
 };
 
 export const useCreateOrder = () => {
+  const { isPossible: isDeliveryPossible } = useDeliveryPossible();
+
   return useMutation({
     mutationKey: ['create-order'],
     mutationFn: async (data: OrderData) => {
       const supabase = createClient();
+
+      if (!isDeliveryPossible) {
+        throw new Error('Delivery address is not within our delivery radius');
+      }
 
       if (!data.orderType) {
         throw new Error('Order type is required');
