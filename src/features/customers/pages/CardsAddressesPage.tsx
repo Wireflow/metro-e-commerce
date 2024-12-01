@@ -16,8 +16,6 @@ const CardsAddressesPage = (props: Props) => {
   const { data: address } = useCustomerAddressClient({ customerId: metadata?.id });
   const fullName = metadata?.first_name + ' ' + metadata?.last_name;
 
-  console.log(address);
-
   const billingAddress = address?.find(address => address.type === 'billing');
   const deliveryAddress = address?.find(address => address.type === 'delivery');
 

@@ -17,7 +17,7 @@ const AddCardFormDialog = ({ trigger }: Props) => {
       onOpenChange={setOpen}
       title="Add New Card"
       description="Add a new card to your account"
-      className="max-w-[500px]"
+      className="max-w-[500px] overflow-y-auto custom-scrollbar md:max-w-[800px]"
       trigger={trigger}
       content={
         <div className="mt-4 pb-1">

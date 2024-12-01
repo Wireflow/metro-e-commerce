@@ -1,14 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 
 import InputField from '@/components/form/InputField';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useCustomerBillingAddressClient } from '@/features/customers/server/useCustomerBillingAddressClient';
+import { useUser } from '@/hooks/useUser';
+import { Row } from '@/types/supabase/table';
 import { formatCardNumber, formatExpiration } from '@/utils/utils';
 
 import { useCreateCard } from '../../hooks/mutations/useCreateCard';
 import { CreateCardSchema, CreateCardType } from '../../schemas/create-card';
+import AddressesList from '../addresses/AddressesList';
 
 type Props = {
   onSuccess?: () => void;
@@ -17,6 +22,9 @@ type Props = {
 
 const AddCardForm = ({ onSuccess, setOpen }: Props) => {
   const { mutate: createCard, isPending } = useCreateCard();
+  const { user } = useUser();
+  const { data: addresses } = useCustomerBillingAddressClient({ customerId: user?.id ?? '' });
+  const [selectedAddress, setSelectedAddress] = useState<Row<'addresses'> | null>(null);
 
   const form = useForm<CreateCardType>({
     resolver: zodResolver(CreateCardSchema),
@@ -52,10 +60,32 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
     name: 'expiration',
   });
 
+  useEffect(() => {
+    if (addresses && addresses.length > 0 && !selectedAddress) {
+      setSelectedAddress(addresses[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addresses]);
+
   return (
     <div className="w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <AddressesList
+              addresses={addresses ?? []}
+              containerClassName="grid grid-cols-1  md:grid-cols-3"
+              selected={selectedAddress}
+              onSelect={setSelectedAddress}
+              cardOptions={{
+                showTitle: false,
+                showSelection: true,
+                showName: true,
+                showAction: false,
+                showOptions: false,
+              }}
+            />
+          </div>
           <div className="grid gap-4">
             <InputField
               label="Name on Card"

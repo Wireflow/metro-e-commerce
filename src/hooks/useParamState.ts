@@ -1,6 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 type ParamParser<T> = {
   parse: (value: string | null) => T;
@@ -8,7 +8,7 @@ type ParamParser<T> = {
   equals: (a: T, b: T) => boolean;
 };
 
-// Built-in parsers for common types
+// Parsers remain the same
 export const StringParser: ParamParser<string> = {
   parse: value => value || '',
   serialize: value => value,
@@ -38,11 +38,48 @@ type UseSearchParamOptions<T> = {
   key: string;
   parser: ParamParser<T>;
   defaultValue: T;
-  /**
-   * Delay in ms before clearing empty values from URL
-   * Set to 0 to disable cleanup
-   */
   cleanupDelay?: number;
+};
+
+// Create a global batch update manager
+const batchManager = {
+  updates: new Map<string, string | null>(),
+  timeout: null as NodeJS.Timeout | null,
+
+  scheduleUpdate() {
+    if (this.timeout) clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+
+      // Apply all updates
+      this.updates.forEach((value, key) => {
+        if (value === null) {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+
+      // Clean empty params
+      const cleanParams = Array.from(params.entries())
+        .filter(([_, value]) => value !== '')
+        .reduce((acc, [key, value]) => {
+          acc.set(key, value);
+          return acc;
+        }, new URLSearchParams());
+
+      // Update URL
+      const queryString = cleanParams.toString();
+      const newUrl = queryString ? `?${queryString}` : window.location.pathname;
+      window.history.pushState(null, '', newUrl);
+      window.dispatchEvent(new Event('popstate'));
+
+      // Clear updates
+      this.updates.clear();
+      this.timeout = null;
+    }, 0);
+  },
 };
 
 export function useParamState<T>({
@@ -52,57 +89,36 @@ export function useParamState<T>({
   cleanupDelay = 500,
 }: UseSearchParamOptions<T>): [T, (newValue: T | null) => void] {
   const searchParams = useSearchParams();
+  const cleanupTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Create a function to update URL search params
-  const createQueryString = useCallback(
-    (name: string, value: string | null) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (value === null) {
-        params.delete(name);
-      } else {
-        params.set(name, value);
-      }
-
-      // Remove empty parameters to keep URL clean
-      const cleanParams = Array.from(params.entries())
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_, value]) => value !== '')
-        .reduce((acc, [key, value]) => {
-          acc.set(key, value);
-          return acc;
-        }, new URLSearchParams());
-
-      return cleanParams.toString();
-    },
-    [searchParams]
-  );
-
-  // Get current value from search params
   const value = parser.parse(searchParams.get(key));
 
-  // Create setter function
   const setValue = useCallback(
     (newValue: T | null) => {
+      if (cleanupTimerRef.current) {
+        clearTimeout(cleanupTimerRef.current);
+      }
+
       const serializedValue = newValue === null ? null : parser.serialize(newValue);
-      const queryString = createQueryString(key, serializedValue);
 
-      // Update URL without page refresh
-      const newUrl = queryString ? `?${queryString}` : window.location.pathname;
-      window.history.pushState(null, '', newUrl);
+      // Add to batch updates
+      batchManager.updates.set(key, serializedValue);
+      batchManager.scheduleUpdate();
     },
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [key, createQueryString]
+    [key]
   );
 
-  // Cleanup effect for empty/default values
   useEffect(() => {
     if (cleanupDelay > 0 && parser.equals(value, defaultValue)) {
-      const timer = setTimeout(() => {
+      cleanupTimerRef.current = setTimeout(() => {
         setValue(null);
       }, cleanupDelay);
-      return () => clearTimeout(timer);
+      return () => {
+        if (cleanupTimerRef.current) {
+          clearTimeout(cleanupTimerRef.current);
+        }
+      };
     }
   }, [value, defaultValue, setValue, cleanupDelay, parser]);
 

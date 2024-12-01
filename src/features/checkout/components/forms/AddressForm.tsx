@@ -79,7 +79,7 @@ const AddressForm = ({ type, onSuccess }: Props) => {
                 <InputField
                   label="City"
                   name="city"
-                  placeholder="New York"
+                  placeholder="Lincoln Park"
                   control={form.control}
                   className="w-full"
                 />
@@ -87,7 +87,7 @@ const AddressForm = ({ type, onSuccess }: Props) => {
               <div>
                 <SelectField
                   name="state"
-                  placeholder="NY"
+                  placeholder="MI"
                   label="State/Province"
                   control={form.control}
                   options={STATES}

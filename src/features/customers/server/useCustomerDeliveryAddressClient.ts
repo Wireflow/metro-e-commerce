@@ -8,6 +8,10 @@ export const useCustomerAddressClient = ({ customerId }: { customerId: string })
     queryFn: async () => {
       const supabase = createClient();
 
+      if (!customerId) {
+        throw new Error('Customer ID is required');
+      }
+
       const { data, error } = await supabase
         .from('addresses')
         .select('*')

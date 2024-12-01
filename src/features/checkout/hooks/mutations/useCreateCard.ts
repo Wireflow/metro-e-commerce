@@ -12,12 +12,19 @@ export const useCreateCard = () => {
 
   return useMutation({
     mutationKey: ['create-card'],
-    mutationFn: async (card: CreateCardType) => {
+    mutationFn: async (cardData: CreateCardType) => {
       const supabase = createClient();
 
       if (!user) {
         throw new Error('User not found');
       }
+
+      // const card = await usaepay.token.tokenizeCard({
+      //   cardholder: cardData.cardholder,
+      //   number: cardData.number,
+      //   expiration: cardData.expiration,
+      //   cvc: cardData.cvc,
+      // });
 
       //   // TODO: Add card to card to USAePAY API
 

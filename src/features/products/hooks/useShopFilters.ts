@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import {
   ArrayParser,
@@ -24,7 +24,6 @@ export type SelectOptions = {
 };
 
 export const useShopFilters = () => {
-  // Use our custom hook for each parameter
   const [selectedManufacturers, setSelectedManufacturers] = useParamState({
     key: 'manufacturers',
     parser: ArrayParser(StringParser),
@@ -82,13 +81,14 @@ export const useShopFilters = () => {
     [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery]
   );
 
-  const clearFilters = useCallback(() => {
+  const clearFilters = () => {
     setCategoryId(null);
-    setPriceRange(null);
+    setPriceRange([0, 0]);
     setSearchQuery(null);
     setSelectedManufacturers(null);
-    setSortBy(null);
-  }, [setCategoryId, setPriceRange, setSearchQuery, setSelectedManufacturers, setSortBy]);
+    setSortBy('created_at');
+    setPage(1);
+  };
 
   const sortOptions = [
     { value: 'created_at', label: 'New Arrivals' },

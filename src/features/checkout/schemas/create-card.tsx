@@ -35,6 +35,7 @@ export const CreateCardSchema = z.object({
     }, 'Card has expired'),
 
   cvc: z.string().regex(/^\d{3,4}$/, 'CVC must be 3 or 4 digits'),
+  billing_address_id: z.string(),
 });
 
 export type CreateCardType = z.infer<typeof CreateCardSchema>;

@@ -40,7 +40,7 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
             id: 'price',
             label: 'Price',
             value: `${formatCurrency(filters.minPrice)} - ${formatCurrency(filters.maxPrice)}`,
-            onRemove: () => setPriceRange(null),
+            onRemove: () => setPriceRange([0, 0]),
           },
         ]
       : []),
@@ -87,7 +87,7 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
             <button
               key={filter.id}
               onClick={filter.onRemove}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-sm text-black text-gray-700 transition-colors hover:bg-gray-200"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
             >
               <span className="text-[13px] font-medium">{filter.label}:</span>
               <span className="max-w-[150px] truncate text-[13px]">{filter.value}</span>
@@ -106,7 +106,7 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
           )}
         </div>
         <p className="text-sm text-gray-500">
-          <span className="font-bold text-black">{resultsCount}</span> Results found
+          <span className="font-bold">{resultsCount}</span> Results found
         </p>
       </div>
     </div>

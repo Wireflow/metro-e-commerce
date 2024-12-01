@@ -1,19 +1,33 @@
 import { useState } from 'react';
 
 import QuickDialog from '@/components/quick/Dialog';
+import { cn } from '@/lib/utils';
 import { Row } from '@/types/supabase/table';
 
 import AddressForm from '../forms/AddressForm';
-import AddressCard from './AddressCard';
+import AddressCard, { AddressOptions } from './AddressCard';
 import NewAddressCard from './NewAddressCard';
 
 type Props = {
   addresses: Row<'addresses'>[];
   onSelect?: (address: Row<'addresses'> | null) => void;
   selected?: Row<'addresses'> | null;
+  containerClassName?: string;
+  cardOptions?: AddressOptions;
 };
 
-const AddressesList = ({ addresses = [], onSelect, selected }: Props) => {
+const defaultCardOptions: AddressOptions = {
+  showTitle: false,
+  showSelection: true,
+};
+
+const AddressesList = ({
+  addresses = [],
+  onSelect,
+  selected,
+  containerClassName,
+  cardOptions = defaultCardOptions,
+}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleAddressFormSuccess = () => {
@@ -21,15 +35,12 @@ const AddressesList = ({ addresses = [], onSelect, selected }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className={cn('grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3', containerClassName)}>
       {addresses.map(address => (
         <AddressCard
           key={address.id}
           address={address}
-          options={{
-            showTitle: false,
-            showSelection: true,
-          }}
+          options={cardOptions}
           onSelect={onSelect}
           selected={selected}
         />
@@ -39,7 +50,7 @@ const AddressesList = ({ addresses = [], onSelect, selected }: Props) => {
         onOpenChange={setIsDialogOpen}
         title="New Billing Address"
         description="Add a new billing address to your account"
-        className="max-w-[900px]"
+        className="max-w-[600px]"
         content={
           <div className="mt-4">
             <AddressForm type="billing" onSuccess={handleAddressFormSuccess} />

@@ -7,19 +7,22 @@ import { formatAddress } from '@/utils/utils';
 
 import { useDeleteAddress } from '../../hooks/mutations/useDeleteAddress';
 
+export type AddressOptions = {
+  showTitle?: boolean;
+  showName?: boolean;
+  showAddress?: boolean;
+  showAction?: boolean;
+  showSelection?: boolean;
+  showOptions?: boolean;
+};
+
 interface AddressCardProps {
   address: Row<'addresses'>;
   title?: (address: Row<'addresses'>) => string;
   action?: React.ReactNode;
   onSelect?: (address: Row<'addresses'>) => void;
   selected?: Row<'addresses'> | null;
-  options?: {
-    showTitle?: boolean;
-    showName?: boolean;
-    showAddress?: boolean;
-    showAction?: boolean;
-    showSelection?: boolean;
-  };
+  options?: AddressOptions;
 }
 
 const AddressCard = ({
@@ -36,6 +39,7 @@ const AddressCard = ({
     showAddress = true,
     showAction = true,
     showSelection = false,
+    showOptions = true,
   } = options;
 
   const displayTitle = title?.(address) ?? `${address.type} Address`;
@@ -50,7 +54,7 @@ const AddressCard = ({
       }`}
       onClick={() => onSelect?.(address)}
     >
-      {!isSelected && (
+      {!isSelected && showOptions && (
         <ActionsPopover
           disabled={deleting}
           className="absolute right-2 top-2"
