@@ -17,7 +17,7 @@ import DynamicTable, { useTableFields } from '../ui/dynamic-table';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Wish List', href: '/customer/wishlist' },
+  { label: 'Wishlist', href: '/customer/wishlist' },
 ];
 
 const WishListPage = () => {
@@ -101,7 +101,7 @@ const WishListPage = () => {
   return (
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
-      <Container>
+      <Container className="md:py-12">
         <Card className="p-0 shadow-none">
           <h1 className="p-5 text-lg font-semibold">Wishlist</h1>
           <CardContent className="p-0">

@@ -3,6 +3,7 @@
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
 
+import AddSalesRepFormDialog from '../components/AddSalesRepFormDialog';
 import SalesRepsPageSkeleton from '../components/SalesRepsPageSkeleton';
 import UsersList from '../components/UsersList';
 import { useSalesReps } from '../hooks/queries/useSalesReps';
@@ -25,6 +26,7 @@ const SalesRepsPage = () => {
         title="Sales Reps"
         description="Manage your sales reps"
         breadcrumbs={breadcrumbs}
+        actions={<AddSalesRepFormDialog />}
       />
       <UsersList users={users ?? []} />
     </AnimatedDiv>

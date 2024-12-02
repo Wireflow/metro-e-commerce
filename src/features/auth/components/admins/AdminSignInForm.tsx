@@ -25,7 +25,7 @@ const AdminSignInForm = () => {
         return;
       }
       toast.success('Signed in successfully');
-      router.push('/admin');
+      router.push('/');
     },
     onError: () => {
       toast.error('An unexpected error occurred');

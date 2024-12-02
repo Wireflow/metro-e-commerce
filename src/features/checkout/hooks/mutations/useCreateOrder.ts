@@ -18,7 +18,7 @@ export const useCreateOrder = () => {
     mutationFn: async (data: OrderData) => {
       const supabase = createClient();
 
-      if (!isDeliveryPossible) {
+      if (!isDeliveryPossible && data.orderType === 'delivery') {
         throw new Error('Delivery address is not within our delivery radius');
       }
 

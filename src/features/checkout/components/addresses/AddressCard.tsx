@@ -2,6 +2,7 @@ import { CheckCircle } from 'lucide-react';
 
 import ActionsPopover from '@/components/quick/ActionsPopover';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Row } from '@/types/supabase/table';
 import { formatAddress } from '@/utils/utils';
 
@@ -17,12 +18,14 @@ export type AddressOptions = {
 };
 
 interface AddressCardProps {
-  address: Row<'addresses'>;
+  address?: Row<'addresses'>;
   title?: (address: Row<'addresses'>) => string;
   action?: React.ReactNode;
   onSelect?: (address: Row<'addresses'>) => void;
   selected?: Row<'addresses'> | null;
   options?: AddressOptions;
+  className?: string;
+  placeholderTitle?: string;
 }
 
 const AddressCard = ({
@@ -30,9 +33,38 @@ const AddressCard = ({
   action,
   title,
   onSelect,
+  className,
   selected,
+  placeholderTitle = 'Address',
   options = {},
 }: AddressCardProps) => {
+  const { mutate: deleteAddress, isPending: deleting } = useDeleteAddress();
+
+  if (!address) {
+    return (
+      <Card
+        className={cn(
+          `relative shadow-none transition-all duration-300 ${onSelect ? 'cursor-pointer hover:bg-gray-50' : ''}`,
+          className
+        )}
+      >
+        <CardHeader className="border-b pb-3 pt-4">
+          <CardTitle className="font-medium capitalize">{placeholderTitle}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2 pb-4 pt-3">
+          <div>
+            <p className="text-xs text-gray-500">Name</p>
+            <p className="font-medium">N/A</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500">Address</p>
+            <p>N/A</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const {
     showTitle = true,
     showName = true,
@@ -45,13 +77,14 @@ const AddressCard = ({
   const displayTitle = title?.(address) ?? `${address.type} Address`;
   const isSelected = selected?.id === address.id;
 
-  const { mutate: deleteAddress, isPending: deleting } = useDeleteAddress();
-
   return (
     <Card
-      className={`relative shadow-none transition-all duration-300 ${onSelect ? 'cursor-pointer hover:bg-gray-50' : ''} ${
-        isSelected ? 'ring-2 ring-primary' : ''
-      }`}
+      className={cn(
+        `relative shadow-none transition-all duration-300 ${onSelect ? 'cursor-pointer hover:bg-gray-50' : ''} ${
+          isSelected ? 'ring-2 ring-primary' : ''
+        }`,
+        className
+      )}
       onClick={() => onSelect?.(address)}
     >
       {!isSelected && showOptions && (

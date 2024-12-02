@@ -9,18 +9,18 @@ type Props = {
 
 const layout = ({ children }: Props) => {
   return (
-    <div className="h-fit">
+    <div className="min-h-screen">
       <CustomerProfileBreadCrumb />
-      <Container className="flex w-full flex-col md:flex-row md:gap-14">
+      <Container className="relative flex w-full flex-col md:flex-row md:gap-14">
         <div className="hidden md:block">
-          <CustomerAccountSideBar />
+          <div className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+            <CustomerAccountSideBar />
+          </div>
         </div>
         <div className="flex w-full justify-end md:hidden">
           <CustomerAccountMobileSideBar />
         </div>
-        <div className="flex-1 py-10 no-scrollbar md:max-h-[700px] md:overflow-auto">
-          {children}
-        </div>
+        <div className="flex-1 py-10 no-scrollbar md:max-h-none">{children}</div>
       </Container>
     </div>
   );

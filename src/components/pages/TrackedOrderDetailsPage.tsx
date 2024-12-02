@@ -5,9 +5,10 @@ import { redirect } from 'next/navigation';
 import TrackedOrder from '@/features/track/components/TrackedOrder';
 import { useOrderTracking } from '@/features/track/hooks/queries/track-query-hooks';
 
-import AnimtedLoadingSpinner from '../animation/AnimtedLoader';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
+import { Card } from '../ui/card';
+import { Skeleton } from '../ui/skeleton';
 
 type Props = {
   id: number;
@@ -24,19 +25,26 @@ const TrackedOrderDetailsPage = ({ id, breadcrumbs = true }: Props) => {
   ];
 
   if (isLoading) {
-    return <AnimtedLoadingSpinner className="mt-10" />;
+    return <Skeleton className="mt-10 h-[500px] w-full" />;
   }
+
   if (!order) {
     return redirect('/track');
   }
 
   return (
-    <div>
+    <>
       {breadcrumbs && <BreadCrumbQuickUI breadcrumbs={pageBreadcrumbs} />}
-      <Container>
+      {breadcrumbs ? (
+        <Container>
+          <Card className="p-4 shadow-none md:my-10">
+            <TrackedOrder order={order} />
+          </Card>
+        </Container>
+      ) : (
         <TrackedOrder order={order} />
-      </Container>
-    </div>
+      )}
+    </>
   );
 };
 

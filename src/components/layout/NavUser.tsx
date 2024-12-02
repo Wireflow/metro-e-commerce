@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { User } from '@supabase/supabase-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { ChevronsUpDown, LogOut } from 'lucide-react';
 
 import {
@@ -28,14 +29,18 @@ type NavUserProps = {
 export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const fullName = `${user?.user_metadata?.first_name} ${user?.user_metadata?.last_name}`;
   const email = user.email ?? '';
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const supabase = createClient();
-    supabase.auth.signOut();
+    await supabase.auth.signOut();
+    queryClient.invalidateQueries();
+    queryClient.invalidateQueries({ queryKey: ['user'] });
     router.replace('/');
+    router.refresh();
   };
 
   return (
