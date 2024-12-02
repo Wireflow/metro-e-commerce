@@ -79,10 +79,7 @@ const CustomerAccountSideBar = () => {
                     : 'text-neutral-500 hover:text-primary'
                 }`}
                 href={
-                  tab.href === 'track' ||
-                  tab.href === 'cart' ||
-                  tab.href === 'wishlist' ||
-                  tab.href === 'settings'
+                  tab.href === 'track' || tab.href === 'cart' || tab.href === 'wishlist'
                     ? `/${tab.href}`
                     : `/customer/${tab.href}`
                 }

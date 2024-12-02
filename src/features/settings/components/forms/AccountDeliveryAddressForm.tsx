@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import InputField from '@/components/form/InputField';
@@ -7,40 +8,53 @@ import { SelectField } from '@/components/form/SelectField';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { STATES } from '@/data/constants';
-import { Enum } from '@/types/supabase/enum';
+import { useCustomerDeliveryAddressClient } from '@/features/customers/server/useCustomerDeliveryAddressClient';
+import { useUser } from '@/hooks/useUser';
 
-import { useCreateAddress } from '../../hooks/mutations/useCreateAddress';
-import { CreateAddressSchema, CreateAddressType } from '../../schemas/create-address';
+import { useUpdateDeliveryAddress } from '../../hooks/mutations/useUpdateDeliveryAddress';
+import { UpdateAddressSchema, UpdateAddressType } from '../../schema/update-delivery-address';
 
 type Props = {
-  type: Enum<'address_type'>;
   onSuccess?: () => void;
-  deliveryAddress?: CreateAddressType;
 };
 
-const AddressForm = ({ type, onSuccess, deliveryAddress }: Props) => {
-  const { mutate: createAddress, isPending } = useCreateAddress();
+const AccountDeliveryAddressForm = ({ onSuccess }: Props) => {
+  const { metadata } = useUser();
+  const { data: deliveryAddress } = useCustomerDeliveryAddressClient({ customerId: metadata?.id });
+  const { mutate: updateAddress, isPending } = useUpdateDeliveryAddress();
 
-  const form = useForm<CreateAddressType>({
-    resolver: zodResolver(CreateAddressSchema),
+  const form = useForm<UpdateAddressType>({
+    resolver: zodResolver(UpdateAddressSchema),
     defaultValues: {
       name: deliveryAddress?.name ?? '',
       street: deliveryAddress?.street ?? '',
       city: deliveryAddress?.city ?? '',
       state: deliveryAddress?.state ?? '',
       zip_code: deliveryAddress?.zip_code ?? '',
-      country: deliveryAddress?.country ?? 'United States',
-      type: type ?? 'billing',
+      country: 'United States',
+      type: 'delivery',
     },
     mode: 'onChange',
   });
 
+  useEffect(() => {
+    form.reset({
+      name: deliveryAddress?.name ?? '',
+      street: deliveryAddress?.street ?? '',
+      city: deliveryAddress?.city ?? '',
+      state: deliveryAddress?.state ?? '',
+      zip_code: deliveryAddress?.zip_code ?? '',
+      country: 'United States',
+      type: 'delivery',
+    });
+  }, [deliveryAddress, form]);
+
   const isDirty = form.formState.isDirty;
 
-  const onSubmit = (data: CreateAddressType) => {
+  const onSubmit = (data: UpdateAddressType) => {
     if (!isDirty || !form.formState.isValid) return;
 
-    createAddress(data, {
+    updateAddress(data, {
       onSuccess: () => {
         form.reset();
         onSuccess?.();
@@ -150,4 +164,4 @@ const AddressForm = ({ type, onSuccess, deliveryAddress }: Props) => {
   );
 };
 
-export default AddressForm;
+export default AccountDeliveryAddressForm;

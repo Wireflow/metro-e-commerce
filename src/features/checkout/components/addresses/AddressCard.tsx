@@ -2,8 +2,9 @@ import { CheckCircle } from 'lucide-react';
 
 import ActionsPopover from '@/components/quick/ActionsPopover';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUser } from '@/hooks/useUser';
 import { Row } from '@/types/supabase/table';
-import { formatAddress } from '@/utils/utils';
+import { formatAddress, formatPhoneNumber } from '@/utils/utils';
 
 import { useDeleteAddress } from '../../hooks/mutations/useDeleteAddress';
 
@@ -14,6 +15,8 @@ export type AddressOptions = {
   showAction?: boolean;
   showSelection?: boolean;
   showOptions?: boolean;
+  showEmail?: boolean;
+  showPhone?: boolean;
 };
 
 interface AddressCardProps {
@@ -40,8 +43,10 @@ const AddressCard = ({
     showAction = true,
     showSelection = false,
     showOptions = true,
+    showEmail = false,
+    showPhone = false,
   } = options;
-
+  const { metadata } = useUser();
   const displayTitle = title?.(address) ?? `${address.type} Address`;
   const isSelected = selected?.id === address.id;
 
@@ -76,13 +81,25 @@ const AddressCard = ({
         {showName && address.name && (
           <div>
             <p className="text-xs text-gray-500">Name</p>
-            <p className="font-medium">{address.name}</p>
+            <p className="font-medium capitalize">{address.name}</p>
           </div>
         )}
         {showAddress && (
           <div>
             <p className="text-xs text-gray-500">Address</p>
-            <p>{formatAddress(address)}</p>
+            <p className="text-sm">{formatAddress(address)}</p>
+          </div>
+        )}
+        {showEmail && metadata?.email && (
+          <div>
+            <p className="text-xs text-gray-500">Email</p>
+            <p className="font-medium">{metadata?.email}</p>
+          </div>
+        )}
+        {showPhone && metadata?.phone && (
+          <div>
+            <p className="text-xs text-gray-500">Phone</p>
+            <p className="font-medium">{formatPhoneNumber(metadata?.phone)}</p>
           </div>
         )}
         {showAction && action}

@@ -5,9 +5,9 @@ import { redirect } from 'next/navigation';
 import TrackedOrder from '@/features/track/components/TrackedOrder';
 import { useOrderTracking } from '@/features/track/hooks/queries/track-query-hooks';
 
-import AnimtedLoadingSpinner from '../animation/AnimtedLoader';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
+import { Skeleton } from '../ui/skeleton';
 
 type Props = {
   id: number;
@@ -24,7 +24,11 @@ const TrackedOrderDetailsPage = ({ id, breadcrumbs = true }: Props) => {
   ];
 
   if (isLoading) {
-    return <AnimtedLoadingSpinner className="mt-10" />;
+    return (
+      <Container>
+        <Skeleton className="h-[400px] w-full" />
+      </Container>
+    );
   }
   if (!order) {
     return redirect('/track');

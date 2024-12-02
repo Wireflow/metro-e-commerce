@@ -5,11 +5,11 @@ import { ArrowRight, Info } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import AnimtedLoadingSpinner from '@/components/animation/AnimtedLoader';
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { useOrderTracking } from '../hooks/queries/track-query-hooks';
 
@@ -51,12 +51,12 @@ const TrackOrderForm = () => {
 
       if (result.data) {
         toast.success('Order found');
-        // Add a delay before redirecting
-        await new Promise(resolve => setTimeout(resolve, 800));
+
         router.push(`/track/${numberValue}`);
       } else {
         toast.error('Order not found. Please check the order ID and try again.');
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error('Error checking order. Please try again.');
     } finally {
@@ -64,6 +64,13 @@ const TrackOrderForm = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <Container>
+        <Skeleton className="h-[400px] w-full" />
+      </Container>
+    );
+  }
   return (
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
@@ -91,7 +98,6 @@ const TrackOrderForm = () => {
                 }
               }}
             />
-            {(isSubmitting || isLoading) && <AnimtedLoadingSpinner size={30} />}
           </div>
         </div>
         <div className="flex items-center gap-2">
