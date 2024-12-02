@@ -46,6 +46,7 @@ export const useFeaturedCategory = (categoryId: string) => {
           '*, products(*, images:product_images(*), barcodes:barcodes(barcode, id)), sub_categories:categories(id, name, image_url)'
         )
         .eq('id', categoryId)
+        .eq('products.published', true)
         .single();
       if (error) {
         throw new Error('Faild to fetch featured category');

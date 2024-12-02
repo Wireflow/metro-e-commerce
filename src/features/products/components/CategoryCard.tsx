@@ -12,7 +12,7 @@ type Props = {
 
 const CategoryCard = ({ category }: Props) => {
   return (
-    <Card className="relative max-w-[150px] shadow-none transition-all hover:shadow-sm md:max-w-none">
+    <Card className="relative max-w-[150px] shadow-none shadow-primary transition-all hover:scale-105 hover:cursor-pointer hover:shadow-lg md:max-w-none">
       <Link href={`/shop?category=${category.id}`} className="absolute inset-0 z-10">
         <span className="sr-only">View {category.name}</span>
       </Link>

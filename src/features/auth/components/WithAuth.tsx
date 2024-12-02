@@ -48,9 +48,16 @@ type WithAuthProps = {
   loadingPlaceholder?: ReactNode;
   rules?: AuthRules;
   fallback?: ReactNode;
+  disableAdmin?: boolean;
 };
 
-const WithAuth = ({ children, loadingPlaceholder = null, rules = {}, fallback }: WithAuthProps) => {
+const WithAuth = ({
+  children,
+  loadingPlaceholder = null,
+  rules = {},
+  fallback,
+  disableAdmin = false,
+}: WithAuthProps) => {
   const { user, isLoading } = useUser();
 
   if (isLoading) {
@@ -64,7 +71,7 @@ const WithAuth = ({ children, loadingPlaceholder = null, rules = {}, fallback }:
   const metadata = user.user_metadata as UserMetadata;
   const isAdmin = metadata.role === 'admin';
 
-  if (isAdmin) {
+  if (isAdmin && !disableAdmin) {
     return <>{children}</>;
   }
 

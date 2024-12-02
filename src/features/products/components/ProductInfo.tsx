@@ -1,6 +1,8 @@
 import { ISOStringFormat } from 'date-fns';
 
 import { Badge } from '@/components/ui/badge';
+import { PLACEHOLDER_IMG_URL } from '@/data/constants';
+import WithAuth from '@/features/auth/components/WithAuth';
 import SupportedPayments from '@/features/cart/components/SupportedPayments';
 import { useUpdateCartItem } from '@/features/cart/hooks/mutations/useUpdateCartItem';
 import { useCartItemById } from '@/features/cart/hooks/queries/useCartItemById';
@@ -14,6 +16,7 @@ import { isDiscountValid } from '../utils/validateDiscount';
 import MultiImageViewer from './MultiImageViewer';
 import ProductCard, { PriceSection } from './ProductCard';
 import QuantityControl from './QuantityControl';
+import TobaccoBadge from './TobaccoBadge';
 
 type Props = {
   product: Product;
@@ -39,10 +42,18 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
       className={`${border ? 'border-b-2 border-b-border pb-5' : ''} flex w-full flex-col gap-4 md:flex-row`}
     >
       <div className="w-full md:w-1/2">
-        <MultiImageViewer imagesUrls={imagesUrls} />
+        <MultiImageViewer imagesUrls={imagesUrls.length > 0 ? imagesUrls : [PLACEHOLDER_IMG_URL]} />
       </div>
       <div className="flex w-full flex-col gap-4 md:w-1/2">
         <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap gap-2">
+            <TobaccoBadge isTobacco={product.is_tobacco} />
+            <WithAuth rules={{ customCheck: m => !m.approved_tobacco && product.is_tobacco }}>
+              <Badge variant={'info'} className="rounded-sm text-[10px] font-medium">
+                Requires Approval
+              </Badge>
+            </WithAuth>
+          </div>
           <p className="text-wrap text-2xl font-medium">
             {product.name} | {product.manufacturer} | {product.unit}
           </p>
@@ -138,8 +149,9 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
           />
         </div>
         <div className="flex items-center gap-1">
-          <ProductCard.WishlistButton className="border-none bg-white" product={product} />
-          <p>{wishlistItem ? 'Remove from Wishlist' : 'Add to Wishlist'}</p>
+          <ProductCard.WishlistButton className="border-none bg-white" product={product}>
+            <p>{wishlistItem ? 'Remove from Wishlist' : 'Add to Wishlist'}</p>
+          </ProductCard.WishlistButton>
         </div>
         <SupportedPayments />
       </div>

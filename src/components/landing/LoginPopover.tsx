@@ -10,9 +10,7 @@ import { useUser } from '@/hooks/useUser';
 
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
-type Props = {};
-
-const LoginPopover = (props: Props) => {
+const LoginPopover = () => {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
   const router = useRouter();
@@ -31,7 +29,7 @@ const LoginPopover = (props: Props) => {
       <PopoverTrigger>
         <User className="h-6 w-6 text-white md:h-7 md:w-7" />
       </PopoverTrigger>
-      <PopoverContent className="mt-2 w-full rounded-[2px]" align="end">
+      <PopoverContent className="mt-2 w-screen rounded-[2px] md:w-auto" align="end">
         <SignInForm onSuccess={() => setOpen(false)} />
       </PopoverContent>
     </Popover>

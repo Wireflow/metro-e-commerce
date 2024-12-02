@@ -9,7 +9,7 @@ import { formatPhoneNumber } from '@/utils/utils';
 
 import Container from '../layout/Container';
 import { Button } from '../ui/button';
-import CategoryMenu from './CategorySelector';
+import CategoryMenu from './CategoryMenu';
 
 type Props = {};
 

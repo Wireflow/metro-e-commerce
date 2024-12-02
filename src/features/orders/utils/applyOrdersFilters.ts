@@ -29,6 +29,11 @@ export const applyOrdersFilters = (
       // For exact matches on order number
       modifiedQuery = modifiedQuery.eq('order_number', filters.orderNumber);
     }
+
+    if (filters.customerId !== undefined) {
+      modifiedQuery = modifiedQuery.eq('customer_id', filters.customerId);
+    }
+
     // Apply price range filters
     if (filters.minPrice !== undefined) {
       modifiedQuery = modifiedQuery.gte('total_amount', filters.minPrice);

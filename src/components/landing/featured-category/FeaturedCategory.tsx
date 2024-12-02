@@ -36,7 +36,7 @@ const FeaturedCategory = () => {
           setActiveTabs={setActiveTabs}
         />
         <CategoryProducts
-          category={featuredCategory}
+          products={featuredCategory.products ?? []}
           activeTabs={activeTabs}
           isLoading={isLoading}
         />

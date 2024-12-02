@@ -63,7 +63,7 @@ const CheckoutSummary = ({
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Order Summary</CardTitle>
       </CardHeader>
-      <Animate type="fade" className="px-4">
+      <Animate type="fade" className="px-4" show={orderType === 'delivery'}>
         <QuickAlert
           variant={isDeliveryPossible ? 'success' : 'destructive'}
           title={isDeliveryPossible ? 'Want it delivered?' : 'Sorry for the inconvenience'}
@@ -74,6 +74,7 @@ const CheckoutSummary = ({
           }
         />
       </Animate>
+
       <div className="mb-4 grid gap-2 overflow-hidden border-b px-6 pb-2">
         {itemsToShow?.map((item, index) => {
           const product = cart.find(i => i.product_id === item.product_id)?.product;
@@ -149,7 +150,11 @@ const CheckoutSummary = ({
             className="w-full text-sm"
             onClick={() => createOrder({ orderType: orderType as Enum<'order_type'>, notes })}
             disabled={
-              !summary || !orderType || !isOrderingAllowed || isCreatingOrder || !isDeliveryPossible
+              !summary ||
+              !orderType ||
+              !isOrderingAllowed ||
+              isCreatingOrder ||
+              (!isDeliveryPossible && orderType === 'delivery')
             }
           >
             <p>

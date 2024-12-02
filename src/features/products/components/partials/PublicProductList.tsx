@@ -22,6 +22,7 @@ const PublicProductList = ({ renderItem, ...props }: Props) => {
       <div className="flex flex-col gap-1">
         <ProductCard.Title product={item} size="sm" className="truncate" />
         <ProductCard.Price product={item} />
+        <ProductCard.AdminEditButton product={item} />
       </div>
     </ProductCard>
   );

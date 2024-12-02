@@ -5,32 +5,26 @@ import { ArrowRight } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
+import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import { Order } from '@/features/orders/schemas/orders';
-import { useUser } from '@/hooks/useUser';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 import { formatRelativeDateTime } from '@/utils/dateUtils';
 import { formatCurrency } from '@/utils/utils';
 
-import { useCustomerOrdersClient } from '../server/getCustomerOrdersClient';
 import useCustomerTabs from '../store/useCustomerTabs';
 import { CustomerTab } from './CustomerAccountSideBar';
 
 type Props = {
   TableName?: string;
   action?: boolean;
-  limit: number;
+  orders: Order[];
 };
 
-const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
+const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
   const { setActiveTab } = useCustomerTabs();
-  const { metadata } = useUser();
-  const { data: customerOrders } = useCustomerOrdersClient({
-    customerId: metadata?.id,
-    limit: limit,
-  });
   const matchingHref = '/customer/history';
+
   const getBadgeVariantOrderStatus = (status: Enum<'order_status'>) => {
     switch (status) {
       case 'created':
@@ -109,9 +103,9 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
           <Badge variant="secondary" className="w-fit">
             {order.total_quantity} items
           </Badge>
-          {order.shipping_costs && (
+          {!!order.shipping_costs && (
             <span className="w-fit rounded-md bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
-              +{formatCurrency(order.shipping_costs)} shipping
+              +{formatCurrency(order.total_amount)} shipping
             </span>
           )}
         </div>
@@ -156,7 +150,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, limit }: Props) => {
       <div>
         <DynamicTable
           fields={fields}
-          data={customerOrders ?? []}
+          data={orders ?? []}
           className="h-full"
           emptyMessage="No order history"
           variant="minimal"

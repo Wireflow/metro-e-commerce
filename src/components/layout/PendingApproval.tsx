@@ -2,6 +2,7 @@ import { Clock } from 'lucide-react';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import WithAuth from '@/features/auth/components/WithAuth';
+import { useUser } from '@/hooks/useUser';
 
 import Container from './Container';
 
@@ -12,6 +13,11 @@ type Props = {
 
 const PendingApproval = ({ submissionDate, className }: Props) => {
   const formattedDate = submissionDate ? new Date(submissionDate).toLocaleDateString() : null;
+  const { metadata } = useUser();
+
+  if (metadata.role === 'admin') {
+    return null;
+  }
 
   return (
     <WithAuth

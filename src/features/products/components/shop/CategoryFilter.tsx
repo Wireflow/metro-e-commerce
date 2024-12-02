@@ -13,8 +13,8 @@ type CategoryFilterProps = {
   value?: string;
 };
 
-const CategoryFilter = ({ categories, onSelect }: CategoryFilterProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+const CategoryFilter = ({ categories, onSelect, value }: CategoryFilterProps) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>(value || '');
 
   const allCategories = [{ id: '', name: 'All Categories' }, ...categories];
 

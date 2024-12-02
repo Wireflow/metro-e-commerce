@@ -42,7 +42,7 @@ const CartPopover = () => {
         <div className="flex flex-col gap-1">
           <ProductCard.Title
             product={item.product}
-            className="overflow-hidden truncate text-wrap text-sm"
+            className="max-w-[160px] overflow-hidden truncate text-sm"
           />
           <ProductCard.Price product={item.product} />
         </div>
@@ -68,10 +68,17 @@ const CartPopover = () => {
             </Link>
           }
         >
-          <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+          <div className="relative">
+            {cart && cart?.length > 0 && (
+              <p className="absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full bg-theme-accent text-sm text-black">
+                {cart?.length}
+              </p>
+            )}
+            <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+          </div>
         </WithAuth>
       </PopoverTrigger>
-      <PopoverContent align="end" className="mt-3 p-0 md:min-w-[350px]">
+      <PopoverContent align="end" className="mt-3 w-screen p-0 md:w-auto md:min-w-[350px]">
         <div className="border-b border-b-gray-300 px-4 py-3">
           Shopping Cart{' '}
           {cart?.length ? <span className="text-gray-500">{`(${cart.length})`}</span> : null}

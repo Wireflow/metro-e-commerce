@@ -33,7 +33,7 @@ const BestDeals = ({ className }: Props) => {
 
   if (isLoading) return <BestDealsSkeleton />;
 
-  if (!products || (products && products?.length > 0)) return null;
+  if (!products || products?.length <= 0) return null;
 
   const renderFeaturedCard = (product: Product) => (
     <ProductCard
@@ -69,11 +69,14 @@ const BestDeals = ({ className }: Props) => {
           />
         </div>
 
-        <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
+        <ProductCard.AdminEditButton product={product} />
+        <WithAuth disableAdmin rules={{ customCheck: metadata => !!metadata?.approved }}>
           <div className="flex flex-wrap gap-2">
             <ProductCard.WishlistButton product={product} />
             <ProductCard.AddToCartButton product={product} className="flex-1" />
-            <ProductCard.QuickViewButton product={product} />
+            <ProductCard.QuickViewButton product={product}>
+              View Product
+            </ProductCard.QuickViewButton>
           </div>
         </WithAuth>
       </div>
@@ -95,6 +98,7 @@ const BestDeals = ({ className }: Props) => {
       <div className="flex flex-1 flex-col gap-1">
         <ProductCard.Title product={item} size="sm" className="truncate" />
         <ProductCard.Price product={item} />
+        <ProductCard.AdminEditButton product={item} />
       </div>
     </ProductCard>
   );

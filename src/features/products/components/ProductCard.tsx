@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { ISOStringFormat } from 'date-fns';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
@@ -26,6 +27,7 @@ import { formatCurrency, truncate } from '@/utils/utils';
 import { Product } from '../schemas/products';
 import { useQuickViewStore } from '../store/useQuickViewStore';
 import { isDiscountValid } from '../utils/validateDiscount';
+import TobaccoBadge from './TobaccoBadge';
 
 type ProductCardProps = {
   children?: ReactNode[];
@@ -142,16 +144,33 @@ const ProductTitle = ({
   size?: 'sm' | 'md';
   className?: string;
 }) => {
+  const isTobacco = product.is_tobacco;
+
   return (
-    <p
-      className={cn(
-        'truncate',
-        { 'text-sm': size === 'sm', 'text-base': size === 'md' },
-        className
-      )}
-    >
-      {product.name} | {product.manufacturer} | {product.unit}
-    </p>
+    <div className="space-y-1">
+      <div className="flex flex-wrap gap-2">
+        <TobaccoBadge isTobacco={isTobacco} />
+        <WithAuth
+          disableAdmin
+          rules={{
+            customCheck: m => !m.approved_tobacco && isTobacco && m.role !== 'admin',
+          }}
+        >
+          <Badge variant={'info'} className="rounded-sm text-[10px] font-medium">
+            Requires Approval
+          </Badge>
+        </WithAuth>
+      </div>
+      <p
+        className={cn(
+          'truncate',
+          { 'text-sm': size === 'sm', 'text-base': size === 'md' },
+          className
+        )}
+      >
+        {product.name} | {product.manufacturer} | {product.unit}
+      </p>
+    </div>
   );
 };
 
@@ -391,7 +410,17 @@ const ProductAddToCartButton = ({
         : 'Add to Cart';
 
   return (
-    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
+    <WithAuth
+      rules={{
+        customCheck: metadata => {
+          if (product.is_tobacco) {
+            return !!metadata?.approved && !!metadata?.approved_tobacco;
+          } else {
+            return !!metadata?.approved;
+          }
+        },
+      }}
+    >
       <Button
         className={cn('w-full', props.className)}
         variant={product.in_stock ? undefined : 'destructive'}
@@ -410,7 +439,33 @@ const ProductAddToCartButton = ({
 
 ProductCard.AddToCartButton = ProductAddToCartButton;
 
-const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
+const ProductAdminEditButton = ({
+  product,
+  children,
+  ...props
+}: ButtonProps & { product: Product; children?: React.ReactNode }) => {
+  return (
+    <WithAuth rules={{ requiredRole: 'admin' }}>
+      <Link
+        href={`/admin/products/${product.id}`}
+        onClick={e => e.stopPropagation()}
+        target="_blank"
+      >
+        <Button className={cn('w-full', props.className)} variant={'soft'} {...props}>
+          {children ?? 'Edit Product'}
+        </Button>
+      </Link>
+    </WithAuth>
+  );
+};
+
+ProductCard.AdminEditButton = ProductAdminEditButton;
+
+const ProductWishlistButton = ({
+  product,
+  children,
+  ...props
+}: ButtonProps & { product: Product }) => {
   const { mutate: addToWishlist, isPending } = useAddToWishlist();
   const { mutate: removeFromWishlist, isPending: isPendingRemove } = useDeleteFromWishList();
   const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
@@ -426,7 +481,17 @@ const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: P
   };
 
   return (
-    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
+    <WithAuth
+      rules={{
+        customCheck: metadata => {
+          if (product.is_tobacco) {
+            return !!metadata?.approved && !!metadata?.approved_tobacco;
+          } else {
+            return !!metadata?.approved;
+          }
+        },
+      }}
+    >
       <Button
         className={cn('border-none bg-theme-beige text-black', props.className, {
           'bg-red-200': !!wishlistItem,
@@ -440,11 +505,13 @@ const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: P
         variant={'outline'}
         {...props}
       >
-        <Heart
-          className={cn('h-5 w-5 text-black group-hover/wishlist:text-white', {
-            'fill-red-500 text-red-500': !!wishlistItem,
-          })}
-        />
+        {children ?? (
+          <Heart
+            className={cn('h-5 w-5 text-black group-hover/wishlist:text-white', {
+              'fill-red-500 text-red-500': !!wishlistItem,
+            })}
+          />
+        )}
       </Button>
     </WithAuth>
   );
@@ -452,28 +519,43 @@ const ProductWishlistButton = ({ product, ...props }: ButtonProps & { product: P
 
 ProductCard.WishlistButton = ProductWishlistButton;
 
-const ProductQuickViewButton = ({ product, ...props }: ButtonProps & { product: Product }) => {
+const ProductQuickViewButton = ({
+  product,
+  children,
+  ...props
+}: ButtonProps & { product: Product }) => {
   const setProductAndOpen = useQuickViewStore(state => state.setProductAndOpen);
+  const { metadata } = useUser();
 
   const handleQuickView = () => {
     setProductAndOpen(product);
   };
 
+  const notApprovedTobacco = product.is_tobacco && !metadata?.approved_tobacco;
+
   return (
-    <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
-      <Button
-        className={cn('border-none bg-theme-beige text-black', props.className)}
-        onClick={e => {
-          e.stopPropagation();
-          handleQuickView();
-        }}
-        size={'icon'}
-        variant={'outline'}
-        {...props}
-      >
+    <Button
+      className={cn(
+        'border-none bg-theme-beige text-black',
+        {
+          'w-full': notApprovedTobacco && metadata.role !== 'admin',
+        },
+        props.className
+      )}
+      onClick={e => {
+        e.stopPropagation();
+        handleQuickView();
+      }}
+      size={notApprovedTobacco ? 'default' : 'icon'}
+      variant={'outline'}
+      {...props}
+    >
+      {notApprovedTobacco && metadata.role !== 'admin' ? (
+        (children ?? <Eye className="h-5 w-5 text-black group-hover/quickview:text-white" />)
+      ) : (
         <Eye className="h-5 w-5 text-black group-hover/quickview:text-white" />
-      </Button>
-    </WithAuth>
+      )}
+    </Button>
   );
 };
 

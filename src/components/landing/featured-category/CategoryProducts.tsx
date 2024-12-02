@@ -4,25 +4,24 @@ import Container from '@/components/layout/Container';
 import { Skeleton } from '@/components/ui/skeleton';
 import PublicProductList from '@/features/products/components/partials/PublicProductList';
 import { useCategoryProducts } from '@/features/products/hooks/category-query-hooks';
-import { CategoryWithProducts } from '@/features/products/schemas/category';
 import { Product } from '@/features/products/schemas/products';
 
 type Props = {
   activeTabs: string | null;
-  category: CategoryWithProducts;
+  products: Product[];
   isLoading: boolean;
 };
 
-const CategoryProducts = ({ activeTabs, category, isLoading }: Props) => {
-  const [activeProducts, setActiveProducts] = useState<Product[]>(category.products.slice(0, 8));
+const CategoryProducts = ({ activeTabs, products, isLoading }: Props) => {
+  const [activeProducts, setActiveProducts] = useState<Product[]>(products.slice(0, 8));
   const { data: categoryProducts } = useCategoryProducts(activeTabs as string);
 
   useEffect(() => {
-    const products =
-      activeTabs === 'All Products' ? category.products : (categoryProducts?.products ?? []);
+    const currProducts =
+      activeTabs === 'All Products' ? products : (categoryProducts?.products ?? []);
 
-    setActiveProducts(products);
-  }, [categoryProducts, activeTabs, category.products]);
+    setActiveProducts(currProducts);
+  }, [categoryProducts, activeTabs, products]);
 
   if (isLoading) {
     return (

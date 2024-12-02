@@ -13,15 +13,15 @@ import AnimatedDiv from '../animation/AnimatedDiv';
 import AnimtedLoadingSpinner from '../animation/AnimtedLoader';
 
 type CategoryLinkButtonProps = {
-  category: string;
-  manufacturer: string;
+  categoryId: string;
+  categoryName: string;
 };
 
-const CategoryLinkButton = ({ category, manufacturer }: CategoryLinkButtonProps) => {
+const CategoryLinkButton = ({ categoryId, categoryName }: CategoryLinkButtonProps) => {
   return (
-    <Link href={`/shop?category=${category}&manufacturer=${manufacturer}`}>
+    <Link href={`/shop?category=${categoryId}`}>
       <div className="group flex w-[150px] items-center justify-between rounded-[1px] p-1 px-2 hover:bg-gray-100">
-        <p className="w-full truncate capitalize">{manufacturer}</p>
+        <p className="w-full truncate capitalize">{categoryName}</p>
         <ArrowTopRightIcon className="h-4 w-4 opacity-0 group-hover:opacity-100" />
       </div>
     </Link>
@@ -29,13 +29,13 @@ const CategoryLinkButton = ({ category, manufacturer }: CategoryLinkButtonProps)
 };
 
 type Props = {
-  category: Row<'categories'>;
+  parentCategory: ViewRow<'parent_categories'>;
   products: Product[];
-  manufacturers: ViewRow<'category_manufacturers'>[];
+  subCategories: Row<'categories'>[];
   loading: boolean;
 };
 
-const CategoryFeaturedProducts = ({ products, category, manufacturers, loading }: Props) => {
+const CategoryFeaturedProducts = ({ products, parentCategory, loading, subCategories }: Props) => {
   const router = useRouter();
 
   if (loading) {
@@ -49,32 +49,38 @@ const CategoryFeaturedProducts = ({ products, category, manufacturers, loading }
   return (
     <AnimatedDiv className="h-[440px] w-[640px] p-6 pl-4">
       <div className="flex gap-12">
-        <div className="flex flex-col justify-between">
-          <CategoryLinkButton category={category.id} manufacturer="all" />
-          {manufacturers.map(m => (
-            <CategoryLinkButton
-              key={m.manufacturer}
-              category={category.id}
-              manufacturer={m.manufacturer ?? ''}
-            />
-          ))}
+        <div className="flex flex-col gap-2">
+          <CategoryLinkButton categoryId={parentCategory.id!} categoryName="all" />
+          {subCategories &&
+            subCategories?.map(m => (
+              <CategoryLinkButton key={m.id} categoryId={m.id!} categoryName={m.name!} />
+            ))}
         </div>
         <div>
-          <h3 className="mb-6 text-lg font-semibold">FEATURED {category.name.toUpperCase()}</h3>
+          <h3 className="mb-6 text-lg font-semibold">
+            FEATURED {parentCategory?.name!.toUpperCase()}
+          </h3>
           <div className="space-y-4">
-            {products?.map(item => (
-              <ProductCard
-                key={item.id}
-                className="flex cursor-pointer gap-4"
-                onClick={() => router.push(`/products/${item.id}`)}
-              >
-                <ProductCard.Image product={item} className="h-[70px] w-[70px]" />
-                <div className="flex flex-col gap-1">
-                  <ProductCard.Title product={item} />
-                  <ProductCard.Price product={item} />
-                </div>
-              </ProductCard>
-            ))}
+            {products &&
+              products?.length > 0 &&
+              products?.map(item => (
+                <ProductCard
+                  key={item.id}
+                  className="flex cursor-pointer gap-4"
+                  onClick={() => router.push(`/products/${item.id}`)}
+                >
+                  <ProductCard.Image
+                    disableHoverEffect
+                    disableSaleBadge
+                    product={item}
+                    className="h-[70px] w-[70px]"
+                  />
+                  <div className="flex flex-col gap-1">
+                    <ProductCard.Title product={item} />
+                    <ProductCard.Price product={item} />
+                  </div>
+                </ProductCard>
+              ))}
           </div>
         </div>
       </div>

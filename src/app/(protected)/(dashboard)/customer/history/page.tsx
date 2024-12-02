@@ -1,9 +1,7 @@
-import CustomerOrdersHistoryTable from '@/features/customers/components/CustomerOrdersHistoryTable';
+import OrderHistoryPage from '@/features/customers/pages/OrderHistoryPage';
 
-type Props = {};
-
-const page = (props: Props) => {
-  return <CustomerOrdersHistoryTable limit={5} TableName="Order History" />;
+const OrderHistory = () => {
+  return <OrderHistoryPage />;
 };
 
-export default page;
+export default OrderHistory;

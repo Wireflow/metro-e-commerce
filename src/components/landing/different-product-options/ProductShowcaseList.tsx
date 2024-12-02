@@ -23,7 +23,7 @@ const ProductShowcaseList = ({ data, title }: Props) => {
             <ProductCard
               key={product.id}
               onClick={() => router.push(`/products/${product.id}`)}
-              className="flex h-24 cursor-pointer items-center gap-4 p-0"
+              className="flex cursor-pointer items-center gap-4 overflow-hidden p-0"
             >
               <div className="relative h-32 w-28 flex-shrink-0 overflow-hidden">
                 <ProductCard.Image
@@ -33,10 +33,12 @@ const ProductShowcaseList = ({ data, title }: Props) => {
                   disableSaleBadge
                 />
               </div>
-              <div className="flex min-w-0 flex-col gap-1">
-                <ProductCard.Title size="sm" product={product} />
-
+              <div className="flex flex-col gap-1">
+                <ProductCard.Title size="sm" product={product} className="truncate" />
                 <ProductCard.Price product={product} className="w-fit" />
+                <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>
+                  Edit Product
+                </ProductCard.AdminEditButton>
               </div>
             </ProductCard>
           );

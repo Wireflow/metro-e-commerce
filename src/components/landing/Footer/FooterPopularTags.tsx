@@ -18,7 +18,7 @@ const FooterPopularTags = ({ manufacturers }: Props) => {
       <div className="flex flex-wrap gap-3 md:w-80">
         {manufacturers.map(manufacturer => {
           return (
-            <div key={manufacturer.category_id} className="flex flex-wrap gap-5">
+            <div key={manufacturer.manufacturer} className="flex flex-wrap gap-5">
               <Button
                 onClick={() => setActiveTag(manufacturer.manufacturer)}
                 className={`truncate ${activeTag === manufacturer.manufacturer ? 'border-white bg-neutral-800 font-semibold text-white' : 'bg-transparent text-white'}`}

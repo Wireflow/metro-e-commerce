@@ -23,6 +23,7 @@ export interface OrdersFilters {
   sortBy?: 'order_number' | 'total_amount' | 'created_at';
   sortOrder?: 'asc' | 'desc';
   status?: 'pending' | 'cancelled' | 'completed' | 'refunded' | 'confirmed' | 'preparing';
+  customerId?: string;
 }
 
 export interface PaginationParams {

@@ -18,7 +18,6 @@ import WithAuth from '@/features/auth/components/WithAuth';
 import { useIsEditMode } from '@/features/promotions/hooks/useIsEditMode';
 
 import { usePublishedCategories } from '../../hooks/queries/usePublishedCategories';
-import { Category } from '../../schemas/category';
 import CategoryCard from '../CategoryCard';
 
 const ShopCategories = () => {
@@ -32,10 +31,10 @@ const ShopCategories = () => {
           Shop by Category
         </h2>
 
-        <div className="relative">
+        <div className="relative mx-auto w-full p-4">
           <Carousel
             opts={{
-              align: 'start',
+              align: 'center',
               loop: true,
             }}
             className="w-full"
@@ -52,41 +51,27 @@ const ShopCategories = () => {
                       </div>
                     </CarouselItem>
                   ))
-                : categories?.map((category: Category) => (
+                : categories &&
+                  categories.length > 0 &&
+                  categories?.map(category => (
                     <CarouselItem
                       key={category.id}
-                      className="max-w-[150px] pl-2 sm:basis-1/3 md:max-w-none md:basis-1/4 md:pl-4 lg:basis-1/5 xl:basis-1/6"
+                      className="max-w-[150px] pl-2 sm:basis-1/5 md:max-w-none md:basis-1/4 md:pl-4 lg:basis-1/5 xl:basis-1/6"
                     >
-                      <div className="p-1 transition-transform duration-200 ease-in-out hover:scale-105">
-                        <CategoryCard category={category} />
-                      </div>
+                      <CategoryCard category={category} />
                     </CarouselItem>
                   ))}
             </CarouselContent>
-
-            <div className="absolute -left-4 -right-4 top-0 hidden h-full md:flex">
-              <CarouselPrevious
-                className="absolute -left-4 top-1/2 -translate-y-1/2 translate-x-4 shadow-lg"
-                variant="black"
-              />
-              <CarouselNext
-                className="absolute -right-4 top-1/2 -translate-x-4 -translate-y-1/2 shadow-lg"
-                variant="black"
-              />
-            </div>
-
-            <div className="mt-4 flex justify-center gap-2 md:hidden">
-              <div className="h-1.5 w-8 rounded-full bg-primary/20">
-                <div className="h-full w-1/3 rounded-full bg-primary transition-all"></div>
-              </div>
-            </div>
+            <CarouselPrevious className="absolute -left-5 border-0 bg-black text-white" />
+            <CarouselNext className="absolute -right-5 border-0 bg-black text-white" />
           </Carousel>
         </div>
       </div>
+
       {isInEditMode && (
         <WithAuth rules={{ requiredRole: 'admin' }}>
           <div className="absolute inset-0 flex items-center justify-center rounded-[2px] bg-black/50 transition-opacity">
-            <Link href={`/admin/categories`}>
+            <Link href="/admin/categories">
               <Button variant="secondary" size="lg" className="w-fit gap-2">
                 <Edit className="h-4 w-4" />
                 Manage Categories

@@ -20,10 +20,10 @@ const ProductOptions = () => {
         {Array.from({ length: 3 }).map((_, index) => (
           <div key={index}>
             <Skeleton className="mb-4 h-[20px] w-[140px] rounded-[4px]" />
-            <div className="flex flex-col gap-4" key={index}>
-              <Skeleton key={index} className="h-[105px] w-full rounded-[4px]" />
-              <Skeleton key={index} className="h-[105px] w-full rounded-[4px]" />
-              <Skeleton key={index} className="h-[105px] w-full rounded-[4px]" />
+            <div className="flex flex-col gap-4">
+              <Skeleton className="h-[105px] w-full rounded-[4px]" />
+              <Skeleton className="h-[105px] w-full rounded-[4px]" />
+              <Skeleton className="h-[105px] w-full rounded-[4px]" />
             </div>
           </div>
         ))}

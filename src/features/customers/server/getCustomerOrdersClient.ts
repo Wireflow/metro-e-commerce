@@ -11,7 +11,7 @@ export const useCustomerOrdersClient = ({
   limit: number;
 }) => {
   return useQuery({
-    queryKey: ['customerOrders', customerId],
+    queryKey: ['orders', 'customer', customerId],
     queryFn: async () => {
       const supabase = createClient();
 
