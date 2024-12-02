@@ -7,6 +7,7 @@ import { useOrderTracking } from '@/features/track/hooks/queries/track-query-hoo
 
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
+import { Card } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 
 type Props = {
@@ -30,17 +31,24 @@ const TrackedOrderDetailsPage = ({ id, breadcrumbs = true }: Props) => {
       </Container>
     );
   }
+
   if (!order) {
     return redirect('/track');
   }
 
   return (
-    <div>
+    <>
       {breadcrumbs && <BreadCrumbQuickUI breadcrumbs={pageBreadcrumbs} />}
-      <Container>
+      {breadcrumbs ? (
+        <Container>
+          <Card className="p-4 shadow-none md:my-10">
+            <TrackedOrder order={order} />
+          </Card>
+        </Container>
+      ) : (
         <TrackedOrder order={order} />
-      </Container>
-    </div>
+      )}
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ import Footer from '../landing/Footer/Footer';
 import EditModePrompt from '../landing/Header/EditModePrompt';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
+import AdminAlert from './AdminAlert';
 import PendingApproval from './PendingApproval';
 
 type Props = {
@@ -31,6 +32,7 @@ const LayoutProvider = ({ children }: Props) => {
     <>
       {shouldShowComponents && (
         <>
+          <AdminAlert />
           <EditModePrompt />
           <PromoBanner />
           <SocialsBanner />

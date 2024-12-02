@@ -1,6 +1,6 @@
 import { CalendarCheck, Clock, LucideIcon, Package, Plane, Truck } from 'lucide-react';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import Conditional from '@/components/Conditional';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';

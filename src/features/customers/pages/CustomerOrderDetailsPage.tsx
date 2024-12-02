@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import { ArrowLeft } from 'lucide-react';
 
-import AnimtedLoadingSpinner from '@/components/animation/AnimtedLoader';
 import TrackedOrderDetailsPage from '@/components/pages/TrackedOrderDetailsPage';
 import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import CustomerOrderItemsList from '@/features/orders/components/CustomerOrderItemsList';
 import OrderAddressInfo from '@/features/orders/components/order details/OrderAddressInfo';
-import OrderItemsTable from '@/features/orders/components/order details/OrderItemsTable';
 import { useOrderById } from '@/features/orders/hooks/orders-query-hook';
 
 type Props = {
@@ -18,19 +18,21 @@ const CustomerOrderDetailsPage = ({ id }: Props) => {
   const { data: order, isLoading } = useOrderById(id as string);
 
   const ProductsCount = order?.orderItems.map(item => item.quantity).reduce((a, b) => a + b, 0);
-  if (isLoading) return <AnimtedLoadingSpinner className="mt-10" />;
+
+  if (isLoading) return <Skeleton className="h-[900px] w-full" />;
+
   if (!order) return <div>Order not found</div>;
 
   return (
-    <Card className="">
+    <Card className="shadow-none">
       <Link
         href={`/customer/history`}
         className="flex items-center gap-2 p-5 text-sm hover:text-primary"
       >
         <ArrowLeft /> BACK TO ORDERS
       </Link>
-      <div className="flex flex-col gap-5">
-        <div className="px-5">
+      <div className="space-y-5">
+        <div className="px-4">
           <TrackedOrderDetailsPage breadcrumbs={false} id={order?.order_number} />
         </div>
 
@@ -39,10 +41,14 @@ const CustomerOrderDetailsPage = ({ id }: Props) => {
             Products{' '}
             <span className="text-sm font-normal text-neutral-500">{`(${ProductsCount}) items`}</span>
           </h1>
-          <OrderItemsTable variant="minimal" orderItems={order?.orderItems ?? []} />
+          <CustomerOrderItemsList
+            variant="minimal"
+            orderItems={order?.orderItems ?? []}
+            limit={5}
+          />
         </div>
-        <OrderAddressInfo order={order} />
       </div>
+      <OrderAddressInfo order={order} />
     </Card>
   );
 };

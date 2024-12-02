@@ -8,9 +8,7 @@ import { useUser } from '@/hooks/useUser';
 
 import CustomerOrdersHistoryTable from '../components/CustomerOrdersHistoryTable';
 
-type Props = {};
-
-const OrderHistoryPage = (props: Props) => {
+const OrderHistoryPage = () => {
   const { user } = useUser();
   const [pagination, setPagination] = useState({ page: 1, pageSize: 5 });
 

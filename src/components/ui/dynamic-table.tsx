@@ -108,7 +108,7 @@ export function DynamicTable<T extends Record<string, any>>({
   };
 
   return (
-    <div className={cn(tableVariants[variant], className)}>
+    <div className={cn('custom-scrollbar', tableVariants[variant], className)}>
       <Table>
         <TableHeader className={cn({ 'bg-gray-100': variant === 'minimal' }, headerClassname)}>
           <TableRow className={tableHeaderVariants[variant]}>

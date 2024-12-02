@@ -76,34 +76,36 @@ const CheckoutSummary = ({
       </Animate>
 
       <div className="mb-4 grid gap-2 overflow-hidden border-b px-6 pb-2">
-        {itemsToShow?.map((item, index) => {
-          const product = cart.find(i => i.product_id === item.product_id)?.product;
+        <div className="max-h-[500px] overflow-y-auto custom-scrollbar">
+          {itemsToShow?.map((item, index) => {
+            const product = cart.find(i => i.product_id === item.product_id)?.product;
 
-          return (
-            <Animate
-              key={item.product_id}
-              type="slide"
-              direction="left"
-              delay={0.1 * index}
-              className="flex items-center gap-2"
-            >
-              {product && (
-                <ProductCard.Image
-                  product={product}
-                  disableHoverEffect
-                  disableSaleBadge
-                  className="h-[80px] w-[80px]"
-                />
-              )}
-              <div>
-                <p className="truncate text-sm">{item.product_name}</p>
-                <p className="text-sm text-gray-500">
-                  {item.quantity} x {formatCurrency(item.unit_price)}
-                </p>
-              </div>
-            </Animate>
-          );
-        })}
+            return (
+              <Animate
+                key={item.product_id}
+                type="slide"
+                direction="left"
+                delay={0.1 * index}
+                className="flex items-center gap-2"
+              >
+                {product && (
+                  <ProductCard.Image
+                    product={product}
+                    disableHoverEffect
+                    disableSaleBadge
+                    className="h-[80px] w-[80px]"
+                  />
+                )}
+                <div>
+                  <p className="truncate text-sm">{item.product_name}</p>
+                  <p className="text-sm text-gray-500">
+                    {item.quantity} x {formatCurrency(item.unit_price)}
+                  </p>
+                </div>
+              </Animate>
+            );
+          })}
+        </div>
         <Animate type="bounce" className="w-full" show={moreItems.length > 0}>
           <Button variant={'ghost'} onClick={() => setShowAll(!showAll)} className="w-full">
             <p className="text-sm text-gray-500">{moreItems.length} more items</p>
