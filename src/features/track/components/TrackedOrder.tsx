@@ -4,7 +4,7 @@ import { Row } from '@/types/supabase/table';
 
 import OrderActivity from './OrderActivity';
 import OrderSummary from './OrderSummary';
-import TimelineTracker from './TimelineTracker';
+import TimelineTracker from './TimeLineTracker';
 
 type Props = {
   order: Partial<Row<'orders'>>;

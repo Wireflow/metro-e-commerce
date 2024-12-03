@@ -41,6 +41,7 @@ const AddressCard = ({
   placeholderTitle = 'Address',
   options = {},
 }: AddressCardProps) => {
+  const { metadata } = useUser();
   const { mutate: deleteAddress, isPending: deleting } = useDeleteAddress();
 
   if (!address) {
@@ -78,7 +79,7 @@ const AddressCard = ({
     showEmail = false,
     showPhone = false,
   } = options;
-  const { metadata } = useUser();
+
   const displayTitle = title?.(address) ?? `${address.type} Address`;
   const isSelected = selected?.id === address.id;
 
