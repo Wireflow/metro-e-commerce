@@ -114,14 +114,9 @@ const PromoTitle = ({ className }: { className?: string }) => {
   const { product } = usePromoCard();
 
   return (
-    <h2
-      className={cn(
-        'mt-1 block max-w-[100%] truncate text-2xl font-bold', // Remove flex, make it block
-        className
-      )}
-    >
-      {product?.name}
-    </h2>
+    <div className="w-full overflow-hidden">
+      <h2 className={cn('block w-full truncate text-2xl font-bold', className)}>{product?.name}</h2>
+    </div>
   );
 };
 
@@ -166,14 +161,11 @@ const PromoDescription = ({ className }: { className?: string }) => {
   const { product } = usePromoCard();
 
   return (
-    <p
-      className={cn(
-        'mt-1 flex flex-grow items-start justify-between text-wrap text-sm text-gray-500',
-        className
-      )}
-    >
-      {product?.description}
-    </p>
+    <div className="w-full overflow-hidden">
+      <p className={cn('block w-full truncate text-sm text-gray-500', className)}>
+        {product?.description}
+      </p>
+    </div>
   );
 };
 

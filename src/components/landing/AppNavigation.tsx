@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { Heart } from 'lucide-react';
 
-import SignOutButton from '@/features/auth/components/SignOutButton';
 import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
@@ -47,7 +46,6 @@ const AppNavigation = () => {
               </Link>
             </WithAuth>
             <LoginPopover />
-            <SignOutButton />
           </div>
         </div>
 

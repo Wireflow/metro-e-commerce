@@ -1,12 +1,7 @@
-import { getDailyAnalytics } from '@/features/dashboard/server/getDailyAnalytics';
+import { Suspense } from 'react';
+
 import FinancialsPage from '@/features/financials/components/FinancialsPage';
-import { getIndependantSales } from '@/features/financials/server/getIndependantSales';
-import { getOrdersCount } from '@/features/financials/server/getOrderCount';
-import { getSalesPersonOrders } from '@/features/financials/server/getSalesPersonOrders';
-import { getSalespersons } from '@/features/financials/server/getSalespersons';
-import { getSalespersonSales } from '@/features/financials/server/getSalesPersonSales';
-import { getWebsiteSales } from '@/features/financials/server/getWebsiteSales';
-import { formatSalesData, getDateRange } from '@/features/financials/utils/chartUtils';
+import { fetchFinancialsData } from '@/features/financials/server/fetchFinancialData';
 
 type PageProps = {
   searchParams: Promise<{
@@ -15,44 +10,16 @@ type PageProps = {
   }>;
 };
 
-const Page = async ({ searchParams }: PageProps) => {
+const Financials = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
 
-  const { fromDate, toDate, startDate, endDate } = getDateRange(params?.from, params?.to);
-
-  const [
-    analytics,
-    salesTeam,
-    ordersCount,
-    salesPersonOrders,
-    websiteSales,
-    salesPersonSales,
-    independantSales,
-  ] = await Promise.all([
-    getDailyAnalytics({ startDate: fromDate, endDate: toDate }),
-    getSalespersons(),
-    getOrdersCount({ startDate, endDate }),
-    getSalesPersonOrders(),
-    getWebsiteSales({ startDate: fromDate, endDate: toDate }),
-    getSalespersonSales({ startDate: fromDate, endDate: toDate }),
-    getIndependantSales({ startDate: fromDate, endDate: toDate }),
-  ]);
-
-  const chartData = {
-    website: formatSalesData(websiteSales),
-    salesperson: formatSalesData(salesPersonSales),
-    independent: formatSalesData(independantSales),
-  };
+  const initialData = await fetchFinancialsData(params?.from, params?.to);
 
   return (
-    <FinancialsPage
-      salesTeam={salesTeam}
-      analytics={analytics}
-      chartData={chartData}
-      ordersCount={ordersCount}
-      salesPersonOrders={salesPersonOrders}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <FinancialsPage initialData={initialData} />
+    </Suspense>
   );
 };
 
-export default Page;
+export default Financials;

@@ -159,7 +159,7 @@ const DynamicDateSalesChart = ({ data, startDate, endDate, title }: DynamicDateS
   const chartData = aggregateDataByInterval(data, parsedStartDate, parsedEndDate, interval);
 
   return (
-    <Card className="h-full w-full">
+    <Card className="h-full w-full overflow-hidden shadow-none">
       <CardHeader className="flex-none">
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>

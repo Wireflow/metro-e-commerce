@@ -1,4 +1,8 @@
 'use client';
+import Link from 'next/link';
+
+import { ArrowRight } from 'lucide-react';
+
 import Logo from '@/components/branding/Logo';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatAddress, formatPhoneNumber } from '@/utils/utils';
@@ -31,6 +35,13 @@ const FooterBrandInfo = (props: Props) => {
       </div>
       <div>
         <p className="text-md max-w-[250px] text-gray-200">{branch?.email}</p>
+        <Link
+          href={'/admin/sign-in'}
+          className="mt-2 flex items-center gap-2 text-xs text-white hover:underline"
+        >
+          <p>Admin Login</p>
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </div>
   );

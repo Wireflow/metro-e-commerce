@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import FilteredProducts from '@/features/products/components/shop/FilteredProducts';
 import ProductFilters from '@/features/products/components/shop/ProductFilters';
@@ -40,7 +40,6 @@ const ShopPage = () => {
     categoryId,
     priceRange,
     searchQuery,
-    selectedManufacturers,
     sortBy,
     setCategoryId,
     setPriceRange,
@@ -69,10 +68,10 @@ const ShopPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  useEffect(() => {
+  const setCategory = (categoryId: string | null) => {
+    setCategoryId(categoryId);
     setPage(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId]);
+  };
 
   return (
     <div>
@@ -86,9 +85,8 @@ const ShopPage = () => {
           <aside className="md:w-[250px] md:flex-shrink-0">
             <ProductFilters
               setSelectedManufacturers={setSelectedManufacturers}
-              setCategoryId={setCategoryId}
+              setCategoryId={setCategory}
               setPriceRange={setPriceRange}
-              selectedManufacturers={selectedManufacturers}
               categoryId={categoryId}
               priceRange={priceRange}
             />

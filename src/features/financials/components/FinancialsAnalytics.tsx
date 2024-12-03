@@ -11,7 +11,7 @@ type Props = {
 
 const FinancialsAnalytics = ({ analytics, ordersCount }: Props) => {
   return (
-    <div className="grid flex-none grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <AnalyticCard
         title="Revenue"
         value={formatCurrency(analytics?.revenue ?? 0)}

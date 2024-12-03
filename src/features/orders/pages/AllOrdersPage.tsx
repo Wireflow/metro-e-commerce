@@ -41,22 +41,13 @@ const AllOrdersPage = () => {
         title="Orders"
         description="View all orders"
         breadcrumbs={breadcrumbs}
-        // actions={
-        //   <div className="flex gap-3">
-        //     <ExportProducts products={ordersData?.data ?? []}>
-        //       <Button variant={'outline'}>
-        //         <Download className="h-5 w-5" /> Export
-        //       </Button>
-        //     </ExportProducts>
-        //   </div>
-        // }
+        actions={
+          <div>
+            <OrderFiltersSheet />
+          </div>
+        }
       />
 
-      <div className="flex flex-col items-start justify-end md:flex-row">
-        <div className="md:seld-auto self-end">
-          <OrderFiltersSheet />
-        </div>
-      </div>
       <ActiveFilters />
       <OrdersList orders={ordersData?.data ?? []} />
       <div className="mt-6">

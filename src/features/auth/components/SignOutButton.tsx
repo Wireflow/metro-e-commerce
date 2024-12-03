@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 import { useCartStore } from '@/features/cart/store/useCartStore';
@@ -30,8 +31,11 @@ const SignOutButton = ({ children, ...props }: Omit<ButtonProps, 'onClick'>) => 
       clearCart();
       clearWishlist();
 
+      toast.success('You have been signed out successfully.');
+
       router.push('/customers/sign-in');
     } catch (error) {
+      toast.error('Failed to sign out.');
       console.error('Error signing out:', error);
     }
   };

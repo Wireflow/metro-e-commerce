@@ -30,14 +30,19 @@ const DualPromotions = () => {
           variant={index % 2 === 0 ? 'light' : 'dark'}
         >
           <div className="relative flex min-h-[200px] items-center justify-between p-4 sm:min-h-[210px] md:min-h-[230px] lg:min-h-[250px]">
-            <div className="flex-1 pr-4">
-              <PromoCard.Label />
-              <PromoCard.Title className="text-md max-w-full truncate capitalize lg:text-xl 2xl:text-2xl" />
-              <PromoCard.Description className="mb-4 max-w-full text-sm sm:text-sm 2xl:text-lg" />
-
-              <PromoCard.Action className="mt-auto" />
+            <div className="flex max-w-[60%] flex-col justify-between">
+              <div className="space-y-2">
+                <PromoCard.Label />
+                <div className="w-full">
+                  <PromoCard.Title className="text-md block w-full max-w-full truncate capitalize lg:text-xl 2xl:text-2xl" />
+                </div>
+                <div className="w-full">
+                  <PromoCard.Description className="block w-full max-w-full truncate text-sm sm:text-sm 2xl:text-lg" />
+                </div>
+              </div>
+              <PromoCard.Action className="mt-4" />
             </div>
-            <div className="relative aspect-square h-auto">
+            <div className="relative ml-4 aspect-square h-auto">
               <PromoCard.Image className="h-40 w-40 object-contain md:h-48 md:w-48 lg:h-56 lg:w-56" />
             </div>
           </div>

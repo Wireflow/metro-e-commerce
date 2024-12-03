@@ -1,8 +1,7 @@
-# Admin
+# Orders
 
-2. fix admin breaking after login
-3. fix financials page date refresh
+1. Export all orders
 
-# Shop
+# Products
 
-1. fix shop page when revisiting and refetching causing too many rerenders
+1.Export all products

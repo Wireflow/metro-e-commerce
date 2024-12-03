@@ -1,22 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { parseAsIsoDate, useQueryState } from 'nuqs';
 import { DateRange } from 'react-day-picker';
 
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
-import { DailyAnalytics } from '@/features/dashboard/schemas/daily-analytics';
-import { Row } from '@/types/supabase/table';
 
+import { useFinancials, UseFinancialsParams } from '../hooks/useFinancialData';
 import ChartTabs from './ChartTabs';
 import { DatePickerWithRange } from './DatePickerWithRange';
 import { DynamicDateSalesData } from './DynamicDateSalesChart';
 import FinancialsAnalytics from './FinancialsAnalytics';
-import RightComponents from './RightFinancialComponents';
+import RightFinancialComponents from './RightFinancialComponents';
 
 export type SalesData = {
   website: DynamicDateSalesData[];
@@ -25,11 +22,7 @@ export type SalesData = {
 };
 
 type FinancialsPageProps = {
-  analytics: DailyAnalytics;
-  chartData: SalesData;
-  ordersCount: number | null;
-  salesTeam: Row<'users'>[];
-  salesPersonOrders: Row<'orders'>[];
+  initialData: UseFinancialsParams['initialData'];
 };
 
 const BREADCRUMBS = [
@@ -37,14 +30,7 @@ const BREADCRUMBS = [
   { label: 'Financials', href: '/admin/financials?from=11/1/2024&to=11/30/2024' },
 ];
 
-const FinancialsPage = ({
-  analytics,
-  ordersCount,
-  salesTeam,
-  chartData,
-  salesPersonOrders,
-}: FinancialsPageProps) => {
-  const router = useRouter();
+const FinancialsPage = ({ initialData }: FinancialsPageProps) => {
   const defaultDate = new Date();
 
   const [toDate, setToDate] = useQueryState(
@@ -56,20 +42,32 @@ const FinancialsPage = ({
     parseAsIsoDate.withDefault(startOfMonth(defaultDate))
   );
 
-  const handleDateChange = async (date?: DateRange) => {
-    //@ts-ignore
-    await Promise.all([setFromDate(date.from), setToDate(date.to)]);
+  const { data, isLoading } = useFinancials({
+    fromDate: fromDate?.toISOString(),
+    toDate: toDate?.toISOString(),
+    initialData,
+  });
 
-    router.refresh();
+  const handleDateChange = async (date?: DateRange) => {
+    if (!date?.from || !date?.to) return;
+
+    await Promise.all([setFromDate(date.from), setToDate(date.to)]);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data) return <div>Failed to fetch financials data</div>;
+
+  const { analytics, salesTeam, ordersCount, salesPersonOrders, chartData } = data;
 
   return (
     <AnimatedDiv>
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-screen flex-col">
         <PageHeader
           title="Financials"
-          description="manage your financials"
-          className="flex-none"
+          description="Manage your financials"
           breadcrumbs={BREADCRUMBS}
           actions={
             <DatePickerWithRange
@@ -79,19 +77,25 @@ const FinancialsPage = ({
           }
         />
 
-        <div className="flex min-h-0 flex-1 flex-col gap-6">
+        <div className="flex flex-col gap-6">
+          {/* Analytics Cards */}
           <FinancialsAnalytics analytics={analytics} ordersCount={ordersCount} />
 
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-            <div className="col-span-2">
-              <ChartTabs fromDate={fromDate} toDate={toDate} chartData={chartData} />
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+            {/* Charts Section */}
+            <div className="xl:col-span-2">
+              <ChartTabs chartData={chartData} fromDate={fromDate} toDate={toDate} />
             </div>
 
-            <RightComponents
-              analytics={analytics}
-              salesTeam={salesTeam}
-              salesPersonOrders={salesPersonOrders}
-            />
+            {/* Sidebar */}
+            <div className="xl:col-span-1">
+              <RightFinancialComponents
+                analytics={analytics}
+                salesTeam={salesTeam}
+                salesPersonOrders={salesPersonOrders}
+              />
+            </div>
           </div>
         </div>
       </div>

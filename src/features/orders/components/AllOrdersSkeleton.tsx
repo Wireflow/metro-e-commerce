@@ -19,25 +19,17 @@ const AllOrdersSkeleton = () => {
         title="Orders"
         description="View all orders"
         breadcrumbs={breadcrumbs}
-        // actions={
-        //   <div className="flex gap-3">
-        //     <ExportProducts products={ordersData?.data ?? []}>
-        //       <Button variant={'outline'}>
-        //         <Download className="h-5 w-5" /> Export
-        //       </Button>
-        //     </ExportProducts>
-        //   </div>
-        // }
+        actions={
+          <div>
+            <Button variant={'minimal'} disabled>
+              <Filter className="h-5 w-5" /> Filter Records
+            </Button>
+          </div>
+        }
       />
 
       <div className="flex items-start justify-between">
         <OptionsSkeleton />
-
-        <div>
-          <Button variant={'minimal'} disabled>
-            <Filter className="h-5 w-5" /> Filter Records
-          </Button>
-        </div>
       </div>
 
       <TableSkeleton />

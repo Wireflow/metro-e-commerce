@@ -1,11 +1,5 @@
+import { parseAsArrayOf, parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useMemo } from 'react';
-
-import {
-  ArrayParser,
-  NumberParser,
-  StringParser,
-  useParamState,
-} from '../../../hooks/useParamState';
 
 export type ShopFilters = {
   published: boolean;
@@ -24,48 +18,29 @@ export type SelectOptions = {
 };
 
 export const useShopFilters = () => {
-  const [selectedManufacturers, setSelectedManufacturers] = useParamState({
-    key: 'manufacturers',
-    parser: ArrayParser(StringParser),
-    defaultValue: [],
-  });
+  // Manufacturers
+  const [selectedManufacturers, setSelectedManufacturers] = useQueryState(
+    'manufacturers',
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
 
-  const [page, setPage] = useParamState({
-    key: 'page',
-    parser: NumberParser,
-    defaultValue: 1,
-  });
+  // Pagination
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
-  const [pageSize, setPageSize] = useParamState({
-    key: 'pageSize',
-    parser: NumberParser,
-    defaultValue: 24,
-  });
+  const [pageSize, setPageSize] = useQueryState('pageSize', parseAsInteger.withDefault(24));
 
-  const [categoryId, setCategoryId] = useParamState({
-    key: 'category',
-    parser: StringParser,
-    defaultValue: '',
-  });
+  // Category
+  const [categoryId, setCategoryId] = useQueryState('category', parseAsString.withDefault(''));
 
-  const [priceRange, setPriceRange] = useParamState({
-    key: 'price',
-    parser: ArrayParser(NumberParser),
-    defaultValue: [0, 0],
-  });
+  // Price Range
+  const priceRangeParser = parseAsArrayOf(parseAsInteger).withDefault([0, 0]);
+  const [priceRange, setPriceRange] = useQueryState('price', priceRangeParser);
 
-  const [sortBy, setSortBy] = useParamState({
-    key: 'sort',
-    parser: StringParser,
-    defaultValue: 'created_at',
-  });
+  // Sort
+  const [sortBy, setSortBy] = useQueryState('sort', parseAsString.withDefault('created_at'));
 
-  const [searchQuery, setSearchQuery] = useParamState({
-    key: 'search',
-    parser: StringParser,
-    defaultValue: '',
-    cleanupDelay: 500,
-  });
+  // Search with debounce
+  const [searchQuery, setSearchQuery] = useQueryState('search', parseAsString.withDefault(''));
 
   const filters = useMemo(
     (): ShopFilters => ({
@@ -81,13 +56,15 @@ export const useShopFilters = () => {
     [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery]
   );
 
-  const clearFilters = () => {
-    setCategoryId(null);
-    setPriceRange([0, 0]);
-    setSearchQuery(null);
-    setSelectedManufacturers(null);
-    setSortBy('created_at');
-    setPage(1);
+  const clearFilters = async () => {
+    await Promise.all([
+      setCategoryId(null),
+      setPriceRange([0, 0]),
+      setSearchQuery(null),
+      setSelectedManufacturers(null),
+      setSortBy('created_at'),
+      setPage(1),
+    ]);
   };
 
   const sortOptions = [

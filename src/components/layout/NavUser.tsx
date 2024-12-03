@@ -37,8 +37,11 @@ export function NavUser({ user }: NavUserProps) {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    queryClient.invalidateQueries();
+
+    queryClient.clear();
+    queryClient.setQueryData(['user'], null);
     queryClient.invalidateQueries({ queryKey: ['user'] });
+
     router.replace('/');
     router.refresh();
   };

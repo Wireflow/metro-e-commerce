@@ -9,7 +9,7 @@ import Container from './Container';
 
 const AdminAlert = () => {
   return (
-    <WithAuth rules={{ requiredRole: 'admin', customCheck: m => m.role === 'admin' }}>
+    <WithAuth rules={{ requiredRole: 'admin' }}>
       <div className="bg-theme-sky-blue text-white">
         <Container>
           <div className="flex items-center justify-center gap-2 md:justify-between">
