@@ -5,20 +5,19 @@ import { ArrowRight, Info } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import AnimtedLoadingSpinner from '@/components/animation/AnimtedLoader';
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
 
 import { useOrderTracking } from '../hooks/queries/track-query-hooks';
 
 const TrackOrderForm = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  const { data, isLoading, refetch } = useOrderTracking({
+  const { isLoading, refetch } = useOrderTracking({
     orderNumber: parseInt(inputValue) || 0,
     enabled: false,
   });
@@ -46,11 +45,10 @@ const TrackOrderForm = () => {
     }
 
     try {
-      setIsSubmitting(true);
       const result = await refetch();
 
       if (result.data) {
-        toast.success('Order found');
+        toast.success('We have found your order! Redirecting you to the order page...');
 
         router.push(`/track/${numberValue}`);
       } else {
@@ -59,18 +57,9 @@ const TrackOrderForm = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error('Error checking order. Please try again.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  if (isLoading) {
-    return (
-      <Container>
-        <Skeleton className="h-[400px] w-full" />
-      </Container>
-    );
-  }
   return (
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
@@ -87,7 +76,7 @@ const TrackOrderForm = () => {
           <p className="text-sm font-semibold">Order ID</p>
           <div className="flex items-center gap-2">
             <Input
-              disabled={isSubmitting}
+              disabled={isLoading}
               value={inputValue}
               placeholder="Enter your order ID"
               className="max-w-screen-sm"
@@ -98,6 +87,7 @@ const TrackOrderForm = () => {
                 }
               }}
             />
+            {isLoading && <AnimtedLoadingSpinner size={30} />}
           </div>
         </div>
         <div className="flex items-center gap-2">
