@@ -14,6 +14,7 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import DynamicTable, { useTableFields } from '../ui/dynamic-table';
+import { Skeleton } from '../ui/skeleton';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -21,7 +22,7 @@ const breadcrumbs = [
 ];
 
 const WishListPage = () => {
-  const { data: wishlist } = useWishList();
+  const { data: wishlist, isLoading } = useWishList();
 
   const { mutate: deleteFromWishList } = useDeleteFromWishList();
 
@@ -95,9 +96,18 @@ const WishListPage = () => {
       label: 'Actions',
     },
   ]);
+
+  if (isLoading) {
+    return (
+      <Container>
+        <Skeleton className="h-[400px] w-full" />
+      </Container>
+    );
+  }
   if (!wishlist?.product) {
     return;
   }
+
   return (
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />

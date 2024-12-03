@@ -80,15 +80,6 @@ export const getPlacePredictions = async (
         }
       });
 
-      console.log('Parsed address:', {
-        streetAddress,
-        city,
-        state,
-        zipCode,
-        secondaryText,
-        parts,
-      });
-
       return {
         id: prediction.place_id,
         description: prediction.description,

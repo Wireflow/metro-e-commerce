@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
-export const useCustomerAddressClient = ({ customerId }: { customerId: string }) => {
+export const useCustomerDeliveryAddressClient = ({ customerId }: { customerId: string }) => {
   return useQuery({
-    queryKey: ['customer-address', customerId],
+    queryKey: ['addresses', 'delivery', customerId],
     queryFn: async () => {
       const supabase = createClient();
 
@@ -15,7 +15,9 @@ export const useCustomerAddressClient = ({ customerId }: { customerId: string })
       const { data, error } = await supabase
         .from('addresses')
         .select('*')
-        .eq('customer_id', customerId);
+        .eq('customer_id', customerId)
+        .eq('type', 'delivery')
+        .single();
 
       if (error) {
         throw new Error('Failed to find customer addresses');

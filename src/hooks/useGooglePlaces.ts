@@ -15,7 +15,6 @@ export const useGooglePlaces = () => {
     data: predictions = [],
     isLoading: loading,
     error,
-    refetch: refetchPredictions,
   } = useQuery({
     queryKey: ['placePredictions', searchInput],
     queryFn: async () => {

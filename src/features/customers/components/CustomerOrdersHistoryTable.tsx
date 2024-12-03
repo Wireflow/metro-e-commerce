@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import { ArrowRight } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import { Order } from '@/features/orders/schemas/orders';
@@ -25,29 +24,28 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
   const { setActiveTab } = useCustomerTabs();
   const matchingHref = '/customer/history';
 
-  const getBadgeVariantOrderStatus = (status: Enum<'order_status'>) => {
+  const getOrderStatusColor = (status: Enum<'order_status'>) => {
     switch (status) {
       case 'created':
-        return 'secondary';
+        return 'text-gray-500';
       case 'ready':
-        return 'indigo';
+        return 'text-indigo-500';
       case 'pending':
-        return 'warning';
+        return 'text-yellow-500';
       case 'cancelled':
-        return 'destructive';
+        return 'text-red-500';
       case 'completed':
-        return 'success';
+        return 'text-green-500';
       case 'refunded':
-        return 'secondary';
+        return 'text-gray-500';
       case 'confirmed':
-        return 'success';
+        return 'text-green-500';
       case 'preparing':
-        return 'info';
+        return 'text-blue-500';
       default:
-        return 'secondary';
+        return 'text-gray-500';
     }
   };
-
   const getOrderStatusDate = (order: Row<'orders'>) => {
     switch (order.status) {
       case 'pending':
@@ -81,37 +79,38 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
     },
     {
       key: order => (
-        <div className="flex flex-col items-start gap-2">
-          <Badge variant={getBadgeVariantOrderStatus(order.status)} className="capitalize">
-            {order?.status === 'created' ? 'Initialized' : order?.status}
-          </Badge>
-          {getOrderStatusDate(order) && (
-            <p className="ml-0.5 text-xs text-gray-500">
-              {formatRelativeDateTime(getOrderStatusDate(order))}
-            </p>
-          )}
+        <div className={`font-semibold uppercase ${getOrderStatusColor(order.status)}`}>
+          {order?.status}
         </div>
       ),
       label: 'Status',
-      className: 'min-w-[150px] ',
+      className: ' w-[300px]',
+    },
+    {
+      key: order => (
+        <div className="flex flex-col items-start gap-2">
+          {getOrderStatusDate(order) ? (
+            <p className="ml-0.5 text-gray-500">
+              {formatRelativeDateTime(getOrderStatusDate(order))}
+            </p>
+          ) : (
+            'N/A'
+          )}
+        </div>
+      ),
+      label: 'Date',
+      className: ' w-[300px]',
     },
 
     {
       key: order => (
-        <div className="flex flex-col items-center gap-1">
-          <p className="font-medium text-gray-900">{formatCurrency(order.total_amount)}</p>
-          <Badge variant="secondary" className="w-fit">
-            {order.total_quantity} items
-          </Badge>
-          {!!order.shipping_costs && (
-            <span className="w-fit rounded-md bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
-              +{formatCurrency(order.total_amount)} shipping
-            </span>
-          )}
+        <div className="flex items-center gap-1">
+          <p className="font-medium text-gray-900">{formatCurrency(order.total_amount)}</p>(
+          {order.total_quantity} Products)
         </div>
       ),
       label: 'Total',
-      className: 'min-w-[550px] text-center',
+      className: 'w-[300px] text-left',
     },
 
     {
@@ -120,17 +119,13 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
           onClick={() => setActiveTab(matchingHref as CustomerTab)}
           href={`/customer/history/${order.id}`}
         >
-          <Button
-            variant="ghost"
-            size="lg"
-            className="gap-1 text-theme-sky-blue hover:bg-transparent"
-          >
-            View <ArrowRight className="h-3 w-3" />
+          <Button variant="ghost" className="gap-1 px-0 text-theme-sky-blue hover:bg-transparent">
+            View Details <ArrowRight className="h-3 w-3" />
           </Button>
         </Link>
       ),
       label: 'Actions',
-      className: 'w-[200px]',
+      className: 'text-right',
     },
   ]);
   return (

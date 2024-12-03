@@ -41,8 +41,6 @@ export const createUser = async (data: CreateUserType) => {
     },
   });
 
-  console.log('error', userError);
-
   if (userError) {
     return { success: false, error: userError.message };
   }

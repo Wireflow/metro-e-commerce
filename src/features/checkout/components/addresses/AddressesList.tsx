@@ -14,6 +14,7 @@ type Props = {
   selected?: Row<'addresses'> | null;
   containerClassName?: string;
   cardOptions?: AddressOptions;
+  showForm?: boolean;
 };
 
 const defaultCardOptions: AddressOptions = {
@@ -27,6 +28,7 @@ const AddressesList = ({
   selected,
   containerClassName,
   cardOptions = defaultCardOptions,
+  showForm = true,
 }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -45,19 +47,21 @@ const AddressesList = ({
           selected={selected}
         />
       ))}
-      <QuickDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        title="New Billing Address"
-        description="Add a new billing address to your account"
-        className="max-w-[600px]"
-        content={
-          <div className="mt-4">
-            <AddressForm type="billing" onSuccess={handleAddressFormSuccess} />
-          </div>
-        }
-        trigger={<NewAddressCard onClick={() => setIsDialogOpen(true)} />}
-      />
+      {showForm && (
+        <QuickDialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          title="New Billing Address"
+          description="Add a new billing address to your account"
+          className="max-w-[600px]"
+          content={
+            <div className="mt-4">
+              <AddressForm type="billing" onSuccess={handleAddressFormSuccess} />
+            </div>
+          }
+          trigger={<NewAddressCard onClick={() => setIsDialogOpen(true)} />}
+        />
+      )}
     </div>
   );
 };

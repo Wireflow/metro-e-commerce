@@ -25,7 +25,11 @@ const TrackedOrderDetailsPage = ({ id, breadcrumbs = true }: Props) => {
   ];
 
   if (isLoading) {
-    return <Skeleton className="mt-10 h-[500px] w-full" />;
+    return (
+      <Container>
+        <Skeleton className="h-[400px] w-full" />
+      </Container>
+    );
   }
 
   if (!order) {

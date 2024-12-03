@@ -28,9 +28,9 @@ const FeaturedCategory = () => {
     <Container className="flex gap-5">
       <div className="flex flex-1 flex-col gap-5">
         <CategoryProducts
-          category={featuredCategory}
           activeTabs={activeTabs}
           isLoading={isLoading}
+          products={featuredCategory.products}
         />
       </div>
       <PromoCard

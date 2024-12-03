@@ -1,4 +1,4 @@
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import { Separator } from '@/components/ui/separator';
 import { Row } from '@/types/supabase/table';
 

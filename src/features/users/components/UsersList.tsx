@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
+import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import { Row } from '@/types/supabase/table';
 import { formatRole } from '@/utils/roleUtils';
 import { formatPhoneNumber } from '@/utils/utils';

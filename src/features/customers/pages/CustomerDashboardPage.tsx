@@ -5,9 +5,12 @@ import { useUser } from '@/hooks/useUser';
 
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerOrdersHistoryTable from '../components/CustomerOrdersHistoryTable';
+import PaymentOptionsContainer from '../components/PaymentOptionsContainer';
+import { useCustomerOrdersClient } from '../server/getCustomerOrdersClient';
 
 const CustomerDashboardPage = () => {
   const { metadata } = useUser();
+  const { data: orders } = useCustomerOrdersClient({ customerId: metadata.id, limit: 3 });
 
   return (
     <div className="flex flex-col gap-5">
@@ -29,7 +32,8 @@ const CustomerDashboardPage = () => {
         </p>
       </div>
       <CustomerAccountDetails />
-      <CustomerOrdersHistoryTable limit={5} action={true} TableName="Recent Orders" />
+      <PaymentOptionsContainer />
+      <CustomerOrdersHistoryTable orders={orders ?? []} action={true} TableName="Recent Orders" />
     </div>
   );
 };
