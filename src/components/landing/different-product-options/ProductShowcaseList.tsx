@@ -10,6 +10,7 @@ type Props = {
 
 const ProductShowcaseList = ({ data, title }: Props) => {
   const router = useRouter();
+
   if (!data || data.length === 0) {
     return null;
   }
@@ -18,31 +19,33 @@ const ProductShowcaseList = ({ data, title }: Props) => {
     <div className="p-0 md:col-span-2 lg:col-span-1">
       <p className="mb-3 text-lg font-semibold text-gray-900">{title}</p>
       <div className="flex flex-col gap-3 p-0">
-        {data?.map(product => {
-          return (
-            <ProductCard
-              key={product.id}
-              onClick={() => router.push(`/products/${product.id}`)}
-              className="flex cursor-pointer items-center gap-4 overflow-hidden p-0"
-            >
-              <div className="relative h-32 w-28 flex-shrink-0 overflow-hidden">
-                <ProductCard.Image
-                  className="absolute inset-0 h-full w-full object-cover"
-                  product={product}
-                  disableHoverEffect
-                  disableSaleBadge
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <ProductCard.Title size="sm" product={product} className="truncate" />
-                <ProductCard.Price product={product} className="w-fit" />
-                <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>
-                  Edit Product
-                </ProductCard.AdminEditButton>
-              </div>
-            </ProductCard>
-          );
-        })}
+        {data &&
+          data.length > 0 &&
+          data?.map(product => {
+            return (
+              <ProductCard
+                key={product?.id}
+                onClick={() => router.push(`/products/${product?.id}`)}
+                className="flex cursor-pointer items-center gap-4 overflow-hidden p-0"
+              >
+                <div className="relative h-32 w-28 flex-shrink-0 overflow-hidden">
+                  <ProductCard.Image
+                    className="absolute inset-0 h-full w-full object-cover"
+                    product={product}
+                    disableHoverEffect
+                    disableSaleBadge
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <ProductCard.Title size="sm" product={product} className="truncate" />
+                  <ProductCard.Price product={product} className="w-fit" />
+                  <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>
+                    Edit Product
+                  </ProductCard.AdminEditButton>
+                </div>
+              </ProductCard>
+            );
+          })}
       </div>
     </div>
   );

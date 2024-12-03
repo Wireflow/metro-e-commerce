@@ -9,9 +9,13 @@ import PromoCard from '@/features/promotions/components/PromoCard';
 import { usePromotedProducts } from '@/features/promotions/hooks/queries/usePromotedProducts';
 
 const FeaturedCategory = () => {
-  const { data: featuredCategory } = useFeaturedCategory('46a4dbe6-4f4d-4ec6-bcc7-6f3e3672dc6c');
-  const { data: categories, isLoading } = useCategoryById(featuredCategory?.id ?? '');
-  const { data: promotions } = usePromotedProducts([6]);
+  const { data: featuredCategory, isLoading: isLoadingFeaturedCategory } = useFeaturedCategory(
+    '46a4dbe6-4f4d-4ec6-bcc7-6f3e3672dc6c'
+  );
+  const { data: categories, isLoading: isLoadingCategories } = useCategoryById(
+    featuredCategory?.id ?? ''
+  );
+  const { data: promotions, isLoading: isLoadingPromotions } = usePromotedProducts([6]);
 
   const [activeTabs, setActiveTabs] = useState<string | null>('All Products');
 
@@ -24,12 +28,16 @@ const FeaturedCategory = () => {
 
   if (!categories || !promotion || !featuredCategory) return null;
 
+  if (isLoadingCategories || isLoadingPromotions || isLoadingFeaturedCategory) {
+    return null;
+  }
+
   return (
     <Container className="flex gap-5">
       <div className="flex flex-1 flex-col gap-5">
         <CategoryProducts
           activeTabs={activeTabs}
-          isLoading={isLoading}
+          isLoading={isLoadingCategories}
           products={featuredCategory.products}
         />
       </div>

@@ -3,7 +3,7 @@
 import { X } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
+import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import ProductCard from '@/features/products/components/ProductCard';
 import QuantityControl from '@/features/products/components/QuantityControl';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -31,7 +31,7 @@ const CartProductList = ({ cartItems }: Props) => {
       key: item => (
         <div className="flex items-center gap-2">
           <ProductCard.RemoveFromCartButton
-            product={item.product}
+            product={item?.product}
             className="group h-[30px] w-[30px] rounded-full hover:border-red-500 hover:text-red-500"
             size={'icon'}
             variant={'outline'}
@@ -41,14 +41,14 @@ const CartProductList = ({ cartItems }: Props) => {
           <ProductCard.Image
             disableHoverEffect
             disableSaleBadge
-            product={item.product}
+            product={item?.product}
             className="h-[70px] w-[70px]"
             object="cover"
           />
           <div className="flex flex-col items-start gap-1">
             <p>
-              {item.product.name}{' '}
-              {item.product.is_taxed && (
+              {item?.product?.name}{' '}
+              {item?.product?.is_taxed && (
                 <Badge variant="warning" className="ml-1 h-4 px-1 text-[11px]">
                   Taxable
                 </Badge>
@@ -62,7 +62,7 @@ const CartProductList = ({ cartItems }: Props) => {
     },
 
     {
-      key: item => <ProductCard.Price product={item.product} className="flex-1" />,
+      key: item => <ProductCard.Price product={item?.product} className="flex-1" />,
       label: 'Price',
     },
     {
@@ -73,19 +73,19 @@ const CartProductList = ({ cartItems }: Props) => {
             quantity={item?.quantity ?? 0}
             onIncrease={() => {
               updatedCartItem({
-                product_id: item.product.id,
+                product_id: item?.product?.id,
                 quantity: (item?.quantity ?? 0) + 1,
                 id: item?.id ?? '',
               });
             }}
             onDecrease={() => {
               updatedCartItem({
-                product_id: item.product.id,
+                product_id: item?.product?.id,
                 quantity: (item?.quantity ?? 0) - 1,
                 id: item?.id ?? '',
               });
             }}
-            disabled={!item.product.in_stock || isUpdating}
+            disabled={!item?.product?.in_stock || isUpdating}
           />
         ),
       label: 'Quantity',
@@ -93,12 +93,12 @@ const CartProductList = ({ cartItems }: Props) => {
     },
     {
       key: item => {
-        const { subtotal } = getCartItemTotals(item.id, metadata?.customer_type);
-        const cartItem = summary?.cart_items.find(curr => curr.product_id === item.product_id);
+        const { subtotal } = getCartItemTotals(item?.id, metadata?.customer_type);
+        const cartItem = summary?.cart_items.find(curr => curr?.product_id === item?.product_id);
 
         return (
           <div>
-            {formatCurrency(cartItem ? cartItem.line_total - cartItem.discount_amount : subtotal)}
+            {formatCurrency(cartItem ? cartItem?.line_total - cartItem?.discount_amount : subtotal)}
           </div>
         );
       },

@@ -86,8 +86,14 @@ export const useCartStore = create<CartState>()(
 
         const price =
           customer_type === 'wholesale'
-            ? cartItem.product.wholesale_price
-            : cartItem.product.retail_price;
+            ? (cartItem.product?.wholesale_price ?? 0)
+            : (cartItem.product?.retail_price ?? 0);
+
+        if (!price) {
+          return {
+            subtotal: 0,
+          };
+        }
 
         return {
           subtotal: cartItem.quantity * price,

@@ -144,7 +144,7 @@ const ProductTitle = ({
   size?: 'sm' | 'md';
   className?: string;
 }) => {
-  const isTobacco = product.is_tobacco;
+  const isTobacco = product?.is_tobacco;
 
   return (
     <div className="space-y-1">
@@ -168,7 +168,7 @@ const ProductTitle = ({
           className
         )}
       >
-        {product.name} | {product.manufacturer} | {product.unit}
+        {product?.name} | {product?.manufacturer} | {product?.unit}
       </p>
     </div>
   );
@@ -179,7 +179,7 @@ ProductCard.Title = ProductTitle;
 const ProductDescription = ({ product, className }: { product: Product; className?: string }) => {
   return (
     <p className={cn('text-sm text-gray-500', className)}>
-      {truncate(product.description as string)}
+      {truncate(product?.description as string)}
     </p>
   );
 };
@@ -262,14 +262,14 @@ const ProductImage = ({
   );
   const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
 
-  const wishlistItem = getWishlistItemById(product.id);
+  const wishlistItem = getWishlistItemById(product?.id);
 
   return (
     <div className={cn('relative aspect-square h-full w-full', className)}>
       <div className="absolute inset-0">
         <Image
-          alt={product.name}
-          src={product.images[0]?.url ?? PLACEHOLDER_IMG_URL}
+          alt={product?.name}
+          src={(product && product?.images && product?.images[0]?.url) ?? PLACEHOLDER_IMG_URL}
           objectFit={object}
           className="p-4 mix-blend-multiply"
           style={{
@@ -291,20 +291,20 @@ const ProductImage = ({
         <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
           <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50 opacity-0 transition-all duration-300 hover:opacity-100">
             <div className="flex items-center justify-center gap-1.5">
-              {product.in_stock && (
+              {product?.in_stock && (
                 <ProductAddToCartButton
                   product={product}
                   size={'icon'}
                   className={cn(
                     'group/cart h-9 w-9 rounded-full bg-white group-hover/cart:bg-primary',
                     {
-                      'bg-destructive': !product.in_stock,
+                      'bg-destructive': !product?.in_stock,
                     }
                   )}
                 >
                   <ShoppingCart
                     className={cn('h-5 w-5 text-black group-hover/cart:text-white', {
-                      'text-white': !product.in_stock,
+                      'text-white': !product?.in_stock,
                     })}
                   />
                 </ProductAddToCartButton>
@@ -345,7 +345,7 @@ const ProductPrice = ({ product, className }: { product: Product; className?: st
       discount={product?.discount}
       type={metadata?.customer_type}
       price={
-        metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
+        metadata?.customer_type === 'wholesale' ? product?.wholesale_price : product?.retail_price
       }
     />
   );
@@ -361,7 +361,7 @@ const ProductRemoveFromCartButton = ({
   const { mutate: removeFromCart, isPending } = useRemoveFromCart();
 
   const handleRemoveFromCart = () => {
-    removeFromCart(product.id);
+    removeFromCart(product?.id);
   };
 
   return (
@@ -394,14 +394,14 @@ const ProductAddToCartButton = ({
 
   const handleAddToCart = () => {
     addToCart({
-      product_id: product.id,
+      product_id: product?.id,
       quantity: 1,
     });
   };
 
-  const cartItem = getCartItemById(product.id);
+  const cartItem = getCartItemById(product?.id);
 
-  const defaultChildren = !product.in_stock
+  const defaultChildren = !product?.in_stock
     ? 'Out of Stock'
     : !!cartItem
       ? 'In Cart'
@@ -413,7 +413,7 @@ const ProductAddToCartButton = ({
     <WithAuth
       rules={{
         customCheck: metadata => {
-          if (product.is_tobacco) {
+          if (product?.is_tobacco) {
             return !!metadata?.approved && !!metadata?.approved_tobacco;
           } else {
             return !!metadata?.approved;
@@ -423,8 +423,8 @@ const ProductAddToCartButton = ({
     >
       <Button
         className={cn('w-full', props.className)}
-        variant={product.in_stock ? undefined : 'destructive'}
-        disabled={!product.in_stock || isPending || !!cartItem}
+        variant={product?.in_stock ? undefined : 'destructive'}
+        disabled={!product?.in_stock || isPending || !!cartItem}
         onClick={e => {
           e.stopPropagation();
           handleAddToCart();
@@ -447,7 +447,7 @@ const ProductAdminEditButton = ({
   return (
     <WithAuth rules={{ requiredRole: 'admin' }}>
       <Link
-        href={`/admin/products/${product.id}`}
+        href={`/admin/products/${product?.id}`}
         onClick={e => e.stopPropagation()}
         target="_blank"
       >
@@ -470,13 +470,13 @@ const ProductWishlistButton = ({
   const { mutate: removeFromWishlist, isPending: isPendingRemove } = useDeleteFromWishList();
   const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
 
-  const wishlistItem = getWishlistItemById(product.id);
+  const wishlistItem = getWishlistItemById(product?.id);
 
   const handleWishlist = () => {
     if (wishlistItem) {
-      removeFromWishlist(product.id);
+      removeFromWishlist(product?.id);
     } else {
-      addToWishlist(product.id);
+      addToWishlist(product?.id);
     }
   };
 
@@ -484,7 +484,7 @@ const ProductWishlistButton = ({
     <WithAuth
       rules={{
         customCheck: metadata => {
-          if (product.is_tobacco) {
+          if (product?.is_tobacco) {
             return !!metadata?.approved && !!metadata?.approved_tobacco;
           } else {
             return !!metadata?.approved;
@@ -531,7 +531,7 @@ const ProductQuickViewButton = ({
     setProductAndOpen(product);
   };
 
-  const notApprovedTobacco = product.is_tobacco && !metadata?.approved_tobacco;
+  const notApprovedTobacco = product?.is_tobacco && !metadata?.approved_tobacco;
 
   return (
     <Button

@@ -5,6 +5,7 @@ import { useUser } from '@/hooks/useUser';
 import { Enum } from '@/types/supabase/enum';
 
 type UserRole = Enum<'user_role'> | 'customer';
+
 export type UserMetadata = {
   id: string;
   sub: string;
