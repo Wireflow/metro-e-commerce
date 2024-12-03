@@ -19,7 +19,7 @@ type Props = {
   order: Partial<Row<'orders'>>;
 };
 
-const TimelineTracker = ({ order }: Props) => {
+const OrderTimeline = ({ order }: Props) => {
   const statusStep: Record<Enum<'order_status'>, number> = {
     created: 1,
     pending: 1,
@@ -78,4 +78,4 @@ const TimelineTracker = ({ order }: Props) => {
   );
 };
 
-export default TimelineTracker;
+export default OrderTimeline;

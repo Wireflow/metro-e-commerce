@@ -4,7 +4,7 @@ import { Row } from '@/types/supabase/table';
 
 import OrderActivity from './OrderActivity';
 import OrderSummary from './OrderSummary';
-import TimelineTracker from './TimelineTracker';
+import OrderTimeline from './OrderTimeline';
 
 type Props = {
   order: Partial<Row<'orders'>>;
@@ -20,7 +20,7 @@ const TrackedOrder = ({ order }: Props) => {
         orderNumber={order?.order_number ?? 0}
       />
       <div className="space-y-6">
-        <TimelineTracker order={order} />
+        <OrderTimeline order={order} />
         <Separator />
         <OrderActivity order={order} className="px-4" />
       </div>
