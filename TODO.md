@@ -9,4 +9,5 @@
 
 # Landing Page
 
+1. fix call to action routing on hero carousel
 2. Add paypal integration

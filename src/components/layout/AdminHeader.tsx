@@ -35,7 +35,7 @@ const AdminHeader = () => {
           </Button>
         </Link>
         <Avatar className="flex items-center justify-center bg-gray-200">
-          <p className="text-lg">{initials}</p>
+          <p className="text-sm">{initials}</p>
         </Avatar>
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="truncate font-semibold">{fullName}</span>
