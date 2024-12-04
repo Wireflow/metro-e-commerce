@@ -1,4 +1,6 @@
 import { ISOStringFormat } from 'date-fns';
+import { Heart } from 'lucide-react';
+import React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
@@ -19,27 +21,54 @@ import QuantityControl from './QuantityControl';
 import TobaccoBadge from './TobaccoBadge';
 
 type Props = {
-  product: Product;
+  product?: Product;
   border?: boolean;
   shortenText?: boolean;
 };
 
-const ProductInfo = ({ product, border, shortenText }: Props) => {
+const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = false }) => {
   const { metadata } = useUser();
-  const { data: cartItem } = useCartItemById({ product_id: product.id });
+  const { data: cartItem } = useCartItemById({
+    product_id: product?.id ?? '',
+  });
   const { mutate: updatedCartItem, isPending: isUpdating } = useUpdateCartItem();
-  const imagesUrls = product.images.map(image => image.url);
+  const getWishlistItemById = useWishlistStore(state => state?.getWishlistItemById ?? (() => null));
+
+  if (!product) {
+    return null;
+  }
+
+  // Safely handle images
+  const imagesUrls = product?.images?.filter(image => image?.url).map(image => image.url) ?? [];
+
   const isValidDiscount = isDiscountValid(
-    product?.discount,
+    product?.discount ?? 0,
     product?.discounted_until as ISOStringFormat
   );
 
-  const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
-  const wishlistItem = getWishlistItemById(product.id);
+  const wishlistItem = product?.id ? getWishlistItemById(product.id) : null;
+
+  // Handle customer type and pricing safely
+  const customerType = metadata?.customer_type ?? 'retail';
+  const price =
+    customerType === 'wholesale' ? (product?.wholesale_price ?? 0) : (product?.retail_price ?? 0);
+
+  const handleQuantityUpdate = (newQuantity: number) => {
+    if (!cartItem?.id || !product?.id) return;
+
+    updatedCartItem({
+      product_id: product.id,
+      quantity: newQuantity,
+      id: cartItem.id,
+    });
+  };
 
   return (
     <div
-      className={`${border ? 'border-b-2 border-b-border pb-5' : ''} flex w-full flex-col gap-4 md:flex-row`}
+      className={cn(
+        'flex w-full flex-col gap-4 md:flex-row',
+        border && 'border-b-2 border-b-border pb-5'
+      )}
     >
       <div className="w-full md:w-1/2">
         <MultiImageViewer imagesUrls={imagesUrls.length > 0 ? imagesUrls : [PLACEHOLDER_IMG_URL]} />
@@ -47,18 +76,20 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
       <div className="flex w-full flex-col gap-4 md:w-1/2">
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap gap-2">
-            <TobaccoBadge isTobacco={product.is_tobacco} />
-            <WithAuth rules={{ customCheck: m => !m.approved_tobacco && product.is_tobacco }}>
+            <TobaccoBadge isTobacco={product?.is_tobacco ?? false} />
+            <WithAuth
+              rules={{ customCheck: m => !m?.approved_tobacco && (product?.is_tobacco ?? false) }}
+            >
               <Badge variant={'info'} className="rounded-sm text-[10px] font-medium">
                 Requires Approval
               </Badge>
             </WithAuth>
           </div>
           <p className="text-wrap text-2xl font-medium">
-            {product.name} | {product.manufacturer} | {product.unit}
+            {product?.name ?? 'N/A'} | {product?.manufacturer ?? 'N/A'} | {product?.unit ?? 'N/A'}
           </p>
-          {shortenText && (
-            <p className="text-sm text-gray-500">{truncate(product.description as string)}</p>
+          {shortenText && product?.description && (
+            <p className="text-sm text-gray-500">{truncate(product.description)}</p>
           )}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
@@ -66,50 +97,54 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
             <p className="font-light">Availability: </p>
             <span
               className={cn('font-semibold', {
-                'text-green-500': product.in_stock,
-                'text-red-500': !product.in_stock,
+                'text-green-500': product?.in_stock,
+                'text-red-500': !product?.in_stock,
               })}
             >
-              {product.in_stock ? 'In Stock' : 'Out of Stock'}
+              {product?.in_stock ? 'In Stock' : 'Out of Stock'}
             </span>
           </div>
           <p>
-            Brand: <span className="font-semibold">{product.manufacturer}</span>
+            Brand: <span className="font-semibold">{product?.manufacturer ?? 'N/A'}</span>
+          </p>
+
+          <p>
+            Category: <span className="font-semibold">N/A</span>
+          </p>
+          <p>
+            Item Number: <span className="font-semibold">{product?.item_number ?? 'N/A'}</span>
           </p>
           <div>
             <p>Skus:</p>
             <div className="flex flex-col gap-1">
               {product?.barcodes?.map(b => (
-                <p key={b.id} className="font-semibold">
-                  {b.barcode}
+                <p key={b?.id ?? 'unknown'} className="font-semibold">
+                  {b?.barcode ?? 'N/A'}
                 </p>
               ))}
             </div>
           </div>
           <p>
-            Category: <span className="font-semibold">N/A</span>
+            Max Per Order:{' '}
+            <span className="font-semibold">{product?.max_per_order ?? 'No Limit'}</span>
           </p>
         </div>
         <div className="mb-4 border-b-[1px] border-b-border py-4">
           <PriceSection
             isValidDiscount={isValidDiscount}
             discount={product?.discount}
-            type={metadata?.customer_type}
-            price={
-              metadata?.customer_type === 'wholesale'
-                ? product.wholesale_price
-                : product.retail_price
-            }
-            label={metadata?.customer_type === 'wholesale' ? 'Wholesale' : 'Retail'}
+            type={customerType}
+            price={price}
+            label={customerType === 'wholesale' ? 'Wholesale' : 'Retail'}
             customRender={({ preDiscount, afterDiscount, discount }) => (
               <div className="flex items-center gap-2">
                 <p className="text-lg text-theme-sky-blue md:text-2xl">
-                  {formatCurrency(afterDiscount)}
+                  {formatCurrency(afterDiscount ?? 0)}
                 </p>
                 {isValidDiscount && (
                   <>
                     <p className="text-sm text-gray-500 line-through md:text-base">
-                      {formatCurrency(preDiscount)}
+                      {formatCurrency(preDiscount ?? 0)}
                     </p>
                     <Badge variant={'warning'} className="rounded-none">
                       -{formatCurrency(discount ?? 0)}
@@ -121,24 +156,12 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
           />
         </div>
         <div className="flex items-center gap-2">
-          {cartItem && cartItem?.quantity > 0 && (
+          {cartItem && (cartItem?.quantity ?? 0) > 0 && (
             <QuantityControl
               quantity={cartItem?.quantity ?? 0}
-              onIncrease={() => {
-                updatedCartItem({
-                  product_id: product.id,
-                  quantity: (cartItem?.quantity ?? 0) + 1,
-                  id: cartItem?.id ?? '',
-                });
-              }}
-              onDecrease={() => {
-                updatedCartItem({
-                  product_id: product.id,
-                  quantity: (cartItem?.quantity ?? 0) - 1,
-                  id: cartItem?.id ?? '',
-                });
-              }}
-              disabled={!product.in_stock || isUpdating}
+              onIncrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) + 1)}
+              onDecrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) - 1)}
+              disabled={!product?.in_stock || isUpdating}
             />
           )}
           <ProductCard.AddToCartButton
@@ -149,7 +172,13 @@ const ProductInfo = ({ product, border, shortenText }: Props) => {
           />
         </div>
         <div className="flex items-center gap-1">
-          <ProductCard.WishlistButton className="border-none bg-white" product={product}>
+          <ProductCard.WishlistButton
+            className="shadow-none"
+            size={'default'}
+            product={product}
+            variant={'outline'}
+          >
+            <Heart className={cn('h-5 w-5', { 'fill-red-500 text-red-500': !!wishlistItem })} />
             <p>{wishlistItem ? 'Remove from Wishlist' : 'Add to Wishlist'}</p>
           </ProductCard.WishlistButton>
         </div>

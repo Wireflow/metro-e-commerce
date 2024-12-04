@@ -42,7 +42,7 @@ export const useUpdateCartItem = () => {
         .single();
 
       if (error) {
-        throw new Error('Failed to add product to cart');
+        throw new Error(error.message ?? 'Failed to add product to cart');
       }
 
       return data;

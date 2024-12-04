@@ -21,11 +21,12 @@ const CustomerBillingAddress = () => {
   return (
     <AddressCard
       action={
-        <Link className="mt-3" href={'/customer/cards-address'}>
+        <Link className="mt-3 justify-self-end" href={'/customer/cards-address'}>
           <Button variant={'outline-primary'}>View All Addresses</Button>
         </Link>
       }
       options={{ showOptions: false, showName: true, showAction: true }}
+      placeholderTitle="Billing Address"
       address={data[0]}
     />
   );

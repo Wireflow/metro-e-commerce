@@ -52,7 +52,7 @@ const FeaturedCategory = () => {
           </div>
           <div className="flex flex-col items-center justify-center">
             <PromoCard.Label />
-            <PromoCard.Title />
+            <PromoCard.Title className="text-center" />
             <PromoCard.Description className="w-[300px] text-center" />
             <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
               <div className="mt-3 flex items-center justify-center gap-1">

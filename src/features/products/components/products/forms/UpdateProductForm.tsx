@@ -24,6 +24,8 @@ type Props = {
 };
 
 const UpdateProductForm = ({ product }: Props) => {
+  const { mutate: deleteBarcode } = useDeleteBarcode();
+  const { mutate: deleteImage } = useDeleteProductImage(product.id);
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
   const [newImages, setNewImages] = useState<ImageFile[]>([]);
 
@@ -79,6 +81,7 @@ const UpdateProductForm = ({ product }: Props) => {
         is_featured: product.is_featured,
         in_stock: product.in_stock,
         published: product.published,
+        item_number: product.item_number ?? undefined,
       },
       pricing_info: {
         cost_price: product.cost_price,
@@ -87,6 +90,7 @@ const UpdateProductForm = ({ product }: Props) => {
         discount: product.discount ?? 0,
         discounted_until: product.discounted_until ?? undefined,
         is_taxed: product.is_taxed ?? false,
+        max_per_order: product.max_per_order ?? undefined,
       },
       barcodes: product.barcodes.map(b => ({
         barcode: b.barcode,
@@ -120,6 +124,7 @@ const UpdateProductForm = ({ product }: Props) => {
         is_featured: product.is_featured,
         in_stock: product.in_stock,
         published: product.published,
+        item_number: product.item_number ?? undefined,
       },
       pricing_info: {
         cost_price: product.cost_price,
@@ -128,6 +133,7 @@ const UpdateProductForm = ({ product }: Props) => {
         discount: product.discount ?? undefined,
         discounted_until: product.discounted_until ?? undefined,
         is_taxed: product.is_taxed ?? false,
+        max_per_order: product.max_per_order ?? undefined,
       },
       barcodes: product.barcodes.map(b => ({
         barcode: b.barcode,
@@ -157,6 +163,7 @@ const UpdateProductForm = ({ product }: Props) => {
         is_featured: product.is_featured,
         in_stock: product.in_stock,
         published: product.published,
+        item_number: product.item_number ?? undefined,
       },
       pricing_info: {
         cost_price: product.cost_price,
@@ -165,6 +172,7 @@ const UpdateProductForm = ({ product }: Props) => {
         discount: product.discount ?? undefined,
         discounted_until: product.discounted_until ?? undefined,
         is_taxed: product.is_taxed ?? false,
+        max_per_order: product.max_per_order ?? undefined,
       },
       barcodes: product.barcodes.map(b => ({
         barcode: b.barcode,
@@ -175,8 +183,6 @@ const UpdateProductForm = ({ product }: Props) => {
     });
     setNewImages([]);
   };
-
-  const { mutate: deleteImage } = useDeleteProductImage(product.id);
 
   const handleImageSelect = (files: ImageFile[]) => {
     const newImageFiles = files.filter(
@@ -197,8 +203,6 @@ const UpdateProductForm = ({ product }: Props) => {
       deleteImage(id);
     }
   };
-
-  const { mutate: deleteBarcode } = useDeleteBarcode();
 
   const handleRemoveBarcode = (barcodeId: string) => {
     if (barcodeId) {

@@ -4,14 +4,14 @@
 
 # Products
 
-1. fix shop page when revisiting and refetching causing too many rerenders
-2. item string/number to product
+2. Separator discounts for wholesale or retail
+3. Export All Products
 
-# seetings
+# Landing Page
 
-1. add change password component
-2. add change email to form
+1. Add slideshow for large promotion.
+2. Add paypal integration
 
-# cart
+# Product Card
 
-1. fix cart issue
+1. remove cart button & wishlist button for admins

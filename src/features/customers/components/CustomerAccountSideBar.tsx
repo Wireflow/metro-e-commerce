@@ -92,7 +92,7 @@ const CustomerAccountSideBar = () => {
         <div className="w-full">
           <SignOutButton
             variant={'none'}
-            className="mt-2 flex items-center gap-5 px-5 py-3 text-sm text-neutral-500 [&_svg]:size-6"
+            className="mt-2 flex items-center gap-5 px-5 py-3 text-sm text-neutral-500 shadow-none [&_svg]:size-6"
           >
             <LogOut size={25} className="h-10" /> Logout
           </SignOutButton>

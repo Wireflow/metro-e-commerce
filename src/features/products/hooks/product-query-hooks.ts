@@ -105,15 +105,18 @@ export const useProductBestSellers = () => {
         .from('lifetime_product_sales')
         .select(
           `
-        *,
-          product:products(*, images:product_images(*))
+          sales,
+          product:products!inner(
+            *,
+            images:product_images(*)
+          )
         `
         )
+        .eq('products.published', true)
         .order('sales', { ascending: false })
         .limit(3);
 
       if (error) {
-        console.error('Query error:', error);
         throw new Error('Error getting products with sales data');
       }
 
@@ -121,9 +124,11 @@ export const useProductBestSellers = () => {
         throw new Error('No data returned from useProductBestSellers');
       }
 
-      const products = data.map(item => item.product);
-
-      return products as Product[];
+      // Map to extract just the product data with sales
+      return data.map(item => ({
+        ...item.product,
+        sales: item.sales,
+      })) as (Product & { sales: number })[];
     },
   });
 };

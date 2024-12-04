@@ -44,12 +44,24 @@ const ProductPricing = ({ control }: ProductPricingProps) => {
             prefix="$"
           />
         </div>
-        <CheckboxField
-          control={control}
-          name="pricing_info.is_taxed"
-          label="Taxable Product"
-          description="Check if this product is taxable"
-        />
+        <div className="grid gap-4 md:grid-cols-2">
+          <NumberInputField
+            control={control}
+            name="pricing_info.max_per_order"
+            description="This is the maximum quantity of this product that can be ordered at once"
+            label="Max Quantity Per Order"
+            allowDecimals={false}
+            disableGroupSeparators
+          />
+          <div className="md:mt-[1.9rem]">
+            <CheckboxField
+              control={control}
+              name="pricing_info.is_taxed"
+              label="Taxable Product"
+              description="Check if this product is taxable"
+            />
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

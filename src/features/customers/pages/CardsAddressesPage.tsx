@@ -8,9 +8,7 @@ import PaymentOptionsContainer from '../components/PaymentOptionsContainer';
 import { useCustomerBillingAddressClient } from '../server/useCustomerBillingAddressClient';
 import { useCustomerDeliveryAddressClient } from '../server/useCustomerDeliveryAddressClient';
 
-type Props = {};
-
-const CardsAddressesPage = (props: Props) => {
+const CardsAddressesPage = () => {
   const { metadata } = useUser();
   const { data: billingAddress } = useCustomerBillingAddressClient({ customerId: metadata?.id });
   const { data: deliveryAddress } = useCustomerDeliveryAddressClient({ customerId: metadata?.id });
@@ -21,7 +19,11 @@ const CardsAddressesPage = (props: Props) => {
     <div className="flex flex-col gap-5">
       <PaymentOptionsContainer />
       <AddressesCardContainer address={billingAddress} title="Billing Addresses" />
-      <AddressCard address={deliveryAddress} />
+      <AddressCard
+        address={deliveryAddress}
+        options={{ showOptions: false }}
+        placeholderTitle="Delivery Address"
+      />
     </div>
   );
 };

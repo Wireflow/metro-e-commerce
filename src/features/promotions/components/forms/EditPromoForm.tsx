@@ -80,7 +80,12 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
           <div className="space-y-2">
             <h3 className="text-sm font-medium text-gray-500">Currently Promoted</h3>
             <ProductCard key={promotedProduct?.product.id} className="flex gap-4 bg-gray-50">
-              <ProductCard.Image product={promotedProduct?.product} className="h-[70px] w-[70px]" />
+              <ProductCard.Image
+                product={promotedProduct?.product}
+                className="h-[70px] w-[70px]"
+                disableHoverEffect
+                disableSaleBadge
+              />
               <div className="flex flex-col gap-1">
                 <ProductCard.Title product={promotedProduct?.product} className="text-wrap" />
                 <ProductCard.Price product={promotedProduct?.product} />
@@ -113,7 +118,12 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
                         }`}
                         onClick={() => setSelectedProduct(product)}
                       >
-                        <ProductCard.Image product={product} className="h-[70px] w-[70px]" />
+                        <ProductCard.Image
+                          product={product}
+                          className="h-[70px] w-[70px]"
+                          disableHoverEffect
+                          disableSaleBadge
+                        />
                         <div className="flex flex-1 flex-col gap-1">
                           <ProductCard.Title product={product} />
                           <ProductCard.Price product={product} />

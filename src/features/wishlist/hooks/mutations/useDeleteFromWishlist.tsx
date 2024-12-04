@@ -24,6 +24,10 @@ export const useDeleteFromWishList = (params?: Params) => {
         throw new Error('Unauthorized');
       }
 
+      if (user.user_metadata?.role === 'admin') {
+        throw new Error('Admins cannot remove products from wishlist');
+      }
+
       const { data, error } = await supabase
         .from('wishlist_items')
         .delete()
