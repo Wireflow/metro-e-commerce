@@ -212,7 +212,7 @@ PromoCard.Discount = PromoDiscount;
 
 const PromoImage = ({
   className,
-  object = 'cover',
+  object = 'contain',
 }: {
   className?: string;
   object?: 'cover' | 'contain';
@@ -220,18 +220,38 @@ const PromoImage = ({
   const { product } = usePromoCard();
 
   return product?.images && product?.images.length > 0 ? (
-    <div className={cn('relative z-10 mb-4 h-[150px] w-[200px]', className)}>
-      <Image
-        src={product?.images[0].url ?? PLACEHOLDER_IMG_URL}
-        alt={product?.name || 'Placeholder Image'}
-        fill
-        objectFit={object}
-        className={cn('h-auto p-4 mix-blend-multiply')}
+    <div
+      className={cn(
+        'relative z-10 mb-4 min-h-[150px] min-w-[250px]',
+        'flex items-center justify-center',
+        className
+      )}
+    >
+      <div
+        className="relative flex h-full w-full items-center justify-center"
         style={{
-          maskImage: 'linear-gradient(to bottom, black, black)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black, black)',
+          aspectRatio: '5/3',
+          maxWidth: '100%',
+          maxHeight: '100%',
         }}
-      />
+      >
+        <Image
+          src={product?.images[0].url ?? PLACEHOLDER_IMG_URL}
+          alt={product?.name || 'Placeholder Image'}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{
+            objectFit: object,
+            mixBlendMode: 'multiply',
+            padding: '1rem',
+          }}
+          priority
+          className={cn(
+            'mix-blend-multiply',
+            'object-contain' // Ensures the entire image is visible
+          )}
+        />
+      </div>
     </div>
   ) : null;
 };

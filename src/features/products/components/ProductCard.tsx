@@ -411,6 +411,7 @@ const ProductAddToCartButton = ({
 
   return (
     <WithAuth
+      disableAdmin
       rules={{
         customCheck: metadata => {
           if (product?.is_tobacco) {

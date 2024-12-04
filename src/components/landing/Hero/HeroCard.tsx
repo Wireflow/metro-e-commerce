@@ -17,7 +17,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
   const isInEditMode = useIsEditMode();
 
   return (
-    <div className="relative grid w-full flex-1 place-items-center overflow-hidden rounded-lg bg-gray-100 sm:min-w-[500px]">
+    <div className="relative grid h-full min-h-[420px] flex-1 place-items-center overflow-hidden rounded-lg bg-gray-100">
       <div className="flex w-full flex-col md:flex-row">
         {/* Content Section */}
         <div className="flex-1 p-8">

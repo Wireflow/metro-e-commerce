@@ -3,20 +3,17 @@
 import Container from '@/components/layout/Container';
 import { Skeleton } from '@/components/ui/skeleton';
 import HeroProductPromoCards from '@/features/promotions/components/HeroProductPromoCards';
-import { mockCustomPromotion } from '@/features/promotions/constants/custom-promotion-fallback';
 import { mockPromotedProducts } from '@/features/promotions/constants/promoted-products-fallback';
-import { useCustomPromos } from '@/features/promotions/hooks/queries/useCustomPromos';
 import { usePromotedProducts } from '@/features/promotions/hooks/queries/usePromotedProducts';
 
-import HeroCard from './HeroCard';
+import HeroPromoCarousel from './HeroPromoCarousel';
 
 const HeroSection = () => {
   const { data: promotions, isLoading: isLoadingPromotions } = usePromotedProducts([1, 2]);
-  const { data: customPromos, isLoading: isLoadingCustomPromos } = useCustomPromos([1]);
 
-  if (isLoadingPromotions || isLoadingCustomPromos) {
+  if (isLoadingPromotions) {
     return (
-      <Container className="flex w-full flex-wrap gap-4 p-4 xl:flex-nowrap">
+      <Container className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
         <Skeleton className="h-[340px] w-full min-w-[250px] flex-1" />
         <div className="flex w-full flex-col gap-4 xl:w-96">
           <Skeleton className="h-[162px] w-full" />
@@ -27,12 +24,10 @@ const HeroSection = () => {
   }
 
   return (
-    <Container className="flex w-full flex-wrap gap-4 p-4 xl:flex-nowrap">
-      <HeroCard
-        promotion={customPromos && customPromos.length > 0 ? customPromos[0] : mockCustomPromotion}
-      />
+    <Container className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
+      <HeroPromoCarousel />
 
-      <div className="grid w-full grid-cols-1 gap-4 lg:w-96">
+      <div className="grid w-full grid-cols-1 gap-4 lg:w-[800px]">
         <HeroProductPromoCards promotions={promotions ?? mockPromotedProducts} />
       </div>
     </Container>

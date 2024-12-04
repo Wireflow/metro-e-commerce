@@ -9,9 +9,4 @@
 
 # Landing Page
 
-1. Add slideshow for large promotion.
 2. Add paypal integration
-
-# Product Card
-
-1. remove cart button & wishlist button for admins
