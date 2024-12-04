@@ -44,6 +44,17 @@ const AddressCard = ({
   const { metadata } = useUser();
   const { mutate: deleteAddress, isPending: deleting } = useDeleteAddress();
 
+  const {
+    showTitle = true,
+    showName = true,
+    showAddress = true,
+    showAction = true,
+    showSelection = false,
+    showOptions = true,
+    showEmail = false,
+    showPhone = false,
+  } = options;
+
   if (!address) {
     return (
       <Card
@@ -64,21 +75,11 @@ const AddressCard = ({
             <p className="text-xs text-gray-500">Address</p>
             <p>N/A</p>
           </div>
+          {showAction && action}
         </CardContent>
       </Card>
     );
   }
-
-  const {
-    showTitle = true,
-    showName = true,
-    showAddress = true,
-    showAction = true,
-    showSelection = false,
-    showOptions = true,
-    showEmail = false,
-    showPhone = false,
-  } = options;
 
   const displayTitle = title?.(address) ?? `${address.type} Address`;
   const isSelected = selected?.id === address.id;

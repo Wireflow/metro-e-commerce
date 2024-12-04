@@ -9,6 +9,7 @@ export const GeneralInfoSchema = z.object({
   in_stock: z.boolean().optional(),
   published: z.boolean().optional(),
   is_featured: z.boolean().optional(),
+  item_number: z.string().optional(),
 });
 
 export type GeneralInfoFormData = z.infer<typeof GeneralInfoSchema>;
@@ -18,7 +19,8 @@ export const PricingInfoSchema = z
     cost_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1),
     retail_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1),
     wholesale_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1),
-    is_taxed: z.boolean(),
+    max_per_order: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
+    is_taxed: z.boolean().optional(),
     discount: z
       .number({
         invalid_type_error: 'Please enter a valid number, 0 if no discount',
@@ -44,6 +46,8 @@ export const UpdatePricingInfoSchema = z
     cost_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
     retail_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
     wholesale_price: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
+    max_per_order: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
+
     is_taxed: z.boolean().optional(),
     discount: z
       .number({

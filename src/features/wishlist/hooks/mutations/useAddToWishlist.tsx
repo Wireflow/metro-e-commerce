@@ -20,6 +20,10 @@ export const useAddToWishlist = () => {
         throw new Error('Unauthorized');
       }
 
+      if (user.user_metadata?.role === 'admin') {
+        throw new Error('Admins cannot add products to wishlist');
+      }
+
       const { data, error } = await supabase
         .from('wishlist_items')
         .insert({

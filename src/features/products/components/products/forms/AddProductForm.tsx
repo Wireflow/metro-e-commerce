@@ -55,8 +55,10 @@ const AddProductForm = () => {
         unit: undefined,
         manufacturer: undefined,
         is_tobacco: false,
+        item_number: undefined,
       },
       pricing_info: {
+        max_per_order: undefined,
         cost_price: undefined,
         retail_price: undefined,
         wholesale_price: undefined,

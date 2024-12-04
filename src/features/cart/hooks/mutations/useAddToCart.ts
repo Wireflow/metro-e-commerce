@@ -47,7 +47,7 @@ export const useAddToCart = () => {
           .single();
 
         if (error) {
-          throw new Error('Failed to update product in cart');
+          throw new Error(error.message ?? 'Failed to update product in cart');
         }
 
         return { data, isNewItem };

@@ -20,11 +20,11 @@ const HeroProductPromoCards = ({ promotions }: Props) => {
         >
           <div className="flex flex-col">
             <PromoCard.Label />
-            <PromoCard.Title />
+            <PromoCard.Title className="max-w-[150px] text-wrap text-xl" />
             <PromoCard.Action />
           </div>
           <PromoCard.Discount />
-          <PromoCard.Image />
+          <PromoCard.Image object="contain" />
         </PromoCard>
       ))}
     </>

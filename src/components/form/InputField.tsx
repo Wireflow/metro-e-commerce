@@ -19,6 +19,7 @@ interface InputFieldProps<TFieldValues extends FieldValues> extends Omit<InputPr
   name: Path<TFieldValues>;
   label?: ReactNode;
   description?: string;
+  containerClassName?: string;
 }
 
 export default function InputField<TFieldValues extends FieldValues>({
@@ -29,6 +30,7 @@ export default function InputField<TFieldValues extends FieldValues>({
   onChange,
   type,
   className,
+  containerClassName,
   ...props
 }: InputFieldProps<TFieldValues>) {
   const [showPassword, setShowPassword] = useState(false);
@@ -63,7 +65,7 @@ export default function InputField<TFieldValues extends FieldValues>({
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={containerClassName}>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <div className="relative">

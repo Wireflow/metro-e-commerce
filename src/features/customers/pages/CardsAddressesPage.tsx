@@ -12,9 +12,7 @@ import PaymentOptionsContainer from '../components/PaymentOptionsContainer';
 import { useCustomerBillingAddressClient } from '../server/useCustomerBillingAddressClient';
 import { useCustomerDeliveryAddressClient } from '../server/useCustomerDeliveryAddressClient';
 
-type Props = {};
-
-const CardsAddressesPage = (props: Props) => {
+const CardsAddressesPage = () => {
   const { metadata } = useUser();
   const { data: billingAddress } = useCustomerBillingAddressClient({ customerId: metadata?.id });
   const { data: deliveryAddress } = useCustomerDeliveryAddressClient({ customerId: metadata?.id });
@@ -29,6 +27,7 @@ const CardsAddressesPage = (props: Props) => {
         <AddressesCardContainer address={billingAddress} title="Billing Addresses" />
 
         <AddressCard
+          placeholderTitle="Delivery Address"
           action={
             <Link className="text-primary" href="/customer/settings">
               <Button variant="outline-primary">

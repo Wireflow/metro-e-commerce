@@ -18,13 +18,23 @@ const ProductGeneralInfo = ({ control }: ProductGeneralInfoProps) => {
         <CardTitle className="md:text-2xl">General Information</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <InputField
-          control={control}
-          name="general_info.name"
-          label="Name"
-          description="Product display name for catalog"
-          placeholder="Premium Cotton T-Shirt"
-        />
+        <div className="grid gap-4 md:grid-cols-3">
+          <InputField
+            control={control}
+            name="general_info.name"
+            label="Name"
+            description="Product display name for catalog"
+            placeholder="Premium Cotton T-Shirt"
+            containerClassName="md:col-span-2"
+          />
+          <InputField
+            control={control}
+            name="general_info.item_number"
+            label="Item Number"
+            description="Product item number"
+            placeholder="Unique Item Number"
+          />
+        </div>
         <TextareaField
           control={control}
           name="general_info.description"
