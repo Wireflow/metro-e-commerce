@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import AccountDeliveryAddressForm from './forms/AccountDeliveryAddressForm';
 import AccountInfoForm from './forms/AccountInfoForm';
+import ChangePasswordForm from './forms/ChangePasswordForm';
 
 type Props = {};
 
@@ -24,6 +25,14 @@ const SettingsPage = (props: Props) => {
         </CardHeader>
         <CardContent>
           <AccountDeliveryAddressForm />
+        </CardContent>
+      </Card>
+      <Card className="flex flex-col gap-5">
+        <CardHeader className="border-b p-4">
+          <CardTitle className="font-medium capitalize">Change Password</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChangePasswordForm />
         </CardContent>
       </Card>
     </Container>

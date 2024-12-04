@@ -1507,7 +1507,9 @@ export type Database = {
           is_featured: boolean;
           is_taxed: boolean;
           is_tobacco: boolean;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string;
           published: boolean;
           retail_price: number;
@@ -1528,7 +1530,9 @@ export type Database = {
           is_featured?: boolean;
           is_taxed?: boolean;
           is_tobacco?: boolean;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name: string;
           published?: boolean;
           retail_price: number;
@@ -1549,7 +1553,9 @@ export type Database = {
           is_featured?: boolean;
           is_taxed?: boolean;
           is_tobacco?: boolean;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string;
           published?: boolean;
           retail_price?: number;

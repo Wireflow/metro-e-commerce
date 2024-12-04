@@ -154,7 +154,7 @@ const AccountDeliveryAddressForm = ({ onSuccess }: Props) => {
                   Saving
                 </>
               ) : (
-                'Save Address'
+                'Save Changes'
               )}
             </Button>
           </div>

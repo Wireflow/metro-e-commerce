@@ -13,9 +13,11 @@ import { formatPhoneNumber } from '@/utils/utils';
 import { useUpdateAccountInfo } from '../../hooks/mutations/useUpdateAccountInfo';
 import { updateAccountSchema, UpdateAccountType } from '../../schema/update-account';
 
-type Props = {};
+type Props = {
+  onSuccess?: () => void;
+};
 
-const AccountInfoForm = (props: Props) => {
+const AccountInfoForm = ({ onSuccess }: Props) => {
   const { mutate: updateAccount, isPending } = useUpdateAccountInfo();
   const { metadata } = useUser();
 
@@ -25,6 +27,7 @@ const AccountInfoForm = (props: Props) => {
       first_name: metadata.first_name,
       last_name: metadata.last_name,
       phone: metadata.phone,
+      email: metadata.email,
     },
     mode: 'onChange',
   });
@@ -34,6 +37,7 @@ const AccountInfoForm = (props: Props) => {
       first_name: metadata.first_name,
       last_name: metadata.last_name,
       phone: metadata.phone,
+      email: metadata.email,
     });
   }, [metadata, form]);
 
@@ -49,7 +53,7 @@ const AccountInfoForm = (props: Props) => {
 
     updateAccount(data, {
       onSuccess: () => {
-        // onSuccess?.();
+        onSuccess?.();
       },
     });
   };
@@ -87,16 +91,23 @@ const AccountInfoForm = (props: Props) => {
               }}
               className="w-full"
             />
+            <InputField
+              label="Email"
+              name="email"
+              placeholder="johndoe@example.com"
+              control={form.control}
+              className="w-full"
+            />
           </div>
-          <div className="sticky bottom-0 flex justify-end gap-3 bg-white pt-4">
+          <div className="mt-6 flex justify-end gap-3 border-t bg-white pt-4">
             <Button
-              onClick={() => {
-                form.reset();
-              }}
               type="button"
-              variant={'outline'}
+              variant="outline"
+              onClick={() => form.reset()}
+              disabled={!isDirty || isPending}
+              className="px-3 sm:px-4"
             >
-              Cancel
+              Reset
             </Button>
             <Button
               type="submit"
