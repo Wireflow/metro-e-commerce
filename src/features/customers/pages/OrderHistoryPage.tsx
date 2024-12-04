@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import Animate from '@/components/animation/Animate';
 import Pagination from '@/components/Pagination';
 import { usePaginatedOrders } from '@/features/orders/hooks/orders-query-hook';
 import { useUser } from '@/hooks/useUser';
@@ -26,14 +27,17 @@ const OrderHistoryPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <CustomerOrdersHistoryTable TableName="Order History" orders={ordersData?.data ?? []} />
-      <Pagination
-        currentPage={pagination.page}
-        totalPages={ordersData?.metadata.totalPages ?? 1}
-        onPageChange={handlePageChange}
-        variant="round"
-      />
+    <div>
+      <Animate className="space-y-6" type="bounce">
+        {' '}
+        <CustomerOrdersHistoryTable TableName="Order History" orders={ordersData?.data ?? []} />
+        <Pagination
+          currentPage={pagination.page}
+          totalPages={ordersData?.metadata.totalPages ?? 1}
+          onPageChange={handlePageChange}
+          variant="round"
+        />
+      </Animate>
     </div>
   );
 };

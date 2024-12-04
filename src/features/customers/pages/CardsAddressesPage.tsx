@@ -1,5 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+
+import Animate from '@/components/animation/Animate';
+import { Button } from '@/components/ui/button';
 import AddressCard from '@/features/checkout/components/addresses/AddressCard';
 import { useUser } from '@/hooks/useUser';
 
@@ -18,10 +22,24 @@ const CardsAddressesPage = (props: Props) => {
   if (!billingAddress || !deliveryAddress) return null;
 
   return (
-    <div className="flex flex-col gap-5">
-      <PaymentOptionsContainer />
-      <AddressesCardContainer address={billingAddress} title="Billing Addresses" />
-      <AddressCard address={deliveryAddress} />
+    <div>
+      <Animate className="flex flex-col gap-5" type="bounce">
+        <PaymentOptionsContainer />
+
+        <AddressesCardContainer address={billingAddress} title="Billing Addresses" />
+
+        <AddressCard
+          action={
+            <Link className="text-primary" href="/customer/settings">
+              <Button variant="outline-primary">
+                <span className="hidden md:inline">Edit Delivery Address</span>
+              </Button>
+            </Link>
+          }
+          options={{ showAction: true, showOptions: false }}
+          address={deliveryAddress}
+        />
+      </Animate>
     </div>
   );
 };

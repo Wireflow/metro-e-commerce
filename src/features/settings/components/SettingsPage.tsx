@@ -1,4 +1,5 @@
 'use client';
+import Animate from '@/components/animation/Animate';
 import Container from '@/components/layout/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -10,31 +11,33 @@ type Props = {};
 
 const SettingsPage = (props: Props) => {
   return (
-    <Container className="flex flex-col gap-5">
-      <Card className="flex flex-col gap-5">
-        <CardHeader className="border-b p-4">
-          <CardTitle className="font-medium capitalize">Personal Info</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AccountInfoForm />
-        </CardContent>
-      </Card>
-      <Card className="flex flex-col gap-5">
-        <CardHeader className="border-b p-4">
-          <CardTitle className="font-medium capitalize">Business Address</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AccountDeliveryAddressForm />
-        </CardContent>
-      </Card>
-      <Card className="flex flex-col gap-5">
-        <CardHeader className="border-b p-4">
-          <CardTitle className="font-medium capitalize">Change Password</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChangePasswordForm />
-        </CardContent>
-      </Card>
+    <Container>
+      <Animate className="flex flex-col gap-5" type="bounce">
+        <Card className="flex flex-col gap-5">
+          <CardHeader className="border-b p-4">
+            <CardTitle className="font-medium capitalize">Personal Info</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AccountInfoForm />
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col gap-5">
+          <CardHeader className="border-b p-4">
+            <CardTitle className="font-medium capitalize">Business Address</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AccountDeliveryAddressForm />
+          </CardContent>
+        </Card>{' '}
+        <Card className="flex flex-col gap-5">
+          <CardHeader className="border-b p-4">
+            <CardTitle className="font-medium capitalize">Change Password</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChangePasswordForm />
+          </CardContent>
+        </Card>
+      </Animate>
     </Container>
   );
 };
