@@ -19,16 +19,33 @@ export const useUpdateAccountInfo = () => {
         throw new Error('User not found');
       }
 
+      if (accountData.email) {
+        const { error: emailUpdateError } = await supabase.auth.updateUser({
+          email: accountData.email,
+        });
+
+        if (emailUpdateError?.code === 'email_exists') {
+          throw new Error('email_exists');
+        }
+
+        if (emailUpdateError) {
+          throw new Error(`Failed to update email: ${emailUpdateError.message}`);
+        }
+      }
+
       const { data, error } = await supabase
         .from('customers')
         .update({
-          ...accountData,
+          first_name: accountData.first_name,
+          last_name: accountData.last_name,
+          phone: accountData.phone,
+          email: accountData.email,
         })
-        .eq('id', user?.id)
+        .eq('id', user.id)
         .single();
 
       if (error) {
-        throw new Error('Failed to update account info');
+        throw new Error(`Failed to update account info: ${error.message}`);
       }
 
       return data;
@@ -39,8 +56,13 @@ export const useUpdateAccountInfo = () => {
     onSuccess: () => {
       toast.success('Account info updated successfully');
     },
-    onError: () => {
-      toast.error('Failed to update account info');
+    onError: error => {
+      if (error.message === 'email_exists') {
+        toast.error('This email is already in use');
+      } else {
+        toast.error('Failed to update account info');
+      }
+      console.error(error);
     },
   });
 };
