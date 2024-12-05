@@ -3,6 +3,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
+import { Product } from '../schemas/products';
 import { applyProductFilters } from '../utils/applyProductFilters';
 import { ProductFilters } from './product-query-hooks';
 
@@ -24,12 +25,13 @@ export interface PaginatedResponse<T> {
 
 export const usePaginatedProducts = (
   filters: ProductFilters = {},
-  pagination: PaginationParams = { page: 1, pageSize: 10 }
+  pagination: PaginationParams = { page: 1, pageSize: 10 },
+  enabled: boolean = true
 ) => {
   return useQuery({
     queryKey: ['products', JSON.stringify(filters), pagination.page, pagination.pageSize],
     queryFn: () => getPaginatedProducts(filters, pagination),
-    enabled: true,
+    enabled: enabled,
     placeholderData: keepPreviousData,
   });
 };
@@ -37,7 +39,7 @@ export const usePaginatedProducts = (
 export const getPaginatedProducts = async (
   filters: ProductFilters = {},
   pagination: PaginationParams = { page: 1, pageSize: 10 }
-): Promise<PaginatedResponse<any>> => {
+): Promise<PaginatedResponse<Product>> => {
   const supabase = createClient();
 
   const {

@@ -13,22 +13,29 @@ const HeroSection = () => {
 
   if (isLoadingPromotions) {
     return (
-      <Container className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
-        <Skeleton className="h-[340px] w-full min-w-[250px] flex-1" />
-        <div className="flex w-full flex-col gap-4 xl:w-96">
-          <Skeleton className="h-[162px] w-full" />
-          <Skeleton className="h-[162px] w-full" />
+      <Container className="py-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
+          <div className="md:col-span-2 lg:col-span-4">
+            <Skeleton className="h-[400px] w-full" />
+          </div>
+          <div className="flex flex-col gap-4 md:col-span-2">
+            <Skeleton className="h-[192px] w-full" />
+            <Skeleton className="h-[192px] w-full" />
+          </div>
         </div>
       </Container>
     );
   }
 
   return (
-    <Container className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
-      <HeroPromoCarousel />
-
-      <div className="grid w-full grid-cols-1 gap-4 lg:w-[800px]">
-        <HeroProductPromoCards promotions={promotions ?? mockPromotedProducts} />
+    <Container className="py-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
+        <div className="md:col-span-2 lg:col-span-4">
+          <HeroPromoCarousel />
+        </div>
+        <div className="flex flex-col gap-4 md:col-span-2">
+          <HeroProductPromoCards promotions={promotions ?? mockPromotedProducts} />
+        </div>
       </div>
     </Container>
   );

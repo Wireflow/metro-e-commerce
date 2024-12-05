@@ -53,7 +53,8 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
 
   // Get the initial discount date from form control
   const initialDiscountDate = control._defaultValues?.pricing_info?.discounted_until;
-  const discountAmount = useWatch({ control, name: 'pricing_info.discount' });
+  const retailDiscountAmount = useWatch({ control, name: 'pricing_info.retail_discount' });
+  const wholesaleDiscountAmount = useWatch({ control, name: 'pricing_info.wholesale_discount' });
   const wholesalePrice = useWatch({ control, name: 'pricing_info.wholesale_price' });
   const retailPrice = useWatch({ control, name: 'pricing_info.retail_price' });
 
@@ -74,13 +75,16 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
   };
 
   const [retailDiscount, wholesaleDiscount] = useMemo(() => {
-    if (!discountAmount || !retailPrice || !wholesalePrice) return [0, 0];
+    const retailPercentage =
+      retailPrice && retailDiscountAmount ? (retailDiscountAmount / retailPrice) * 100 : 0;
 
-    const retailDiscount = (discountAmount / retailPrice) * 100;
-    const wholesaleDiscount = (discountAmount / wholesalePrice) * 100;
+    const wholesalePercentage =
+      wholesalePrice && wholesaleDiscountAmount
+        ? (wholesaleDiscountAmount / wholesalePrice) * 100
+        : 0;
 
-    return [retailDiscount, wholesaleDiscount];
-  }, [discountAmount, retailPrice, wholesalePrice]);
+    return [retailPercentage, wholesalePercentage];
+  }, [retailDiscountAmount, wholesaleDiscountAmount, retailPrice, wholesalePrice]);
 
   const retailBadgeProps = getDiscountBadgeProps(retailDiscount);
   const wholesaleBadgeProps = getDiscountBadgeProps(wholesaleDiscount);
@@ -97,14 +101,14 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
           <Alert variant="destructive" className="mb-2">
             <XCircle className="h-4 w-4" />
             <AlertDescription>
-              Warning: Discount amount exceeds the product price! This will result in a negative
-              selling price, which is not possible. Please reduce the discount amount.
+              Warning: One or more discount amounts exceed the product price! This will result in a
+              negative selling price, which is not possible. Please reduce the discount amount.
             </AlertDescription>
           </Alert>
         )}
 
         <FormField
-          name={'pricing_info.discounted_until'}
+          name="pricing_info.discounted_until"
           control={control}
           render={({ field }) => (
             <FormItem>
@@ -125,40 +129,57 @@ const ProductDiscount = ({ control }: ProductDiscountProps) => {
                   fromDate={today}
                 />
               </FormControl>
-              <FormDescription>Date when the discount will end</FormDescription>
+              <FormDescription>Date when the discounts will end</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <NumberInputField
-          name="pricing_info.discount"
-          control={control}
-          label="Discount $"
-          description="Discount amount"
-          placeholder="0.00"
-          prefix="$"
-          max={100}
-        />
+
+        <div className="space-y-4">
+          <NumberInputField
+            name="pricing_info.retail_discount"
+            control={control}
+            label="Retail Discount"
+            description="Discount amount for retail price"
+            placeholder="0.00"
+            prefix="$"
+            max={retailPrice || 100}
+          />
+
+          <NumberInputField
+            name="pricing_info.wholesale_discount"
+            control={control}
+            label="Wholesale Discount"
+            description="Discount amount for wholesale price"
+            placeholder="0.00"
+            prefix="$"
+            max={wholesalePrice || 100}
+          />
+        </div>
 
         {(retailDiscount > 0 || wholesaleDiscount > 0) && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-medium">Retail discount:</span>
-              <div className="flex items-center gap-2">
-                <span className="text-sm">{retailDiscount.toFixed(0)}%</span>
-                <Badge variant={retailBadgeProps.variant}>{retailDiscount.toFixed(0)}% off</Badge>
+            {retailDiscount > 0 && (
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-medium">Retail discount:</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{retailDiscount.toFixed(0)}%</span>
+                  <Badge variant={retailBadgeProps.variant}>{retailDiscount.toFixed(0)}% off</Badge>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-medium">Wholesale discount:</span>
-              <div className="flex items-center gap-2">
-                <span className="text-sm">{wholesaleDiscount.toFixed(0)}%</span>
-                <Badge variant={wholesaleBadgeProps.variant}>
-                  {wholesaleDiscount.toFixed(0)}% off
-                </Badge>
+            {wholesaleDiscount > 0 && (
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-medium">Wholesale discount:</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{wholesaleDiscount.toFixed(0)}%</span>
+                  <Badge variant={wholesaleBadgeProps.variant}>
+                    {wholesaleDiscount.toFixed(0)}% off
+                  </Badge>
+                </div>
               </div>
-            </div>
+            )}
 
             {!hasImpossibleDiscount && (retailDiscount >= 25 || wholesaleDiscount >= 25) && (
               <Alert variant="warning" className="mt-4">

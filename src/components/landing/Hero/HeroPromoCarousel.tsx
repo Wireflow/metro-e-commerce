@@ -1,5 +1,5 @@
 import Autoplay from 'embla-carousel-autoplay';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Container from '@/components/layout/Container';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -9,13 +9,20 @@ import { useCustomPromos } from '@/features/promotions/hooks/queries/useCustomPr
 
 import HeroCard from './HeroCard';
 
-type Props = {};
-
-const HeroPromoCarousel = (props: Props) => {
+const HeroPromoCarousel = () => {
   const { data: customPromos, isLoading: isLoadingCustomPromos } = useCustomPromos([1, 2, 3]);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
+  const plugin = useRef(
+    Autoplay({
+      delay: 10000,
+      stopOnInteraction: true,
+      stopOnMouseEnter: true,
+      rootNode: emblaRoot => emblaRoot.parentElement,
+    })
+  );
 
   useEffect(() => {
     if (!api) {
@@ -28,73 +35,67 @@ const HeroPromoCarousel = (props: Props) => {
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap());
     });
+
+    return () => {
+      api.off('select', () => {});
+    };
   }, [api]);
 
   const handleDotClick = (index: number) => {
     if (api) {
       api.scrollTo(index);
+      plugin.current.reset();
     }
   };
 
   if (isLoadingCustomPromos) {
     return (
-      <Container className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
-        <Skeleton className="h-[340px] w-full min-w-[250px] flex-1" />
-        <div className="flex w-full flex-col gap-4 xl:w-96">
-          <Skeleton className="h-[162px] w-full" />
-          <Skeleton className="h-[162px] w-full" />
-        </div>
+      <Container className="flex h-full w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
+        <Skeleton className="h-full min-h-[400px] w-full min-w-[250px] flex-1" />
       </Container>
     );
   }
 
   return (
-    <div className="flex w-full flex-col gap-5">
-      <Carousel
-        opts={{
-          loop: true,
-        }}
-        plugins={[
-          Autoplay({
-            delay: 10000,
-          }),
-        ]}
-        setApi={setApi}
-      >
-        <CarouselContent>
-          <CarouselItem className="pl-2 md:pl-4">
-            <HeroCard
-              promotion={
-                customPromos && customPromos.length > 0 ? customPromos[0] : mockCustomPromotion
-              }
-            />
-          </CarouselItem>
-          <CarouselItem className="pl-2 md:pl-4">
-            <HeroCard
-              promotion={
-                customPromos && customPromos.length > 0 ? customPromos[1] : mockCustomPromotion
-              }
-            />
-          </CarouselItem>
-          <CarouselItem className="pl-2 md:pl-4">
-            <HeroCard
-              promotion={
-                customPromos && customPromos.length > 0 ? customPromos[2] : mockCustomPromotion
-              }
-            />
-          </CarouselItem>
-        </CarouselContent>
-      </Carousel>
-
-      <div className="flex items-center justify-center space-x-2">
+    <div className="relative h-full">
+      <div className="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-center space-x-2">
         {[...Array(count)].map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`h-3 w-3 rounded-full transition-colors duration-300 ${current === index ? 'bg-primary' : 'bg-neutral-500'} `}
+            className={`h-2.5 w-2.5 rounded-full transition-colors duration-300 ${
+              index === current ? 'bg-primary shadow-md' : 'bg-gray-400'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
+
+      <Carousel
+        opts={{
+          loop: true,
+          watchDrag: true,
+        }}
+        plugins={[plugin.current]}
+        setApi={setApi}
+        className="h-full w-full"
+      >
+        <CarouselContent className="h-full" wrapperClassName="h-full">
+          {customPromos?.map((promo, index) => (
+            <CarouselItem key={promo.id || index} className="h-full pl-2 md:pl-4">
+              <HeroCard promotion={promo || mockCustomPromotion} />
+            </CarouselItem>
+          )) || (
+            <>
+              {[...Array(3)].map((_, index) => (
+                <CarouselItem key={index} className="h-full pl-2 md:pl-4">
+                  <HeroCard promotion={mockCustomPromotion} />
+                </CarouselItem>
+              ))}
+            </>
+          )}
+        </CarouselContent>
+      </Carousel>
     </div>
   );
 };

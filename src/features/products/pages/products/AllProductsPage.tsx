@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { Download, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';
@@ -21,8 +21,8 @@ import { useProductFiltersStore } from '../../store/useProductFilters';
 
 const AllProductsPage = () => {
   const filters = useProductFiltersStore(state => state.filters);
-  const { page, pageSize } = useProductFiltersStore(state => state.pagination);
   const setPagination = useProductFiltersStore(state => state.setPagination);
+  const { page, pageSize } = useProductFiltersStore(state => state.pagination);
 
   const { data: analytics, isLoading: isLoadingAnalytics } = useAnalytics();
   const { data: productsData, isLoading: isLoadingProducts } = usePaginatedProducts(filters, {
@@ -51,11 +51,7 @@ const AllProductsPage = () => {
         breadcrumbs={breadcrumbs}
         actions={
           <div className="flex gap-3">
-            <ExportProducts products={productsData?.data ?? []}>
-              <Button variant={'outline'}>
-                <Download className="h-5 w-5" /> Export
-              </Button>
-            </ExportProducts>
+            <ExportProducts>Export All</ExportProducts>
             <Link href={'/admin/products/add'}>
               <Button variant={'black'}>
                 <Plus className="h-5 w-5" /> Add Product

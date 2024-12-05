@@ -14,6 +14,7 @@ import ShipmentToggles from './ShipmentToggles';
 export type ShipmentSettingsState = {
   isShipmentAllowed: boolean;
   shipmentMinimum: number;
+  isPayonShipmentAllowed: boolean;
 };
 
 const ShipmentSettings = () => {
@@ -23,6 +24,7 @@ const ShipmentSettings = () => {
   const [settings, setSettings] = useState<ShipmentSettingsState>({
     isShipmentAllowed: branchSettings?.is_shipment_allowed ?? false,
     shipmentMinimum: branchSettings?.shipment_minimum ?? 0,
+    isPayonShipmentAllowed: branchSettings?.is_pay_on_shipment_enabled ?? false,
   });
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const ShipmentSettings = () => {
       setSettings({
         isShipmentAllowed: branchSettings.is_shipment_allowed ?? false,
         shipmentMinimum: branchSettings.shipment_minimum ?? 0,
+        isPayonShipmentAllowed: branchSettings.is_pay_on_shipment_enabled ?? false,
       });
     }
   }, [branchSettings]);
@@ -54,12 +57,14 @@ const ShipmentSettings = () => {
     updateBranchSettings({
       is_shipment_allowed: settings.isShipmentAllowed,
       shipment_minimum: settings.shipmentMinimum,
+      is_pay_on_shipment_enabled: settings.isPayonShipmentAllowed,
     });
   };
 
   const isDirty =
     settings.isShipmentAllowed !== branchSettings?.is_shipment_allowed ||
-    settings.shipmentMinimum !== branchSettings?.shipment_minimum;
+    settings.shipmentMinimum !== branchSettings?.shipment_minimum ||
+    settings.isPayonShipmentAllowed !== branchSettings?.is_pay_on_shipment_enabled;
 
   return (
     <Card className="shadow-none">

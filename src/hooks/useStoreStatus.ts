@@ -44,7 +44,7 @@ export const useStoreStatus = () => {
       disabled:
         (!settings?.is_pay_on_pickup_allowed && type === 'pickup') ||
         (!settings?.is_pay_on_delivery_allowed && type === 'delivery') ||
-        type === 'shipment',
+        (!settings?.is_pay_on_shipment_enabled && type === 'shipment'),
     },
   ];
 

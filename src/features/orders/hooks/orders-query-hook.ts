@@ -2,6 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { createClient } from '@/utils/supabase/client';
 
+import { Order } from '../schemas/orders';
 import { getOrderById } from '../server/orders/getOrderById';
 import { getOrders } from '../server/orders/getOrders';
 import { applyOrdersFilters } from '../utils/applyOrdersFilters';
@@ -44,12 +45,13 @@ export interface PaginatedResponse<T> {
 
 export const usePaginatedOrders = (
   filters: OrdersFilters = {},
-  pagination: PaginationParams = { page: 1, pageSize: 10 }
+  pagination: PaginationParams = { page: 1, pageSize: 10 },
+  enabled: boolean = true
 ) => {
   return useQuery({
     queryKey: ['orders', JSON.stringify(filters), pagination.page, pagination.pageSize],
     queryFn: () => getPaginatedOrders(filters, pagination),
-    enabled: true,
+    enabled,
     placeholderData: keepPreviousData,
     retry: false,
   });
@@ -59,7 +61,7 @@ export const getPaginatedOrders = async (
   filters: OrdersFilters = {},
   pagination: PaginationParams = { page: 1, pageSize: 10 }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<PaginatedResponse<any>> => {
+): Promise<PaginatedResponse<Order>> => {
   const supabase = createClient();
   const { page = 1, pageSize = 10 } = pagination;
 
@@ -101,7 +103,7 @@ export const getPaginatedOrders = async (
   const hasMore = page < totalPages;
 
   return {
-    data: data || [],
+    data: (data as Order[]) || [],
     metadata: {
       total,
       pageSize,

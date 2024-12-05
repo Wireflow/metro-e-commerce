@@ -21,7 +21,13 @@ export const PricingInfoSchema = z
     wholesale_price: z.number({ invalid_type_error: 'Please enter a valid number' }).min(1),
     max_per_order: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
     is_taxed: z.boolean().optional(),
-    discount: z
+    retail_discount: z
+      .number({
+        invalid_type_error: 'Please enter a valid number, 0 if no discount',
+        required_error: 'Discount amount is required',
+      })
+      .optional(),
+    wholesale_discount: z
       .number({
         invalid_type_error: 'Please enter a valid number, 0 if no discount',
         required_error: 'Discount amount is required',
@@ -30,12 +36,24 @@ export const PricingInfoSchema = z
     discounted_until: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.discount && data.retail_price && data.wholesale_price) {
-      if (data.discount > data.retail_price || data.discount > data.wholesale_price) {
+    // Check retail discount
+    if (data.retail_discount && data.retail_price) {
+      if (data.retail_discount > data.retail_price) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'Discount amount cannot be greater than retail or wholesale price',
-          path: ['discount'],
+          message: 'Retail discount cannot be greater than retail price',
+          path: ['retail_discount'],
+        });
+      }
+    }
+
+    // Check wholesale discount
+    if (data.wholesale_discount && data.wholesale_price) {
+      if (data.wholesale_discount > data.wholesale_price) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Wholesale discount cannot be greater than wholesale price',
+          path: ['wholesale_discount'],
         });
       }
     }
@@ -49,7 +67,14 @@ export const UpdatePricingInfoSchema = z
     max_per_order: z.number({ invalid_type_error: 'Please enter a valid number' }).optional(),
 
     is_taxed: z.boolean().optional(),
-    discount: z
+
+    retail_discount: z
+      .number({
+        invalid_type_error: 'Please enter a valid number, 0 if no discount',
+        required_error: 'Discount amount is required',
+      })
+      .optional(),
+    wholesale_discount: z
       .number({
         invalid_type_error: 'Please enter a valid number, 0 if no discount',
         required_error: 'Discount amount is required',
@@ -58,12 +83,24 @@ export const UpdatePricingInfoSchema = z
     discounted_until: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.discount && data.retail_price && data.wholesale_price) {
-      if (data.discount > data.retail_price || data.discount > data.wholesale_price) {
+    // Check retail discount
+    if (data.retail_discount && data.retail_price) {
+      if (data.retail_discount > data.retail_price) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'Discount amount cannot be greater than retail or wholesale price',
-          path: ['discount'],
+          message: 'Retail discount cannot be greater than retail price',
+          path: ['retail_discount'],
+        });
+      }
+    }
+
+    // Check wholesale discount
+    if (data.wholesale_discount && data.wholesale_price) {
+      if (data.wholesale_discount > data.wholesale_price) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Wholesale discount cannot be greater than wholesale price',
+          path: ['wholesale_discount'],
         });
       }
     }

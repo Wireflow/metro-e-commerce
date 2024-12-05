@@ -1,8 +1,7 @@
-import { ISOStringFormat } from 'date-fns';
 import { Heart } from 'lucide-react';
 import React from 'react';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import { Badge } from '@/components/ui/badge';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
@@ -15,7 +14,7 @@ import { cn } from '@/lib/utils';
 import { formatCurrency, truncate } from '@/utils/utils';
 
 import { Product } from '../schemas/products';
-import { isDiscountValid } from '../utils/validateDiscount';
+import { validateProductDiscount } from '../utils/validateDiscount';
 import MultiImageViewer from './MultiImageViewer';
 import ProductCard, { PriceSection } from './ProductCard';
 import QuantityControl from './QuantityControl';
@@ -42,17 +41,12 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
   // Safely handle images
   const imagesUrls = product?.images?.filter(image => image?.url).map(image => image.url) ?? [];
 
-  const isValidDiscount = isDiscountValid(
-    product?.discount ?? 0,
-    product?.discounted_until as ISOStringFormat
-  );
+  const isValidDiscount = validateProductDiscount(product);
 
   const wishlistItem = product?.id ? getWishlistItemById(product.id) : null;
 
   // Handle customer type and pricing safely
   const customerType = metadata?.customer_type ?? 'retail';
-  const price =
-    customerType === 'wholesale' ? (product?.wholesale_price ?? 0) : (product?.retail_price ?? 0);
 
   const handleQuantityUpdate = (newQuantity: number) => {
     if (!cartItem?.id || !product?.id) return;
@@ -65,7 +59,7 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
   };
 
   return (
-    <Animate type="bounce">
+    <Animate type="fade">
       <div
         className={cn(
           'flex w-full flex-col gap-4 md:flex-row',
@@ -135,10 +129,7 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
           </div>
           <div className="mb-4 border-b-[1px] border-b-border py-4">
             <PriceSection
-              isValidDiscount={isValidDiscount}
-              discount={product?.discount}
-              type={customerType}
-              price={price}
+              product={product}
               label={customerType === 'wholesale' ? 'Wholesale' : 'Retail'}
               customRender={({ preDiscount, afterDiscount, discount }) => (
                 <div className="flex items-center gap-2">
@@ -168,9 +159,7 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
                 disabled={!product?.in_stock || isUpdating}
               />
             )}
-            <div className="w-full">
-              <ProductCard.AdminEditButton size={'lg'} product={product} />
-            </div>
+            <ProductCard.AdminEditButton size={'lg'} product={product} className="w-full" />
             <ProductCard.AddToCartButton
               product={product}
               className="w-full"

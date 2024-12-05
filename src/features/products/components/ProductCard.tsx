@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ISOStringFormat } from 'date-fns';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -21,12 +20,11 @@ import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDe
 import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
-import { Enum } from '@/types/supabase/enum';
 import { formatCurrency, truncate } from '@/utils/utils';
 
 import { Product } from '../schemas/products';
 import { useQuickViewStore } from '../store/useQuickViewStore';
-import { isDiscountValid } from '../utils/validateDiscount';
+import { validateProductDiscount } from '../utils/validateDiscount';
 import TobaccoBadge from './TobaccoBadge';
 
 type ProductCardProps = {
@@ -43,25 +41,32 @@ type CustomRenderProps = {
 };
 
 export const PriceSection = ({
-  type,
-  price,
   label,
-  isValidDiscount,
-  discount,
+  product,
   disableCompare,
   signInClassname,
   customRender,
 }: {
-  type: Enum<'customer_type'>;
-  price: number;
+  product?: Product;
   label?: string;
-  isValidDiscount: boolean;
-  discount: number | null;
   disableCompare?: boolean;
   signInClassname?: string;
   customRender?: (data: CustomRenderProps) => React.ReactNode;
 }) => {
-  const { user } = useUser();
+  const { user, metadata } = useUser();
+  const isValidDiscount = validateProductDiscount(product);
+
+  const price =
+    metadata?.customer_type === 'wholesale'
+      ? (product?.wholesale_price ?? 0)
+      : (product?.retail_price ?? 0);
+
+  const discount =
+    metadata?.customer_type === 'wholesale'
+      ? (product?.wholesale_discount ?? 0)
+      : (product?.retail_discount ?? 0);
+
+  const type = metadata?.customer_type;
 
   return (
     <WithAuth
@@ -214,10 +219,13 @@ interface ProductSaleBadgeProps {
 }
 
 const ProductSaleBadge = ({ product, variant = 'discount', className }: ProductSaleBadgeProps) => {
-  const hasValidDiscount = isDiscountValid(
-    product?.discount,
-    product?.discounted_until as ISOStringFormat
-  );
+  const { metadata } = useUser();
+  const hasValidDiscount = validateProductDiscount(product);
+
+  const discount =
+    metadata?.customer_type === 'wholesale'
+      ? (product?.wholesale_discount ?? 0)
+      : (product?.retail_discount ?? 0);
 
   if (!hasValidDiscount && variant === 'discount') {
     return null;
@@ -235,7 +243,7 @@ const ProductSaleBadge = ({ product, variant = 'discount', className }: ProductS
       )}
     >
       {variant === 'discount' && hasValidDiscount
-        ? `-${formatCurrency(product?.discount ?? 0)} Off`
+        ? `-${formatCurrency(discount ?? 0)} Off`
         : badgeConfig.text}
     </Badge>
   );
@@ -256,12 +264,8 @@ const ProductImage = ({
   disableHoverEffect?: boolean;
   object?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
 }) => {
-  const hasValidDiscount = isDiscountValid(
-    product?.discount,
-    product?.discounted_until as ISOStringFormat
-  );
+  const hasValidDiscount = validateProductDiscount(product);
   const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
-
   const wishlistItem = getWishlistItemById(product?.id);
 
   return (
@@ -332,23 +336,7 @@ const ProductImage = ({
 ProductCard.Image = ProductImage;
 
 const ProductPrice = ({ product, className }: { product: Product; className?: string }) => {
-  const { metadata } = useUser();
-  const hasValidDiscount = isDiscountValid(
-    product?.discount,
-    product?.discounted_until as ISOStringFormat
-  );
-
-  return (
-    <PriceSection
-      isValidDiscount={hasValidDiscount}
-      signInClassname={className}
-      discount={product?.discount}
-      type={metadata?.customer_type}
-      price={
-        metadata?.customer_type === 'wholesale' ? product?.wholesale_price : product?.retail_price
-      }
-    />
-  );
+  return <PriceSection signInClassname={className} product={product} />;
 };
 
 ProductCard.Price = ProductPrice;

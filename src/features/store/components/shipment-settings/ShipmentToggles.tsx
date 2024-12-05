@@ -1,4 +1,4 @@
-import { Package } from 'lucide-react';
+import { DollarSign, Package } from 'lucide-react';
 
 import FeatureToggle from '@/components/FeatureToggle';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +32,19 @@ const ShipmentToggles = ({
         </Badge>
       }
       onCheckedChange={checked => onChange({ isShipmentAllowed: checked })}
+    />
+    <FeatureToggle
+      title="Pay On Shipment"
+      description="Allow customers to pay upon shipment"
+      icon={DollarSign}
+      disabled={disabled}
+      checked={state.isPayonShipmentAllowed}
+      badge={
+        <Badge variant={publishedSettings?.is_pay_on_shipment_enabled ? 'success' : 'error'}>
+          {publishedSettings?.is_pay_on_shipment_enabled ? 'Enabled' : 'Disabled'}
+        </Badge>
+      }
+      onCheckedChange={checked => onChange({ isPayonShipmentAllowed: checked })}
     />
   </div>
 );

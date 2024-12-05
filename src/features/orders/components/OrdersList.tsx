@@ -6,7 +6,7 @@ import { ArrowRight, Calendar, Check, Package, Store, Truck } from 'lucide-react
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
+import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 import { formatRelativeDateTime } from '@/utils/dateUtils';
@@ -165,13 +165,13 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
       key: order => (
         <div className="flex flex-col gap-1">
           <p className="font-semibold text-gray-900">{formatCustomerName(order)}</p>
-          {order.customer?.email && (
+          {order?.customer?.email && (
             <p className="cursor-pointer text-xs text-blue-600 hover:underline">
-              {order.customer.email}
+              {order?.customer.email}
             </p>
           )}
-          {order.customer?.phone && (
-            <p className="text-xs text-green-600">{formatPhoneNumber(order.customer.phone)}</p>
+          {order?.customer?.phone && (
+            <p className="text-xs text-green-600">{formatPhoneNumber(order?.customer?.phone)}</p>
           )}
         </div>
       ),

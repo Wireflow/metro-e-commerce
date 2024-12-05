@@ -6,6 +6,7 @@ import Pagination from '@/components/Pagination';
 
 import ActiveFilters from '../components/ActiveFilters';
 import AllOrdersSkeleton from '../components/AllOrdersSkeleton';
+import ExportAllOrders from '../components/ExportAllOrders';
 import OrderFiltersSheet from '../components/OrderFilterSheet';
 import OrdersList from '../components/OrdersList';
 import { usePaginatedOrders } from '../hooks/orders-query-hook';
@@ -16,13 +17,11 @@ const AllOrdersPage = () => {
   const { page, pageSize } = useOrdersFiltersStore(state => state.pagination);
   const setPagination = useOrdersFiltersStore(state => state.setPagination);
 
-  // const { data: analytics, isLoading: isLoadingAnalytics } = useAnalytics();
   const { data: ordersData, isLoading: isLoadingOrders } = usePaginatedOrders(filters, {
     page,
     pageSize,
   });
 
-  // console.log(ordersData?.data.map(order => order.customer?.business_name));
   const handlePageChange = (newPage: number) => {
     setPagination({ page: newPage, pageSize });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -42,7 +41,8 @@ const AllOrdersPage = () => {
         description="View all orders"
         breadcrumbs={breadcrumbs}
         actions={
-          <div>
+          <div className="flex flex-wrap gap-4">
+            <ExportAllOrders>Export All</ExportAllOrders>
             <OrderFiltersSheet />
           </div>
         }

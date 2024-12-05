@@ -222,6 +222,7 @@ export type Database = {
           is_ordering_allowed: boolean;
           is_pay_on_delivery_allowed: boolean;
           is_pay_on_pickup_allowed: boolean;
+          is_pay_on_shipment_enabled: boolean;
           is_pickup_allowed: boolean;
           is_shipment_allowed: boolean;
           pickup_minimum: number;
@@ -243,6 +244,7 @@ export type Database = {
           is_ordering_allowed?: boolean;
           is_pay_on_delivery_allowed?: boolean;
           is_pay_on_pickup_allowed?: boolean;
+          is_pay_on_shipment_enabled?: boolean;
           is_pickup_allowed?: boolean;
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
@@ -264,6 +266,7 @@ export type Database = {
           is_ordering_allowed?: boolean;
           is_pay_on_delivery_allowed?: boolean;
           is_pay_on_pickup_allowed?: boolean;
+          is_pay_on_shipment_enabled?: boolean;
           is_pickup_allowed?: boolean;
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
@@ -1512,9 +1515,11 @@ export type Database = {
           max_per_order: number | null;
           name: string;
           published: boolean;
+          retail_discount: number | null;
           retail_price: number;
           unit: string | null;
           updated_at: string;
+          wholesale_discount: number | null;
           wholesale_price: number;
         };
         Insert: {
@@ -1535,9 +1540,11 @@ export type Database = {
           max_per_order?: number | null;
           name: string;
           published?: boolean;
+          retail_discount?: number | null;
           retail_price: number;
           unit?: string | null;
           updated_at?: string;
+          wholesale_discount?: number | null;
           wholesale_price: number;
         };
         Update: {
@@ -1558,9 +1565,11 @@ export type Database = {
           max_per_order?: number | null;
           name?: string;
           published?: boolean;
+          retail_discount?: number | null;
           retail_price?: number;
           unit?: string | null;
           updated_at?: string;
+          wholesale_discount?: number | null;
           wholesale_price?: number;
         };
         Relationships: [
@@ -2987,12 +2996,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -3008,12 +3021,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -3029,12 +3046,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [
@@ -3119,12 +3140,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -3140,12 +3165,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -3161,12 +3190,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [
@@ -3221,12 +3254,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -3242,12 +3279,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -3263,12 +3304,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [
@@ -3323,12 +3368,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -3344,12 +3393,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -3365,12 +3418,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [
@@ -3782,12 +3839,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -3803,12 +3864,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -3824,12 +3889,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [
@@ -4675,12 +4744,16 @@ export type Database = {
           is_featured: boolean | null;
           is_taxed: boolean | null;
           is_tobacco: boolean | null;
+          item_number: string | null;
           manufacturer: string | null;
+          max_per_order: number | null;
           name: string | null;
           published: boolean | null;
+          retail_discount: number | null;
           retail_price: number | null;
           unit: string | null;
           updated_at: string | null;
+          wholesale_discount: number | null;
           wholesale_price: number | null;
         };
         Insert: {
@@ -4696,12 +4769,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Update: {
@@ -4717,12 +4794,16 @@ export type Database = {
           is_featured?: boolean | null;
           is_taxed?: boolean | null;
           is_tobacco?: boolean | null;
+          item_number?: string | null;
           manufacturer?: string | null;
+          max_per_order?: number | null;
           name?: string | null;
           published?: boolean | null;
+          retail_discount?: number | null;
           retail_price?: number | null;
           unit?: string | null;
           updated_at?: string | null;
+          wholesale_discount?: number | null;
           wholesale_price?: number | null;
         };
         Relationships: [

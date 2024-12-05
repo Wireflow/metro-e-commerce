@@ -15,7 +15,6 @@ import { PriceSection } from '@/features/products/components/ProductCard';
 import { Product } from '@/features/products/schemas/products';
 import { isDiscountValid } from '@/features/products/utils/validateDiscount';
 import { PromotedProduct } from '@/features/promotions/hooks/queries/usePromotedProducts';
-import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/utils';
 
@@ -132,24 +131,11 @@ const PromoPrice = ({
   suffix?: string;
 }) => {
   const { product } = usePromoCard();
-  const { metadata } = useUser();
-  const hasValidDiscount = isDiscountValid(
-    product?.discount,
-    product?.discounted_until as ISOStringFormat
-  );
 
   return (
     <div className={cn('flex gap-1', className)}>
       {prefix && <span className="font-medium text-black">{prefix}</span>}
-      <PriceSection
-        disableCompare
-        isValidDiscount={hasValidDiscount}
-        discount={product?.discount}
-        type={metadata?.customer_type}
-        price={
-          metadata?.customer_type === 'wholesale' ? product.wholesale_price : product.retail_price
-        }
-      />
+      <PriceSection disableCompare product={product} />
       {suffix && <span className="font-medium text-black">{suffix}</span>}
     </div>
   );

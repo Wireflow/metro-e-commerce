@@ -1,13 +1,29 @@
-# Orders
+# Error Page
 
-1. Export all orders
+    [] Create error page
+    [] Create not found page
 
-# Products
+# General
 
-2. Separator discounts for wholesale or retail
-3. Export All Products
+    [] When app is disabled, take users to a under maintenance page
 
 # Landing Page
 
-1. fix call to action routing on hero carousel
-2. Add paypal integration
+    [] fix call to action routing on hero carousel
+
+# Checkout
+
+    [] Make sure to check order standards before creating order.
+        - is store status closed?
+        - is order type enabled?
+        - is app enabled?
+        - is ordering allowed?
+        - does order meet minimum order amount?
+
+# Payments
+
+    [] Implement USAePay add card with token
+    [] Implement authorize transaction
+    [] Implement capture transaction
+    [] Implement void transaction
+    [] Add paypal integration
