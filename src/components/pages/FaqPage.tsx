@@ -11,6 +11,7 @@ import { faqs } from '@/data/constants';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatPhoneNumber } from '@/utils/utils';
 
+import Animate from '../animation/Animate';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
 import { Card, CardContent, CardHeader } from '../ui/card';
@@ -28,7 +29,7 @@ const FaqPage = (props: Props) => {
     <div className="min-h-screen">
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
       <Container className="px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-8 py-10 lg:flex-row lg:gap-14">
+        <Animate type="bounce" className="flex flex-col gap-8 py-10 lg:flex-row lg:gap-14">
           {/* FAQ Section */}
           <div className="w-full lg:w-2/3 xl:w-3/4">
             <h1 className="mb-6 text-2xl font-semibold sm:text-3xl md:mb-10">
@@ -89,7 +90,7 @@ const FaqPage = (props: Props) => {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </Animate>
       </Container>
     </div>
   );

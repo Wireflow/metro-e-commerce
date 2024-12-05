@@ -7,6 +7,7 @@ import { Heart } from 'lucide-react';
 import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
+import { useUser } from '@/hooks/useUser';
 
 import Logo from '../branding/Logo';
 import Container from '../layout/Container';
@@ -15,6 +16,8 @@ import ProductSearchbar from './ProductSearch/ProductSearchbar';
 
 const AppNavigation = () => {
   const { branch } = useBranch();
+  const { metadata } = useUser();
+  const role = metadata.role;
 
   return (
     <div className="bg-theme-secondary">
@@ -32,20 +35,24 @@ const AppNavigation = () => {
           </div>
 
           <div className="flex items-center justify-center gap-6">
-            <CartPopover />
+            {role !== 'admin' && (
+              <>
+                <CartPopover />
 
-            <WithAuth
-              fallback={
-                <Link href="/customers/sign-in">
-                  <Heart className="h-7 w-7 text-white" />
-                </Link>
-              }
-            >
-              <Link href="/customer/wishlist">
-                <Heart className="h-7 w-7 text-white" />
-              </Link>
-            </WithAuth>
-            <LoginPopover />
+                <WithAuth
+                  fallback={
+                    <Link href="/customers/sign-in">
+                      <Heart className="h-7 w-7 text-white" />
+                    </Link>
+                  }
+                >
+                  <Link href="/customer/wishlist">
+                    <Heart className="h-7 w-7 text-white" />
+                  </Link>
+                </WithAuth>
+                <LoginPopover />
+              </>
+            )}
           </div>
         </div>
 

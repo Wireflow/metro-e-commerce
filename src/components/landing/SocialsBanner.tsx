@@ -42,7 +42,7 @@ const SocialsBanner = () => {
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white hover:text-theme-primary"
+                className="flex items-center gap-2 text-white hover:text-primary"
               >
                 {icon}
               </a>
