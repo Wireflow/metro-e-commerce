@@ -9,7 +9,7 @@ import { quickLinks } from '@/data/constants';
 type Props = {};
 
 const FooterQuickLinks = (props: Props) => {
-  const [activeLink, setActiveLink] = useState<string | null>('Contact Us');
+  const [activeLink, setActiveLink] = useState<string | null>('');
 
   return (
     <div className="flex flex-col gap-2">
