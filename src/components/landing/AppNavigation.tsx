@@ -63,11 +63,24 @@ const AppNavigation = () => {
               <p className="text-sm text-white">{branch?.name}</p>
             </div>
             <div className="flex items-center gap-4">
-              <CartPopover />
-              <Link href="/customer/wishlist">
-                <Heart className="h-6 w-6 text-white" />
-              </Link>
-              <LoginPopover />
+              {role !== 'admin' && (
+                <>
+                  <CartPopover />
+
+                  <WithAuth
+                    fallback={
+                      <Link href="/customers/sign-in">
+                        <Heart className="h-7 w-7 text-white" />
+                      </Link>
+                    }
+                  >
+                    <Link href="/customer/wishlist">
+                      <Heart className="h-7 w-7 text-white" />
+                    </Link>
+                  </WithAuth>
+                  <LoginPopover />
+                </>
+              )}
             </div>
           </div>
           <div className="w-full pb-2">
