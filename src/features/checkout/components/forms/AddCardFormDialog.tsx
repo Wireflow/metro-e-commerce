@@ -21,7 +21,7 @@ const AddCardFormDialog = ({ trigger }: Props) => {
       trigger={trigger}
       content={
         <div className="mt-4 pb-1">
-          <AddCardForm setOpen={setOpen} />
+          <AddCardForm setOpen={setOpen} onSuccess={() => setOpen(false)} />
         </div>
       }
     />

@@ -19,6 +19,8 @@ type CartState = {
   setNotes: (notes: string) => void;
   paymentOption: Enum<'payment_type'>;
   setPaymentOption: (paymentOption: Enum<'payment_type'>) => void;
+  setPaymentMethodId: (paymentMethodId: string) => void;
+  paymentMethodId?: string;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
   updateCart: (productId: string, quantity: number) => void;
@@ -49,6 +51,12 @@ export const useCartStore = create<CartState>()(
       cart: [],
       orderType: 'pickup',
       notes: '',
+      paymentMethodId: '',
+      setPaymentMethodId: paymentMethodId => {
+        set({
+          paymentMethodId,
+        });
+      },
       setNotes: notes => {
         set({
           notes,

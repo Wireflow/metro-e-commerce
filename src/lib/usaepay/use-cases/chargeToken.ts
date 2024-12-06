@@ -1,5 +1,3 @@
-'use server';
-
 import { AxiosResponse } from 'axios';
 
 import { TokenType } from '@/types/payment';

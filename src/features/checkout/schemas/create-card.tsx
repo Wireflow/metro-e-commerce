@@ -11,28 +11,38 @@ export const CreateCardSchema = z.object({
     .min(13, 'Card number must be at least 13 digits')
     .max(19, 'Card number must not exceed 19 digits')
     .regex(/^\d+$/, 'Card number must contain only digits')
-    .transform(val => val.replace(/\s/g, '')), // Remove spaces before validation
+    .transform(val => val.replace(/\s/g, '')),
 
   expiration: z
     .string()
-    .regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, 'Expiration must be in MM/YY format') // Make the slash optional
+    .regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, 'Expiration must be in MM/YY format')
     .transform(val => {
-      // Normalize the format to include the slash
       const cleaned = val.replace(/\D/g, '');
       return `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
     })
     .refine(val => {
-      const [month, yearStr] = val.split('/');
+      const [monthStr, yearStr] = val.split('/');
       const year = 2000 + parseInt(yearStr);
-      const expiry = new Date(year, parseInt(month) - 1);
+      const month = parseInt(monthStr);
+
+      // Get current date
       const now = new Date();
 
-      // Set both dates to the first of the month for comparison
-      now.setDate(1);
-      expiry.setDate(1);
+      // Create expiration date at the end of the month
+      // Month is 0-based in JavaScript, so we use the next month's 0th day
+      // (which is the last day of the current month)
+      const expiry = new Date(year, month, 0, 23, 59, 59, 999);
 
       return expiry >= now;
-    }, 'Card has expired'),
+    }, 'Card has expired')
+    .refine(val => {
+      const [monthStr, yearStr] = val.split('/');
+      const year = 2000 + parseInt(yearStr);
+
+      // Check if the year is not too far in the future (e.g., not more than 20 years)
+      const maxYear = new Date().getFullYear() + 20;
+      return year <= maxYear;
+    }, 'Expiration year too far in the future'),
 
   cvc: z.string().regex(/^\d{3,4}$/, 'CVC must be 3 or 4 digits'),
   billing_address_id: z.string(),

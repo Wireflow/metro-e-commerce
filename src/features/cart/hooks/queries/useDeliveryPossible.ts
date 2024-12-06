@@ -17,6 +17,7 @@ export const useDeliveryPossible = () => {
     data: isPossible,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['delivery-possible', customerAddress, allowedRadius, storeAddress],
     queryFn: async () => {
@@ -62,5 +63,6 @@ export const useDeliveryPossible = () => {
     isPossible: isPossible ?? false,
     isLoading,
     error,
+    refetch,
   };
 };

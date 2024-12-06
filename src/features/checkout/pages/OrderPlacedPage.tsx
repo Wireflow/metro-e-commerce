@@ -11,9 +11,10 @@ import { Card, CardContent } from '@/components/ui/card';
 
 type Props = {
   orderNumber?: string;
+  orderId?: string;
 };
 
-const OrderPlacedPage = ({ orderNumber = '' }: Props) => {
+const OrderPlacedPage = ({ orderNumber = '', orderId }: Props) => {
   const [copying, setCopying] = useState(false);
 
   const copyToClipboard = async () => {
@@ -70,7 +71,7 @@ const OrderPlacedPage = ({ orderNumber = '' }: Props) => {
               <Button variant="outline">GO TO DASHBOARD</Button>
             </Link>
 
-            <Link href={orderNumber ? `/customer/history/${orderNumber}` : `/customer/history`}>
+            <Link href={orderId ? `/customer/history/${orderId}` : `/customer/history`}>
               <Button>
                 VIEW ORDER
                 <ArrowRight className="h-4 w-4" />
