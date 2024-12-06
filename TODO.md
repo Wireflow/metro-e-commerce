@@ -1,15 +1,11 @@
 # Error Page
 
-    [] Create error page
-    [] Create not found page
+    [x] Create error page
+    [x] Create not found page error.ts
 
 # General
 
-    [] When app is disabled, take users to a under maintenance page
-
-# Landing Page
-
-    [] fix call to action routing on hero carousel
+    [x] When app is disabled, take users to a under maintenance page middleware.ts
 
 # Checkout
 
@@ -26,4 +22,3 @@
     [] Implement authorize transaction
     [] Implement capture transaction
     [] Implement void transaction
-    [] Add paypal integration

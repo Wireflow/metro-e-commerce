@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { ArrowRight } from 'lucide-react';
 
@@ -23,6 +23,8 @@ type Props = {
 const BestDeals = ({ className }: Props) => {
   const { data: products, isLoading } = useDiscountedProducts(9);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isEdit = searchParams.get('edit') === 'true';
 
   const topDeal = products?.slice(0)[0];
   const restDeals = products?.slice(1).map((product, index) => ({
@@ -35,11 +37,16 @@ const BestDeals = ({ className }: Props) => {
 
   if (!products || products?.length <= 0) return null;
 
+  const handleProductClick = (productId: string) => {
+    const url = `/products/${productId}${isEdit ? '?edit=true' : ''}`;
+    router.push(url);
+  };
+
   const renderFeaturedCard = (product: Product) => (
     <ProductCard
       key={product.id}
       className="group flex h-full cursor-pointer flex-col justify-between gap-4 p-4 transition-all hover:shadow-lg"
-      onClick={() => router.push(`/products/${product.id}`)}
+      onClick={() => handleProductClick(product.id)}
     >
       <div className="relative flex-1">
         <div className="absolute right-0 top-0 z-10 flex flex-col gap-2">
@@ -90,7 +97,7 @@ const BestDeals = ({ className }: Props) => {
         'group flex h-full cursor-pointer flex-col gap-4 p-4 transition-all hover:shadow-lg',
         item.className
       )}
-      onClick={() => router.push(`/products/${item.id}`)}
+      onClick={() => handleProductClick(item.id)}
     >
       <div className="relative aspect-square w-full">
         <ProductCard.Image product={item} className="h-full w-full object-contain" />
@@ -107,7 +114,7 @@ const BestDeals = ({ className }: Props) => {
     <Container className={cn('space-y-4', className)}>
       <div className="flex items-center justify-between">
         <p className="text-lg font-bold md:text-xl">Best Deals</p>
-        <Link href={'/shop'}>
+        <Link href={`/shop${isEdit ? '?edit=true' : ''}`}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             Browse All Products <ArrowRight className="h-4 w-4" />
           </Button>
@@ -130,8 +137,8 @@ const BestDeals = ({ className }: Props) => {
             contentClassName={cn(
               'grid auto-rows-fr gap-4',
               topDeal
-                ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' // 4 columns for 8 products
-                : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5' // 5 columns when no featured product
+                ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5'
             )}
           />
         </div>

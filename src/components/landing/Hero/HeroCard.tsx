@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { ChevronRight, Edit } from 'lucide-react';
 
@@ -28,10 +29,12 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
               {promotion?.description}
             </p>
           )}
-          <Button size="lg" className="uppercase">
-            {promotion?.call_to_action ?? 'SHOP NOW'}
-            <ChevronRight className="h-5 w-5" />
-          </Button>
+          <Link href={'/shop'}>
+            <Button size="lg" className="uppercase">
+              {promotion?.call_to_action ?? 'SHOP NOW'}
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </Link>
         </div>
 
         {/* Image Section with Background Removal */}

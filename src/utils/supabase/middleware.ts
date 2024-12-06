@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { createServerClient } from '@supabase/ssr';
 
+import { METRO_BRANCH_ID } from '@/data/constants';
 import { Database } from '@/types/supabase/database';
 
 export const updateSession = async (request: NextRequest) => {
@@ -40,6 +41,27 @@ export const updateSession = async (request: NextRequest) => {
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
 
+    const { data: branchSetting } = await supabase
+      .from('branch_settings')
+      .select('*')
+      .eq('branch_id', METRO_BRANCH_ID)
+      .single();
+
+    // First, let's create a clearer role check
+    const userRole = user?.data.user?.role;
+    const isCustomer = userRole === 'customer';
+    const isAdmin = userRole === 'admin';
+
+    // Then modify the redirect condition
+    if (
+      !request.nextUrl.pathname.startsWith('/admin') &&
+      !request.nextUrl.searchParams.has('edit') &&
+      isCustomer && // Check if user is customer
+      !isAdmin && // Make sure user is not admin
+      branchSetting?.is_app_enabled === false
+    ) {
+      return NextResponse.redirect(new URL('/disabled', request.url));
+    }
     const { data: customer, error } = await supabase
       .from('customers_with_address')
       .select('*')
@@ -55,6 +77,7 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // protected routes
+
     if (request.nextUrl.pathname.startsWith('/customer') && authError) {
       return NextResponse.redirect(new URL('/customers/sign-in', request.url));
     }

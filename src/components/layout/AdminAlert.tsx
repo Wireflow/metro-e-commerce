@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { ArrowRight } from 'lucide-react';
 
@@ -8,6 +9,15 @@ import { Button } from '../ui/button';
 import Container from './Container';
 
 const AdminAlert = () => {
+  const params = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleAddEditMode = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.append('edit', 'true');
+    router.replace(`${pathname}?${newParams.toString()}`);
+  };
   return (
     <WithAuth rules={{ requiredRole: 'admin' }}>
       <div className="bg-theme-sky-blue text-white">
@@ -16,11 +26,14 @@ const AdminAlert = () => {
             <p className="hidden rounded-md bg-white px-4 py-1 text-sm font-medium text-black md:block">
               You are signed in as an admin
             </p>
-            <Link href={'/admin'}>
-              <Button variant={'secondary'}>
-                Admin Dashboard <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href={'/admin'}>
+                <Button variant={'secondary'}>
+                  Admin Dashboard <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Button onClick={handleAddEditMode}>Edit Mode</Button>
+            </div>
           </div>
         </Container>
       </div>

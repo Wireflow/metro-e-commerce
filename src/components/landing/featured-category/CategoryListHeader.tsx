@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import { ArrowRight, MoreHorizontal } from 'lucide-react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -19,6 +20,8 @@ type Props = {
 };
 
 const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
+  const searchParams = useSearchParams();
+  const isEdit = searchParams.get('edit') === 'true';
   const [visibleTabs, setVisibleTabs] = useState(category.sub_categories.length);
 
   useEffect(() => {
@@ -100,7 +103,7 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
           )}
         </div>
 
-        <Link href={'/shop'}>
+        <Link href={`/shop${isEdit ? '?edit=true' : ''}`}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             Browse All Products <ArrowRight className="h-4 w-4" />
           </Button>

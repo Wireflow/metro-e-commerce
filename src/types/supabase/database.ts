@@ -958,6 +958,7 @@ export type Database = {
           payment_method_id: string | null;
           payment_status: Database['public']['Enums']['payment_status'];
           payment_type: Database['public']['Enums']['payment_type'];
+          tran_key: string | null;
         };
         Insert: {
           created_at?: string;
@@ -968,6 +969,7 @@ export type Database = {
           payment_method_id?: string | null;
           payment_status?: Database['public']['Enums']['payment_status'];
           payment_type: Database['public']['Enums']['payment_type'];
+          tran_key?: string | null;
         };
         Update: {
           created_at?: string;
@@ -978,6 +980,7 @@ export type Database = {
           payment_method_id?: string | null;
           payment_status?: Database['public']['Enums']['payment_status'];
           payment_type?: Database['public']['Enums']['payment_type'];
+          tran_key?: string | null;
         };
         Relationships: [
           {
@@ -1141,6 +1144,7 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'];
+          subtotal: number | null;
           tax: number;
           total_amount: number;
           total_before_calculations: number;
@@ -1170,6 +1174,7 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'];
+          subtotal?: number | null;
           tax?: number;
           total_amount: number;
           total_before_calculations?: number;
@@ -1199,6 +1204,7 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'];
+          subtotal?: number | null;
           tax?: number;
           total_amount?: number;
           total_before_calculations?: number;
@@ -1314,6 +1320,8 @@ export type Database = {
           billing_address_id: string | null;
           card_holder: string;
           customer_id: string;
+          deleted: boolean;
+          expiration: string | null;
           id: string;
           is_default: boolean;
           last_four: string;
@@ -1325,6 +1333,8 @@ export type Database = {
           billing_address_id?: string | null;
           card_holder?: string;
           customer_id: string;
+          deleted?: boolean;
+          expiration?: string | null;
           id?: string;
           is_default?: boolean;
           last_four: string;
@@ -1336,6 +1346,8 @@ export type Database = {
           billing_address_id?: string | null;
           card_holder?: string;
           customer_id?: string;
+          deleted?: boolean;
+          expiration?: string | null;
           id?: string;
           is_default?: boolean;
           last_four?: string;
@@ -5028,6 +5040,42 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
       };
+      update_order_status: {
+        Args: {
+          p_order_id: string;
+          p_status: Database['public']['Enums']['order_status'];
+        };
+        Returns: {
+          branch_id: string;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string;
+          customer_id: string;
+          delivery_address_id: string | null;
+          delivery_fee: number;
+          expected_delivery_at: string | null;
+          fees: number;
+          id: string;
+          instructions: string | null;
+          order_number: number;
+          preparing_at: string | null;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'];
+          subtotal: number | null;
+          tax: number;
+          total_amount: number;
+          total_before_calculations: number;
+          total_discount: number;
+          total_quantity: number;
+          type: Database['public']['Enums']['order_type'];
+          updated_at: string;
+        };
+      };
     };
     Enums: {
       address_type: 'billing' | 'delivery';
@@ -5047,7 +5095,7 @@ export type Database = {
         | 'cancelled'
         | 'refunded';
       order_type: 'delivery' | 'pickup' | 'shipment';
-      payment_status: 'pending' | 'approved' | 'declined';
+      payment_status: 'pending' | 'approved' | 'declined' | 'voided';
       payment_type: 'cash' | 'check' | 'later' | 'card' | 'online';
       user_role: 'admin' | 'driver' | 'sales' | 'independent_sales';
     };
