@@ -12,6 +12,8 @@ import { Enum } from '@/types/supabase/enum';
 import { ViewRow } from '@/types/supabase/table';
 import { formatCurrency, getColorHash } from '@/utils/utils';
 
+import { useDeleteCard } from '../../hooks/mutations/useDeleteCard';
+
 interface PaymentCardProps {
   payment: ViewRow<'payment_methods_with_spending'>;
   title?: (payment: ViewRow<'payment_methods_with_spending'>) => string;
@@ -37,6 +39,8 @@ const PaymentCard = ({
   selected,
   options = {},
 }: PaymentCardProps) => {
+  const { mutate: deleteCard, isPending } = useDeleteCard();
+
   const {
     showTitle = true,
     showSpending = true,
@@ -77,8 +81,10 @@ const PaymentCard = ({
       {showAction && !isSelected && (
         <ActionsPopover
           className="absolute right-2 top-2"
+          disabled={isPending}
           onDelete={() => {
-            // Add your delete payment method logic here
+            if (!payment) return;
+            deleteCard(payment?.id ?? '');
           }}
         />
       )}

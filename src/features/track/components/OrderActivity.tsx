@@ -64,7 +64,7 @@ const getActivityTitle = (status: StatusType, type?: OrderType): string => {
       }.`,
     preparing: 'Your order is being prepared.',
     confirmed: 'Your order has been accepted by the warehouse.',
-    pending: 'Your order has been placed and going to be processed.',
+    pending: 'Your order has been placed and is being processed.',
     cancelled: 'Your order has been cancelled.',
     refunded: 'Your order has been refunded.',
   };

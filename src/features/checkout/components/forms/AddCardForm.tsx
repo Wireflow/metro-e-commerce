@@ -33,6 +33,7 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
       number: '',
       expiration: '',
       cvc: '',
+      billing_address_id: addresses && addresses.length > 0 ? addresses[0]?.id : '',
     },
     mode: 'onChange',
   });
@@ -40,11 +41,15 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
   const isDirty = form.formState.isDirty;
 
   const onSubmit = (data: CreateCardType) => {
-    if (!isDirty || !form.formState.isValid) return;
-
     createCard(data, {
       onSuccess: () => {
-        form.reset();
+        form.reset({
+          cardholder: '',
+          number: '',
+          expiration: '',
+          cvc: '',
+          billing_address_id: addresses && addresses.length > 0 ? addresses[0]?.id : '',
+        });
         onSuccess?.();
       },
     });
@@ -60,12 +65,20 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
     name: 'expiration',
   });
 
+  const handleSelectAddress = (address: Row<'addresses'> | null) => {
+    if (!address) return;
+
+    setSelectedAddress(address);
+    form.setValue('billing_address_id', address?.id);
+  };
+
   useEffect(() => {
-    if (addresses && addresses.length > 0 && !selectedAddress) {
+    if (addresses && addresses.length > 0) {
       setSelectedAddress(addresses[0]);
+      form.setValue('billing_address_id', addresses[0].id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addresses]);
+  }, [addresses, form]);
 
   return (
     <div className="w-full">
@@ -76,7 +89,7 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
               addresses={addresses ?? []}
               containerClassName="grid grid-cols-1  md:grid-cols-3"
               selected={selectedAddress}
-              onSelect={setSelectedAddress}
+              onSelect={handleSelectAddress}
               cardOptions={{
                 showTitle: false,
                 showSelection: true,
@@ -141,11 +154,7 @@ const AddCardForm = ({ onSuccess, setOpen }: Props) => {
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={!isDirty || isPending || !form.formState.isValid}
-              className="px-3 sm:px-4"
-            >
+            <Button type="submit" disabled={!isDirty || isPending} className="px-3 sm:px-4">
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useUser } from '@/hooks/useUser';
+import { createPaymentApi } from '@/utils/payments/makePaymentRequest';
 import { createClient } from '@/utils/supabase/client';
 
 import { CreateCardType } from '../../schemas/create-card';
@@ -14,33 +15,53 @@ export const useCreateCard = () => {
     mutationKey: ['create-card'],
     mutationFn: async (cardData: CreateCardType) => {
       const supabase = createClient();
+      const paymentApi = createPaymentApi();
 
       if (!user) {
         throw new Error('User not found');
       }
 
-      // const card = await usaepay.token.tokenizeCard({
-      //   cardholder: cardData.cardholder,
-      //   number: cardData.number,
-      //   expiration: cardData.expiration,
-      //   cvc: cardData.cvc,
-      // });
+      const { data: billingAddress, error: billingAddressError } = await supabase
+        .from('addresses')
+        .select('*')
+        .eq('type', 'billing')
+        .eq('id', cardData.billing_address_id)
+        .single();
 
-      //   // TODO: Add card to card to USAePAY API
+      if (billingAddressError || !billingAddress) {
+        throw new Error('Billing address not found');
+      }
 
-      //   const { data, error } = await supabase
-      //     .from('payment_methods')
-      //     .insert({
-      //       ...card,
-      //       customer_id: user?.id,
-      //     })
-      //     .single();
+      const { data: card, error } = await paymentApi.tokenizeCard({
+        cardholder: cardData.cardholder,
+        number: cardData.number,
+        expiration: cardData.expiration,
+        cvc: cardData.cvc,
+        avs_street: billingAddress.street,
+        avs_postalcode: billingAddress.zip_code,
+      });
 
-      //   if (error) {
-      //     throw new Error('Failed to create card');
-      //   }
+      if (error || !card) {
+        throw new Error(error ?? 'Failed to tokenize card');
+      }
 
-      //   return data;
+      const { data: paymentMethod, error: paymentMethodError } = await supabase
+        .from('payment_methods')
+        .insert({
+          billing_address_id: cardData.billing_address_id,
+          token: card.token,
+          customer_id: user.id,
+          card_holder: card?.holderName,
+          last_four: card?.maskedNumber?.slice(-4),
+          expiration: `${card.expiryMonth}/${card.expiryYear}`,
+          provider: card.cardType ?? 'unknown',
+        });
+
+      if (paymentMethodError) {
+        throw new Error('Failed to create card');
+      }
+
+      return paymentMethod;
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['payments', user?.id ?? ''] });
@@ -48,8 +69,8 @@ export const useCreateCard = () => {
     onSuccess: () => {
       toast.success('Card added successfully');
     },
-    onError: () => {
-      toast.error('Failed to add card');
+    onError: error => {
+      toast.error(error.message ?? 'Failed to add card');
     },
   });
 };

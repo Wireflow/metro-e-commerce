@@ -1,13 +1,13 @@
 import OrderPlacedPage from '@/features/checkout/pages/OrderPlacedPage';
 
 type Props = {
-  params: Promise<{ orderId: string }>;
+  searchParams: Promise<{ orderId: string; orderNumber: string }>;
 };
 
-const OrderPlaced = async ({ params }: Props) => {
-  const { orderId } = await params;
+const OrderPlaced = async ({ searchParams }: Props) => {
+  const { orderId, orderNumber } = await searchParams;
 
-  return <OrderPlacedPage orderNumber={orderId} />;
+  return <OrderPlacedPage orderNumber={orderNumber} orderId={orderId} />;
 };
 
 export default OrderPlaced;

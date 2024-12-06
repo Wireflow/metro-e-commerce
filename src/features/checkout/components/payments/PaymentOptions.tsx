@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Card } from '@/components/ui/card';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 import { Enum } from '@/types/supabase/enum';
 import { ViewRow } from '@/types/supabase/table';
 
@@ -23,8 +24,11 @@ const PaymentOptions = ({
   paymentOption,
 }: Props) => {
   const [selected, setSelected] = useState<ViewRow<'payment_methods_with_spending'> | null>(null);
+  const { setPaymentMethodId } = useCartStore();
 
   const handleSelect = (payment: ViewRow<'payment_methods_with_spending'>) => {
+    if (!payment.id) return;
+    setPaymentMethodId(payment.id);
     setSelected(payment);
     onSelect?.(payment);
   };

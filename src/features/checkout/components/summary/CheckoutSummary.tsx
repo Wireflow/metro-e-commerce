@@ -12,7 +12,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Skeleton } from '@/components/ui/skeleton';
 import { CartSummary, SummaryItem } from '@/features/cart/hooks/queries/useCartSummary';
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
-import { CartItem } from '@/features/cart/store/useCartStore';
+import { CartItem, useCartStore } from '@/features/cart/store/useCartStore';
 import ProductCard from '@/features/products/components/ProductCard';
 import { Enum } from '@/types/supabase/enum';
 import { formatCurrency } from '@/utils/utils';
@@ -39,6 +39,7 @@ const CheckoutSummary = ({
 }: CheckoutSummaryProps) => {
   const [showAll, setShowAll] = useState(false);
   const { mutate: createOrder, isPending: isCreatingOrder } = useCreateOrder();
+  const { paymentMethodId, paymentOption } = useCartStore();
   const { isPossible: isDeliveryPossible } = useDeliveryPossible();
 
   if (loading) {
@@ -57,6 +58,15 @@ const CheckoutSummary = ({
   const moreItems = summary?.cart_items.slice(2) as SummaryItem[];
 
   const itemsToShow = showAll ? summary?.cart_items : firstTwoItems;
+
+  const handleCreateOrder = () => {
+    createOrder({
+      orderType: orderType as Enum<'order_type'>,
+      notes,
+      paymentMethodId,
+      paymentOption,
+    });
+  };
 
   return (
     <Card className="w-full shadow-none">
@@ -150,7 +160,7 @@ const CheckoutSummary = ({
           <Button
             size="xl"
             className="w-full text-sm"
-            onClick={() => createOrder({ orderType: orderType as Enum<'order_type'>, notes })}
+            onClick={handleCreateOrder}
             disabled={
               !summary ||
               !orderType ||

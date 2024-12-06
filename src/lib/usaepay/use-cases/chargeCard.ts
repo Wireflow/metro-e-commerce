@@ -1,5 +1,3 @@
-'use server';
-
 import { AxiosResponse } from 'axios';
 
 import { ChargeResponse } from '../types';

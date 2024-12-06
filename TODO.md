@@ -22,8 +22,8 @@
 
 # Payments
 
-    [] Implement USAePay add card with token
-    [] Implement authorize transaction
+    [x] Implement USAePay add card with token
+    [x] Implement authorize transaction
     [] Implement capture transaction
     [] Implement void transaction
     [] Add paypal integration

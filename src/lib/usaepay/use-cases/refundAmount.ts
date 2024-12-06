@@ -1,23 +1,26 @@
-'use server';
-
 import { AxiosResponse } from 'axios';
 
 import { ChargeResponse } from '../types';
 import { makeApiRequest } from '../utils/makeApiRequest';
 
-export interface CardChargeRequest {
+/**
+ * Processes a refund for a transaction that has already been settled.
+ * For unsettled transactions, use voidTransaction instead.
+ */
+
+export interface RefundRequest {
   tranKey: string;
   amount: string;
 }
 
-export const refundAmount = async (
-  params: CardChargeRequest
-): Promise<{
+export interface RefundResponse {
   status: string;
+  refnum?: string;
+  key?: string;
   amount?: string;
-  errorMessage?: string;
-  errorCode?: string;
-}> => {
+}
+
+export const refundTransaction = async (params: RefundRequest): Promise<RefundResponse> => {
   try {
     const response: AxiosResponse<ChargeResponse> = await makeApiRequest('POST', '/transactions', {
       command: 'refund',
@@ -28,14 +31,12 @@ export const refundAmount = async (
     if (response.data && response.data.result === 'Approved') {
       return {
         status: 'success',
+        refnum: response.data.refnum,
+        key: response.data.key,
         amount: params.amount,
       };
     } else {
-      return {
-        status: 'error',
-        errorMessage: 'Refund failed',
-        errorCode: 'unknown',
-      };
+      throw new Error('Refund failed');
     }
   } catch (error) {
     console.error('Error refunding transaction:', error);
