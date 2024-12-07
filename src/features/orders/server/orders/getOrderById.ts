@@ -12,6 +12,7 @@ export const getOrderById = async (orderId: string) => {
       `   *,
       customer:customers(*),
       salesperson:users(*),
+      shipping:order_shipping(*),
       payment:order_payments(
         *,
         payment_method:payment_methods(

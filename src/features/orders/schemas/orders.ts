@@ -9,6 +9,7 @@ export type Order = Row<'orders'> & {
 export type OrderDetails = Row<'orders'> & {
   customer: Row<'customers'>;
   orderItems: OrderItemsDetails[];
+  shipping: Row<'order_shipping'> | null;
   payment:
     | (Row<'order_payments'> & {
         payment_method: Row<'payment_methods'> & {
