@@ -10,7 +10,7 @@ import { usePromotedProducts } from '../hooks/queries/usePromotedProducts';
 import PromoCard from './PromoCard';
 
 const LargePromotion = () => {
-  const { data: promotions, isLoading } = usePromotedProducts([3]);
+  const { data: promotions, isLoading, error } = usePromotedProducts([3]);
 
   const promotion = useMemo(() => {
     if (!promotions?.length || !promotions[0]?.product) {

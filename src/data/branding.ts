@@ -17,7 +17,7 @@ export const beneifts = [
     icon: CreditCard,
   },
   {
-    title: 'SUPPORT 24/7',
+    title: 'URGENT SUPPORT',
     description: 'We are here to help',
     icon: Headphones,
   },

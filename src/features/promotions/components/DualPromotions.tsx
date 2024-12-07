@@ -19,7 +19,7 @@ const DualPromotions = () => {
   }
 
   return (
-    <Container className="grid gap-8 md:grid-cols-2">
+    <Container className="grid gap-8 sm:grid-cols-2">
       {promotions?.map((promotion, index) => (
         <PromoCard
           key={promotion.id}
@@ -29,21 +29,21 @@ const DualPromotions = () => {
           className="flex-1"
           variant={index % 2 === 0 ? 'light' : 'dark'}
         >
-          <div className="relative flex min-h-[200px] items-center justify-between p-4 sm:min-h-[210px] md:min-h-[230px] lg:min-h-[250px]">
-            <div className="flex max-w-[60%] flex-col justify-between">
+          <div className="relative flex min-h-[200px] flex-col sm:min-h-[210px] md:min-h-[230px] lg:min-h-[250px] lg:p-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col justify-between xl:max-w-[60%]">
               <div className="space-y-2">
                 <PromoCard.Label />
                 <div className="w-full">
                   <PromoCard.Title className="text-md block w-full max-w-full truncate capitalize lg:text-xl 2xl:text-2xl" />
                 </div>
                 <div className="w-full">
-                  <PromoCard.Description className="block w-full max-w-full truncate text-sm sm:text-sm 2xl:text-lg" />
+                  <PromoCard.Description className="block w-full text-sm sm:text-sm md:w-80 2xl:text-lg" />
                 </div>
               </div>
               <PromoCard.Action className="mt-4" />
             </div>
-            <div className="relative ml-4 aspect-square h-auto">
-              <PromoCard.Image className="h-40 w-40 object-contain md:h-48 md:w-48 lg:h-56 lg:w-56" />
+            <div className="relative ml-4 flex justify-center sm:justify-end">
+              <PromoCard.Image className="w-full object-cover lg:h-56 lg:w-56" />
             </div>
           </div>
         </PromoCard>

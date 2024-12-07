@@ -99,11 +99,15 @@ const ShopPage = () => {
                   label={promotion.label ?? 'Promotion'}
                   className="flex flex-col items-center justify-center"
                 >
-                  <PromoCard.Label />
-                  <PromoCard.Title />
+                  <div className="flex flex-col items-center">
+                    <PromoCard.Label />
+                    <PromoCard.Title />
+                  </div>
                   <PromoCard.Image object="contain" />
-                  <PromoCard.Price />
-                  <PromoCard.Description />
+                  <div className="flex flex-col items-center">
+                    <PromoCard.Price />
+                    <PromoCard.Description />
+                  </div>
                   <PromoCard.Action className="w-full" />
                 </PromoCard>
               </div>

@@ -22,3 +22,8 @@
     [x] Implement authorize transaction
     [] Implement capture transaction
     [] Implement void transaction
+
+# order details
+
+[] add payment method correctly to order details ( customer)
+[] add order items status (customer)

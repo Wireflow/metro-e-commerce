@@ -791,6 +791,7 @@ export type Database = {
         Row: {
           created_at: string;
           discount_amount: number;
+          discount_per_unit: number;
           id: string;
           order_id: string;
           product_id: string;
@@ -806,6 +807,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           discount_amount?: number;
+          discount_per_unit?: number;
           id?: string;
           order_id: string;
           product_id: string;
@@ -821,6 +823,7 @@ export type Database = {
         Update: {
           created_at?: string;
           discount_amount?: number;
+          discount_per_unit?: number;
           id?: string;
           order_id?: string;
           product_id?: string;
@@ -950,6 +953,8 @@ export type Database = {
       };
       order_payments: {
         Row: {
+          check_amount: number | null;
+          check_number: string | null;
           created_at: string;
           id: string;
           order_id: string;
@@ -961,6 +966,8 @@ export type Database = {
           tran_key: string | null;
         };
         Insert: {
+          check_amount?: number | null;
+          check_number?: string | null;
           created_at?: string;
           id?: string;
           order_id: string;
@@ -972,6 +979,8 @@ export type Database = {
           tran_key?: string | null;
         };
         Update: {
+          check_amount?: number | null;
+          check_number?: string | null;
           created_at?: string;
           id?: string;
           order_id?: string;
@@ -1136,7 +1145,8 @@ export type Database = {
           fees: number;
           id: string;
           instructions: string | null;
-          order_number: number;
+          order_number: string;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -1166,7 +1176,8 @@ export type Database = {
           fees?: number;
           id?: string;
           instructions?: string | null;
-          order_number?: number;
+          order_number: string;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -1196,7 +1207,8 @@ export type Database = {
           fees?: number;
           id?: string;
           instructions?: string | null;
-          order_number?: number;
+          order_number?: string;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -2433,9 +2445,13 @@ export type Database = {
           created_at: string | null;
           customer_id: string | null;
           delivery_address_id: string | null;
+          delivery_fee: number | null;
           expected_delivery_at: string | null;
+          fees: number | null;
           id: string | null;
-          order_number: number | null;
+          instructions: string | null;
+          order_number: string | null;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -2443,7 +2459,11 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
+          tax: number | null;
           total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
           total_quantity: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
@@ -2456,9 +2476,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -2466,7 +2490,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -2479,9 +2507,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -2489,7 +2521,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -2604,9 +2640,13 @@ export type Database = {
           created_at: string | null;
           customer_id: string | null;
           delivery_address_id: string | null;
+          delivery_fee: number | null;
           expected_delivery_at: string | null;
+          fees: number | null;
           id: string | null;
-          order_number: number | null;
+          instructions: string | null;
+          order_number: string | null;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -2614,7 +2654,11 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
+          tax: number | null;
           total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
           total_quantity: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
@@ -2627,9 +2671,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -2637,7 +2685,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -2650,9 +2702,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -2660,7 +2716,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -3701,6 +3761,23 @@ export type Database = {
           },
         ];
       };
+      manufacturer_sales_analytics: {
+        Row: {
+          branch_id: string | null;
+          manufacturer: string | null;
+          total_products: number | null;
+          total_sales: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'products_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       orders_with_customer: {
         Row: {
           branch_id: string | null;
@@ -3717,7 +3794,8 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
-          order_number: number | null;
+          order_number: string | null;
+          original_order_number: string | null;
           payment_status: Database['public']['Enums']['payment_status'] | null;
           payment_type: Database['public']['Enums']['payment_type'] | null;
           phone: string | null;
@@ -3728,6 +3806,7 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
           tax: number | null;
           total_amount: number | null;
           total_before_calculations: number | null;
@@ -4091,9 +4170,13 @@ export type Database = {
           created_at: string | null;
           customer_id: string | null;
           delivery_address_id: string | null;
+          delivery_fee: number | null;
           expected_delivery_at: string | null;
+          fees: number | null;
           id: string | null;
-          order_number: number | null;
+          instructions: string | null;
+          order_number: string | null;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -4101,7 +4184,11 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
+          tax: number | null;
           total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
           total_quantity: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
@@ -4114,9 +4201,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4124,7 +4215,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -4137,9 +4232,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4147,7 +4246,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -4363,9 +4466,13 @@ export type Database = {
           created_at: string | null;
           customer_id: string | null;
           delivery_address_id: string | null;
+          delivery_fee: number | null;
           expected_delivery_at: string | null;
+          fees: number | null;
           id: string | null;
-          order_number: number | null;
+          instructions: string | null;
+          order_number: string | null;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -4373,7 +4480,11 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
+          tax: number | null;
           total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
           total_quantity: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
@@ -4386,9 +4497,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4396,7 +4511,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -4409,9 +4528,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4419,7 +4542,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -4534,9 +4661,13 @@ export type Database = {
           created_at: string | null;
           customer_id: string | null;
           delivery_address_id: string | null;
+          delivery_fee: number | null;
           expected_delivery_at: string | null;
+          fees: number | null;
           id: string | null;
-          order_number: number | null;
+          instructions: string | null;
+          order_number: string | null;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;
@@ -4544,7 +4675,11 @@ export type Database = {
           salesperson_id: string | null;
           shipping_costs: number | null;
           status: Database['public']['Enums']['order_status'] | null;
+          subtotal: number | null;
+          tax: number | null;
           total_amount: number | null;
+          total_before_calculations: number | null;
+          total_discount: number | null;
           total_quantity: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
@@ -4557,9 +4692,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4567,7 +4706,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -4580,9 +4723,13 @@ export type Database = {
           created_at?: string | null;
           customer_id?: string | null;
           delivery_address_id?: string | null;
+          delivery_fee?: number | null;
           expected_delivery_at?: string | null;
+          fees?: number | null;
           id?: string | null;
-          order_number?: number | null;
+          instructions?: string | null;
+          order_number?: string | null;
+          original_order_number?: string | null;
           preparing_at?: string | null;
           ready_at?: string | null;
           refunded_at?: string | null;
@@ -4590,7 +4737,11 @@ export type Database = {
           salesperson_id?: string | null;
           shipping_costs?: number | null;
           status?: Database['public']['Enums']['order_status'] | null;
+          subtotal?: number | null;
+          tax?: number | null;
           total_amount?: number | null;
+          total_before_calculations?: number | null;
+          total_discount?: number | null;
           total_quantity?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
@@ -5058,7 +5209,8 @@ export type Database = {
           fees: number;
           id: string;
           instructions: string | null;
-          order_number: number;
+          order_number: string;
+          original_order_number: string | null;
           preparing_at: string | null;
           ready_at: string | null;
           refunded_at: string | null;

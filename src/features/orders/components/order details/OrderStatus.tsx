@@ -39,14 +39,7 @@ const OrderStatus = ({ order }: Props) => {
 
   // Always show base statuses, only add cancelled/refunded if they are the current status
   const getStatusList = (): StatusType[] => {
-    const baseStatuses: StatusType[] = [
-      'created',
-      'pending',
-      'confirmed',
-      'preparing',
-      'ready',
-      'completed',
-    ];
+    const baseStatuses: StatusType[] = ['pending', 'confirmed', 'preparing', 'ready', 'completed'];
 
     if (currentStatus === 'cancelled') {
       return [...baseStatuses, 'cancelled'];
@@ -82,8 +75,6 @@ const OrderStatus = ({ order }: Props) => {
 
   const getTimestamp = (statusItem: StatusType): string | null => {
     switch (statusItem) {
-      case 'created':
-        return order.created_at;
       case 'pending':
         return order.created_at;
       case 'confirmed':
@@ -109,32 +100,38 @@ const OrderStatus = ({ order }: Props) => {
         <div className="mb-4 flex items-center gap-3 pt-4">
           <p className="text-lg font-semibold">Order Status</p>
         </div>
-        <div className="space-y-4">
-          {status.map(statusItem => {
-            const timestamp = getTimestamp(statusItem);
+        {order.status === 'created' ? (
+          <div>
+            <p className="font-semibold">No status available</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {status.map(statusItem => {
+              const timestamp = getTimestamp(statusItem);
 
-            return (
-              <div
-                key={statusItem}
-                className={`flex items-start gap-3 ${getStatusColor(statusItem)}`}
-              >
-                <div className="mt-1 h-4 w-4">
-                  <Clock className="h-full w-full" />
+              return (
+                <div
+                  key={statusItem}
+                  className={`flex items-start gap-3 ${getStatusColor(statusItem)}`}
+                >
+                  <div className="mt-1 h-4 w-4">
+                    <Clock className="h-full w-full" />
+                  </div>
+                  <div>
+                    <p className="capitalize">{getStatusTitle(statusItem, order.type)}</p>
+                    {timestamp ? (
+                      <p className="text-xs text-gray-500">
+                        {formatDateToString(new Date(timestamp))}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-gray-400">Not yet updated</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="capitalize">{getStatusTitle(statusItem, order.type)}</p>
-                  {timestamp ? (
-                    <p className="text-xs text-gray-500">
-                      {formatDateToString(new Date(timestamp))}
-                    </p>
-                  ) : (
-                    <p className="text-xs text-gray-400">Not yet updated</p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

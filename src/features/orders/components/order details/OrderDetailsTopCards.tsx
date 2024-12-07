@@ -9,10 +9,12 @@ type Props = {
 
 const OrderDetailsTopCards = ({ order }: Props) => {
   return (
-    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 2xl:grid-cols-2">
       <OrderInfo order={order} />
       <CustomerInfo order={order} />
-      <PaymentInfo order={order} />
+      <div className="block xl:hidden">
+        <PaymentInfo order={order} />
+      </div>
     </div>
   );
 };

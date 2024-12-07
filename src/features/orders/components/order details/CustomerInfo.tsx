@@ -24,37 +24,40 @@ const CustomerInfo = ({ order }: Props) => {
     <Card className="w-full">
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-3 pt-4">
-          <p className="mt-2 h-fit text-lg font-semibold">Customer</p>
+          <p className="h-fit text-lg font-semibold">Customer</p>
         </div>
-        <div className="flex flex-col gap-3">
-          <div className='pt-4" flex items-center justify-between gap-3'>
-            <div className="flex items-center gap-2">
-              <div className="rounded-full bg-gray-200 p-2">
-                <User className="h-5 w-5" color="gray" />
-              </div>
+        <div className="flex h-full flex-col justify-between gap-3">
+          <div className="flex items-center gap-3 pt-4">
+            <div className="rounded-full bg-gray-200 p-2">
+              <User className="h-5 w-5" color="gray" />
+            </div>
+
+            <div className="flex w-full flex-col justify-between sm:flex-row">
               <p className="text-[14px] font-bold">Customer</p>
+              <p className="text-[14px] capitalize text-gray-500">{formatCustomerName(order)}</p>
             </div>
-            <p className="text-[14px] capitalize text-gray-500">{formatCustomerName(order)}</p>
           </div>
-          <div className='pt-4" flex items-center justify-between gap-3'>
-            <div className="flex items-center gap-2">
-              <div className="rounded-full bg-gray-200 p-2">
-                <Mail className="h-5 w-5" color="gray" />
-              </div>
+          <div className="flex items-center gap-3 pt-4">
+            <div className="rounded-full bg-gray-200 p-2">
+              <Mail className="h-5 w-5" color="gray" />
+            </div>
+
+            <div className="flex w-full flex-col justify-between sm:flex-row">
               <p className="text-[14px] font-bold">Email</p>
+              <p className="text-[14px] text-gray-500">{order?.customer.email}</p>
             </div>
-
-            <p className="text-[14px] text-gray-500">{order?.customer.email}</p>
           </div>
-          <div className='pt-4" flex items-center justify-between gap-3'>
-            <div className="flex items-center gap-2">
-              <div className="rounded-full bg-gray-200 p-2">
-                <MobileIcon className="h-5 w-5" color="gray" />
-              </div>
-              <p className="text-[14px] font-bold">Phone</p>
+          <div className="flex items-center gap-3 pt-4">
+            <div className="rounded-full bg-gray-200 p-2">
+              <MobileIcon className="h-5 w-5" color="gray" />
             </div>
 
-            <p className="text-[14px] text-gray-500">{formatPhoneNumber(order?.customer.phone)}</p>
+            <div className="flex w-full flex-col justify-between sm:flex-row">
+              <p className="text-[14px] font-bold">Phone</p>
+              <p className="text-[14px] text-gray-500">
+                {formatPhoneNumber(order?.customer.phone)}
+              </p>
+            </div>
           </div>
         </div>
       </CardContent>

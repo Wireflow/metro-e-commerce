@@ -48,7 +48,7 @@ const FeaturedCategory = () => {
       >
         <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
           <div>
-            <PromoCard.Image className="h-[300px] w-[300px]" />
+            <PromoCard.Image className="hidden h-[300px] w-[300px] md:block" />
           </div>
           <div className="flex flex-col items-center justify-center">
             <PromoCard.Label />
@@ -63,7 +63,7 @@ const FeaturedCategory = () => {
                 />
               </div>
             </WithAuth>
-            <PromoCard.Action className="w-full" />
+            <PromoCard.Action className="md:w-full" />
           </div>
         </div>
       </PromoCard>
