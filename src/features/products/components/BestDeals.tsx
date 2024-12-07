@@ -10,6 +10,7 @@ import List from '@/components/List';
 import BestDealsSkeleton from '@/components/skeletons/BestDealsSkeleton';
 import { Button } from '@/components/ui/button';
 import WithAuth from '@/features/auth/components/WithAuth';
+import { getEditModePath, getEditModeUrl } from '@/lib/editRouting';
 import { cn } from '@/lib/utils';
 
 import { useDiscountedProducts } from '../hooks/queries/useTopDeal';
@@ -24,7 +25,6 @@ const BestDeals = ({ className }: Props) => {
   const { data: products, isLoading } = useDiscountedProducts(9);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isEdit = searchParams.get('edit') === 'true';
 
   const topDeal = products?.slice(0)[0];
   const restDeals = products?.slice(1).map((product, index) => ({
@@ -38,7 +38,7 @@ const BestDeals = ({ className }: Props) => {
   if (!products || products?.length <= 0) return null;
 
   const handleProductClick = (productId: string) => {
-    const url = `/products/${productId}${isEdit ? '?edit=true' : ''}`;
+    const url = getEditModePath(`/products/${productId}`, searchParams);
     router.push(url);
   };
 
@@ -114,7 +114,7 @@ const BestDeals = ({ className }: Props) => {
     <Container className={cn('space-y-4', className)}>
       <div className="flex items-center justify-between">
         <p className="text-lg font-bold md:text-xl">Best Deals</p>
-        <Link href={`/shop${isEdit ? '?edit=true' : ''}`}>
+        <Link href={getEditModeUrl('/shop', searchParams)}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             Browse All Products <ArrowRight className="h-4 w-4" />
           </Button>

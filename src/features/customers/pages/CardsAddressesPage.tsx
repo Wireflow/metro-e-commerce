@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import { Button } from '@/components/ui/button';
 import AddressCard from '@/features/checkout/components/addresses/AddressCard';
 import { useUser } from '@/hooks/useUser';

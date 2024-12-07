@@ -27,7 +27,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
   const getBadgeVariantOrderStatus = (status: Enum<'order_status'>) => {
     switch (status) {
       case 'created':
-        return 'secondary';
+        return 'destructive';
       case 'ready':
         return 'indigo';
       case 'pending':
@@ -191,7 +191,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
                 Paid {order.payment.payment_type} <Check className="h-3 w-3" />{' '}
               </span>
             ) : (
-              'Pending Payment'
+              'Payment Failed'
             )}
           </Badge>
 
@@ -228,7 +228,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
       key: order => (
         <div className="flex flex-col items-start gap-2">
           <Badge variant={getBadgeVariantOrderStatus(order.status)} className="capitalize">
-            {order?.status === 'created' ? 'Initialized' : order?.status}
+            {order?.status === 'created' ? 'failed' : order?.status}
           </Badge>
           {getOrderStatusDate(order) && (
             <p className="ml-0.5 text-xs text-gray-500">

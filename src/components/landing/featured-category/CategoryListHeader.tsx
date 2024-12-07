@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CategoryWithProducts } from '@/features/products/schemas/category';
+import { getEditModeUrl } from '@/lib/editRouting';
 
 type Props = {
   activeTabs: string | null;
@@ -21,7 +22,6 @@ type Props = {
 
 const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
   const searchParams = useSearchParams();
-  const isEdit = searchParams.get('edit') === 'true';
   const [visibleTabs, setVisibleTabs] = useState(category.sub_categories.length);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
           )}
         </div>
 
-        <Link href={`/shop${isEdit ? '?edit=true' : ''}`}>
+        <Link href={getEditModeUrl('/shop', searchParams)}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             Browse All Products <ArrowRight className="h-4 w-4" />
           </Button>

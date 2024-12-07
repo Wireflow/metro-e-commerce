@@ -68,9 +68,9 @@ const AccountDeliveryAddressForm = ({ onSuccess }: Props) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4">
             <div>
-              <h3 className="mb-3 text-base font-semibold sm:text-lg">Personal Information</h3>
+              <h3 className="mb-3 text-base font-semibold sm:text-lg">Business Information</h3>
               <InputField
-                label="Full Name"
+                label="Business Name"
                 name="name"
                 placeholder="John Doe"
                 control={form.control}

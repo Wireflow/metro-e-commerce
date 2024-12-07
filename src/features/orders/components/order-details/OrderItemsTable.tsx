@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 
+import { Badge } from '@/components/ui/badge';
 // eslint-disable-next-line import/no-named-as-default
 import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
@@ -15,6 +16,16 @@ type Props = {
 };
 
 const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
+  const GetStatusColor = (status: string) => {
+    switch (status) {
+      case 'returned':
+        return 'destructive';
+      case 'confirmed':
+        return 'success';
+      default:
+        return 'default';
+    }
+  };
   const fields = useTableFields<OrderItemsDetails>([
     {
       key: product => (
@@ -84,6 +95,17 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
         </div>
       ),
       label: 'Total',
+      className: 'min-w-[120px]',
+    },
+    {
+      key: product => (
+        <div>
+          <Badge variant={GetStatusColor(product.status)}>
+            <span className="text-sm font-bold">{product.status}</span>
+          </Badge>
+        </div>
+      ),
+      label: 'Status',
       className: 'min-w-[120px]',
     },
   ]);

@@ -14,30 +14,37 @@ const OrderItemsList = ({ order }: Props) => {
     <div className="cols-span-2 md:cols-span-1">
       <Card>
         <CardContent className="flex flex-col gap-5">
-          <div className="flex items-center gap-3 pt-4">
-            <p className="text-lg font-semibold">Order List</p>
-            <Badge variant={'success'}>
-              <span className="text-md font-bold">{order.orderItems.length} Products</span>
-            </Badge>
-          </div>{' '}
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-col justify-between sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3 pt-4">
+              <p className="text-lg font-semibold">Order List</p>
+              <Badge variant={'success'}>
+                <span className="text-md font-bold">{order.orderItems.length} Products</span>
+              </Badge>
+            </div>
             <p>
               <span className="text-lg font-bold">Invoice</span> #{order.order_number}
             </p>
-            <div className="flex flex-col items-end gap-2">
+          </div>
+          <div className="flex flex-col items-start gap-2">
+            <div className="flex flex-col gap-2">
               <p className="md:text-md text-sm font-medium text-neutral-500">
                 Subtotal: {formatCurrency(order.total_before_calculations)}
               </p>
               <p className="md:text-md text-sm font-medium text-neutral-500">
                 Tax: {formatCurrency(order.tax)}
               </p>
-              {order.shipping_costs && (
+              {order.shipping_costs ? (
                 <p className="md:text-md text-sm font-medium text-neutral-500">
                   Shipping Costs: {formatCurrency(order.shipping_costs)}
                 </p>
+              ) : (
+                ''
               )}
               <p className="md:text-md text-sm font-medium text-neutral-500">
                 Fees: {formatCurrency(order.fees)}
+              </p>
+              <p className="md:text-md text-sm font-medium text-red-500">
+                Discount: {formatCurrency(order.total_discount)}
               </p>
               <p className="text-md font-bold md:text-lg">
                 Grand Total: {formatCurrency(order.total_amount)}
