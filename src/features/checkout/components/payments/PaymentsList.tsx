@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { ViewRow } from '@/types/supabase/table';
 
 import PaymentCard from './PaymentCard';
@@ -11,12 +9,6 @@ type Props = {
 };
 
 const PaymentsList = ({ payments = [], onSelect, selected }: Props) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleAddressFormSuccess = () => {
-    setIsDialogOpen(false);
-  };
-
   return (
     <div className="flex w-full flex-wrap gap-4">
       {payments.map(payment => (
@@ -26,6 +18,7 @@ const PaymentsList = ({ payments = [], onSelect, selected }: Props) => {
           options={{
             showTitle: false,
             showSelection: true,
+            showAction: false,
           }}
           onSelect={onSelect}
           selected={selected}

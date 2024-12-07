@@ -1,11 +1,11 @@
 'use client';
 
-import OrderAddress from '../components/order details/OrderAddress';
-import OrderDetailsTopCards from '../components/order details/OrderDetailsTopCards';
-import OrderItemsList from '../components/order details/OrderItemsList';
-import OrderStatus from '../components/order details/OrderStatus';
-import PaymentInfo from '../components/order details/PaymentInfo';
-import ShippingInfo from '../components/order details/ShippingInfo';
+import OrderAddress from '../components/order-details/OrderAddress';
+import OrderDetailsTopCards from '../components/order-details/OrderDetailsTopCards';
+import OrderItemsList from '../components/order-details/OrderItemsList';
+import OrderStatus from '../components/order-details/OrderStatus';
+import PaymentInfo from '../components/order-details/PaymentInfo';
+import ShippingInfo from '../components/order-details/ShippingInfo';
 import { useOrderById } from '../hooks/orders-query-hook';
 
 type Props = {

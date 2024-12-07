@@ -50,6 +50,7 @@ const ShopPage = () => {
     setPage,
     page,
     pageSize,
+    selectedManufacturers,
   } = useShopFilters();
 
   const { data: productPages, isLoading } = usePaginatedProducts(
@@ -89,6 +90,7 @@ const ShopPage = () => {
               setPriceRange={setPriceRange}
               categoryId={categoryId}
               priceRange={priceRange}
+              manfacturers={selectedManufacturers}
             />
             <Separator className="mt-6" />
             {promotion && (

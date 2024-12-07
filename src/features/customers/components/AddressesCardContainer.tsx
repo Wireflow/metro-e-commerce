@@ -11,7 +11,7 @@ type Props = {
 
 const AddressesCardContainer = ({ address, title, showForm = true, showOptions = true }: Props) => {
   return (
-    <Card className="flex flex-col gap-5">
+    <Card className="flex flex-col gap-5 shadow-none">
       <CardHeader className="border-b">
         <CardTitle className="font-medium capitalize">{title}</CardTitle>
       </CardHeader>

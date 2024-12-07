@@ -6,7 +6,7 @@ export const useOrderTracking = ({
   orderNumber,
   enabled,
 }: {
-  orderNumber: number;
+  orderNumber: string;
   enabled?: boolean;
 }) => {
   return useQuery({

@@ -1,4 +1,4 @@
-import CustomerOrderDetailsPage from '@/features/customers/pages/CustomerOrderDetailsPage';
+import OrderDetailsPage from '@/features/orders/pages/customer/OrderDetailsPage';
 
 type Props = {
   params: Promise<{
@@ -8,7 +8,7 @@ type Props = {
 
 const page = async ({ params }: Props) => {
   const { id } = await params;
-  return <CustomerOrderDetailsPage id={id} />;
+  return <OrderDetailsPage id={id} />;
 };
 
 export default page;

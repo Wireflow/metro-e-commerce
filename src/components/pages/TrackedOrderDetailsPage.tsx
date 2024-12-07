@@ -11,7 +11,7 @@ import { Card } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 
 type Props = {
-  id: number;
+  id: string;
   breadcrumbs?: boolean;
 };
 

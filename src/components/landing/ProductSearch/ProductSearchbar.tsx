@@ -13,7 +13,7 @@ import ProductSearchResults from './ProductSearchResults';
 
 const ProductSearchbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { isOpen, containerRef, handleOpen, handleClear } = useWindowState();
+  const { isOpen, containerRef, handleOpen, handleClear, setIsOpen } = useWindowState();
 
   const { data: publishedProducts } = usePublishedProducts({
     enabled: !!searchQuery,
@@ -55,7 +55,7 @@ const ProductSearchbar = () => {
                   </Button>
                 )}
               </div>
-              <ProductSearchResults products={publishedProducts ?? []} />
+              <ProductSearchResults products={publishedProducts ?? []} setOpen={setIsOpen} />
             </Card>
           </motion.div>
         ) : null}

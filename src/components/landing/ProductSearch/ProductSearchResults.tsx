@@ -6,9 +6,10 @@ import { cn } from '@/lib/utils';
 
 type Props = {
   products: Product[];
+  setOpen: (value: boolean) => void;
 };
 
-const ProductSearchResults = ({ products }: Props) => {
+const ProductSearchResults = ({ products, setOpen }: Props) => {
   const router = useRouter();
 
   return (
@@ -24,14 +25,20 @@ const ProductSearchResults = ({ products }: Props) => {
                 'border-b border-gray-200 pb-4': index !== products.length - 1,
               }
             )}
-            onClick={() => router.push(`/products/${product.id}`)}
+            onClick={() => {
+              router.push(`/products/${product.id}`);
+              setOpen(false);
+            }}
           >
             <ProductCard.Image
               product={product}
               className="h-[70px] w-[70px] md:h-[100px] md:w-[100px]"
             />
             <div className="flex flex-col gap-1">
-              <ProductCard.Title product={product} />
+              <ProductCard.Title
+                product={product}
+                className="block max-w-[300px] overflow-hidden truncate md:max-w-[400px]"
+              />
               <div className="w-fit">
                 <ProductCard.Price product={product} />
               </div>

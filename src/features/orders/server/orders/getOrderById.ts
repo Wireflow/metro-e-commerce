@@ -33,7 +33,6 @@ export const getOrderById = async (orderId: string) => {
     .eq('id', orderId)
     .returns<OrderDetails[]>();
 
-  console.log(error);
   if (error) {
     throw new Error('Failed to find order');
   }

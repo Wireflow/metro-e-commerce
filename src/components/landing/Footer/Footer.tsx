@@ -1,17 +1,20 @@
 'use client';
 import Container from '@/components/layout/Container';
-import { useManufacturers, useTopCategories } from '@/features/products/hooks/category-query-hooks';
+import {
+  usePopularManufacturers,
+  useTopCategories,
+} from '@/features/products/hooks/category-query-hooks';
 
 import FooterBrandInfo from './FooterBrandInfo';
 import FooterPopularTags from './FooterPopularTags';
 import FooterQuickLinks from './FooterQuickLinks';
 import FooterTopCategories from './FooterTopCategories';
 
-type Props = {};
-
-const Footer = (props: Props) => {
+const Footer = () => {
   const { data: categories } = useTopCategories();
-  const { data: manufacturers } = useManufacturers();
+  const { data: manufacturers } = usePopularManufacturers();
+
+  const currentYear = new Date().getFullYear();
 
   return (
     // eslint-disable-next-line prettier/prettier
@@ -30,7 +33,7 @@ const Footer = (props: Props) => {
       </Container>
       <div className="border-t border-gray-600 py-10">
         <p className="text-center text-sm text-gray-400">
-          © 2024 Metro Cash & Carry, Inc. All rights reserved.
+          © {currentYear} Metro Cash & Carry, Inc. All rights reserved.
         </p>
       </div>
     </div>

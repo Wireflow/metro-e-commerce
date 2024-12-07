@@ -28,7 +28,7 @@ const FeaturedCategory = () => {
   if (!categories || !promotion || !featuredCategory) return null;
 
   return (
-    <Container className="flex flex-col-reverse gap-5 lg:flex-row">
+    <Container className="flex flex-col gap-5 lg:flex-row">
       <div className="flex flex-1 flex-col gap-5">
         <CategoryListHeader
           category={featuredCategory}

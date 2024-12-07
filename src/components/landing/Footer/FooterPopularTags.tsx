@@ -1,17 +1,29 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { useShopFilters } from '@/features/products/hooks/useShopFilters';
 import { ViewRow } from '@/types/supabase/table';
 import { truncate } from '@/utils/utils';
 
 type Props = {
-  manufacturers: ViewRow<'category_manufacturers'>[];
+  manufacturers: Partial<ViewRow<'manufacturer_sales_analytics'>>[];
 };
 
 const FooterPopularTags = ({ manufacturers }: Props) => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const router = useRouter();
+  const { setSelectedManufacturers } = useShopFilters();
+
+  const handleSelectManufacturer = (manufacturer: string) => {
+    setActiveTag(manufacturer);
+    router.push('/shop');
+    setSelectedManufacturers([manufacturer]);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold text-white">Popular Tags</p>
@@ -20,7 +32,7 @@ const FooterPopularTags = ({ manufacturers }: Props) => {
           return (
             <div key={manufacturer.manufacturer} className="flex flex-wrap gap-5">
               <Button
-                onClick={() => setActiveTag(manufacturer.manufacturer)}
+                onClick={() => handleSelectManufacturer(manufacturer.manufacturer as string)}
                 className={`truncate ${activeTag === manufacturer.manufacturer ? 'border-white bg-neutral-800 font-semibold text-white' : 'bg-transparent text-white'}`}
                 variant={'outlineGray'}
               >

@@ -58,11 +58,11 @@ const ProductList = ({ products }: Props) => {
       key: product => (
         <div>
           {product?.discounted_until &&
-          product?.discount &&
+          product?.retail_price &&
           new Date(product?.discounted_until) > new Date() ? (
             <div className="grid gap-1">
               <p className="text-xs line-through">{formatCurrency(product.retail_price)}</p>
-              <p>{formatCurrency(product.retail_price - product?.discount)}</p>
+              <p>{formatCurrency(product.retail_price - (product?.retail_discount ?? 0))}</p>
             </div>
           ) : (
             <p>{formatCurrency(product.retail_price)}</p>
@@ -75,11 +75,11 @@ const ProductList = ({ products }: Props) => {
       key: product => (
         <div>
           {product?.discounted_until &&
-          product?.discount &&
+          product?.wholesale_price &&
           new Date(product?.discounted_until) > new Date() ? (
             <div className="grid gap-1">
               <p className="text-xs line-through">{formatCurrency(product.wholesale_price)}</p>
-              <p>{formatCurrency(product.wholesale_price - product?.discount)}</p>
+              <p>{formatCurrency(product.wholesale_price - (product?.wholesale_discount ?? 0))}</p>
             </div>
           ) : (
             <p>{formatCurrency(product.wholesale_price)}</p>

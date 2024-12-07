@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 
-import { Minus, Plus } from 'lucide-react';
+import { CheckCircle2, Minus, Plus, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import { Button } from '@/components/ui/button';
-import DynamicTable, { useTableFields } from '@/components/ui/dynamic-table';
+import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import { formatCurrency } from '@/utils/utils';
 
@@ -96,6 +96,19 @@ const CustomerOrderItemsList = ({ orderItems, variant = 'default', limit }: Prop
         </div>
       ),
       label: 'Total',
+      className: 'text-center',
+    },
+    {
+      key: product => (
+        <div className="flex items-center justify-center">
+          {product.status === 'returned' ? (
+            <XCircle className="h-5 w-5 text-red-600" />
+          ) : (
+            <CheckCircle2 className="h-5 w-5 text-green-600" />
+          )}
+        </div>
+      ),
+      label: 'Status',
       className: 'text-center',
     },
   ]);

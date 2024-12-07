@@ -1,4 +1,4 @@
-import OrderDetailsPage from '@/features/orders/pages/OrderDetailsPage';
+import OrderDetailsPage from '@/features/orders/pages/admin/OrderDetailsPage';
 
 type Props = {
   params: Promise<{

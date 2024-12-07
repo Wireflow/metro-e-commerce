@@ -48,11 +48,11 @@ export const useCreateCard = () => {
       const { data: paymentMethod, error: paymentMethodError } = await supabase
         .from('payment_methods')
         .insert({
-          billing_address_id: cardData.billing_address_id,
-          token: card.token,
+          billing_address_id: cardData.billing_address_id ?? null,
+          token: card.token ?? '',
           customer_id: user.id,
-          card_holder: card?.holderName,
-          last_four: card?.maskedNumber?.slice(-4),
+          card_holder: card?.holderName ?? cardData.cardholder,
+          last_four: card?.maskedNumber?.slice(-4) ?? cardData.number.slice(-4),
           expiration: `${card.expiryMonth}/${card.expiryYear}`,
           provider: card.cardType ?? 'unknown',
         });
@@ -64,7 +64,7 @@ export const useCreateCard = () => {
       return paymentMethod;
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['payments', user?.id ?? ''] });
+      queryClient.invalidateQueries({ queryKey: ['payments'] });
     },
     onSuccess: () => {
       toast.success('Card added successfully');

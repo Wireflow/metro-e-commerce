@@ -1,9 +1,12 @@
 import axios, { AxiosInstance } from 'axios';
 
+import { AdjustRequest, AdjustResponse } from '@/lib/usaepay/use-cases/adjustTransaction';
 import {
   AuthorizeResponse,
   AuthorizeTokenRequest,
 } from '@/lib/usaepay/use-cases/authorizeTransaction';
+import { CaptureRequest, CaptureResponse } from '@/lib/usaepay/use-cases/captureTransaction';
+import { RefundRequest, RefundResponse } from '@/lib/usaepay/use-cases/refundAmount';
 import { TokenizeResponse } from '@/lib/usaepay/use-cases/tokenizeCard';
 import { VoidRequest, VoidResponse } from '@/lib/usaepay/use-cases/voidTransaction';
 import { CardDetails } from '@/types/card';
@@ -125,10 +128,34 @@ export function createPaymentApi() {
     });
   }
 
+  async function captureTransaction(data: CaptureRequest): Promise<ApiResponse<CaptureResponse>> {
+    return makeRequest<CaptureRequest, CaptureResponse>({
+      endpoint: '/capture',
+      data,
+    });
+  }
+
+  async function refundAmount(data: RefundRequest): Promise<ApiResponse<RefundResponse>> {
+    return makeRequest<RefundRequest, RefundResponse>({
+      endpoint: '/refund',
+      data,
+    });
+  }
+
+  async function adjustTransaction(data: AdjustRequest): Promise<ApiResponse<AdjustResponse>> {
+    return makeRequest<AdjustRequest, AdjustResponse>({
+      endpoint: '/adjust',
+      data,
+    });
+  }
+
   return {
     tokenizeCard,
     authorizeToken,
     voidTransaction,
+    captureTransaction,
+    adjustTransaction,
+    refundAmount,
   } as const;
 }
 

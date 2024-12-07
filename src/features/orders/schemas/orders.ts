@@ -6,18 +6,20 @@ export type Order = Row<'orders'> & {
   salesperson: Row<'users'>;
 };
 
+export type OrderPayment =
+  | (Row<'order_payments'> & {
+      payment_method: Row<'payment_methods'> & {
+        billingAddress: Row<'addresses'> | null;
+      };
+    })
+  | null;
+
 export type OrderDetails = Row<'orders'> & {
   customer: Row<'customers'>;
   orderItems: OrderItemsDetails[];
-  shipping: Row<'order_shipping'> | null;
-  payment:
-    | (Row<'order_payments'> & {
-        payment_method: Row<'payment_methods'> & {
-          billingAddress: Row<'addresses'> | null;
-        };
-      })
-    | null;
+  payment: OrderPayment;
   deliveryAddress: Row<'addresses'> | null;
+  shipping: Row<'order_shipping'> | null;
 };
 
 export type OrderItemsDetails = Row<'order_items'> & {

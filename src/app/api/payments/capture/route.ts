@@ -5,16 +5,20 @@ import { z } from 'zod';
 import usaepay from '@/lib/usaepay';
 import { AuthenticatedRequest, withAuth } from '@/utils/supabase/withAuth';
 
-const AuthorizeSchema = z.object({
-  amount: z.number(),
-  token: z.string(),
+const CaptureSchema = z.object({
+  tranKey: z.string(),
 });
 
 export const POST = withAuth(async (req: AuthenticatedRequest) => {
   try {
     const body = await req.json();
+    const { user } = req;
 
-    const data = AuthorizeSchema.safeParse(body);
+    if (user?.user_metadata.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const data = CaptureSchema.safeParse(body);
 
     if (!data.success) {
       console.error(data.error);
@@ -26,29 +30,24 @@ export const POST = withAuth(async (req: AuthenticatedRequest) => {
       );
     }
 
-    const transaction = await usaepay.authorize.chargeToken({
-      amount: data.data.amount,
-      token: data.data.token,
+    const captured = await usaepay.authorize.capture({
+      tranKey: data.data.tranKey,
     });
 
-    if (transaction.status === 'success') {
+    if (captured.status === 'success') {
       return NextResponse.json(
         {
           success: true,
-          ...transaction,
+          ...captured,
         },
         { status: 200 }
       );
     }
 
-    if (transaction.status === 'error') {
-      return NextResponse.json(
-        { success: false, error: "We couldn't authorize the transaction" },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ success: false, error: transaction.status }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: 'Failed to capture transaction' },
+      { status: 400 }
+    );
   } catch (error) {
     console.error('Payment API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

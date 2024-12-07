@@ -6,6 +6,7 @@ import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 import { Product } from '@/features/products/schemas/products';
 import { useWishList } from '@/features/wishlist/hooks/queries/wishlist-query-hooks';
 
+import { Animate } from '../animation/Animate';
 import ProductOptions from '../landing/different-product-options/ProductOptions';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
@@ -31,10 +32,12 @@ const ProductPage = ({ product }: Props) => {
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
 
       <Container className="">
-        <div className="flex flex-col gap-10">
-          <ProductInfo border product={product} />
-          <ProductAdditonalInfo product={product} category={category} />
-        </div>
+        <Animate type="bounce">
+          <div className="flex flex-col gap-10">
+            <ProductInfo border product={product} />
+            <ProductAdditonalInfo product={product} category={category} />
+          </div>
+        </Animate>
       </Container>
       <div className="py-10">
         <ProductOptions />

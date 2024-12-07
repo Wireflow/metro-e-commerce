@@ -37,7 +37,11 @@ const ProductShowcaseList = ({ data, title }: Props) => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <ProductCard.Title size="sm" product={product} className="truncate" />
+                  <ProductCard.Title
+                    size="sm"
+                    product={product}
+                    className="max-w-[250px] truncate md:max-w-[300px]"
+                  />
                   <ProductCard.Price product={product} className="w-fit" />
                   <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>
                     Edit Product

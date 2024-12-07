@@ -8,9 +8,9 @@ export const getPublishedProducts = async (filters: ProductFilters = {}) => {
 
   // Start the query
   let query = supabase
-    .from('shown_products')
-    .select('*, images:product_images(*), barcodes:barcodes(*)');
-
+    .from('products')
+    .select('*, images:product_images(*), barcodes:barcodes(*)')
+    .eq('published', true);
   // Apply text search across specified fields
   if (filters?.search && filters?.search?.length > 0) {
     const searchFields = filters.searchFields || ['name', 'description', 'manufacturer'];

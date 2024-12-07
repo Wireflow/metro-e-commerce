@@ -2,7 +2,7 @@ import TrackedOrderDetailsPage from '@/components/pages/TrackedOrderDetailsPage'
 
 type Props = {
   params: Promise<{
-    id: number;
+    id: string;
   }>;
 };
 

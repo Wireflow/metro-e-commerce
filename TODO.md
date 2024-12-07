@@ -9,7 +9,7 @@
 
 # Checkout
 
-    [] Make sure to check order standards before creating order.
+    [x] Make sure to check order standards before creating order.
         - is store status closed?
         - is order type enabled?
         - is app enabled?
@@ -22,8 +22,3 @@
     [x] Implement authorize transaction
     [] Implement capture transaction
     [] Implement void transaction
-
-# order details
-
-[] add payment method correctly to order details ( customer)
-[] add order items status (customer)

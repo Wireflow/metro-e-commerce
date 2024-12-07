@@ -5,16 +5,21 @@ import { z } from 'zod';
 import usaepay from '@/lib/usaepay';
 import { AuthenticatedRequest, withAuth } from '@/utils/supabase/withAuth';
 
-const AuthorizeSchema = z.object({
+const RefundSchema = z.object({
+  tranKey: z.string(),
   amount: z.number(),
-  token: z.string(),
 });
 
 export const POST = withAuth(async (req: AuthenticatedRequest) => {
   try {
     const body = await req.json();
+    const { user } = req;
 
-    const data = AuthorizeSchema.safeParse(body);
+    if (user?.user_metadata.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const data = RefundSchema.safeParse(body);
 
     if (!data.success) {
       console.error(data.error);
@@ -26,29 +31,25 @@ export const POST = withAuth(async (req: AuthenticatedRequest) => {
       );
     }
 
-    const transaction = await usaepay.authorize.chargeToken({
-      amount: data.data.amount,
-      token: data.data.token,
+    const refund = await usaepay.normalSale.refundTransaction({
+      tranKey: data.data.tranKey,
+      amount: data.data.amount.toFixed(2),
     });
 
-    if (transaction.status === 'success') {
+    if (refund.status === 'success') {
       return NextResponse.json(
         {
           success: true,
-          ...transaction,
+          ...refund,
         },
         { status: 200 }
       );
     }
 
-    if (transaction.status === 'error') {
-      return NextResponse.json(
-        { success: false, error: "We couldn't authorize the transaction" },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ success: false, error: transaction.status }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: 'Failed to refund transaction' },
+      { status: 400 }
+    );
   } catch (error) {
     console.error('Payment API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

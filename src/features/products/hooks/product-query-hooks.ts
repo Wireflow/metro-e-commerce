@@ -21,6 +21,7 @@ export interface ProductFilters {
   sortBy?: 'retail_price' | 'name' | 'created_at';
   sortOrder?: 'asc' | 'desc';
   is_discounted?: boolean;
+  manufacturers?: string[];
 }
 
 interface UseProductsOptions {

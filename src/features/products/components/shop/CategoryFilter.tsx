@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -22,6 +22,10 @@ const CategoryFilter = ({ categories, onSelect, value }: CategoryFilterProps) =>
     setSelectedCategory(category.id);
     onSelect(category);
   };
+
+  useEffect(() => {
+    setSelectedCategory(value || '');
+  }, [value]);
 
   const renderCategory = (category: Category, isSubcategory = false) => {
     return (
