@@ -1,8 +1,6 @@
 import CardsAddressesPage from '@/features/customers/pages/CardsAddressesPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <CardsAddressesPage />;
 };
 

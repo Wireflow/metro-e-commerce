@@ -28,8 +28,14 @@ const ProductTopFilters = ({
 }: ProductTopFiltersProps) => {
   const isMobile = useIsMobile();
 
-  const { setCategoryId, setPriceRange, setSelectedManufacturers, categoryId, priceRange } =
-    useShopFilters();
+  const {
+    setCategoryId,
+    setPriceRange,
+    setSelectedManufacturers,
+    categoryId,
+    priceRange,
+    selectedManufacturers,
+  } = useShopFilters();
 
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
@@ -56,6 +62,7 @@ const ProductTopFilters = ({
                 setPriceRange={setPriceRange}
                 categoryId={categoryId}
                 priceRange={priceRange}
+                manfacturers={selectedManufacturers}
               />
             </SheetContent>
           </Sheet>

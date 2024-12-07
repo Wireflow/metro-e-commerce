@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const TokenSchema = z.object({
+export const TokenSchema = z.object({
   token: z.string(),
   amount: z.string(),
   cvc: z

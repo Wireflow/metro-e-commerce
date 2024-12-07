@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { useShopFilters } from '@/features/products/hooks/useShopFilters';
 import { ViewRow } from '@/types/supabase/table';
 import { truncate } from '@/utils/utils';
 
@@ -16,12 +15,10 @@ type Props = {
 const FooterPopularTags = ({ manufacturers }: Props) => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const router = useRouter();
-  const { setSelectedManufacturers } = useShopFilters();
 
   const handleSelectManufacturer = (manufacturer: string) => {
     setActiveTag(manufacturer);
-    router.push('/shop');
-    setSelectedManufacturers([manufacturer]);
+    router.push('/shop?manufacturers=' + manufacturer);
   };
 
   return (

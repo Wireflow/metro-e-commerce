@@ -73,7 +73,10 @@ const SignInForm = ({ onSuccess }: Props) => {
             label={
               <div className="flex justify-between">
                 <p>Password</p>
-                <Link className="text-xs text-foreground underline" href="/forgot-password">
+                <Link
+                  className="text-xs text-foreground underline"
+                  href="/customers/forgot-password"
+                >
                   Forgot Password?
                 </Link>
               </div>

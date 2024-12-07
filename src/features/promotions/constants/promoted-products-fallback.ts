@@ -29,6 +29,10 @@ const placeholderProduct: PromotedProduct = {
     retail_price: 19.99,
     wholesale_price: 15.0,
     discounted_until: null,
+    wholesale_discount: 0,
+    retail_discount: 0,
+    item_number: '12341',
+    max_per_order: 1,
   },
 };
 
@@ -61,6 +65,10 @@ const placeholderProduct2: PromotedProduct = {
     retail_price: 29.99,
     wholesale_price: 25.0,
     discounted_until: null,
+    retail_discount: 0,
+    wholesale_discount: 0,
+    item_number: '12341',
+    max_per_order: 1,
   },
 };
 

@@ -6,9 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import AddSalesRepForm from './forms/AddSalesRepForm';
 
-type Props = {};
-
-const AddSalesRepFormDialog = (props: Props) => {
+const AddSalesRepFormDialog = () => {
   const [open, setOpen] = useState(false);
 
   return (

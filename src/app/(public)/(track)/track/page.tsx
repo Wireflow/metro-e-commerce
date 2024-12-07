@@ -1,8 +1,6 @@
 import TrackOrderPage from '@/components/pages/TrackOrderPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <TrackOrderPage />;
 };
 

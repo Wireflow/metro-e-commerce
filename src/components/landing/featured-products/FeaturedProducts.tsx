@@ -9,9 +9,7 @@ import { usePromotedProducts } from '@/features/promotions/hooks/queries/useProm
 import ProductListHeader from './ProductListHeader';
 import ProductsList from './ProductsList';
 
-type Props = {};
-
-const FeaturedProducts = (props: Props) => {
+const FeaturedProducts = () => {
   const { data: featuredProducts, isLoading } = useFeaturedProducts();
   const { data: promotions } = usePromotedProducts([7]);
 

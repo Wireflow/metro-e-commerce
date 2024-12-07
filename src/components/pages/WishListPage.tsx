@@ -13,7 +13,7 @@ import Container from '../layout/Container';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
-import DynamicTable, { useTableFields } from '../ui/dynamic-table';
+import { DynamicTable, useTableFields } from '../ui/dynamic-table';
 import { Skeleton } from '../ui/skeleton';
 
 const breadcrumbs = [

@@ -16,3 +16,10 @@ export const ForgotPasswordSchema = z
   });
 
 export type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
+
+export const RecoverPasswordSchema = z.object({
+  email: z.string().email({ message: 'Please enter your email' }),
+  callbackUrl: z.string().optional(),
+});
+
+export type RecoverPasswordType = z.infer<typeof RecoverPasswordSchema>;

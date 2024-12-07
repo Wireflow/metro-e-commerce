@@ -6,9 +6,7 @@ import { useState } from 'react';
 
 import { quickLinks } from '@/data/constants';
 
-type Props = {};
-
-const FooterQuickLinks = (props: Props) => {
+const FooterQuickLinks = () => {
   const [activeLink, setActiveLink] = useState<string | null>('');
 
   return (

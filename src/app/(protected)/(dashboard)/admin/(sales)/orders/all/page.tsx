@@ -1,9 +1,7 @@
 import AllOrdersPage from '@/features/orders/pages/admin/AllOrdersPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const AllOrders = () => {
   return <AllOrdersPage />;
 };
 
-export default page;
+export default AllOrders;

@@ -1,8 +1,6 @@
 import FaqPage from '@/components/pages/FaqPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <FaqPage />;
 };
 

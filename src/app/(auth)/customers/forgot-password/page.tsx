@@ -3,9 +3,5 @@
 import ForgotPasswordPage from '@/features/auth/pages/ForgotPasswordPage';
 
 export default function ForgotPassword() {
-  return (
-    <>
-      <ForgotPasswordPage />
-    </>
-  );
+  return <ForgotPasswordPage />;
 }

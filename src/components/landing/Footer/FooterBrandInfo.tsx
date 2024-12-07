@@ -7,9 +7,7 @@ import Logo from '@/components/branding/Logo';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatAddress, formatPhoneNumber } from '@/utils/utils';
 
-type Props = {};
-
-const FooterBrandInfo = (props: Props) => {
+const FooterBrandInfo = () => {
   const { branch } = useBranch();
 
   return (

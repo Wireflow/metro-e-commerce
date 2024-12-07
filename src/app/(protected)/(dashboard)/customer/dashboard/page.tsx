@@ -1,8 +1,6 @@
 import CustomerDashboardPage from '@/features/customers/pages/CustomerDashboardPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <CustomerDashboardPage />;
 };
 

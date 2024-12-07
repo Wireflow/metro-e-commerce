@@ -3,7 +3,7 @@
 import { UseFormReturn } from 'react-hook-form';
 
 import AddressAutocomplete, { ParsedAddress } from '@/components/AddressAutocomplete';
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import InputField from '@/components/form/InputField';
 import { SelectField } from '@/components/form/SelectField';

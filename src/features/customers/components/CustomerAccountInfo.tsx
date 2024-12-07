@@ -6,14 +6,11 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { useUser } from '@/hooks/useUser';
 import { formatPhoneNumber } from '@/utils/utils';
 
-type Props = {};
-
-const CustomerAccountInfo = (props: Props) => {
+const CustomerAccountInfo = () => {
   const { metadata } = useUser();
 
   return (
-    <Card className="">
-      {' '}
+    <Card className="shadow-none">
       <CardHeader className="border-b pb-3 pt-4">
         <CardTitle className="font-medium capitalize">Account info</CardTitle>
       </CardHeader>

@@ -5,7 +5,6 @@ import { Loader2 } from 'lucide-react';
 
 interface LoaderProps {
   size?: number;
-  color?: string;
   text?: string;
   fullScreen?: boolean;
   className?: string;
@@ -13,7 +12,6 @@ interface LoaderProps {
 
 const AnimtedLoadingSpinner = ({
   size = 40,
-  color = '#000000',
   text,
   fullScreen = false,
   className = '',

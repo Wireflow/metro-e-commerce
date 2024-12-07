@@ -11,14 +11,12 @@ import { faqs } from '@/data/constants';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatPhoneNumber } from '@/utils/utils';
 
-import Animate from '../animation/Animate';
+import { Animate } from '../animation/Animate';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
 import { Card, CardContent, CardHeader } from '../ui/card';
 
-type Props = {};
-
-const FaqPage = (props: Props) => {
+const FaqPage = () => {
   const { branch } = useBranch();
   const breadcrumbs = [
     { label: 'Home', href: '/' },

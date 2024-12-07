@@ -1,8 +1,6 @@
 import DisabledPage from '@/components/pages/DisabledPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <DisabledPage />;
 };
 

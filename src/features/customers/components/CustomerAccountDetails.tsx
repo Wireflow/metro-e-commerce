@@ -8,9 +8,7 @@ import CustomerAccountInfo from './CustomerAccountInfo';
 import CustomerBillingAddress from './CustomerBillingAddress';
 import CustomerOrdersDataCard from './CustomerOrdersDataCard';
 
-type Props = {};
-
-const CustomerAccountDetails = (props: Props) => {
+const CustomerAccountDetails = () => {
   const { metadata } = useUser();
   const { data: orders } = useCustomerOrdersByStatusClient({
     customerId: metadata?.id,

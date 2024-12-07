@@ -1,9 +1,7 @@
 import WishListPage from '@/components/pages/WishListPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const Wishlist = () => {
   return <WishListPage />;
 };
 
-export default page;
+export default Wishlist;

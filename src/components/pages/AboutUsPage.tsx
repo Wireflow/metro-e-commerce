@@ -9,9 +9,7 @@ import SubscribeToNewsLetter from '../landing/subscribe/SubscribeToNewsLetter';
 import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
 
-type Props = {};
-
-const AboutUsPage = (props: Props) => {
+const AboutUsPage = () => {
   const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about-us' },

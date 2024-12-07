@@ -1,8 +1,6 @@
 import SettingsPage from '@/features/settings/components/SettingsPage';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return <SettingsPage />;
 };
 
