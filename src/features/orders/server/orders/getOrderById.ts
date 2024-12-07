@@ -12,6 +12,7 @@ export const getOrderById = async (orderId: string) => {
       `   *,
       customer:customers(*),
       salesperson:users(*),
+      shipping:order_shipping(*),
       payment:order_payments(
         *,
         payment_method:payment_methods(
@@ -32,7 +33,6 @@ export const getOrderById = async (orderId: string) => {
     .eq('id', orderId)
     .returns<OrderDetails[]>();
 
-  console.log(error);
   if (error) {
     throw new Error('Failed to find order');
   }

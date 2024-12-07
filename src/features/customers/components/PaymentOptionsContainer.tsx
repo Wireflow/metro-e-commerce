@@ -8,7 +8,7 @@ import { usePaymentMethods } from '@/features/checkout/hooks/queries/usePaymentM
 const PaymentOptionsContainer = () => {
   const { data: payments } = usePaymentMethods();
   return (
-    <Card className="flex w-full flex-col gap-5">
+    <Card className="flex w-full flex-col gap-5 shadow-none">
       <CardHeader className="flex w-full flex-row items-center justify-between border-b p-4">
         <div>
           <CardTitle className="font-medium capitalize">Payment Option</CardTitle>

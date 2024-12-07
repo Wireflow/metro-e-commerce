@@ -27,7 +27,7 @@ const OrderAddressInfo = ({ order }: Props) => {
           placeholderTitle="Delivery Address"
         />
 
-        <div className="col-span-1 flex flex-1 flex-col gap-5 border border-border p-5 lg:col-span-2">
+        <div className="col-span-1 flex flex-1 flex-col gap-2 border border-b-0 border-border p-5 lg:col-span-2">
           <h1 className="text-xl font-semibold">Order Instructions</h1>
           <p className="text-sm text-neutral-500">
             {order?.instructions ? order?.instructions : 'No instructions available'}

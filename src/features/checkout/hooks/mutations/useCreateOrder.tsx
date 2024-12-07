@@ -89,7 +89,6 @@ export const useCreateOrder = () => {
             throw new Error(paymentError ?? 'Failed to authorize payment');
           }
 
-          // Create payment record
           const { error: paymentMethodError } = await supabase.from('order_payments').insert({
             order_id: order.id,
             payment_method_id: method.id,

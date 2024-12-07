@@ -19,6 +19,7 @@ export type OrderDetails = Row<'orders'> & {
   orderItems: OrderItemsDetails[];
   payment: OrderPayment;
   deliveryAddress: Row<'addresses'> | null;
+  shipping: Row<'order_shipping'> | null;
 };
 
 export type OrderItemsDetails = Row<'order_items'> & {
