@@ -96,7 +96,7 @@ const PaymentCard = ({
       )}
 
       {showTitle && (
-        <CardHeader className="border-b pb-3 pt-4">
+        <CardHeader className="border-b px-4 pb-3 pt-4">
           <CardTitle className="font-medium capitalize">{displayTitle}</CardTitle>
         </CardHeader>
       )}

@@ -5,7 +5,7 @@ import { ArrowRight, Info } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import AnimtedLoadingSpinner from '@/components/animation/AnimtedLoader';
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 import Container from '@/components/layout/Container';
@@ -19,7 +19,7 @@ const TrackOrderForm = () => {
   const router = useRouter();
 
   const { isLoading, refetch } = useOrderTracking({
-    orderNumber: parseInt(inputValue) || 0,
+    orderNumber: inputValue ?? 0,
     enabled: false,
   });
 
@@ -28,9 +28,28 @@ const TrackOrderForm = () => {
     { label: 'Track Order', href: '/track' },
   ];
 
+  const formatOrderNumber = (value: string): string => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '');
+
+    // Format as YYMMDD-XXXXX
+    if (digits.length <= 6) {
+      return digits;
+    } else {
+      const prefix = digits.slice(0, 6);
+      const suffix = digits.slice(6, 11);
+      return `${prefix}-${suffix}`;
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^0-9]/g, '');
-    setInputValue(value);
+    const formattedValue = formatOrderNumber(e.target.value);
+    setInputValue(formattedValue);
+  };
+
+  const validateOrderNumber = (value: string): boolean => {
+    const pattern = /^\d{6}-\d{5}$/;
+    return pattern.test(value);
   };
 
   const handleTrackingRedirect = async () => {
@@ -39,9 +58,8 @@ const TrackOrderForm = () => {
       return;
     }
 
-    const numberValue = Number(inputValue);
-    if (isNaN(numberValue)) {
-      toast.error('Please enter a valid order ID');
+    if (!validateOrderNumber(inputValue)) {
+      toast.error('Please enter a valid order ID in the format YYMMDD-XXXXX');
       return;
     }
 
@@ -50,13 +68,12 @@ const TrackOrderForm = () => {
 
       if (result.data) {
         toast.success('We have found your order! Redirecting you to the order page...');
-
-        router.push(`/track/${numberValue}`);
+        router.push(`/track/${inputValue}`);
       } else {
         toast.error('Order not found. Please check the order ID and try again.');
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       toast.error('Error checking order. Please try again.');
     }
   };
@@ -80,9 +97,10 @@ const TrackOrderForm = () => {
               <Input
                 disabled={isLoading}
                 value={inputValue}
-                placeholder="Enter your order ID"
+                placeholder="Example: 241207-00003"
                 className="max-w-screen-sm"
                 onChange={handleInputChange}
+                maxLength={12}
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
                     handleTrackingRedirect();
@@ -95,7 +113,7 @@ const TrackOrderForm = () => {
           <div className="flex items-center gap-2">
             <Info className="h-5 w-5 text-neutral-500" />
             <p className="md:text-md text-sm text-neutral-600">
-              Order ID that we sent to your email address.
+              Enter your order ID in the format YYMMDD-XXXXX (e.g., 241207-00003).
             </p>
           </div>
           <Button onClick={handleTrackingRedirect} className="md:text-md w-fit">

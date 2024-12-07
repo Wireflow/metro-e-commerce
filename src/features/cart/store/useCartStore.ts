@@ -81,6 +81,10 @@ export const useCartStore = create<CartState>()(
       clearCart: () => {
         set({
           cart: [],
+          paymentMethodId: '',
+          paymentOption: 'online',
+          orderType: 'pickup',
+          notes: '',
         });
       },
       getCartItemTotals: (cartItemId, customer_type) => {

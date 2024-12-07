@@ -19,6 +19,14 @@ export const applyProductFilters = (
       modifiedQuery = modifiedQuery.or(searchConditions.join(','));
     }
 
+    if (filters?.manufacturers && filters?.manufacturers?.length > 0) {
+      // Create an array of conditions for each manufacturer
+      const manufacturerConditions = filters.manufacturers.map(
+        manufacturer => `manufacturer.ilike.%${manufacturer}%`
+      );
+      modifiedQuery = modifiedQuery.or(manufacturerConditions.join(','));
+    }
+
     // Apply boolean filters
     if (filters.inStock !== undefined) {
       modifiedQuery = modifiedQuery.eq('in_stock', filters.inStock);

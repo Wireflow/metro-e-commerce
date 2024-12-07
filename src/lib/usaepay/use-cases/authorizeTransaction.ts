@@ -3,11 +3,6 @@ import { AxiosResponse } from 'axios';
 import { ChargeResponse } from '../types';
 import { makeApiRequest } from '../utils/makeApiRequest';
 
-/**
- * Authorizes a transaction without capturing funds. This places a hold on the customer's card
- * which can be later captured or voided. Useful for validating cards or ensuring funds
- * are available before final charge.
- */
 export interface AuthorizeRequest {
   cardholder: string;
   number: string;
@@ -28,7 +23,7 @@ export interface AuthorizeResponse {
   refId: string;
   tranKey: string;
   amount: string;
-  status: string;
+  status: 'success' | 'error';
   lastFour: number;
 }
 
@@ -56,11 +51,23 @@ export const authorizeCard = async (params: AuthorizeRequest): Promise<Authorize
         lastFour: parseInt(response.data.creditcard.number.slice(-4)),
       };
     } else {
-      throw new Error('Authorization failed');
+      return {
+        refId: response.data.refnum || '',
+        amount: params.amount.toFixed(2),
+        tranKey: response.data.key || '',
+        status: 'error',
+        lastFour: parseInt(response.data.creditcard?.number?.slice(-4) || '0'),
+      };
     }
   } catch (error) {
     console.error('Error authorizing card:', error);
-    throw error;
+    return {
+      refId: '',
+      amount: params.amount.toFixed(2),
+      tranKey: '',
+      status: 'error',
+      lastFour: 0,
+    };
   }
 };
 
@@ -84,10 +91,22 @@ export const authorizeToken = async (params: AuthorizeTokenRequest): Promise<Aut
         lastFour: parseInt(response.data.creditcard.number.slice(-4)),
       };
     } else {
-      throw new Error('Authorization failed');
+      return {
+        refId: response.data.refnum || '',
+        amount: params.amount.toFixed(2),
+        tranKey: response.data.key || '',
+        status: 'error',
+        lastFour: parseInt(response.data.creditcard?.number?.slice(-4) || '0'),
+      };
     }
   } catch (error) {
     console.error('Error authorizing token:', error);
-    throw error;
+    return {
+      refId: '',
+      amount: params.amount.toFixed(2),
+      tranKey: '',
+      status: 'error',
+      lastFour: 0,
+    };
   }
 };

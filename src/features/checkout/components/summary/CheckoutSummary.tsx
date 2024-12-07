@@ -14,6 +14,7 @@ import { CartSummary, SummaryItem } from '@/features/cart/hooks/queries/useCartS
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
 import { CartItem, useCartStore } from '@/features/cart/store/useCartStore';
 import ProductCard from '@/features/products/components/ProductCard';
+import { useOrderMinimum } from '@/hooks/useOrderMinimum';
 import { Enum } from '@/types/supabase/enum';
 import { formatCurrency } from '@/utils/utils';
 
@@ -40,6 +41,7 @@ const CheckoutSummary = ({
   const [showAll, setShowAll] = useState(false);
   const { mutate: createOrder, isPending: isCreatingOrder } = useCreateOrder();
   const { paymentMethodId, paymentOption } = useCartStore();
+  const { reason, meetsMinimum } = useOrderMinimum();
   const { isPossible: isDeliveryPossible } = useDeliveryPossible();
 
   if (loading) {
@@ -58,6 +60,7 @@ const CheckoutSummary = ({
   const moreItems = summary?.cart_items.slice(2) as SummaryItem[];
 
   const itemsToShow = showAll ? summary?.cart_items : firstTwoItems;
+  const onlinePaymentSelected = paymentOption === 'online' && !paymentMethodId;
 
   const handleCreateOrder = () => {
     createOrder({
@@ -156,7 +159,7 @@ const CheckoutSummary = ({
             valueClassName="font-semibold text-black"
           />
         </div>
-        <div className="w-full space-y-2">
+        <div className="w-full space-y-4">
           <Button
             size="xl"
             className="w-full text-sm"
@@ -166,7 +169,9 @@ const CheckoutSummary = ({
               !orderType ||
               !isOrderingAllowed ||
               isCreatingOrder ||
-              (!isDeliveryPossible && orderType === 'delivery')
+              (!isDeliveryPossible && orderType === 'delivery') ||
+              !!onlinePaymentSelected ||
+              !meetsMinimum
             }
           >
             <p>
@@ -176,6 +181,20 @@ const CheckoutSummary = ({
               <ArrowRight className="h-4 w-4" />
             </Animate>
           </Button>
+          <Conditional condition={paymentOption === 'online' && !paymentMethodId}>
+            <QuickAlert
+              variant="destructive"
+              title="No Payment Method Selected"
+              description="You must select a payment method before placing an order"
+            />
+          </Conditional>
+          <Conditional condition={!meetsMinimum}>
+            <QuickAlert
+              variant="destructive"
+              title="Order Does Not Meet Minimum"
+              description={reason ?? 'Order does not meet minimum'}
+            />
+          </Conditional>
         </div>
       </CardFooter>
     </Card>

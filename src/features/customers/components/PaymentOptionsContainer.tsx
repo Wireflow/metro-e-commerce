@@ -5,9 +5,7 @@ import AddCardFormDialog from '@/features/checkout/components/forms/AddCardFormD
 import PaymentsList from '@/features/checkout/components/payments/PaymentsList';
 import { usePaymentMethods } from '@/features/checkout/hooks/queries/usePaymentMethods';
 
-type Props = {};
-
-const PaymentOptionsContainer = (props: Props) => {
+const PaymentOptionsContainer = () => {
   const { data: payments } = usePaymentMethods();
   return (
     <Card className="flex w-full flex-col gap-5">

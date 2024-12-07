@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ViewRow } from '@/types/supabase/table';
 
 type ManufacturersFilterProps = {
-  manufacturers: ViewRow<'category_manufacturers'>[];
+  manufacturers: Partial<ViewRow<'manufacturer_sales_analytics'>>[];
   onSelect: (manufacturers: string[]) => void;
   value?: string[];
 };
@@ -12,9 +12,8 @@ type ManufacturersFilterProps = {
 const ManufacturersFilter = ({ manufacturers, onSelect, value }: ManufacturersFilterProps) => {
   const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>(value || []);
 
-  // Sync with external value
   useEffect(() => {
-    if (value) {
+    if (value && value.length > 0) {
       setSelectedManufacturers(value);
     }
   }, [value]);

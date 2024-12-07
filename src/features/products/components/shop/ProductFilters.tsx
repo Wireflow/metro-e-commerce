@@ -2,7 +2,7 @@
 
 import { Separator } from '@/components/ui/separator';
 
-import { useCategories, useManufacturers } from '../../hooks/category-query-hooks';
+import { useCategories, usePopularManufacturers } from '../../hooks/category-query-hooks';
 import CategoryFilter from './CategoryFilter';
 import ManfacturersFilter from './ManfacturersFilter';
 import PriceRangeFilter, { Range } from './PriceRangeFilter';
@@ -13,6 +13,7 @@ type ProductFiltersProps = {
   setPriceRange: (priceRange: [number, number] | null) => void;
   categoryId: string;
   priceRange: number[];
+  manfacturers: string[];
 };
 
 const ProductFilters = ({
@@ -21,9 +22,10 @@ const ProductFilters = ({
   setPriceRange,
   categoryId,
   priceRange,
+  manfacturers,
 }: ProductFiltersProps) => {
   const { data: categories, isLoading } = useCategories();
-  const { data: manufacturers, isLoading: isLoadingManufacturers } = useManufacturers();
+  const { data: manufacturers, isLoading: isLoadingManufacturers } = usePopularManufacturers();
 
   const handlePriceRangeChange = (range: Range) => {
     setPriceRange(range);
@@ -53,7 +55,11 @@ const ProductFilters = ({
       />
       <Separator />
 
-      <ManfacturersFilter manufacturers={manufacturers || []} onSelect={setSelectedManufacturers} />
+      <ManfacturersFilter
+        manufacturers={manufacturers || []}
+        onSelect={setSelectedManufacturers}
+        value={manfacturers}
+      />
     </div>
   );
 };

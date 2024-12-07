@@ -10,6 +10,7 @@ export type ShopFilters = {
   search?: string;
   sortBy?: 'retail_price' | 'name' | 'created_at';
   sortOrder?: 'asc' | 'desc';
+  manufacturers?: string[];
 };
 
 export type SelectOptions = {
@@ -52,6 +53,7 @@ export const useShopFilters = () => {
       search: searchQuery || undefined,
       sortBy: (sortBy as 'retail_price' | 'name' | 'created_at') || undefined,
       sortOrder: sortBy === 'retail_price' ? 'desc' : 'asc',
+      manufacturers: selectedManufacturers?.length ? selectedManufacturers : undefined,
     }),
     [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery]
   );

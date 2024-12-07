@@ -10,6 +10,7 @@ export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -175,5 +176,32 @@ export const useManufacturers = (limit: number = 10) => {
       }
       return data;
     },
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const usePopularManufacturers = (limit: number = 10) => {
+  return useQuery({
+    queryKey: ['manufacturers', 'popular'],
+    queryFn: async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from('manufacturer_sales_analytics')
+        .select('manufacturer')
+        .order('total_sales', { ascending: false })
+        .limit(limit);
+
+      if (error) {
+        throw new Error('Failed to find manufacturers');
+      }
+
+      if (!data) {
+        throw new Error('Manufacturers not found');
+      }
+      return data;
+    },
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 };

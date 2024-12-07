@@ -1,5 +1,6 @@
 import { Animate } from '@/components/animation/Animate';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 import { Row } from '@/types/supabase/table';
 
 import OrderActivity from './OrderActivity';
@@ -8,11 +9,12 @@ import OrderTimeline from './OrderTimeline';
 
 type Props = {
   order: Partial<Row<'orders'>>;
+  className?: string;
 };
 
-const TrackedOrder = ({ order }: Props) => {
+const TrackedOrder = ({ order, className }: Props) => {
   return (
-    <Animate type="bounce" className="flex flex-col gap-2">
+    <Animate type="bounce" className={cn('flex flex-col gap-2', className)}>
       <OrderSummary
         orderDate={new Date(order?.created_at as string)}
         quantity={order?.total_quantity ?? 0}

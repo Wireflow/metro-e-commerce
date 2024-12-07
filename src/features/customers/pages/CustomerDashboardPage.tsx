@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 
-import Animate from '@/components/animation/Animate';
+import { Animate } from '@/components/animation/Animate';
 import { useUser } from '@/hooks/useUser';
 
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
@@ -16,7 +16,6 @@ const CustomerDashboardPage = () => {
   return (
     <div>
       <Animate className="flex flex-col gap-5" type="bounce">
-        {' '}
         <div className="flex flex-col gap-2">
           <p className="text-2xl font-semibold capitalize">Hello, {metadata.business_name}</p>
           <p className="text-sm lg:w-[440px]">

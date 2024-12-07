@@ -71,8 +71,13 @@ const CustomerAccountMobileSideBar = () => {
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
-      <SheetTrigger className="h-fit rounded-full bg-primary p-3 text-white">
-        <Menu />
+      <SheetTrigger className="fixed bottom-4 right-4 z-50">
+        <button
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-105"
+          onClick={() => setOpen(!open)}
+        >
+          <Menu />
+        </button>
       </SheetTrigger>
 
       <SheetContent side={'left'} className="flex w-80 flex-col p-0 py-6">
@@ -102,7 +107,7 @@ const CustomerAccountMobileSideBar = () => {
           <div className="w-full">
             <SignOutButton
               variant={'none'}
-              className="mt-2 flex items-center gap-5 px-5 py-3 text-sm text-neutral-500 [&_svg]:size-6"
+              className="mt-2 flex items-center gap-5 px-5 py-3 text-sm text-neutral-500 shadow-none [&_svg]:size-6"
             >
               <LogOut size={25} className="h-10" /> Logout
             </SignOutButton>

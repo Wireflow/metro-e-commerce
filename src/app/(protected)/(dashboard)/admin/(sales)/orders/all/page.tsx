@@ -1,4 +1,4 @@
-import AllOrdersPage from '@/features/orders/pages/AllOrdersPage';
+import AllOrdersPage from '@/features/orders/pages/admin/AllOrdersPage';
 
 type Props = {};
 

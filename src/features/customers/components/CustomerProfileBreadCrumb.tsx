@@ -84,7 +84,7 @@ const CustomerProfileBreadCrumb = () => {
     breadcrumbs = [
       ...breadcrumbs,
       { label: 'Order History', href: '/customer/history' },
-      { label: 'Order Details', href: path },
+      { label: 'Order', href: path },
     ];
   } else {
     const currentTabLabel = tabs.find(tab => tab.href === currentTab)?.label || 'Customer';

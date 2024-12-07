@@ -9,7 +9,7 @@
 
 # Checkout
 
-    [] Make sure to check order standards before creating order.
+    [x] Make sure to check order standards before creating order.
         - is store status closed?
         - is order type enabled?
         - is app enabled?
@@ -20,5 +20,5 @@
 
     [x] Implement USAePay add card with token
     [x] Implement authorize transaction
-    [] Implement capture transaction
-    [] Implement void transaction
+    [x] Implement void transaction
+    [x] Implement capture transaction

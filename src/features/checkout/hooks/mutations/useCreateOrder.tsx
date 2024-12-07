@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import CheckoutToast from '@/components/toasts/CheckoutToast';
 import { useClearCart } from '@/features/cart/hooks/mutations/useClearCart';
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
+import { useOrderMinimum } from '@/hooks/useOrderMinimum';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
 import { createPaymentApi } from '@/utils/payments/makePaymentRequest';
@@ -21,6 +23,7 @@ type OrderData = {
 
 export const useCreateOrder = () => {
   const { isPossible: isDeliveryPossible, refetch: checkDeliveryPossible } = useDeliveryPossible();
+  const { meetsMinimum, reason } = useOrderMinimum();
   const { mutate: clearCart } = useClearCart();
   const { mutate: cancelOrder } = useCancelOrder();
 
@@ -36,6 +39,10 @@ export const useCreateOrder = () => {
 
       if (!isDeliveryPossible && data.orderType === 'delivery') {
         throw new Error('Delivery address is not within our delivery radius');
+      }
+
+      if (!meetsMinimum) {
+        throw new Error(reason ?? 'Order does not meet minimum');
       }
 
       if (!data.orderType) {
@@ -55,8 +62,12 @@ export const useCreateOrder = () => {
       }
 
       // Step 2: Handle online payment if selected
-      if (data.paymentOption === 'online' && data.paymentMethodId) {
+      if (data.paymentOption === 'online') {
         try {
+          if (!data.paymentMethodId) {
+            throw new Error('You must select a payment method');
+          }
+
           // Get payment method token
           const { data: method, error: methodError } = await supabase
             .from('payment_methods')
@@ -75,7 +86,7 @@ export const useCreateOrder = () => {
           });
 
           if (paymentError) {
-            throw new Error('Failed to authorize payment');
+            throw new Error(paymentError ?? 'Failed to authorize payment');
           }
 
           // Create payment record
@@ -144,7 +155,10 @@ export const useCreateOrder = () => {
       return order;
     },
     onError: (err: Error) => {
-      toast.error(err.message);
+      toast.custom(() => <CheckoutToast variant="error" description={err.message} />, {
+        duration: 3000,
+        className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+      });
     },
     onSuccess: order => {
       if (order) {
@@ -152,7 +166,10 @@ export const useCreateOrder = () => {
         router.replace(
           `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
         );
-        toast.success('Order created successfully');
+        toast.custom(() => <CheckoutToast variant="success" orderNumber={order?.order_number} />, {
+          duration: 3000,
+          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+        });
       }
     },
   });

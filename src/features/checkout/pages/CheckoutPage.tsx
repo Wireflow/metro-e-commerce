@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import Container from '@/components/layout/Container';
 import { Separator } from '@/components/ui/separator';
 import { useCartSummary } from '@/features/cart/hooks/queries/useCartSummary';
@@ -16,6 +18,7 @@ import { useDeliveryAddress } from '../hooks/queries/useDeliveryAddress';
 import { usePaymentMethods } from '../hooks/queries/usePaymentMethods';
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const { data: paymentMethods, isLoading: isLoadingPaymentMethods } = usePaymentMethods();
   const { formattedAddress: deliveryAddress, isLoading: isLoadingDeliveryAddress } =
     useDeliveryAddress();
@@ -29,6 +32,10 @@ const CheckoutPage = () => {
 
   if (isLoadingPaymentMethods || isLoadingDeliveryAddress || isLoadingPickupAddress) {
     return <CheckoutPageSkeleton />;
+  }
+
+  if (!summary?.cart_items.length) {
+    router.push('/');
   }
 
   return (
