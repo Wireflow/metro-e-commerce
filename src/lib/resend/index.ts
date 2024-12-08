@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 
 import { config } from '@/config';
 
-export const FROM_EMAIL = config.resend.fromEmail;
+export const FROM_EMAIL = config.resend.fromEmail!;
 
 const resendInstance: Resend = new Resend(config.resend.apiKey);
 
