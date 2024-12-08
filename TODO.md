@@ -20,5 +20,5 @@
 
     [x] Implement USAePay add card with token
     [x] Implement authorize transaction
-    [] Implement capture transaction
-    [] Implement void transaction
+    [x] Implement capture transaction
+    [x] Implement void transaction

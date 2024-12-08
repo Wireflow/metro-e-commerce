@@ -24,20 +24,22 @@ const PromoBanner = () => {
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2">
             <PartyPopper className="h-5 w-5 text-white" />
-            <p className="text-sm font-medium text-white">Best Wholesale Prices</p>
+            <p className="text-[13px] font-medium text-white sm:text-sm">Best Wholesale Prices</p>
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <Rocket className="h-5 w-5 animate-pulse text-white" />
-            <p className="text-lg font-bold tracking-wide text-white">
+            <p className="text:sm font-bold tracking-wide text-white lg:text-lg">
               FREE EXPRESS DELIVERY ON ALL LOCAL ORDERS
             </p>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link href={'/shop/all'}>
+            <Link href={'/shop/all'} className="">
               <Button size="sm">
-                Shop Now
+                <p className="flex items-center gap-1">
+                  Shop <span className="hidden sm:block">Now</span>
+                </p>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

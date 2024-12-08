@@ -16,7 +16,7 @@ const ProductShowcaseList = ({ data, title }: Props) => {
   }
 
   return (
-    <div className="p-0 md:col-span-2 lg:col-span-1">
+    <div className="p-0">
       <p className="mb-3 text-lg font-semibold text-gray-900">{title}</p>
       <div className="flex flex-col gap-3 p-0">
         {data &&
@@ -40,7 +40,7 @@ const ProductShowcaseList = ({ data, title }: Props) => {
                   <ProductCard.Title
                     size="sm"
                     product={product}
-                    className="max-w-[250px] truncate md:max-w-[300px]"
+                    className="max-w-[250px] text-wrap"
                   />
                   <ProductCard.Price product={product} className="w-fit" />
                   <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>

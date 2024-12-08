@@ -33,7 +33,7 @@ const HeroSection = () => {
         <div className="md:col-span-2 lg:col-span-4">
           <HeroPromoCarousel />
         </div>
-        <div className="flex flex-col gap-4 md:col-span-2">
+        <div className="flex w-full flex-col gap-4 md:col-span-2 md:flex-row lg:flex-col">
           <HeroProductPromoCards promotions={promotions ?? mockPromotedProducts} />
         </div>
       </div>

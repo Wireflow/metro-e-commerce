@@ -80,8 +80,8 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
 
   return (
     <div className={'bg-gray-100 p-4'}>
-      <div className="flex flex-wrap items-start justify-between md:items-center">
-        <div className="flex flex-1 flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-start justify-between gap-2 md:items-center">
+        <div className="flex flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
           <p className="text-sm text-gray-600">Active filters:</p>
           {activeFilters.map(filter => (
             <button

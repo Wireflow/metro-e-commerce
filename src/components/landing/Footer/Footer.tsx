@@ -1,4 +1,8 @@
 'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+
 import Container from '@/components/layout/Container';
 import {
   usePopularManufacturers,
@@ -31,10 +35,20 @@ const Footer = () => {
           <FooterPopularTags manufacturers={manufacturers ?? []} />
         </div>
       </Container>
-      <div className="border-t border-gray-600 py-10">
+      <div className="flex flex-col items-center border-t border-gray-600 py-10">
         <p className="text-center text-sm text-gray-400">
           © {currentYear} Metro Cash & Carry, Inc. All rights reserved.
         </p>
+
+        <Link
+          href="https://wireflow.us"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-center text-sm text-gray-400 hover:underline"
+        >
+          Powered By <span className="text-blue-400">Wireflow</span>
+          <Image src={'/wireflowLogo.png'} alt="wireflow logo" width={30} height={30} />
+        </Link>
       </div>
     </div>
   );

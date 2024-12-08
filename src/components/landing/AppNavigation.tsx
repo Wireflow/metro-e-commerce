@@ -1,15 +1,16 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Heart } from 'lucide-react';
 
+import { logo } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { useUser } from '@/hooks/useUser';
 
-import Logo from '../branding/Logo';
 import Container from '../layout/Container';
 import LoginPopover from './LoginPopover';
 import ProductSearchbar from './ProductSearch/ProductSearchbar';
@@ -24,7 +25,7 @@ const AppNavigation = () => {
       <Container>
         <div className="hidden w-full justify-between gap-4 md:flex">
           <div className="flex items-center justify-center gap-3">
-            <Logo />
+            <Image src={logo} alt="logo" width={50} height={50} />
             <p className="text-xl text-white">{branch?.name}</p>
           </div>
 
@@ -59,7 +60,7 @@ const AppNavigation = () => {
         <div className="flex flex-col gap-4 md:hidden">
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-2">
-              <Logo />
+              <Image src={logo} alt="logo" width={50} height={50} />
               <p className="text-sm text-white">{branch?.name}</p>
             </div>
             <div className="flex items-center gap-4">

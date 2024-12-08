@@ -41,32 +41,34 @@ const FeaturedCategory = () => {
           isLoading={isLoading}
         />
       </div>
-      <PromoCard
-        product={promotion?.product}
-        promotedProduct={promotion}
-        className="grid min-w-[300px] place-items-center bg-theme-yellow"
-      >
-        <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
-          <div>
-            <PromoCard.Image className="hidden h-[300px] w-[300px] md:block" />
+      <div className="flex justify-center lg:block">
+        <PromoCard
+          product={promotion?.product}
+          promotedProduct={promotion}
+          className="flex h-full w-full flex-col justify-center bg-theme-yellow"
+        >
+          <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
+            <div className="flex justify-center md:block">
+              <PromoCard.Image className="hidden h-[300px] w-[300px] md:block" />
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <PromoCard.Label />
+              <PromoCard.Title className="text-center text-2xl md:text-4xl xl:text-3xl" />
+              <PromoCard.Description className="max-w-[300px]" />
+              <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
+                <div className="mt-3 flex items-center justify-center gap-1">
+                  <p>Only for</p>
+                  <PromoCard.Price
+                    className="rounded-[2px] bg-white px-2 py-1 text-sm"
+                    suffix="USD"
+                  />
+                </div>
+              </WithAuth>
+              <PromoCard.Action className="w-full" />
+            </div>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <PromoCard.Label />
-            <PromoCard.Title className="text-center" />
-            <PromoCard.Description className="w-[300px] text-center" />
-            <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
-              <div className="mt-3 flex items-center justify-center gap-1">
-                <p>Only for</p>
-                <PromoCard.Price
-                  className="rounded-[2px] bg-white px-2 py-1 text-sm"
-                  suffix="USD"
-                />
-              </div>
-            </WithAuth>
-            <PromoCard.Action className="md:w-full" />
-          </div>
-        </div>
-      </PromoCard>
+        </PromoCard>
+      </div>
     </Container>
   );
 };

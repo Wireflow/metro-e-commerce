@@ -477,6 +477,7 @@ export type Database = {
           is_featured: boolean;
           name: string;
           parent_category_id: string | null;
+          promoted: boolean;
           published: boolean;
           updated_at: string;
         };
@@ -490,6 +491,7 @@ export type Database = {
           is_featured?: boolean;
           name: string;
           parent_category_id?: string | null;
+          promoted?: boolean;
           published?: boolean;
           updated_at?: string;
         };
@@ -503,6 +505,7 @@ export type Database = {
           is_featured?: boolean;
           name?: string;
           parent_category_id?: string | null;
+          promoted?: boolean;
           published?: boolean;
           updated_at?: string;
         };

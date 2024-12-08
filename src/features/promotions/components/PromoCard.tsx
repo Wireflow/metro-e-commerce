@@ -208,7 +208,7 @@ const PromoImage = ({
   return product?.images && product?.images.length > 0 ? (
     <div
       className={cn(
-        'relative z-10 mb-4 min-h-[150px] min-w-[250px]',
+        'relative z-10 mb-4 min-h-[150px] min-w-[300px] md:min-w-[125px] lg:min-w-[100px] xl:min-w-[250px]',
         'flex items-center justify-center',
         className
       )}
@@ -229,7 +229,6 @@ const PromoImage = ({
           style={{
             objectFit: object,
             mixBlendMode: 'multiply',
-            padding: '1rem',
           }}
           priority
           className={cn(

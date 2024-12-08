@@ -171,3 +171,5 @@ export const quickLinks = [
     href: '/about',
   },
 ];
+
+export const logo = '/logo-no-bg.png';

@@ -14,7 +14,9 @@ const ProductListHeader = () => {
       <p className="text-lg font-bold md:text-xl">Featured Products</p>
       <Link href={getEditModeUrl('/shop', searchParams)}>
         <Button className="w-fit text-theme-sky-blue" variant={'link'}>
-          Browse All Products <ArrowRight className="h-4 w-4" />
+          <span className="hidden sm:block">Browse All Products</span>{' '}
+          <span className="block sm:hidden">All</span>
+          <ArrowRight className="h-6 w-6" />
         </Button>
       </Link>
     </div>

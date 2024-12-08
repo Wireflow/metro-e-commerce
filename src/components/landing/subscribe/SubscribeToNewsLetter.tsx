@@ -37,15 +37,17 @@ const SubscribeToNewsLetter = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-5 bg-theme-secondary py-10">
-      <div className="flex flex-col items-center gap-3">
-        <p className="text-2xl font-semibold text-white md:text-3xl">Subscribe to our newsletter</p>
-        <p className="w-[370px] text-center text-[13px] text-gray-400 md:w-[550px]">
-          By subscribing, you agree to our terms and conditions, privacy policy, and cookie policy.
-          You will receive our latest news, promotions, and exclusive offers.
+      <div className="mx-5 flex flex-col items-center gap-3">
+        <p className="text-center text-xl font-semibold text-white md:text-3xl">
+          Subscribe to our newsletter
+        </p>
+        <p className="w-full text-center text-[13px] text-gray-400 sm:w-[500px] md:w-[550px]">
+          By subscribing, you agree to our terms and conditions & will receive our latest news,
+          promotions, and exclusive offers.
         </p>
       </div>
       <form onSubmit={handleSubmit} className="md:w-[550px]">
-        <div className="flex items-center gap-4 rounded-md border border-gray-200 bg-white px-2 py-2">
+        <div className="mx-5 flex items-center gap-4 rounded-md border border-gray-200 bg-white px-2 py-2">
           <Input
             type="email"
             value={email}

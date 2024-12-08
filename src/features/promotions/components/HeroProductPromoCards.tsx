@@ -15,7 +15,7 @@ const HeroProductPromoCards = ({ promotions }: Props) => {
           promotedProduct={promo}
           product={promo?.product}
           label={promo?.label ? promo?.label : (promo?.product?.manufacturer ?? 'New Sales')}
-          className="flex w-full flex-col justify-between gap-2 sm:flex-row"
+          className="flex w-full flex-col justify-between gap-8 sm:flex-row"
           variant={index % 2 === 0 ? 'dark' : 'light'}
         >
           <div className="flex flex-col">
@@ -23,8 +23,12 @@ const HeroProductPromoCards = ({ promotions }: Props) => {
             <PromoCard.Title className="text-wrap text-xl" />
             <PromoCard.Action />
           </div>
-          <PromoCard.Discount />
-          <PromoCard.Image object="contain" />
+
+          <div className="md:flex">
+            {' '}
+            <PromoCard.Discount />
+            <PromoCard.Image object="contain" />
+          </div>
         </PromoCard>
       ))}
     </>

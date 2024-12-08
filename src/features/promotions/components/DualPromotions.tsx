@@ -34,7 +34,7 @@ const DualPromotions = () => {
               <div className="space-y-2">
                 <PromoCard.Label />
                 <div className="w-full">
-                  <PromoCard.Title className="text-md block w-full max-w-full truncate capitalize lg:text-xl 2xl:text-2xl" />
+                  <PromoCard.Title className="block w-full max-w-full truncate text-2xl capitalize" />
                 </div>
                 <div className="w-full">
                   <PromoCard.Description className="block w-full text-sm sm:text-sm md:w-80 2xl:text-lg" />
@@ -42,7 +42,7 @@ const DualPromotions = () => {
               </div>
               <PromoCard.Action className="mt-4" />
             </div>
-            <div className="relative ml-4 flex justify-center sm:justify-end">
+            <div className="relative ml-4 flex justify-center">
               <PromoCard.Image className="w-full object-cover lg:h-56 lg:w-56" />
             </div>
           </div>
