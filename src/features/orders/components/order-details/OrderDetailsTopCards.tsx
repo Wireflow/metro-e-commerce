@@ -1,6 +1,8 @@
 import { OrderDetails } from '../../schemas/orders';
 import CustomerInfo from './CustomerInfo';
+import OrderAddress from './OrderAddress';
 import OrderInfo from './OrderInfo';
+import OrderStatus from './OrderStatus';
 import PaymentInfo from './PaymentInfo';
 
 type Props = {
@@ -14,6 +16,10 @@ const OrderDetailsTopCards = ({ order }: Props) => {
       <CustomerInfo order={order} />
       <div className="block xl:hidden">
         <PaymentInfo order={order} />
+      </div>
+      <div className="flex flex-col gap-5 lg:col-span-1 xl:hidden">
+        <OrderAddress order={order} />
+        <OrderStatus order={order} />
       </div>
     </div>
   );

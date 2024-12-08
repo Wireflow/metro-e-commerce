@@ -39,7 +39,7 @@ const OrderInfo = ({ order }: Props) => {
     const paymentDetails = {
       online: {
         icon: CreditCardIcon,
-        text: `Card Ending in ************${order?.payment?.payment_method.last_four}`,
+        text: `Card Ending in ************${order?.payment?.payment_method?.last_four}`,
       },
       card: { icon: CreditCardIcon, text: 'Card At Warehouse' },
       cash: {

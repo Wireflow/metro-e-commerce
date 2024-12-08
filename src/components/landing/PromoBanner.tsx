@@ -37,9 +37,7 @@ const PromoBanner = () => {
           <div className="flex items-center gap-4">
             <Link href={'/shop/all'} className="">
               <Button size="sm">
-                <p className="flex items-center gap-1">
-                  Shop <span className="hidden sm:block">Now</span>
-                </p>
+                <p className="">Shop Now</p>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

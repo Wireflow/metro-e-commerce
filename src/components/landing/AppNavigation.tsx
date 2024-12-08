@@ -59,10 +59,12 @@ const AppNavigation = () => {
 
         <div className="flex flex-col gap-4 md:hidden">
           <div className="flex items-center justify-between py-2">
-            <div className="flex items-center gap-2">
-              <Image src={logo} alt="logo" width={50} height={50} />
-              <p className="text-sm text-white">{branch?.name}</p>
-            </div>
+            <Link href="/">
+              <div className="flex items-center gap-2">
+                <Image src={logo} alt="logo" width={50} height={50} />
+                <p className="text-sm text-white">{branch?.name}</p>
+              </div>
+            </Link>
             <div className="flex items-center gap-4">
               {role !== 'admin' && (
                 <>
