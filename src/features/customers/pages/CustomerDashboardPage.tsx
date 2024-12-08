@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Animate } from '@/components/animation/Animate';
 import { useUser } from '@/hooks/useUser';
 
+import RequestTobaccoApproval from '../components/approval/RequestTobaccoApproval';
 import CustomerAccountDetails from '../components/CustomerAccountDetails';
 import CustomerOrdersHistoryTable from '../components/CustomerOrdersHistoryTable';
 import PaymentOptionsContainer from '../components/PaymentOptionsContainer';
@@ -16,6 +17,7 @@ const CustomerDashboardPage = () => {
   return (
     <div>
       <Animate className="flex flex-col gap-5" type="bounce">
+        <RequestTobaccoApproval />
         <div className="flex flex-col gap-2">
           <p className="text-2xl font-semibold capitalize">Hello, {metadata.business_name}</p>
           <p className="text-sm lg:w-[440px]">

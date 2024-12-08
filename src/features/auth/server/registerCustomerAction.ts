@@ -1,6 +1,7 @@
 'use server';
 
 import { METRO_BRANCH_ID } from '@/data/constants';
+import { sendEmail } from '@/lib/resend';
 import { actionClient } from '@/lib/safe-action';
 import { createClient } from '@/utils/supabase/server';
 
@@ -40,6 +41,14 @@ export const registerCustomerAction = actionClient
 
     if (error) {
       return { success: false, message: error.message };
+    }
+
+    if (data?.user?.email) {
+      await sendEmail({
+        to: data.user?.email,
+        subject: 'Welcome to Metro Cash & Carry',
+        html: `<p>Welcome to Metro Cash & Carry!</p>`,
+      });
     }
 
     return { success: true, user: data };

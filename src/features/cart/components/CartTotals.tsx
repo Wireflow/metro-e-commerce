@@ -75,7 +75,7 @@ const CartTotals = () => {
             valueClassName="font-semibold text-black"
           />
         </div>
-        <div className="space-y-2">
+        <div className="w-full space-y-2">
           <Button
             size="xl"
             className="w-full text-sm"

@@ -8,4 +8,8 @@ export const config = {
     pin: process.env.USAEPAY_PIN,
     apiUrl: process.env.USAEPAY_API_URL,
   },
+  resend: {
+    apiKey: process.env.RESEND_API_KEY,
+    fromEmail: process.env.RESEND_FROM_EMAIL,
+  },
 };
