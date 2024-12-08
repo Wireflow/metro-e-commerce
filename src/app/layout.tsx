@@ -3,6 +3,7 @@ import { Public_Sans } from 'next/font/google';
 import Script from 'next/script';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 
 import LayoutProvider from '@/components/layout/LayoutProvider';
@@ -114,7 +115,10 @@ export default async function RootLayout({
 
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
-            <LayoutProvider>{children}</LayoutProvider>
+            <LayoutProvider>
+              {children}
+              <SpeedInsights />
+            </LayoutProvider>
           </HydrationBoundary>
         </Providers>
       </body>

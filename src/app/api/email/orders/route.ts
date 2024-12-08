@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 
 import { sendEmail } from '@/lib/resend';
+import { generateOrderEmail } from '@/lib/resend/emails/generateOrderEmail';
 import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/server';
 import { AuthenticatedRequest } from '@/utils/supabase/withAuth';
 
-type UpdatePayload = {
+export type OrderUpdatePayload = {
   type: 'UPDATE';
   table: string;
   schema: string;
@@ -16,7 +17,7 @@ type UpdatePayload = {
 export const POST = async (req: AuthenticatedRequest) => {
   try {
     const supabase = createClient();
-    const body: UpdatePayload = await req.json();
+    const body: OrderUpdatePayload = await req.json();
 
     if (body.type !== 'UPDATE' || body.table !== 'orders') {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
@@ -24,6 +25,10 @@ export const POST = async (req: AuthenticatedRequest) => {
 
     if (!body.record) {
       return NextResponse.json({ error: 'Order not found' }, { status: 400 });
+    }
+
+    if (body.record.status === 'created') {
+      return NextResponse.json({ error: 'Invalid order status' }, { status: 400 });
     }
 
     const { data: customer, error: customerError } = await supabase
@@ -36,21 +41,16 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Failed to retrieve customer' }, { status: 400 });
     }
 
-    if (!customer?.email) {
+    if (!customer || !customer?.email) {
       return NextResponse.json({ error: 'Customer email is required' }, { status: 400 });
     }
 
+    const orderEmail = generateOrderEmail(body.record.status, body.record, customer);
+
     const email = await sendEmail({
       to: customer.email,
-      subject: 'Order Confirmed',
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1>Order Confirmed</h1>
-          <p>Dear ${customer.business_name},</p>
-          <p>Your order has been confirmed and is being processed.</p>
-          <p>Expected delivery: ${new Date(body.record.expected_delivery_at || '').toLocaleDateString()}</p>
-        </div>
-      `,
+      subject: orderEmail.subject,
+      html: orderEmail.html,
     });
 
     if (!email.success) {
