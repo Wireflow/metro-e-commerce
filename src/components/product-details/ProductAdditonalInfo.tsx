@@ -16,6 +16,7 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
     { label: 'Barcode', value: product?.barcodes?.[0]?.barcode },
     { label: 'Category', value: category?.name },
     { label: 'Tobacco Product', value: product?.is_tobacco ? 'Yes' : 'No' },
+    { label: 'Item Number', value: product?.item_number ?? 'N/A' },
   ];
 
   return (
@@ -49,7 +50,10 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
             <CardContent className="pt-6">
               <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
                 {additionalInfo.map(({ label, value }) => (
-                  <div key={label} className="border-b border-border pb-4 last:border-0">
+                  <div
+                    key={label}
+                    className="border-b border-border pb-4 last:border-0 md:last:border-b"
+                  >
                     <dt className="mb-1 text-sm font-medium text-muted-foreground">{label}</dt>
                     <dd className="text-base text-foreground">{value || 'N/A'}</dd>
                   </div>

@@ -57,8 +57,8 @@ const QuickAlert = ({
         {description && (
           <AlertDescription className="text-sm opacity-90">{description}</AlertDescription>
         )}
-        {children}
       </div>
+      {children}
     </Alert>
   );
 };
