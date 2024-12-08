@@ -23,12 +23,15 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Customer email is required' }, { status: 400 });
     }
 
-    const { subject, html } = generateWelcomeEmail({
-      business_name: body.record.business_name,
-      first_name: body.record.first_name,
-      last_name: body.record.last_name,
-      email: body.record.email,
-    });
+    const { subject, html } = generateWelcomeEmail(
+      {
+        business_name: body.record.business_name,
+        first_name: body.record.first_name,
+        last_name: body.record.last_name,
+        email: body.record.email,
+      },
+      process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'localhost:3000'
+    );
 
     const email = await sendEmail({
       to: body.record.email,

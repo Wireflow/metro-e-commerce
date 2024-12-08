@@ -1,11 +1,12 @@
-const WEBSITE_URL = origin;
-
-export function generateWelcomeEmail(customer: {
-  business_name: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-}) {
+export function generateWelcomeEmail(
+  customer: {
+    business_name: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  },
+  origin: string
+) {
   const COLORS = {
     primary: '#DC2626', // Red
     secondary: '#2563EB', // Blue
@@ -17,7 +18,7 @@ export function generateWelcomeEmail(customer: {
   };
 
   const businessName = customer.business_name || `${customer.first_name} ${customer.last_name}`;
-  const approvalLink = `${WEBSITE_URL}/customers/approve/tobacco`;
+  const approvalLink = `${origin}/customers/approve/tobacco`;
 
   return {
     subject: `Welcome to Metro Cash & Carry!`,
