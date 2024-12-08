@@ -8,6 +8,10 @@ const ApproveTobacco = async () => {
     data: { user },
   } = await getUser();
 
+  if (!user) {
+    redirect('/customers/sign-in');
+  }
+
   if (user?.user_metadata?.approved_tobacco) {
     redirect('/customer/dashboard');
   }
