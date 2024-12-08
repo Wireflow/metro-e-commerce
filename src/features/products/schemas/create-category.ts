@@ -8,6 +8,7 @@ export const CreateCategorySchema = z
     is_featured: z.boolean().optional(),
     published: z.boolean().optional(),
     parent_category_id: z.string().optional().nullable(),
+    promoted: z.boolean().optional(),
   })
   .superRefine(data => {
     if (data.parent_category_id === data.id) {

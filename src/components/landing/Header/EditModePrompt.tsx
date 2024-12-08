@@ -7,14 +7,16 @@ import { XCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import WithAuth from '@/features/auth/components/WithAuth';
+import { useGlobalDialog } from '@/hooks/useGlobalDialog';
 
 const EditModePrompt = () => {
   const params = useSearchParams();
+  const { open } = useGlobalDialog();
   const pathname = usePathname();
   const router = useRouter();
   const isInEditMode = params.get('edit') === 'true';
 
-  if (!isInEditMode) return null;
+  if (!isInEditMode || !!open) return null;
 
   const handleExitEditMode = () => {
     const newParams = new URLSearchParams(params);

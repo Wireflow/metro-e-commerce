@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { formatDistanceToNow } from 'date-fns';
+import { EyeOff } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 // eslint-disable-next-line import/no-named-as-default
@@ -48,10 +49,15 @@ const ProductList = ({ products }: Props) => {
               })}
             </Badge>
           )}
-          <p>{product.name}</p>
+          {!product?.published && (
+            <Badge variant={'gray'} className="-ml-1 h-5 gap-1 shadow-none">
+              <EyeOff className="h-4 w-4" /> Not Published
+            </Badge>
+          )}
+          <p className="max-w-[200px] overflow-hidden truncate">{product.name}</p>
         </div>
       ),
-      className: 'min-w-[300px] md:min-w-none',
+      className: 'min-w-[200px] md:min-w-none',
       label: 'Name',
     },
     {
@@ -98,7 +104,9 @@ const ProductList = ({ products }: Props) => {
       className: 'min-w-[120px]',
     },
     {
-      key: product => product.manufacturer,
+      key: product => (
+        <p className="max-w-[100px] overflow-hidden truncate">{product.manufacturer}</p>
+      ),
       label: 'Brand',
     },
     {

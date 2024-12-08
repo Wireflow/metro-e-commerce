@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Eye, Heart, ShoppingCart } from 'lucide-react';
+import { Clock, Eye, Heart, ShoppingCart } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -76,9 +76,12 @@ export const PriceSection = ({
       }}
       fallback={
         user ? (
-          <Button className={cn('mt-1 w-full flex-1 border', signInClassname)} variant={'warning'}>
-            Pending Approval
-          </Button>
+          <div className="mt-1 flex w-fit items-center gap-2 rounded-md bg-yellow-50 px-3 py-2 text-sm text-yellow-800 shadow-sm ring-1 ring-inset ring-yellow-600/20 md:w-fit">
+            <Clock className="h-3.5 w-3.5 flex-shrink-0 md:h-4 md:w-4" aria-hidden="true" />
+            <div className="flex flex-col">
+              <span className="text-xs font-medium md:text-xs">Pending Approval</span>
+            </div>
+          </div>
         ) : (
           <SignInButton
             className={cn('mt-1 w-full flex-1', signInClassname)}
@@ -153,7 +156,7 @@ const ProductTitle = ({
 
   return (
     <div className="space-y-1">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col items-start gap-2 md:flex-row">
         <TobaccoBadge isTobacco={isTobacco} />
         <WithAuth
           disableAdmin
@@ -162,7 +165,19 @@ const ProductTitle = ({
           }}
         >
           <Badge variant={'info'} className="rounded-sm text-[10px] font-medium">
-            Requires Approval
+            Needs Approval
+          </Badge>
+        </WithAuth>
+        <WithAuth
+          disableAdmin
+          rules={{
+            customCheck: m => !product?.is_tobacco && m.role !== 'admin',
+          }}
+        >
+          <Badge variant={'info'} className="rounded-sm text-[10px] font-medium">
+            <p className="max-w-[75px] overflow-hidden truncate md:max-w-[50px]">
+              {product?.manufacturer}
+            </p>
           </Badge>
         </WithAuth>
       </div>

@@ -4,9 +4,34 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import * as React from 'react';
 
+import { useGlobalDialog } from '@/hooks/useGlobalDialog';
 import { cn } from '@/lib/utils';
 
-const Dialog = DialogPrimitive.Root;
+const Dialog = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>
+>(({ children, open, onOpenChange, ...props }) => {
+  const { setOpen } = useGlobalDialog();
+
+  React.useEffect(() => {
+    if (open !== undefined) {
+      setOpen(open);
+    }
+  }, [setOpen, open]);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    onOpenChange?.(newOpen);
+  };
+  return (
+    <DialogPrimitive.Root onOpenChange={handleOpenChange} {...props}>
+      {children}
+    </DialogPrimitive.Root>
+  );
+});
+
+Dialog.displayName = DialogPrimitive.Root.displayName;
+Dialog.displayName = DialogPrimitive.Root.displayName;
 
 const DialogTrigger = DialogPrimitive.Trigger;
 

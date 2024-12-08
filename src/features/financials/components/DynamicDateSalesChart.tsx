@@ -129,7 +129,7 @@ const aggregateDataByInterval = (
 
   return Object.entries(aggregated).map(([date, sales]) => ({
     date,
-    sales,
+    sales: parseFloat(sales.toFixed(2)),
   }));
 };
 

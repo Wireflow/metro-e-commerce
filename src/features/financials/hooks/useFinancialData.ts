@@ -5,10 +5,11 @@ import { SalesData } from '@/features/financials/components/FinancialsPage';
 import { Row } from '@/types/supabase/table';
 
 import { fetchFinancialsData } from '../server/fetchFinancialData';
+import { Salesperson } from '../server/getSalespersons';
 
 export type FinancialsData = {
   analytics: DailyAnalytics;
-  salesTeam: Row<'users'>[];
+  salesTeam: Salesperson[];
   ordersCount: number | null;
   salesPersonOrders: Row<'orders'>[];
   chartData: SalesData;

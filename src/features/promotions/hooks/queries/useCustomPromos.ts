@@ -13,6 +13,7 @@ export const useCustomPromos = (promotionIds: number[]) => {
       const { data, error } = await supabase
         .from('custom_promotions')
         .select('*')
+        .order('id', { ascending: true })
         .in('id', promotionIds);
 
       if (error) {
