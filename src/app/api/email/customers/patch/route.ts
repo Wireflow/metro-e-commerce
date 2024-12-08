@@ -11,12 +11,13 @@ export const POST = async (req: AuthenticatedRequest) => {
   try {
     const body: CustomerUpdatePayload = await req.json();
 
+    // Basic validation
     if (body.type !== 'UPDATE' || body.table !== 'customers') {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
 
-    if (!body.record) {
-      return NextResponse.json({ error: 'Customer not found' }, { status: 400 });
+    if (!body.record || !body.old_record) {
+      return NextResponse.json({ error: 'Invalid record data' }, { status: 400 });
     }
 
     if (!body.record.email) {
@@ -32,49 +33,96 @@ export const POST = async (req: AuthenticatedRequest) => {
 
     let emailContent;
 
-    if (body.record.approved && !body.old_record.approved) {
+    // Check for tax ID approval
+    if (
+      body.record.approved &&
+      !body.old_record.approved &&
+      body.record.tax_id &&
+      body.record.tax_id_image_url
+    ) {
       emailContent = generateApprovalEmail({
         ...customer,
         approval_type: 'tax_id',
       });
-    } else if (body.record.approved_tobacco && !body.old_record.approved_tobacco) {
+    }
+    // Check for tobacco license approval
+    else if (
+      body.record.approved_tobacco &&
+      !body.old_record.approved_tobacco &&
+      body.record.tobacco_license &&
+      body.record.tobacco_license_image_url
+    ) {
       emailContent = generateApprovalEmail({
         ...customer,
         approval_type: 'tobacco_license',
       });
-    } else if (body.record.tax_id && body.record.tax_id_image_url) {
+    }
+    // Check for new tax ID submission
+    else if (
+      !body.record.approved &&
+      body.record.tax_id &&
+      body.record.tax_id_image_url &&
+      (!body.old_record.tax_id || !body.old_record.tax_id_image_url)
+    ) {
       emailContent = generateApprovalEmail({
         ...customer,
         approval_type: 'tax_id_pending',
       });
-    } else if (body.record.tobacco_license && body.record.tobacco_license_image_url) {
+    }
+    // Check for new tobacco license submission
+    else if (
+      !body.record.approved_tobacco &&
+      body.record.tobacco_license &&
+      body.record.tobacco_license_image_url &&
+      (!body.old_record.tobacco_license || !body.old_record.tobacco_license_image_url)
+    ) {
       emailContent = generateApprovalEmail({
         ...customer,
         approval_type: 'tobacco_pending',
       });
     }
 
+    // Send email if content is generated
     if (emailContent) {
-      const email = await sendEmail({
-        to: body.record.email,
-        subject: emailContent.subject,
-        html: emailContent.html,
-      });
+      try {
+        const email = await sendEmail({
+          to: body.record.email,
+          subject: emailContent.subject,
+          html: emailContent.html,
+        });
 
-      if (!email.success) {
+        if (!email.success) {
+          console.error('Email sending failed:', email.error);
+          return NextResponse.json(
+            {
+              success: false,
+              error: 'Failed to send email',
+            },
+            { status: 400 }
+          );
+        }
+
         return NextResponse.json(
           {
-            success: false,
-            error: email.error,
+            success: true,
+            data: email.data?.data,
           },
-          { status: 400 }
+          { status: 200 }
         );
+      } catch (emailError) {
+        console.error('Email service error:', emailError);
+        return NextResponse.json({ error: 'Email service error' }, { status: 500 });
       }
-
-      return NextResponse.json({ success: true, data: email.data?.data }, { status: 200 });
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    // No email needed
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'No notification required',
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Customer Update API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
