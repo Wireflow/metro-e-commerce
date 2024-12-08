@@ -24,7 +24,7 @@ const Dialog = React.forwardRef<
     onOpenChange?.(newOpen);
   };
   return (
-    <DialogPrimitive.Root onOpenChange={handleOpenChange} {...props}>
+    <DialogPrimitive.Root onOpenChange={handleOpenChange} {...props} open={open}>
       {children}
     </DialogPrimitive.Root>
   );

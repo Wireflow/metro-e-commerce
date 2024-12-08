@@ -39,7 +39,7 @@ export const POST = withAuth(async (req: AuthenticatedRequest) => {
       );
     }
 
-    return NextResponse.json({ success: false, error: 'Failed to tokenize card' }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Couldn't to save card" }, { status: 400 });
   } catch (error) {
     console.error('Payment API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
