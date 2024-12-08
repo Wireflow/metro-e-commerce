@@ -106,7 +106,7 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
         <Link href={getEditModeUrl('/shop', searchParams)}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             <span className="hidden sm:block">Browse All Products</span>{' '}
-            <span className="block sm:hidden">All</span> <ArrowRight className="h-4 w-4" />
+            <span className="block sm:hidden">Browse All</span> <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
       </div>

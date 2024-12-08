@@ -117,7 +117,7 @@ const BestDeals = ({ className }: Props) => {
         <Link href={getEditModeUrl('/shop', searchParams)}>
           <Button className="w-fit text-theme-sky-blue" variant={'link'}>
             <span className="hidden sm:block">Browse All Products</span>
-            <span className="block sm:hidden">All</span>
+            <span className="block sm:hidden">Browse All</span>
             <ArrowRight className="h-6 w-6" />
           </Button>
         </Link>

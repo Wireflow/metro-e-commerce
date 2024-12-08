@@ -10,9 +10,8 @@ type Props = {
 };
 
 const OrderAddress = ({ order }: Props) => {
-  console.log('order', order);
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <Card>
         <CardContent className="flex flex-col gap-5">
           <div className="flex items-center gap-3 pt-4">
@@ -38,8 +37,8 @@ const OrderAddress = ({ order }: Props) => {
             <div className="flex flex-col justify-end">
               <p className="text-[12px] font-bold">Billing</p>
               <p className="max-w-80 text-sm text-gray-500 md:text-[16px]">
-                {order.payment?.payment_method.billingAddress
-                  ? formatAddress(order.payment?.payment_method.billingAddress)
+                {order.payment?.payment_method?.billingAddress
+                  ? formatAddress(order.payment?.payment_method?.billingAddress)
                   : 'No Address Available'}
               </p>
             </div>

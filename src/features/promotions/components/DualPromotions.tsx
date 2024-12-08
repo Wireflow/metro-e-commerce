@@ -29,7 +29,7 @@ const DualPromotions = () => {
           className="flex-1"
           variant={index % 2 === 0 ? 'light' : 'dark'}
         >
-          <div className="relative flex min-h-[200px] flex-col sm:min-h-[210px] md:min-h-[230px] lg:min-h-[250px] lg:p-4 xl:flex-row xl:items-center xl:justify-between">
+          <div className="relative flex min-h-[200px] flex-col gap-10 sm:min-h-[210px] md:min-h-[230px] lg:min-h-[250px] lg:gap-0 lg:p-4 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex flex-col justify-between xl:max-w-[60%]">
               <div className="space-y-2">
                 <PromoCard.Label />

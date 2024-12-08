@@ -47,7 +47,7 @@ const Footer = () => {
           className="flex items-center gap-1 text-center text-sm text-gray-400 hover:underline"
         >
           Powered By <span className="text-blue-400">Wireflow</span>
-          <Image src={'/wireflowLogo.png'} alt="wireflow logo" width={30} height={30} />
+          <Image src="/WireflowLogo.png" alt="wireflow logo" width={30} height={30} />
         </Link>
       </div>
     </div>

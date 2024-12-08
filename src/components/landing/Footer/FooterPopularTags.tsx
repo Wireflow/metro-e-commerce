@@ -24,7 +24,7 @@ const FooterPopularTags = ({ manufacturers }: Props) => {
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold text-white">Popular Tags</p>
-      <div className="flex flex-wrap gap-3 md:w-80">
+      <div className="flex flex-wrap gap-3 lg:w-80">
         {manufacturers.map(manufacturer => {
           return (
             <div key={manufacturer.manufacturer} className="flex flex-wrap gap-5">
