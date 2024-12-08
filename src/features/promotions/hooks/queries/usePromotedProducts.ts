@@ -18,6 +18,7 @@ export const usePromotedProducts = (promotionIds: number[]) => {
       const { data, error } = await supabase
         .from('promoted_products')
         .select('*, product:products(*, images:product_images(*), barcodes:barcodes(*))')
+        .order('id', { ascending: true })
         .in('id', promotionIds);
 
       if (error) {

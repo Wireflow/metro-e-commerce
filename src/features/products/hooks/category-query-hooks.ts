@@ -4,12 +4,45 @@ import { createClient } from '@/utils/supabase/client';
 
 import { CategoryWithProducts } from '../schemas/category';
 import { Product } from '../schemas/products';
-import { getCategories } from '../server/categories/getCategories';
 
-export const useCategories = () => {
+type CategoryFilters = {
+  search?: string;
+  searchFields?: ('name' | 'description')[];
+};
+
+type UseCastegoriesParams = {
+  filters?: CategoryFilters;
+  enabled?: boolean;
+};
+
+export const useCategories = (params?: UseCastegoriesParams) => {
+  const { filters = {}, enabled = true } = params ?? {};
+
   return useQuery({
-    queryKey: ['categories'],
-    queryFn: getCategories,
+    queryKey: ['categories', JSON.stringify(filters)],
+    queryFn: async () => {
+      const supabase = createClient();
+      let query = supabase.from('categories').select('*');
+
+      if (filters.search && filters.search.length > 0) {
+        const fields = filters.searchFields ?? ['name', 'description'];
+        const searchConditions = fields.map(field => `${field}.ilike.%${filters.search}%`);
+        query = query.or(searchConditions.join(','));
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        throw new Error('Failed to retrieve categories!');
+      }
+
+      if (!data) {
+        throw new Error('No data returned');
+      }
+
+      return data;
+    },
+    enabled,
     refetchOnWindowFocus: false,
   });
 };
@@ -64,6 +97,10 @@ export const useCategoryProducts = (categoryId: string) => {
   return useQuery({
     queryKey: ['categories', 'products', categoryId],
     queryFn: async () => {
+      if (categoryId === 'All Products') {
+        return { products: [] };
+      }
+
       const supabase = createClient();
       const { data, error } = await supabase
         .from('categories')

@@ -1,10 +1,8 @@
-import { ExternalLink } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import { Row } from '@/types/supabase/table';
 import { formatDateToString } from '@/utils/dateUtils';
 
 import { getTrackingUrl } from '../schemas/shipping';
+import TrackPackageButton from './shipping/TrackPackageButton';
 
 type Props = {
   shipping: Row<'order_shipping'> | null;
@@ -25,20 +23,11 @@ const OrderShipping = ({ shipping }: Props) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium">Tracking Number</span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <p className="text-sm text-neutral-600">
                 {shipping?.tracking_number ?? 'Not Available'}
               </p>
-              {shipping?.tracking_number && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 px-2"
-                  onClick={() => window.open(trackingUrl, '_blank')}
-                >
-                  Track Package <ExternalLink className="ml-1 h-3 w-3" />
-                </Button>
-              )}
+              {shipping?.tracking_number && <TrackPackageButton trackingUrl={trackingUrl} />}
             </div>
           </div>
         </div>

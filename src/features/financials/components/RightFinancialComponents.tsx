@@ -5,11 +5,12 @@ import { DailyAnalytics } from '@/features/dashboard/schemas/daily-analytics';
 import { Row } from '@/types/supabase/table';
 import { formatCurrency } from '@/utils/utils';
 
+import { Salesperson } from '../server/getSalespersons';
 import SalesTeam from './SalesTeam';
 
 type Props = {
   analytics: DailyAnalytics;
-  salesTeam: Row<'users'>[];
+  salesTeam: Salesperson[];
   salesPersonOrders: Row<'orders'>[];
 };
 

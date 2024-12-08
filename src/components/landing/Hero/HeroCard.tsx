@@ -38,7 +38,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
         </div>
 
         {/* Image Section with Background Removal */}
-        <div className="relative h-[300px] w-full md:h-auto md:w-1/2">
+        <div className="relative mr-10 h-[300px] w-full md:h-auto md:w-1/2">
           {promotion?.image_url && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative h-full w-full">

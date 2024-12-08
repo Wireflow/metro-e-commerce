@@ -14,6 +14,7 @@ type Props = {
 
 const CategoryProducts = ({ activeTabs, products, isLoading }: Props) => {
   const [activeProducts, setActiveProducts] = useState<Product[]>(products.slice(0, 8));
+
   const { data: categoryProducts } = useCategoryProducts(activeTabs as string);
 
   useEffect(() => {

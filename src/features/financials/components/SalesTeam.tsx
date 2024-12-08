@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-import { DollarSign, Package } from 'lucide-react';
+import { ArrowRight, DollarSign, Package } from 'lucide-react';
+import { useMemo } from 'react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,18 +16,39 @@ type Props = {
 };
 
 const SalesTeam = ({ salesTeam, salesPersonOrders }: Props) => {
+  const salesTeamWithSales = useMemo(() => {
+    return salesTeam.map(user => {
+      const userSales = salesPersonOrders
+        .filter(order => order.salesperson_id === user.id)
+        .reduce((acc, order) => acc + order.total_amount, 0);
+
+      const totalOrders = salesPersonOrders.filter(
+        order => order.salesperson_id === user.id
+      ).length;
+
+      return {
+        ...user,
+        totalOrders,
+        sales: userSales,
+      };
+    });
+  }, [salesTeam, salesPersonOrders]);
+
+  const orderedSalesTeam = salesTeamWithSales.sort((a, b) => b.sales - a.sales);
+
   return (
     <Card className="h-full min-h-0 flex-1 overflow-auto">
-      <CardHeader className="border-b py-6">
+      <CardHeader className="flex flex-row items-center justify-between border-b py-6">
         <CardTitle className="font-medium">Sales Team</CardTitle>
+        <Link href={'/admin/users/sales'}>
+          <Button size={'sm'} variant={'ghost'}>
+            View All <ArrowRight className="h-4 w-4" />
+          </Button>
+        </Link>
       </CardHeader>
       <CardContent className="p-3">
         <div className="flex flex-col gap-4">
-          {salesTeam.map(user => {
-            const userSales = salesPersonOrders
-              .filter(order => order.salesperson_id === user.id)
-              .reduce((acc, order) => acc + order.total_amount, 0);
-
+          {orderedSalesTeam.slice(0, 2).map(user => {
             return (
               <div key={user.id} className="rounded-lg border bg-white p-3 hover:bg-gray-50">
                 {/* Top Row - Avatar and Name */}
@@ -47,14 +69,14 @@ const SalesTeam = ({ salesTeam, salesPersonOrders }: Props) => {
                     <DollarSign className="h-4 w-4 text-primary" />
                     <div>
                       <p className="text-xs text-gray-500">Sales</p>
-                      <p className="font-medium">{formatCurrency(userSales)}</p>
+                      <p className="font-medium">{formatCurrency(user?.sales ?? 0)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-primary" />
                     <div>
                       <p className="text-xs text-gray-500">Orders</p>
-                      <p className="font-medium">{salesPersonOrders.length}</p>
+                      <p className="font-medium">{user.totalOrders ?? 0}</p>
                     </div>
                   </div>
                 </div>

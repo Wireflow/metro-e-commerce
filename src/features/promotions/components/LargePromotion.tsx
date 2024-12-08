@@ -48,7 +48,7 @@ const LargePromotion = () => {
           </div>
 
           <div className="relative md:mt-0">
-            <WithAuth>
+            <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
               <PromoCard.Price className="absolute left-4 top-10 z-20 flex h-16 w-16 items-center justify-center gap-1 rounded-full border-4 border-white bg-theme-beige-700 text-sm text-white shadow-md sm:h-20 sm:w-20 sm:text-base" />
             </WithAuth>
             <PromoCard.Image

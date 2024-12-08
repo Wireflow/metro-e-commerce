@@ -6,7 +6,7 @@ import { DynamicDateSalesData } from '../components/DynamicDateSalesChart';
 export const formatSalesData = (data: any[]): DynamicDateSalesData[] => {
   return data.map(sales => ({
     date: sales.order_date as string,
-    sales: sales.revenue as number,
+    sales: parseFloat(sales.revenue.toFixed(2)) as number,
   }));
 };
 

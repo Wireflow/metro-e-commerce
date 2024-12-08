@@ -9,7 +9,9 @@ type Props = ButtonProps & {
 const SignInButton = ({ text = 'Sign in', ...props }: Props) => {
   return (
     <Link href={'/customers/sign-in'}>
-      <Button {...props}>{text}</Button>
+      <Button {...props}>
+        <p className="max-w-full truncate">{text}</p>
+      </Button>
     </Link>
   );
 };

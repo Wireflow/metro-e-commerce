@@ -55,7 +55,7 @@ const QuickDialog = ({
             e.preventDefault();
           }
         }}
-        className={cn('flex max-h-[90vh] flex-col overflow-hidden', className)}
+        className={cn('flex max-h-[90vh] flex-col overflow-auto custom-scrollbar', className)}
         onCloseAutoFocus={onClose}
       >
         <div className={cn('flex h-full flex-col', contentClassName)}>

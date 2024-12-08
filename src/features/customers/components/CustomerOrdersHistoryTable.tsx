@@ -75,7 +75,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
         </div>
       ),
       label: 'No.',
-      className: 'pl-4 w-[300px]',
+      className: 'pl-4 min-w-[150px]',
     },
     {
       key: order => (
@@ -84,7 +84,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
         </div>
       ),
       label: 'Status',
-      className: ' w-[300px]',
+      className: ' min-w-[130px]',
     },
     {
       key: order => (
@@ -99,7 +99,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
         </div>
       ),
       label: 'Date',
-      className: ' w-[300px]',
+      className: ' min-w-[175px]',
     },
 
     {
@@ -110,7 +110,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
         </div>
       ),
       label: 'Total',
-      className: 'w-[300px] text-left',
+      className: 'min-w-[250px] text-left',
     },
 
     {

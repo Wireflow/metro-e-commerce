@@ -10,7 +10,7 @@ import { uploadCategoryImage } from '../images/uploadCategoryImage';
 
 const supabase = createClient();
 
-export const updateCategory = async (data: CreateCategoryFormData, image?: FormData) => {
+export const updateCategory = async (data: Partial<CreateCategoryFormData>, image?: FormData) => {
   let imageResult: {
     publicUrl?: string;
     path?: string;
@@ -41,7 +41,7 @@ export const updateCategory = async (data: CreateCategoryFormData, image?: FormD
       }
     }
 
-    const result = await uploadCategoryImage(imageFile, Date.now() + '_' + data.name.trim());
+    const result = await uploadCategoryImage(imageFile, Date.now() + '_' + data?.name?.trim());
 
     if (result.success) {
       imageResult = {
@@ -58,13 +58,14 @@ export const updateCategory = async (data: CreateCategoryFormData, image?: FormD
   const { data: category, error } = await supabase
     .from('categories')
     .update({
-      name: data.name.trim(),
-      description: data.description?.trim(),
-      is_featured: data.is_featured,
-      published: data.published,
+      ...(data.name && { name: data.name.trim() }),
+      description: data?.description?.trim(),
+      is_featured: data?.is_featured,
+      published: data?.published,
       image_url: imageResult?.publicUrl || undefined,
       image_path: imageResult?.path || undefined,
-      parent_category_id: data.parent_category_id || null,
+      parent_category_id: data?.parent_category_id || null,
+      promoted: data?.promoted,
     })
     .eq('id', data.id)
     .select()

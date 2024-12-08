@@ -67,7 +67,6 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
       description="Select a new product to promote in this spot"
       content={
         <div className="flex flex-col gap-6">
-          {/* Current Product Section */}
           <div className="mt-4">
             <Label>Promotion Label</Label>
             <Input
@@ -87,13 +86,15 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
                 disableSaleBadge
               />
               <div className="flex flex-col gap-1">
-                <ProductCard.Title product={promotedProduct?.product} className="text-wrap" />
+                <ProductCard.Title
+                  product={promotedProduct?.product}
+                  className="max-w-[200px] overflow-hidden truncate"
+                />
                 <ProductCard.Price product={promotedProduct?.product} />
               </div>
             </ProductCard>
           </div>
 
-          {/* Search Section */}
           <div className="space-y-4">
             <div className="relative">
               <DebouncedSearchInput
@@ -104,7 +105,6 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
               />
             </div>
 
-            {/* Search Results */}
             {searchQuery && (
               <Card className="max-h-[300px] overflow-y-auto p-2">
                 <div className="space-y-2">
@@ -125,7 +125,10 @@ const EditPromoForm = ({ trigger, promotedProduct }: Props) => {
                           disableSaleBadge
                         />
                         <div className="flex flex-1 flex-col gap-1">
-                          <ProductCard.Title product={product} />
+                          <ProductCard.Title
+                            product={product}
+                            className="max-w-[250px] overflow-hidden truncate"
+                          />
                           <ProductCard.Price product={product} />
                         </div>
                         <div

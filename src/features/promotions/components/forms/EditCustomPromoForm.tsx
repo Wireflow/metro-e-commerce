@@ -102,17 +102,21 @@ const EditCustomPromoForm = ({ trigger, promotion }: Props) => {
                 control={form.control}
               />
             </div>
-            <ImageDropzone
-              className="h-full"
-              onImageSelect={setSelectedImage}
-              image={selectedImage}
-              previewUrl={promotion?.image_url ?? ''}
-            />
+            <div>
+              {' '}
+              <ImageDropzone
+                className="h-full"
+                onImageSelect={setSelectedImage}
+                image={selectedImage}
+                previewUrl={promotion?.image_url ?? ''}
+              />
+              <p className="mt-2 text-xs text-gray-500">Recommended: 400 x 400</p>
+            </div>
           </form>
         </Form>
       }
       footer={
-        <div className="flex justify-end gap-3">
+        <div className="mt-4 flex justify-end gap-3">
           <Button
             variant="outline"
             onClick={() => {
