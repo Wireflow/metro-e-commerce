@@ -19,13 +19,10 @@ type Props = {
 };
 
 const RadiusMapDisplay = ({ initialAddress = '', radiusMiles }: Props) => {
-  const [address, setAddress] = useState(initialAddress);
   const [center, setCenter] = useState<[number, number] | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const geocodeAddress = async (searchAddress: string) => {
-    setLoading(true);
     setError(null);
 
     try {
@@ -39,10 +36,8 @@ const RadiusMapDisplay = ({ initialAddress = '', radiusMiles }: Props) => {
       } else {
         setError('Address not found. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to locate address. Please try again.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -51,13 +46,6 @@ const RadiusMapDisplay = ({ initialAddress = '', radiusMiles }: Props) => {
       geocodeAddress(initialAddress);
     }
   }, [initialAddress]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (address.trim()) {
-      geocodeAddress(address);
-    }
-  };
 
   return (
     <div className="space-y-4">

@@ -125,5 +125,3 @@ export const formatExpiration = (value: string) => {
 
   return month + (year ? '/' + year : '');
 };
-
-const handleEditRoute = () => {};

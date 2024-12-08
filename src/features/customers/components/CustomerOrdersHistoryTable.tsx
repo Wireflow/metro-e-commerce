@@ -129,9 +129,9 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
     },
   ]);
   return (
-    <div className="rounded-md border border-gray-200">
+    <div className="rounded-[2px] border border-gray-200">
       <div className="flex items-center justify-between gap-5 px-5 py-3">
-        <p className="text-md font-semibold capitalize">{TableName}</p>
+        <p className="text-md font-medium capitalize">{TableName}</p>
         {action && (
           <Link
             className="flex items-center text-sm text-primary"
@@ -146,7 +146,7 @@ const CustomerOrdersHistoryTable = ({ TableName, action, orders }: Props) => {
         <DynamicTable
           fields={fields}
           data={orders ?? []}
-          className="h-full"
+          className="h-full rounded-[4px]"
           emptyMessage="No order history"
           variant="minimal"
         />

@@ -36,8 +36,6 @@ export const getTopSellingProducts = async ({ startDate, endDate }: DateRange = 
 
   const { data, error } = await query.returns<TopSellingProduct[]>().limit(5);
 
-  console.log(error);
-
   if (error) {
     console.error('Error fetching top selling products:', error);
     throw new Error('Failed to fetch top selling products');

@@ -12,6 +12,7 @@ type Props = {
   onView?: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CustomerActions = ({ customerId, approved, onEdit, blocked, onView }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 

@@ -44,7 +44,7 @@ const ChangePasswordForm = ({ onSuccess }: Props) => {
     <FormProvider {...form}>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-1">
+          <div className="-mb-7 flex flex-col gap-1">
             <InputField
               label="Old Password"
               name="old_password"
@@ -55,7 +55,7 @@ const ChangePasswordForm = ({ onSuccess }: Props) => {
             />
             <Link
               href={'/customers/forgot-password'}
-              className="flex justify-end text-sm text-primary"
+              className="mt-1 flex justify-end text-sm text-primary"
             >
               <p className="text-sm">Forgot Password?</p>
             </Link>

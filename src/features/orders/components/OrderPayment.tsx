@@ -47,7 +47,6 @@ const OrderPayment = ({ payment }: Props) => {
   };
 
   const content = paymentContent[payment.payment_type];
-  const PaymentIcon = content.icon;
   const isOnlinePayment = payment.payment_type === 'online';
 
   return (

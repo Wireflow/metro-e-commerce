@@ -10,6 +10,7 @@ type Props = {
   onEdit?: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CategoryActions = ({ categoryId, published, onEdit }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 

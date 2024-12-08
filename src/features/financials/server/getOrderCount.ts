@@ -1,7 +1,5 @@
 'use server';
 
-import { subDays } from 'date-fns';
-
 import { createClient } from '@/utils/supabase/server';
 
 const supabase = createClient();
@@ -34,7 +32,7 @@ export const getOrdersCount = async ({ startDate, endDate }: DateRange = {}) => 
       query = query.lte('created_at', formattedEndDate);
     }
 
-    const { data, error, count } = await query;
+    const { error, count } = await query;
 
     if (error) {
       console.error('Error fetching order count:', error);

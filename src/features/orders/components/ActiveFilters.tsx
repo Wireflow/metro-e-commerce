@@ -47,6 +47,7 @@ const ActiveFilters = () => {
 
   // Only include filters that have actual values (not undefined or empty string)
   const activeFilters = Object.entries(filters).filter(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, value]) =>
       value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)
   );

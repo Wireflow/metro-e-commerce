@@ -36,6 +36,7 @@ export const CreateCardSchema = z.object({
       return expiry >= now;
     }, 'Card has expired')
     .refine(val => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [monthStr, yearStr] = val.split('/');
       const year = 2000 + parseInt(yearStr);
 

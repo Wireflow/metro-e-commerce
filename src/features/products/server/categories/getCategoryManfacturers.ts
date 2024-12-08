@@ -11,9 +11,6 @@ export const getCategoryManfacturers = async (categoryId: string, limit: number 
     .eq('category_id', categoryId)
     .limit(limit);
 
-  console.log(error);
-  console.log(data);
-
   if (error) {
     throw new Error('Failed to retrieve manufacturersa');
   }

@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 export const tableVariants = {
   default: 'rounded-[4px] border border-gray-200 shadow-sm',
   bordered: 'rounded-none border-2 border-gray-300',
-  minimal: 'border-0 shadow-none',
+  minimal: 'border-0 rounded-[4px] shadow-none',
   striped: 'rounded-[4px] border border-gray-200 [&_tr:nth-child(even)]:bg-gray-50',
 } as const;
 

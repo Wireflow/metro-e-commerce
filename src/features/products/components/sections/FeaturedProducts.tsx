@@ -17,6 +17,7 @@ const FeaturedCategory = () => {
   );
   const { data: promotions, isLoading: isLoadingPromotions } = usePromotedProducts([6]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeTabs, setActiveTabs] = useState<string | null>('All Products');
 
   const promotion = useMemo(() => {

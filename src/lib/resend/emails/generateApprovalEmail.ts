@@ -1,5 +1,3 @@
-const WEBSITE_URL = 'https://wholesale.metro.com.lb';
-
 type ApprovalEmailProps = {
   business_name: string;
   first_name: string;
