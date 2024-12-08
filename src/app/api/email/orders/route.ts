@@ -2,17 +2,11 @@ import { NextResponse } from 'next/server';
 
 import { sendEmail } from '@/lib/resend';
 import { generateOrderEmail } from '@/lib/resend/emails/generateOrderEmail';
-import { Row } from '@/types/supabase/table';
+import { WebhookPayload } from '@/types/webhooks/payloads';
 import { createClient } from '@/utils/supabase/server';
 import { AuthenticatedRequest } from '@/utils/supabase/withAuth';
 
-export type OrderUpdatePayload = {
-  type: 'UPDATE';
-  table: string;
-  schema: string;
-  record: Row<'orders'>;
-  old_record: Row<'orders'>;
-};
+export type OrderUpdatePayload = WebhookPayload<'UPDATE', 'orders'>;
 
 export const POST = async (req: AuthenticatedRequest) => {
   try {
@@ -45,7 +39,7 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Customer email is required' }, { status: 400 });
     }
 
-    const orderEmail = generateOrderEmail(body.record.status, body.record, customer);
+    const orderEmail = generateOrderEmail(body.record, customer);
 
     const email = await sendEmail({
       to: customer.email,
