@@ -10,7 +10,8 @@ import { cn } from '@/lib/utils';
 const Dialog = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>
->(({ children, open, onOpenChange, ...props }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(({ children, open, onOpenChange, ...props }, ref) => {
   const { setOpen } = useGlobalDialog();
 
   React.useEffect(() => {

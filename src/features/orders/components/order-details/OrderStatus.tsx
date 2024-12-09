@@ -95,7 +95,7 @@ const OrderStatus = ({ order }: Props) => {
   };
 
   return (
-    <Card>
+    <Card className="shadow-none">
       <CardContent>
         <div className="mb-4 flex items-center gap-3 pt-4">
           <p className="text-lg font-semibold">Order Status</p>

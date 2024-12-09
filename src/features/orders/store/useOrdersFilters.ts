@@ -20,6 +20,7 @@ const initialFilters: OrdersFilters = {
   searchFields: ['business_name'],
   sortBy: 'created_at',
   sortOrder: 'desc',
+  showFailed: false,
 };
 
 export const useOrdersFiltersStore = create<OrdersFiltersStore>()(

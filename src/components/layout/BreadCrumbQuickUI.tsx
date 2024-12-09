@@ -36,7 +36,7 @@ const BreadCrumbQuickUI = ({ breadcrumbs }: PageHeaderProps) => {
                 </BreadcrumbLink>
               </BreadcrumbItem>
               {breadcrumbs.map((item, index) => (
-                <React.Fragment key={item.href}>
+                <React.Fragment key={`${item.href}-${index}`}>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     {index === breadcrumbs.length - 1 ? (

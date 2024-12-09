@@ -21,7 +21,7 @@ const CustomerInfo = ({ order }: Props) => {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-none">
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-3 pt-4">
           <p className="h-fit text-lg font-semibold">Customer</p>

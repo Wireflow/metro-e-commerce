@@ -81,31 +81,33 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
   return (
     <div className={'bg-gray-100 p-4'}>
       <div className="flex flex-wrap items-start justify-between gap-2 md:items-center">
-        <div className="flex flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
-          <p className="text-sm text-gray-600">Active filters:</p>
-          {activeFilters.map(filter => (
-            <button
-              key={filter.id}
-              onClick={filter.onRemove}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
-            >
-              <span className="text-[13px] font-medium">{filter.label}:</span>
-              <span className="max-w-[150px] truncate text-[13px]">{filter.value}</span>
-              <X className="h-4 w-4" />
-            </button>
-          ))}
+        <div className="flex flex-1 flex-col items-start gap-2 sm:flex-row sm:items-start">
+          <p className="min-w-[100px] text-sm text-gray-600">Active filters:</p>
+          <div className="flex flex-wrap gap-2">
+            {activeFilters.map(filter => (
+              <button
+                key={filter.id}
+                onClick={filter.onRemove}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
+              >
+                <span className="text-[13px] font-medium">{filter.label}:</span>
+                <span className="max-w-[150px] truncate text-[13px]">{filter.value}</span>
+                <X className="h-4 w-4" />
+              </button>
+            ))}
 
-          {activeFilters.length > 1 && (
-            <button
-              onClick={clearFilters}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-[13px] text-sm text-gray-700 transition-colors hover:bg-gray-200"
-            >
-              <span className="text-[13px]">Clear all</span>
-              <X className="h-4 w-4" />
-            </button>
-          )}
+            {activeFilters.length > 1 && (
+              <button
+                onClick={clearFilters}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-3 py-1 text-[13px] text-sm text-gray-700 transition-colors hover:bg-gray-200"
+              >
+                <span className="text-[13px]">Clear all</span>
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
         </div>
-        <p className="text-sm text-gray-500">
+        <p className="self-start text-sm text-gray-500">
           <span className="font-bold">{resultsCount}</span> Results found
         </p>
       </div>

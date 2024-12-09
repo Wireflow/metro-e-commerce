@@ -16,6 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { Switch } from '@/components/ui/switch';
 
 import { OrdersFilters } from '../hooks/orders-query-hook';
 import { useOrdersFiltersStore } from '../store/useOrdersFilters';
@@ -44,6 +45,7 @@ const OrderFiltersSheet = () => {
     { value: 'refunded', label: 'Refunded' },
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'preparing', label: 'Preparing' },
+    { value: 'created', label: 'Failed' },
   ];
 
   const orderOptions = [
@@ -153,6 +155,14 @@ const OrderFiltersSheet = () => {
                 onValueChange={value => handleStatusChange('status', value)}
               />
             </div>
+          </div>
+
+          <div className="flex w-full items-center justify-between space-x-2 rounded-sm border p-2">
+            <Label>Show Failed</Label>
+            <Switch
+              checked={tempFilters.showFailed}
+              onCheckedChange={e => setTempFilters(prev => ({ ...prev, showFailed: e }))}
+            />
           </div>
 
           {/* Price Range */}

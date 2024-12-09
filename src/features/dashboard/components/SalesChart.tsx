@@ -1,5 +1,3 @@
-'use client';
-
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -42,12 +40,17 @@ export default function SalesChart({ data }: { data: SalesChartData[] }) {
                 <span className="text-sm text-gray-600">This Week</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: '#3276E8' }}></div>
+                <div className="h-3 w-3 rounded-sm bg-[#3276E8]"></div>
                 <span className="text-sm text-gray-600">Last Week</span>
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={'100%'}>
-              <BarChart data={data} margin={{ top: 20, right: 80, bottom: 20, left: 20 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={data}
+                margin={{ top: 20, right: 80, bottom: 20, left: 20 }}
+                barGap={0}
+                barCategoryGap="35%"
+              >
                 <XAxis
                   dataKey="date"
                   tickLine={false}
@@ -66,20 +69,8 @@ export default function SalesChart({ data }: { data: SalesChartData[] }) {
                   tickFormatter={formatCurrency}
                   width={60}
                 />
-                <Bar
-                  dataKey="this_week"
-                  stackId="a"
-                  fill="black"
-                  radius={[0, 0, 4, 4]}
-                  maxBarSize={10}
-                />
-                <Bar
-                  dataKey="last_week"
-                  stackId="a"
-                  fill="#3276E8"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={10}
-                />
+                <Bar dataKey="this_week" fill="black" radius={[4, 4, 4, 4]} maxBarSize={10} />
+                <Bar dataKey="last_week" fill="#3276E8" radius={[4, 4, 4, 4]} maxBarSize={10} />
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
@@ -88,7 +79,6 @@ export default function SalesChart({ data }: { data: SalesChartData[] }) {
                     />
                   }
                   cursor={false}
-                  defaultIndex={1}
                 />
               </BarChart>
             </ResponsiveContainer>

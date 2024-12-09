@@ -36,9 +36,9 @@ const SocialsBanner = () => {
             <p className="block text-white md:hidden">{branch?.name}</p>
           </div>
           <div className="flex gap-4">
-            {socials.map(({ icon, link }) => (
+            {socials.map(({ icon, link }, index) => (
               <a
-                key={link}
+                key={index}
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"

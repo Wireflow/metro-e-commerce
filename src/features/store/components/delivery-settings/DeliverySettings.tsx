@@ -9,7 +9,7 @@ import { useCurrentBranch } from '@/hooks/queries/useCurrentBranch';
 import { Enum } from '@/types/supabase/enum';
 import { formatAddress } from '@/utils/utils';
 
-import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranch';
+import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranchSettings';
 import { useBranchSettings } from '../../hooks/queries/useBranchSettings';
 import DeliveryOptions from './DeliveryOptions';
 import RadiusMapDisplay from './DeliveryRadiusMap';

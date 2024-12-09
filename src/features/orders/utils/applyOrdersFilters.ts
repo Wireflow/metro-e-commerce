@@ -47,6 +47,10 @@ export const applyOrdersFilters = (
       modifiedQuery = modifiedQuery.eq('status', filters.status);
     }
 
+    if (filters.showFailed === false) {
+      modifiedQuery = modifiedQuery.neq('status', 'created');
+    }
+
     return modifiedQuery;
   });
 };

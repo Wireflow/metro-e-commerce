@@ -71,7 +71,7 @@ const CustomerAccountSideBar = () => {
       <div className="flex w-full flex-col items-start border py-5">
         <div className="w-full">
           {tabs.map((tab, index) => (
-            <div key={index} className="w-full">
+            <div key={`${index}-${tab}`} className="w-full">
               <Link
                 className={`flex w-full items-center gap-5 px-5 py-3 text-sm md:w-80 ${
                   currentTab === tab.href

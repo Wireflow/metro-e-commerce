@@ -103,12 +103,14 @@ const ShopPage = () => {
                 >
                   <div className="flex flex-col items-center">
                     <PromoCard.Label />
-                    <PromoCard.Title />
+                    <div>
+                      <PromoCard.Title className="mb-2 text-wrap text-center" />
+                    </div>
                   </div>
                   <PromoCard.Image object="contain" />
                   <div className="flex flex-col items-center">
                     <PromoCard.Price />
-                    <PromoCard.Description />
+                    <PromoCard.Description className="text-wrap text-center" />
                   </div>
                   <PromoCard.Action className="w-full" />
                 </PromoCard>

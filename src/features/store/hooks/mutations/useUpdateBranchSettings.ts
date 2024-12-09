@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { updateBranch } from '../../server/updateBranch';
+import { updateBranchSettings } from '../../server/updateBranchSettings';
 
-export const useUpdateBranch = () => {
+export const useUpdateBranchSettings = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['update-branch'],
-    mutationFn: updateBranch,
+    mutationKey: ['update-branch-settings'],
+    mutationFn: updateBranchSettings,
     onSuccess: data => {
       if (data?.success) {
         toast.success('Website settings updated!');

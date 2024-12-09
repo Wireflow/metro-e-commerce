@@ -40,6 +40,7 @@ const CategoryMenu = () => {
     e.stopPropagation();
 
     if (isMobile) {
+      setIsOpen(false);
       router.push(`/shop?category=${categoryId}`);
       return;
     }
@@ -91,6 +92,7 @@ const CategoryMenu = () => {
                                 subCategories={subCategories ?? []}
                                 products={featuredProducts ?? []}
                                 loading={isLoadingProducts}
+                                setOpen={setIsOpen}
                               />
                             </span>
                           </div>

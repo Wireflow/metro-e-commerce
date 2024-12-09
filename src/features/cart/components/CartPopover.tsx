@@ -60,6 +60,11 @@ const CartPopover = () => {
     <Popover>
       <PopoverTrigger>
         <WithAuth
+          loadingPlaceholder={
+            <Link href={'/customers/sign-in'}>
+              <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />
+            </Link>
+          }
           fallback={
             <Link href={'/customers/sign-in'}>
               <ShoppingCart className="h-6 w-6 text-white md:h-7 md:w-7" />

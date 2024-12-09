@@ -119,7 +119,7 @@ const PaymentCard = ({
         {showCardHolder && (
           <div className="flex items-center justify-between gap-2">
             {logos[payment.provider ?? 'unknown']}
-            <p className="text-sm">{payment.card_holder}</p>
+            <p className="text-sm uppercase">{payment.card_holder}</p>
           </div>
         )}
 

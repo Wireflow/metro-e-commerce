@@ -15,11 +15,12 @@ import AnimtedLoadingSpinner from '../animation/AnimtedLoader';
 type CategoryLinkButtonProps = {
   categoryId: string;
   categoryName: string;
+  onClick?: () => void;
 };
 
-const CategoryLinkButton = ({ categoryId, categoryName }: CategoryLinkButtonProps) => {
+const CategoryLinkButton = ({ categoryId, categoryName, onClick }: CategoryLinkButtonProps) => {
   return (
-    <Link href={`/shop?category=${categoryId}`}>
+    <Link href={`/shop?category=${categoryId}`} onClick={onClick}>
       <div className="group flex w-[150px] items-center justify-between rounded-[1px] p-1 px-2 hover:bg-gray-100">
         <p className="w-full truncate capitalize">{categoryName}</p>
         <ArrowTopRightIcon className="h-4 w-4 opacity-0 group-hover:opacity-100" />
@@ -33,9 +34,16 @@ type Props = {
   products: Product[];
   subCategories: Row<'categories'>[];
   loading: boolean;
+  setOpen?: (open: boolean) => void;
 };
 
-const CategoryFeaturedProducts = ({ products, parentCategory, loading, subCategories }: Props) => {
+const CategoryFeaturedProducts = ({
+  products,
+  parentCategory,
+  loading,
+  subCategories,
+  setOpen,
+}: Props) => {
   const router = useRouter();
 
   if (loading) {
@@ -47,13 +55,22 @@ const CategoryFeaturedProducts = ({ products, parentCategory, loading, subCatego
   }
 
   return (
-    <AnimatedDiv className="h-[440px] w-[640px] p-6 pl-4">
+    <AnimatedDiv className="p-6 pl-4">
       <div className="flex gap-12">
         <div className="flex flex-col gap-2">
-          <CategoryLinkButton categoryId={parentCategory.id!} categoryName="all" />
+          <CategoryLinkButton
+            categoryId={parentCategory.id!}
+            categoryName="all"
+            onClick={() => setOpen?.(false)}
+          />
           {subCategories &&
             subCategories?.map(m => (
-              <CategoryLinkButton key={m.id} categoryId={m.id!} categoryName={m.name!} />
+              <CategoryLinkButton
+                key={m.id}
+                categoryId={m.id!}
+                categoryName={m.name!}
+                onClick={() => setOpen?.(false)}
+              />
             ))}
         </div>
         <div>
@@ -76,8 +93,10 @@ const CategoryFeaturedProducts = ({ products, parentCategory, loading, subCatego
                     className="h-[70px] w-[70px]"
                   />
                   <div className="flex flex-col gap-1">
-                    <ProductCard.Title product={item} />
-                    <ProductCard.Price product={item} />
+                    <div className="max-w-[calc(100%-20px)] truncate">
+                      <ProductCard.Title product={item} />
+                    </div>
+                    <ProductCard.Price product={item} className="max-w-[150px]" />
                   </div>
                 </ProductCard>
               ))}

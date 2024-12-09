@@ -33,7 +33,7 @@ const ShippingInfo = ({ shipping }: Props) => {
   };
 
   return (
-    <Card className="p-3">
+    <Card className="p-3 shadow-none">
       <div className="space-y-3 px-6">
         <h1 className="text-xl font-semibold">Shipment Info</h1>
 

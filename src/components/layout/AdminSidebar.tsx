@@ -15,7 +15,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { useCurrentBranch } from '@/hooks/queries/useCurrentBranch';
+import { useBranch } from '@/hooks/queries/useMetro';
 import { useUser } from '@/hooks/useUser';
 
 import AnimatedDiv from '../animation/AnimatedDiv';
@@ -122,7 +122,7 @@ const navigationGroups = [
 
 export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user, isLoading } = useUser();
-  const { branch, isLoading: isBranchLoading } = useCurrentBranch();
+  const { branch, isLoading: isBranchLoading } = useBranch();
 
   if (isLoading || isBranchLoading) {
     return <SidebarSkeleton />;

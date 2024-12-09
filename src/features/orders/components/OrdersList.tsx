@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { ArrowRight, Calendar, Check, Package, Store, Truck } from 'lucide-react';
+import { ArrowRight, Calendar, Check, Info, Package, Store, Truck } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -129,7 +129,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
         </div>
       ),
       label: 'No.',
-      className: 'w-[50px]',
+      className: 'min-w-[100px]',
     },
     {
       key: order => (
@@ -183,12 +183,27 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
       key: order => (
         <div className="flex flex-col items-start gap-1.5">
           <Badge
-            variant={order?.payment?.payment_type ? 'outline-success' : 'outline-error'}
+            variant={
+              order?.payment?.payment_type
+                ? order?.payment?.payment_type === 'later'
+                  ? 'outline-info'
+                  : 'outline-success'
+                : 'outline-error'
+            }
             className="capitalize"
           >
             {order?.payment?.payment_type ? (
               <span className="flex items-center gap-1 capitalize">
-                Paid {order.payment.payment_type} <Check className="h-3 w-3" />{' '}
+                {order?.payment?.payment_type === 'later' ? (
+                  <>
+                    Pay on {order?.type} <Info className="h-3 w-3" />
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    Paid {order.payment.payment_type} <Check className="h-3 w-3" />
+                  </>
+                )}
               </span>
             ) : (
               'Payment Failed'
@@ -213,7 +228,7 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
           <Badge variant="secondary" className="w-fit">
             {order.total_quantity} items
           </Badge>
-          {order.shipping_costs && (
+          {!!order.shipping_costs && (
             <span className="w-fit rounded-md bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
               +{formatCurrency(order.shipping_costs)} shipping
             </span>

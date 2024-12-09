@@ -30,7 +30,7 @@ const CustomerDashboardPage = () => {
               Shipping and Billing Addresses
             </Link>{' '}
             and edit your Password and{' '}
-            <Link className="text-theme-sky-blue" href={'/settings'}>
+            <Link className="text-theme-sky-blue" href={'/customer/settings'}>
               Account Details.
             </Link>
           </p>

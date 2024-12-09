@@ -12,13 +12,10 @@ const FooterBrandInfo = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <Link href="/">
-        <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
-          <Logo />
-          <p className="text-xl text-white">{branch?.name}</p>{' '}
-        </div>
-      </Link>
-
+      <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
+        <Logo />
+        <p className="text-xl text-white">{branch?.name}</p>{' '}
+      </div>
       <div>
         <p className="text-sm text-gray-400">Customer Support</p>
         <p className="text-lg text-gray-200">{formatPhoneNumber(branch?.phone)}</p>

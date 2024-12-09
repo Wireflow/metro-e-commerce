@@ -38,7 +38,7 @@ export const useCartSummary = () => {
         .from('customer_cart_summary')
         .select('*')
         .eq('customer_id', session?.user?.id)
-        .returns<CartSummary[]>();
+        .single();
 
       if (error) {
         throw new Error('Error fetching cart summary');
@@ -48,7 +48,7 @@ export const useCartSummary = () => {
         throw new Error('No cart summary found');
       }
 
-      return data[0];
+      return data as CartSummary;
     },
   });
 };

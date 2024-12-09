@@ -3,7 +3,7 @@
 import { Update } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/server';
 
-export const updateBranchSettings = async (data: Omit<Update<'branch_settings'>, 'branch_id'>) => {
+export const updateBranch = async (data: Omit<Update<'branches'>, 'branch_id'>) => {
   const supabase = createClient();
 
   const {
@@ -16,7 +16,7 @@ export const updateBranchSettings = async (data: Omit<Update<'branch_settings'>,
   }
 
   if (!user?.user_metadata?.branch_id) {
-    return { success: false, error: "Couldn't update branch settings" };
+    return { success: false, error: "Couldn't update branch" };
   }
 
   if (user?.user_metadata?.role !== 'admin') {
@@ -24,9 +24,9 @@ export const updateBranchSettings = async (data: Omit<Update<'branch_settings'>,
   }
 
   const { data: branch, error } = await supabase
-    .from('branch_settings')
+    .from('branches')
     .update(data)
-    .eq('branch_id', user?.user_metadata.branch_id)
+    .eq('id', user?.user_metadata.branch_id)
     .select()
     .single();
 

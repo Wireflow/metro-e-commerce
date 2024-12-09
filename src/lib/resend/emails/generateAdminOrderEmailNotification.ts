@@ -50,19 +50,19 @@ export function generateAdminOrderEmailNotification(
         <div style="border-bottom: 1px solid ${COLORS.border}; padding-bottom: 12px; margin-bottom: 12px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="color: ${COLORS.gray};">Order Number:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;">#${order.order_number}</span>
+            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> #${order.order_number}</span>
           </div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="color: ${COLORS.gray};">Business Name:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;">${customer.business_name || 'N/A'}</span>
+            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> ${customer.business_name || 'N/A'}</span>
           </div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="color: ${COLORS.gray};">Order Type:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;">${order.type?.toUpperCase() || 'N/A'}</span>
+            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> ${order.type?.toUpperCase() || 'N/A'}</span>
           </div>
           <div style="display: flex; justify-content: space-between;">
             <span style="color: ${COLORS.gray};">Total Amount:</span>
-            <span style="color: ${COLORS.primary}; font-weight: bold;">${formatCurrency(order.total_amount ?? 0)}</span>
+            <span style="color: ${COLORS.primary}; font-weight: bold;"> ${formatCurrency(order.total_amount ?? 0)}</span>
           </div>
         </div>
       </div>

@@ -25,6 +25,7 @@ export interface OrdersFilters {
   sortOrder?: 'asc' | 'desc';
   status?: 'pending' | 'cancelled' | 'completed' | 'refunded' | 'confirmed' | 'preparing';
   customerId?: string;
+  showFailed?: boolean;
 }
 
 export interface PaginationParams {

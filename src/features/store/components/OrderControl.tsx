@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { useUpdateBranchSettings } from '../hooks/mutations/useUpdateBranch';
+import { useUpdateBranchSettings } from '../hooks/mutations/useUpdateBranchSettings';
 import { useBranchSettings } from '../hooks/queries/useBranchSettings';
 
 const OrderControl = () => {

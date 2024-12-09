@@ -1,11 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { Heart } from 'lucide-react';
 
-import { logo } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
@@ -42,6 +40,11 @@ const AppNavigation = () => {
                 <CartPopover />
 
                 <WithAuth
+                  loadingPlaceholder={
+                    <Link href="/customer/wishlist">
+                      <Heart className="h-7 w-7 text-white" />
+                    </Link>
+                  }
                   fallback={
                     <Link href="/customers/sign-in">
                       <Heart className="h-7 w-7 text-white" />
@@ -60,12 +63,10 @@ const AppNavigation = () => {
 
         <div className="flex flex-col gap-4 md:hidden">
           <div className="flex items-center justify-between py-2">
-            <Link href="/">
-              <div className="flex items-center gap-2">
-                <Image src={logo} alt="logo" width={50} height={50} />
-                <p className="text-sm text-white">{branch?.name}</p>
-              </div>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Logo />
+              <p className="text-sm text-white">{branch?.name}</p>
+            </div>
             <div className="flex items-center gap-4">
               {role !== 'admin' && (
                 <>

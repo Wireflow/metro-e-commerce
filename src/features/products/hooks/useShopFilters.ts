@@ -1,5 +1,5 @@
 import { parseAsArrayOf, parseAsInteger, parseAsString, useQueryState } from 'nuqs';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 export type ShopFilters = {
   published: boolean;
@@ -19,6 +19,9 @@ export type SelectOptions = {
 };
 
 export const useShopFilters = () => {
+  // Debounce timer ref
+  const priceDebounceTimer = useRef<NodeJS.Timeout | null>(null);
+
   // Manufacturers
   const [selectedManufacturers, setSelectedManufacturers] = useQueryState(
     'manufacturers',
@@ -33,9 +36,23 @@ export const useShopFilters = () => {
   // Category
   const [categoryId, setCategoryId] = useQueryState('category', parseAsString.withDefault(''));
 
-  // Price Range
+  // Price Range with debounce
   const priceRangeParser = parseAsArrayOf(parseAsInteger).withDefault([0, 0]);
-  const [priceRange, setPriceRange] = useQueryState('price', priceRangeParser);
+  const [priceRange, setPriceRangeImmediate] = useQueryState('price', priceRangeParser);
+
+  // Debounced price range setter
+  const setPriceRange = useCallback(
+    (newPrice: [number, number] | null) => {
+      if (priceDebounceTimer.current) {
+        clearTimeout(priceDebounceTimer.current);
+      }
+
+      priceDebounceTimer.current = setTimeout(() => {
+        setPriceRangeImmediate(newPrice);
+      }, 300);
+    },
+    [setPriceRangeImmediate]
+  );
 
   // Sort
   const [sortBy, setSortBy] = useQueryState('sort', parseAsString.withDefault('created_at'));
@@ -58,16 +75,28 @@ export const useShopFilters = () => {
     [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery]
   );
 
-  const clearFilters = async () => {
+  const clearFilters = useCallback(async () => {
+    // Clear the debounce timer if it exists
+    if (priceDebounceTimer.current) {
+      clearTimeout(priceDebounceTimer.current);
+    }
+
     await Promise.all([
       setCategoryId(null),
-      setPriceRange([0, 0]),
+      setPriceRangeImmediate([0, 0]), // Use immediate setter for clearing
       setSearchQuery(null),
       setSelectedManufacturers(null),
       setSortBy('created_at'),
       setPage(1),
     ]);
-  };
+  }, [
+    setCategoryId,
+    setPriceRangeImmediate,
+    setSearchQuery,
+    setSelectedManufacturers,
+    setSortBy,
+    setPage,
+  ]);
 
   const sortOptions = [
     { value: 'created_at', label: 'New Arrivals' },
@@ -88,7 +117,7 @@ export const useShopFilters = () => {
 
     // Setters
     setCategoryId,
-    setPriceRange,
+    setPriceRange, // This is now the debounced version
     setSearchQuery,
     setSelectedManufacturers,
     setSortBy,

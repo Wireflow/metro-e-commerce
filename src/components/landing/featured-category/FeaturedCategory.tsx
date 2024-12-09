@@ -6,7 +6,6 @@ import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import WithAuth from '@/features/auth/components/WithAuth';
-import { useCategoryById } from '@/features/products/hooks/product-query-hooks';
 import { usePromotedCategory } from '@/features/products/hooks/usePromotedCategory';
 import PromoCard from '@/features/promotions/components/PromoCard';
 import { usePromotedProducts } from '@/features/promotions/hooks/queries/usePromotedProducts';
@@ -20,7 +19,6 @@ const FeaturedCategory = () => {
   const [activeTabs, setActiveTabs] = useState<string | null>('All Products');
 
   const { data: featuredCategory, isLoading: isLoadingFeaturedCategory } = usePromotedCategory();
-  const { data: categories, isLoading } = useCategoryById(featuredCategory?.id ?? '');
   const { data: promotions, isLoading: isLoadingPromotions } = usePromotedProducts([6]);
 
   const isInEditMode = useIsEditMode();
@@ -32,7 +30,7 @@ const FeaturedCategory = () => {
     return promotions[0];
   }, [promotions]);
 
-  if (isLoadingFeaturedCategory || isLoading || isLoadingPromotions) {
+  if (isLoadingFeaturedCategory || isLoadingPromotions) {
     return (
       <Container>
         <Skeleton className="h-[240px] w-full sm:h-[280px] md:h-[400px] lg:h-[500px]" />;
@@ -40,7 +38,7 @@ const FeaturedCategory = () => {
     );
   }
 
-  if (!categories || !promotion || !featuredCategory) return null;
+  if (!promotion || !featuredCategory) return null;
 
   return (
     <Container className="flex flex-col gap-5 lg:flex-row">
@@ -53,7 +51,7 @@ const FeaturedCategory = () => {
         <CategoryProducts
           products={featuredCategory.products ?? []}
           activeTabs={activeTabs}
-          isLoading={isLoading}
+          isLoading={isLoadingFeaturedCategory}
         />
         {isInEditMode && (
           <WithAuth rules={{ requiredRole: 'admin' }}>
@@ -90,7 +88,7 @@ const FeaturedCategory = () => {
             </div>
             <div className="flex flex-col items-center justify-center text-center">
               <PromoCard.Label />
-              <PromoCard.Title className="text-center text-2xl md:text-4xl xl:text-3xl" />
+              <PromoCard.Title className="text-center text-2xl md:text-lg lg:text-2xl 2xl:text-3xl" />
               <PromoCard.Description className="max-w-[300px]" />
               <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
                 <div className="mt-3 flex items-center justify-center gap-1">

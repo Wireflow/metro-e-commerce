@@ -66,10 +66,19 @@ export const getPaginatedProducts = async (
 
   const offset = (page - 1) * pageSize;
 
+  if (filters.sortBy === 'retail_price') {
+    if (user?.user_metadata?.customer_type === 'wholesale') {
+      query = query.order('wholesale_price', { ascending: filters.sortOrder === 'asc' });
+    } else {
+      query = query.order('retail_price', { ascending: filters.sortOrder === 'asc' });
+    }
+  } else {
+    query = query.range(offset, offset + pageSize - 1).order(filters.sortBy || 'created_at', {
+      ascending: filters.sortOrder === 'asc',
+    });
+  }
+
   // Apply pagination and ordering
-  query = query.range(offset, offset + pageSize - 1).order(filters.sortBy || 'created_at', {
-    ascending: filters.sortOrder === 'asc',
-  });
 
   // Execute the query
   const { data, error } = await query;

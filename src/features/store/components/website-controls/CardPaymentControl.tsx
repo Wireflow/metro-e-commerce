@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Row } from '@/types/supabase/table';
 
-import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranch';
+import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranchSettings';
 
 type Props = {
   branchSettings: Row<'branch_settings'>;

@@ -12,7 +12,7 @@ type Props = {
 
 const PaymentInfo = ({ order }: Props) => {
   return (
-    <Card className="w-full lg:col-span-2 xl:col-span-1">
+    <Card className="w-full shadow-none lg:col-span-2 xl:col-span-1">
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-3 pt-4">
           <p className="h-fit text-lg font-semibold">Payment</p>

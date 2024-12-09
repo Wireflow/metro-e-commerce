@@ -69,6 +69,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -385,6 +392,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'cart_items_customer_Id_fkey';
@@ -1267,6 +1281,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -1417,6 +1438,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'payment_methods_customer_id_fkey';
@@ -1831,6 +1859,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'wishlist_items_customer_id_fkey';
@@ -2327,6 +2362,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -2572,6 +2614,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -2767,6 +2816,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -2848,50 +2904,7 @@ export type Database = {
           total_quantity: number | null;
           total_tax: number | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'approved_customers';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'belongs_independent_customers';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'belongs_wholesale_customers';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'customers';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'customers_with_address';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'cart_items_customer_Id_fkey';
-            columns: ['customer_id'];
-            isOneToOne: false;
-            referencedRelation: 'unapproved_customers';
-            referencedColumns: ['id'];
-          },
-        ];
+        Relationships: [];
       };
       customers_with_address: {
         Row: {
@@ -3039,6 +3052,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'addresses_customer_id_fkey';
@@ -3857,6 +3877,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -4151,6 +4178,13 @@ export type Database = {
             foreignKeyName: 'payment_methods_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -4292,6 +4326,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'orders_customer_id_fkey';
@@ -4593,6 +4634,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'customers';
             referencedColumns: ['id'];
           },
@@ -4783,6 +4831,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'belongs_wholesale_customers';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
           },
           {
             foreignKeyName: 'orders_customer_id_fkey';

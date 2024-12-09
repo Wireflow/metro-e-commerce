@@ -56,7 +56,7 @@ export function generateOrderEmail(order: Row<'orders'>, customer: Partial<Row<'
       },
       confirmed: {
         title: 'Order Confirmed',
-        message: `Great news! Your order #${order.order_number} has been confirmed and is being processed. Expected delivery: ${new Date(order.expected_delivery_at || '').toLocaleDateString()}`,
+        message: `Great news! Your order #${order.order_number} has been confirmed and is being processed. ${order.expected_delivery_at ? `Expected delivery: ${new Date(order.expected_delivery_at).toLocaleDateString()}` : ''}`,
       },
       preparing: {
         title: 'Preparing Your Order',
@@ -64,7 +64,7 @@ export function generateOrderEmail(order: Row<'orders'>, customer: Partial<Row<'
       },
       ready: {
         title: 'Order Ready',
-        message: `Your order #${order.order_number} is ready for ${order.type === 'pickup' ? 'pickup at our store' : 'delivery to your location'}. ${order.type === 'pickup' ? 'Please visit our store during business hours.' : 'Our delivery team will arrive shortly.'}`,
+        message: `Your order #${order.order_number} is ready for ${order.type === 'pickup' ? 'pickup at our store' : order.type === 'shipment' ? 'shipment to your location' : 'delivery to your location'}. ${order.type === 'pickup' ? 'Please visit our store during business hours.' : order.type === 'shipment' ? 'Please visit our store during business hours.' : 'Our delivery team will arrive shortly.'}`,
       },
       completed: {
         title: 'Order Completed',
@@ -122,11 +122,11 @@ export function generateOrderEmail(order: Row<'orders'>, customer: Partial<Row<'
         <div style="border-bottom: 1px solid ${COLORS.border}; padding-bottom: 12px; margin-bottom: 12px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="color: ${COLORS.gray};">Order Number:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;">#${order.order_number}</span>
+            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> #${order.order_number}</span>
           </div>
           <div style="display: flex; justify-content: space-between;">
             <span style="color: ${COLORS.gray};">Total Amount:</span>
-            <span style="color: ${COLORS.primary}; font-weight: bold;">${formattedAmount}</span>
+            <span style="color: ${COLORS.primary}; font-weight: bold;"> ${formattedAmount}</span>
           </div>
         </div>
       </div>

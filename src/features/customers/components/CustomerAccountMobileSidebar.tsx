@@ -71,13 +71,8 @@ const CustomerAccountMobileSideBar = () => {
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
-      <SheetTrigger className="fixed bottom-4 right-4 z-50">
-        <button
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-105"
-          onClick={() => setOpen(!open)}
-        >
-          <Menu />
-        </button>
+      <SheetTrigger className="fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-105">
+        <Menu />
       </SheetTrigger>
 
       <SheetContent side={'left'} className="flex w-80 flex-col p-0 py-6">
@@ -85,7 +80,7 @@ const CustomerAccountMobileSideBar = () => {
         <div className="">
           <div className="w-full">
             {tabs.map((tab, index) => (
-              <div key={index} className="w-full">
+              <div key={`${index}-${tab}`} className="w-full">
                 <Link
                   onClick={() => setOpen(false)}
                   className={`flex w-full items-center gap-5 px-5 py-3 text-sm ${

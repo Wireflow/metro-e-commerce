@@ -7,7 +7,7 @@ const TobaccoBadge = ({ isTobacco }: { isTobacco: boolean }) => {
   return (
     <Badge
       variant={isTobacco ? 'warning' : 'secondary'}
-      className="inline-flex h-5 w-fit items-center gap-0.5 rounded-sm px-2"
+      className="inline-flex h-5 w-fit items-center gap-0.5 whitespace-nowrap rounded-sm px-2"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}

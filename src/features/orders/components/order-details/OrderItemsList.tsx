@@ -12,7 +12,7 @@ type Props = {
 const OrderItemsList = ({ order }: Props) => {
   return (
     <div className="cols-span-2 md:cols-span-1">
-      <Card>
+      <Card className="shadow-none">
         <CardContent className="flex flex-col gap-5">
           <div className="flex flex-col justify-between sm:flex-row sm:items-center">
             <div className="flex items-center gap-3 pt-4">

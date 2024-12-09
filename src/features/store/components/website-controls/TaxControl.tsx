@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { Row } from '@/types/supabase/table';
 import { formatCurrency } from '@/utils/utils';
 
-import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranch';
+import { useUpdateBranchSettings } from '../../hooks/mutations/useUpdateBranchSettings';
 
 type Props = {
   branchSettings: Row<'branch_settings'>;
