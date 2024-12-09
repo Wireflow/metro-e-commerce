@@ -42,8 +42,13 @@ export const POST = withAuth(async (req: AuthenticatedRequest) => {
     }
 
     if (transaction.status === 'error') {
+      const error =
+        transaction.error === 'Declined'
+          ? 'Transaction declined'
+          : 'Failed to authorize transaction';
+
       return NextResponse.json(
-        { success: false, error: "We couldn't authorize the transaction" },
+        { success: false, error: error ?? 'Failed to authorize transaction' },
         { status: 400 }
       );
     }

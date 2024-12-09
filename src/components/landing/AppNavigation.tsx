@@ -11,6 +11,7 @@ import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { useUser } from '@/hooks/useUser';
 
+import Logo from '../branding/Logo';
 import Container from '../layout/Container';
 import LoginPopover from './LoginPopover';
 import ProductSearchbar from './ProductSearch/ProductSearchbar';
@@ -25,7 +26,7 @@ const AppNavigation = () => {
       <Container>
         <div className="hidden w-full justify-between gap-4 md:flex">
           <div className="flex items-center justify-center gap-3">
-            <Image src={logo} alt="logo" width={50} height={50} />
+            <Logo />
             <p className="text-xl text-white">{branch?.name}</p>
           </div>
 

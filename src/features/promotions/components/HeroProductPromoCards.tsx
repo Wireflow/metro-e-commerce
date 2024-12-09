@@ -25,9 +25,8 @@ const HeroProductPromoCards = ({ promotions }: Props) => {
           </div>
 
           <div className="md:flex">
-            {' '}
             <PromoCard.Discount />
-            <PromoCard.Image object="contain" />
+            <PromoCard.Image object="contain" className="pr-2" />
           </div>
         </PromoCard>
       ))}

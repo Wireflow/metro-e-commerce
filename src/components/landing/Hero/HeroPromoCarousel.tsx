@@ -5,12 +5,16 @@ import Container from '@/components/layout/Container';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { mockCustomPromotion } from '@/features/promotions/constants/custom-promotion-fallback';
-import { useCustomPromos } from '@/features/promotions/hooks/queries/useCustomPromos';
+import { Row } from '@/types/supabase/table';
 
 import HeroCard from './HeroCard';
 
-const HeroPromoCarousel = () => {
-  const { data: customPromos, isLoading: isLoadingCustomPromos } = useCustomPromos([1, 2, 3]);
+type HeroPromoCarouselProps = {
+  customPromos: Row<'custom_promotions'>[];
+  isLoading: boolean;
+};
+
+const HeroPromoCarousel = ({ customPromos, isLoading }: HeroPromoCarouselProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -48,7 +52,7 @@ const HeroPromoCarousel = () => {
     }
   };
 
-  if (isLoadingCustomPromos) {
+  if (isLoading) {
     return (
       <Container className="flex h-full w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
         <Skeleton className="h-full min-h-[400px] w-full min-w-[250px] flex-1" />
@@ -83,7 +87,7 @@ const HeroPromoCarousel = () => {
         <CarouselContent className="h-full" wrapperClassName="h-full">
           {customPromos?.map((promo, index) => (
             <CarouselItem key={promo.id || index} className="h-full pl-2 md:pl-4">
-              <HeroCard promotion={promo || mockCustomPromotion} />
+              <HeroCard promotion={promo} />
             </CarouselItem>
           )) || (
             <>

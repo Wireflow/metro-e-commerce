@@ -1,10 +1,9 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { ArrowRight } from 'lucide-react';
 
-import { logo } from '@/data/constants';
+import Logo from '@/components/branding/Logo';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatAddress, formatPhoneNumber } from '@/utils/utils';
 
@@ -15,7 +14,7 @@ const FooterBrandInfo = () => {
     <div className="flex flex-col gap-3">
       <Link href="/">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
-          <Image src={logo} alt="logo" width={100} height={100} />
+          <Logo />
           <p className="text-xl text-white">{branch?.name}</p>{' '}
         </div>
       </Link>

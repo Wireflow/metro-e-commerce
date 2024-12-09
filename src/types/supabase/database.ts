@@ -295,7 +295,9 @@ export type Database = {
           facebookUrl: string;
           id: string;
           instagramUrl: string;
+          logoUrl: string | null;
           name: string;
+          orders_notified_email: string | null;
           phone: string;
           state: string;
           twitterUrl: string;
@@ -311,7 +313,9 @@ export type Database = {
           facebookUrl?: string;
           id?: string;
           instagramUrl?: string;
+          logoUrl?: string | null;
           name: string;
+          orders_notified_email?: string | null;
           phone: string;
           state: string;
           twitterUrl?: string;
@@ -327,7 +331,9 @@ export type Database = {
           facebookUrl?: string;
           id?: string;
           instagramUrl?: string;
+          logoUrl?: string | null;
           name?: string;
+          orders_notified_email?: string | null;
           phone?: string;
           state?: string;
           twitterUrl?: string;

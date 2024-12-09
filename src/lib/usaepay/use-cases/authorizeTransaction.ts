@@ -25,6 +25,7 @@ export interface AuthorizeResponse {
   amount: string;
   status: 'success' | 'error';
   lastFour: number;
+  error?: string;
 }
 
 export const authorizeCard = async (params: AuthorizeRequest): Promise<AuthorizeResponse> => {
@@ -57,6 +58,7 @@ export const authorizeCard = async (params: AuthorizeRequest): Promise<Authorize
         tranKey: response.data.key || '',
         status: 'error',
         lastFour: parseInt(response.data.creditcard?.number?.slice(-4) || '0'),
+        error: response.data.result,
       };
     }
   } catch (error) {
@@ -97,16 +99,18 @@ export const authorizeToken = async (params: AuthorizeTokenRequest): Promise<Aut
         tranKey: response.data.key || '',
         status: 'error',
         lastFour: parseInt(response.data.creditcard?.number?.slice(-4) || '0'),
+        error: response.data.result,
       };
     }
   } catch (error) {
-    console.error('Error authorizing token:', error);
+    console.error(error);
     return {
       refId: '',
       amount: params.amount.toFixed(2),
       tranKey: '',
       status: 'error',
       lastFour: 0,
+      error: 'Failed to authorize transaction',
     };
   }
 };

@@ -46,19 +46,21 @@ const OrderPlacedPage = ({ orderNumber = '', orderId }: Props) => {
                 We&apos;ll send you tracking information once your package is on its way.
               </p>
               {orderNumber && (
-                <div className="flex items-center justify-center gap-2 text-sm">
+                <div
+                  className="flex items-center justify-center gap-1 text-sm"
+                  onClick={copyToClipboard}
+                >
                   <p className="font-medium">
-                    Order number: <span className="text-primary">{orderNumber}</span>
+                    Order number: <span className="ml-1 text-primary">{orderNumber}</span>
                   </p>
                   <button
-                    onClick={copyToClipboard}
                     className="inline-flex h-6 w-6 items-center justify-center rounded-md hover:bg-muted"
                     aria-label="Copy order number"
                   >
                     {copying ? (
-                      <Check className="h-3.5 w-3.5 text-green-600" />
+                      <Check className="h-5 w-5 text-green-600" />
                     ) : (
-                      <Copy className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Copy className="h-5 w-5 text-muted-foreground" />
                     )}
                   </button>
                 </div>

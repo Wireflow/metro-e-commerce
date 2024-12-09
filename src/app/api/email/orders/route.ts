@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { sendEmail } from '@/lib/resend';
+import { generateAdminOrderEmailNotification } from '@/lib/resend/emails/generateAdminOrderEmailNotification';
 import { generateOrderEmail } from '@/lib/resend/emails/generateOrderEmail';
 import { WebhookPayload } from '@/types/webhooks/payloads';
 import { createClient } from '@/utils/supabase/server';
@@ -10,7 +11,6 @@ export type OrderUpdatePayload = WebhookPayload<'UPDATE', 'orders'>;
 
 export const POST = async (req: AuthenticatedRequest) => {
   try {
-    const supabase = createClient();
     const body: OrderUpdatePayload = await req.json();
 
     if (body.type !== 'UPDATE' || body.table !== 'orders') {
@@ -24,6 +24,8 @@ export const POST = async (req: AuthenticatedRequest) => {
     if (body.record.status === 'created') {
       return NextResponse.json({ error: 'Invalid order status' }, { status: 400 });
     }
+
+    const supabase = createClient();
 
     const { data: customer, error: customerError } = await supabase
       .from('customers')
@@ -39,8 +41,28 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Customer email is required' }, { status: 400 });
     }
 
+    if (body.record.status === 'pending' && body.old_record?.status !== 'pending') {
+      const { data: branch, error: branchError } = await supabase
+        .from('branches')
+        .select('orders_notified_email')
+        .eq('id', body.record.branch_id)
+        .single();
+
+      if (!branchError && branch?.orders_notified_email) {
+        const adminEmail = generateAdminOrderEmailNotification(body.record, customer);
+
+        // Send email to admin
+        await sendEmail({
+          to: branch.orders_notified_email,
+          subject: adminEmail.subject,
+          html: adminEmail.html,
+        });
+      }
+    }
+
     const orderEmail = generateOrderEmail(body.record, customer);
 
+    // Send email to customer
     const email = await sendEmail({
       to: customer.email,
       subject: orderEmail.subject,

@@ -1,26 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { createClient } from '@/utils/supabase/client';
-
-import { CustomPromotion } from '../../schemas/custom-promotions';
+import { getCustomPromos } from '../../server/getCustomPromos';
 
 export const useCustomPromos = (promotionIds: number[]) => {
   return useQuery({
     queryKey: ['custom-promotions', promotionIds],
-    queryFn: async () => {
-      const supabase = createClient();
-
-      const { data, error } = await supabase
-        .from('custom_promotions')
-        .select('*')
-        .order('id', { ascending: true })
-        .in('id', promotionIds);
-
-      if (error) {
-        throw error;
-      }
-
-      return data as unknown as CustomPromotion[];
-    },
+    queryFn: () => getCustomPromos(promotionIds),
   });
 };

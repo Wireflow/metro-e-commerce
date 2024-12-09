@@ -12,6 +12,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { METRO_BRANCH_ID } from '@/data/constants';
 import { getCustomerById } from '@/features/customers/server/getCustomerById';
 import { getCategories } from '@/features/products/server/categories/getCategories';
+import { getCustomPromos } from '@/features/promotions/server/getCustomPromos';
+import { getPromotedProducts } from '@/features/promotions/server/getPromotedProducts';
 import getQueryClient from '@/lib/react-query';
 import { getBranchById } from '@/server/branches/getBranchById';
 import { getTopCategories } from '@/server/categories/getTopCategories';
@@ -94,6 +96,19 @@ export default async function RootLayout({
   await queryClient.prefetchQuery({
     queryKey: ['categories', 'top'],
     queryFn: getTopCategories,
+  });
+
+  const promotionIds = [1, 2];
+  const customPromosIds = [1, 2, 3];
+
+  await queryClient.prefetchQuery({
+    queryKey: ['products', 'promoted', promotionIds],
+    queryFn: () => getPromotedProducts(promotionIds),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['custom-promotions', customPromosIds],
+    queryFn: () => getCustomPromos(customPromosIds),
   });
 
   const {
