@@ -62,6 +62,7 @@ const CheckoutPage = () => {
           <CheckoutSummary
             isOrderingAllowed={isOrderingAllowed}
             cart={cart}
+            notes={notes}
             summary={summary}
             loading={isLoading}
             orderType={orderType}

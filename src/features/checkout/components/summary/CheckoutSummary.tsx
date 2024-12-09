@@ -24,7 +24,6 @@ type CheckoutSummaryProps = {
   orderType?: Enum<'order_type'>;
   isOrderingAllowed: boolean;
   notes?: string;
-
   cart: CartItem[];
   summary: CartSummary;
   loading?: boolean;
