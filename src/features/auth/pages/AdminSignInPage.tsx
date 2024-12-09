@@ -1,7 +1,10 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Logo from '@/components/branding/Logo';
 import { buttonVariants } from '@/components/ui/button';
+import { MacBookMockup } from '@/data/constants';
 import { cn } from '@/lib/utils';
 
 import AdminSignInForm from '../components/admins/AdminSignInForm';
@@ -9,32 +12,29 @@ import AdminSignInForm from '../components/admins/AdminSignInForm';
 const AdminSignInPage = () => {
   return (
     <div className="min-h-screen">
-      <div className="relative flex min-h-screen flex-col md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <Link
-          href="/customers/sign-in"
-          className={cn(
-            buttonVariants({ variant: 'ghost' }),
-            'absolute right-4 top-4 md:right-8 md:top-8'
-          )}
-        >
-          Customer Login
-        </Link>
-
-        {/* Left Panel - Now visible on mobile */}
-        <div className="relative hidden h-full bg-muted p-6 md:p-10 lg:block">
-          <div className="absolute inset-0 bg-gray-300" />
-          <div className="relative z-20 flex items-center text-lg font-medium">
-            <Image src="/logo.png" width={75} height={75} alt="logo" className="mr-2 h-6 w-6" />
+      <div className="bg-neutral-800 p-5">
+        <div className="flex items-center justify-between">
+          <div className="sm;text-xl relative z-20 flex items-center gap-2 font-medium text-white">
+            <Logo />
             Metro Cash & Carry
           </div>
-          <div className="relative z-20 mt-auto">
-            <blockquote className="space-y-2">
-              <p className="text-lg">
-                Your premier wholesale partner delivering quality products and exceptional service
-                to businesses across the region.
-              </p>
-            </blockquote>
-          </div>
+          <Link
+            href="/customers/sign-in"
+            className={cn(buttonVariants({ variant: 'ghost' }), 'text-white')}
+          >
+            Customer Login
+          </Link>
+        </div>
+      </div>
+      <div className="relative flex min-h-screen flex-col md:grid lg:max-w-none lg:px-0 xl:grid-cols-2">
+        <div className="relative hidden h-full justify-center gap-28 bg-gray-200 p-6 md:p-10 xl:flex xl:flex-col">
+          <Image
+            src={MacBookMockup}
+            width={900}
+            height={900}
+            alt="Mac Mockup"
+            className="h-auto w-auto max-w-full object-contain"
+          />
         </div>
 
         {/* Right Panel */}

@@ -173,3 +173,5 @@ export const quickLinks = [
 ];
 
 export const logo = '/logo-no-bg.png';
+
+export const MacBookMockup = '/MacMockUp.png';
