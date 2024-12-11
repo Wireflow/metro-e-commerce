@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-
 import { CheckCircle2, Minus, Plus, XCircle } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 import { Animate } from '@/components/animation/Animate';

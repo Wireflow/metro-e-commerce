@@ -1,7 +1,6 @@
 'use client';
-import { useRouter } from 'next/navigation';
-
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import BackButton from '@/components/BackButton';
 import { Card } from '@/components/ui/card';

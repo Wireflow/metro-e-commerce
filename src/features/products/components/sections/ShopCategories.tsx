@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
 import { Edit } from 'lucide-react';
+import Link from 'next/link';
 
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';

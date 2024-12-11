@@ -1,9 +1,8 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { FolderTree, LayoutDashboard, Package, ShoppingCart, Store, Users } from 'lucide-react';
+import { redirect } from 'next/navigation';
 import * as React from 'react';
 
 import { NavMain } from '@/components/layout/NavMain';

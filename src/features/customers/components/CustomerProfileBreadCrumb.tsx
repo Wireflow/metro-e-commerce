@@ -1,7 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-
 import {
   CreditCard,
   Heart,
@@ -11,6 +9,7 @@ import {
   ShoppingCart,
   Store,
 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';

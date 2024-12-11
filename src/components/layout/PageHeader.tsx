@@ -1,7 +1,6 @@
-import Link from 'next/link';
-
 import { HomeIcon } from '@radix-ui/react-icons';
 import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 import {

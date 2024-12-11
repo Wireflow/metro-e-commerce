@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
 import { Heart } from 'lucide-react';
+import Link from 'next/link';
 
 import WithAuth from '@/features/auth/components/WithAuth';
 import CartPopover from '@/features/cart/components/CartPopover';

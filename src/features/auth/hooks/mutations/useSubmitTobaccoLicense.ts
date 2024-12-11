@@ -1,6 +1,5 @@
-import { useRouter } from 'next/navigation';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { updateCustomer } from '@/features/customers/server/updateCustomer';

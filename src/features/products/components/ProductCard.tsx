@@ -1,9 +1,8 @@
 'use client';
 
+import { Clock, Eye, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { Clock, Eye, Heart, ShoppingCart } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';

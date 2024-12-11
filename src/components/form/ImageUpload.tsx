@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-
 import { Upload, X } from 'lucide-react';
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';

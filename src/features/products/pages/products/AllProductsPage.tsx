@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
 import { Plus } from 'lucide-react';
+import Link from 'next/link';
 
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import PageHeader from '@/components/layout/PageHeader';

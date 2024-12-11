@@ -1,7 +1,6 @@
+import { ChevronRight, Edit } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { ChevronRight, Edit } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';

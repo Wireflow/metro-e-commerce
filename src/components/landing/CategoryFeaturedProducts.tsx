@@ -1,9 +1,8 @@
 'use client';
 
+import { ArrowTopRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-import { ArrowTopRightIcon } from '@radix-ui/react-icons';
 
 import ProductCard from '@/features/products/components/ProductCard';
 import { Product } from '@/features/products/schemas/products';

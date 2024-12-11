@@ -1,9 +1,8 @@
 'use client';
 
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-import { ArrowRight } from 'lucide-react';
 
 import Container from '@/components/layout/Container';
 import List from '@/components/List';

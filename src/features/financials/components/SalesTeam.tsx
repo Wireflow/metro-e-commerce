@@ -1,6 +1,5 @@
-import Link from 'next/link';
-
 import { ArrowRight, DollarSign, Package } from 'lucide-react';
+import Link from 'next/link';
 import { useMemo } from 'react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';

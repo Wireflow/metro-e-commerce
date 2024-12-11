@@ -1,10 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { User } from '@supabase/supabase-js';
 import { useQueryClient } from '@tanstack/react-query';
 import { ChevronsUpDown, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import {
   DropdownMenu,

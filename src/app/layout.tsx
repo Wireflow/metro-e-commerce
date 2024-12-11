@@ -1,10 +1,9 @@
 // layout.tsx
-import { Public_Sans } from 'next/font/google';
-import Script from 'next/script';
-
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
+import { Public_Sans } from 'next/font/google';
+import Script from 'next/script';
 
 import LayoutProvider from '@/components/layout/LayoutProvider';
 import Providers from '@/components/layout/Providers';

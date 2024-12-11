@@ -1,7 +1,6 @@
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-import { ChevronRight } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import ProductCard from '@/features/products/components/ProductCard';

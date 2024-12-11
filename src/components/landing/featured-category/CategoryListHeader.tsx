@@ -1,7 +1,6 @@
+import { ArrowRight, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-
-import { ArrowRight, MoreHorizontal } from 'lucide-react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';

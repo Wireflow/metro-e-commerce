@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { X } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 import { Dialog, DialogContent } from '../ui/dialog';

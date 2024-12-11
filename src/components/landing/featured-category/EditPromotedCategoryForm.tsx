@@ -1,7 +1,6 @@
-import Image from 'next/image';
-
 import { motion } from 'framer-motion';
 import { Info } from 'lucide-react';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 

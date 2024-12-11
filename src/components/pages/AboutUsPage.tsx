@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { CheckCheck } from 'lucide-react';
+import Image from 'next/image';
 
 import { ourFeatures } from '@/data/constants';
 

@@ -1,7 +1,6 @@
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
-import { ArrowRight } from 'lucide-react';
 
 import WithAuth from '@/features/auth/components/WithAuth';
 

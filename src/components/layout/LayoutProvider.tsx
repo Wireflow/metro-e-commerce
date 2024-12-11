@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-
 import React, { useEffect, useMemo } from 'react';
 
 import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';

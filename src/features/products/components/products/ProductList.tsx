@@ -1,10 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-
 import { formatDistanceToNow } from 'date-fns';
 import { EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Badge } from '@/components/ui/badge';
 // eslint-disable-next-line import/no-named-as-default

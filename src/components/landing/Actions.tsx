@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
 import { AlertCircle, PhoneCall, Pin } from 'lucide-react';
+import Link from 'next/link';
 
 import { useBranch } from '@/hooks/queries/useMetro';
 import { formatPhoneNumber } from '@/utils/utils';

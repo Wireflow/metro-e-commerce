@@ -1,8 +1,7 @@
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
 import { PopoverClose } from '@radix-ui/react-popover';
 import { ArrowRight, ShoppingCart, X } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import List from '@/components/List';
 import { buttonVariants } from '@/components/ui/button';

@@ -1,7 +1,6 @@
 // External imports
-import { useRouter } from 'next/navigation';
-
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import Conditional from '@/components/Conditional';
 import QuickAlert from '@/components/quick/QuickAlert';

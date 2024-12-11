@@ -1,6 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server';
-
 import { createServerClient } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
 
 import { METRO_BRANCH_ID } from '@/data/constants';
 import { Database } from '@/types/supabase/database';

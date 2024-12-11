@@ -1,6 +1,5 @@
-import { useRouter } from 'next/navigation';
-
 import { PackageSearch, RefreshCw } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';

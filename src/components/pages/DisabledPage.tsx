@@ -1,8 +1,7 @@
 'use client';
+import { Phone } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
-import { Phone } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { useBranchSettings } from '@/features/store/hooks/queries/useBranchSettings';

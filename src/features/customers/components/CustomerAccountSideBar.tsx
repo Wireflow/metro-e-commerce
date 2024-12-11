@@ -1,8 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
 import {
   CreditCard,
   Heart,
@@ -13,6 +10,8 @@ import {
   ShoppingCart,
   Store,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 import SignOutButton from '@/features/auth/components/SignOutButton';

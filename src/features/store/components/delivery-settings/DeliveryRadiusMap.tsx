@@ -1,6 +1,5 @@
-import dynamic from 'next/dynamic';
-
 import { Circle, Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 // Create a separate map component to load dynamically

@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
 import { ArrowRight, PartyPopper, Rocket, X } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { cn } from '@/lib/utils';

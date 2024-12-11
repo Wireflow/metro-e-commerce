@@ -1,9 +1,8 @@
 'use client';
 
+import { CheckCircle, Clock, Eye, Globe } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
-import { CheckCircle, Clock, Eye, Globe } from 'lucide-react';
 
 import AnimatedDiv from '@/components/animation/AnimatedDiv';
 import { Button } from '@/components/ui/button';

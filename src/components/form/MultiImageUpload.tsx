@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { ChevronLeft, ChevronRight, Upload, X } from 'lucide-react';
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 

@@ -1,7 +1,6 @@
 // hooks/mutations/useResetPassword.ts
-import { useRouter } from 'next/navigation';
-
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { ResetPasswordType } from '../../schemas/reset-password';
