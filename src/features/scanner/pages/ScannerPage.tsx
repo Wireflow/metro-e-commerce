@@ -1,15 +1,15 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BarcodeScanner } from 'react-barcode-scanner';
-import { toast } from 'sonner';
 
 import AnimtedLoadingSpinner from '@/components/animation/AnimtedLoader';
 import Container from '@/components/layout/Container';
 import { Card } from '@/components/ui/card';
 import ProductCard from '@/features/products/components/ProductCard';
 import { useProductByBarcode } from '@/features/products/hooks/queries/useProductByBarcode';
+import { useQuickViewStore } from '@/features/products/store/useQuickViewStore';
 
 import 'react-barcode-scanner/polyfill';
 
@@ -17,9 +17,20 @@ const formats = ['qr_code', 'ean_13', 'ean_8', 'code_128', 'code_39'];
 
 const ScannerPage = () => {
   const [barcode, setBarcode] = useState<string | null>(null);
+  const setProductAndOpen = useQuickViewStore(state => state.setProductAndOpen);
   const { data: product, isLoading } = useProductByBarcode(barcode);
 
   const router = useRouter();
+
+  const handleScan = (barcode: string) => {
+    setBarcode(barcode);
+  };
+
+  useEffect(() => {
+    if (product) {
+      setProductAndOpen(product);
+    }
+  }, [product, setProductAndOpen]);
 
   return (
     <Container className="mx-auto max-w-[500px] space-y-4 py-16 sm:max-w-[500px] md:max-w-[500px] lg:max-w-[500px]">
@@ -35,8 +46,7 @@ const ScannerPage = () => {
         <BarcodeScanner
           className="max-h-[250px] max-w-[500px]"
           onCapture={barcodes => {
-            setBarcode(barcodes[0].rawValue);
-            toast.success('Barcode scanned');
+            handleScan(barcodes[0].rawValue);
           }}
           options={{
             formats,
