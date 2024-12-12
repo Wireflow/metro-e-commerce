@@ -3,7 +3,7 @@
 import { Clock, Eye, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button, ButtonProps } from '@/components/ui/button';
@@ -29,7 +29,7 @@ import TobaccoBadge from './TobaccoBadge';
 type ProductCardProps = {
   children?: ReactNode[];
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 };
 
 type CustomRenderProps = {

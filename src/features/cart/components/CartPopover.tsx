@@ -97,7 +97,7 @@ const CartPopover = () => {
         <div className="border-t border-t-gray-300 px-4 py-3">
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">Subtotal</p>
-            <p>{formatCurrency(cartSummary?.cart_total ?? 0)}</p>
+            <p>{formatCurrency(cartSummary?.subtotal ?? 0)}</p>
           </div>
           <Link href={'/customer/cart'}>
             <PopoverClose className={cn('mt-2 w-full', buttonVariants({ size: 'lg' }))}>

@@ -5,8 +5,11 @@ import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDe
 import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
+import { useDefaultCart } from '../queries/useDefaultCart';
+
 export const useAddToCart = () => {
   const { mutateAsync: removeFromWishlist } = useDeleteFromWishList({ disableToast: true });
+  const { data: cartData, error: cartError } = useDefaultCart();
 
   const queryClient = useQueryClient();
 
@@ -25,11 +28,18 @@ export const useAddToCart = () => {
 
       let isNewItem: boolean = false;
 
+      if (cartError) {
+        throw new Error('Error fetching cart');
+      }
+
+      if (!cartData) {
+        throw new Error('No cart found');
+      }
+
       const { data: cartItem, error: cartItemError } = await supabase
         .from('cart_items')
         .select('id, quantity')
-        .eq('product_id', item.product_id)
-        .eq('customer_id', user?.id)
+        .match({ product_id: item.product_id, customer_id: user?.id, cart_id: cartData.id })
         .single();
 
       if (cartItemError && cartItemError?.code !== 'PGRST116') {
@@ -59,6 +69,7 @@ export const useAddToCart = () => {
           product_id: item.product_id,
           customer_id: user?.id,
           quantity: item.quantity ?? 1,
+          cart_id: cartData.id,
         })
         .select('*')
         .single();

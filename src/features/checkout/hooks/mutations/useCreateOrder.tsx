@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 
 import CheckoutToast from '@/components/toasts/CheckoutToast';
 import { useClearCart } from '@/features/cart/hooks/mutations/useClearCart';
+import { useDefaultCart } from '@/features/cart/hooks/queries/useDefaultCart';
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
 import { useOrderMinimum } from '@/hooks/useOrderMinimum';
 import { Enum } from '@/types/supabase/enum';
@@ -25,6 +26,7 @@ export const useCreateOrder = () => {
   const { meetsMinimum, reason } = useOrderMinimum();
   const { mutate: clearCart } = useClearCart();
   const { mutate: cancelOrder } = useCancelOrder();
+  const { data: cartData, error: cartError } = useDefaultCart();
 
   const router = useRouter();
 
@@ -48,9 +50,18 @@ export const useCreateOrder = () => {
         throw new Error('Order type is required');
       }
 
+      if (cartError) {
+        throw new Error('Error fetching cart');
+      }
+
+      if (!cartData) {
+        throw new Error('No cart found');
+      }
+
       // Step 1: Create the initial order
       const { data: order, error: createError } = await supabase
         .rpc('create_order_from_cart', {
+          p_cart_id: cartData.id,
           p_order_type: data.orderType,
           p_instructions: data.notes,
         })

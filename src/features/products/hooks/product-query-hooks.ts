@@ -11,14 +11,14 @@ import { getProductsAnalytics } from '../server/products/getProductsAnalytics';
 
 export interface ProductFilters {
   search?: string;
-  searchFields?: ('name' | 'description' | 'manufacturer')[];
+  searchFields?: ('name' | 'description' | 'manufacturer' | 'barcodes.barcode')[];
   inStock?: boolean;
   published?: boolean;
   category_id?: string;
   minPrice?: number;
   maxPrice?: number;
   limit?: number;
-  sortBy?: 'retail_price' | 'name' | 'created_at';
+  sortBy?: 'retail_price' | 'name' | 'created_at' | 'discounted_until' | 'sales';
   sortOrder?: 'asc' | 'desc';
   is_discounted?: boolean;
   manufacturers?: string[];
@@ -152,7 +152,6 @@ export const useProductNewArrivals = () => {
         .limit(3);
 
       if (error) {
-        console.error('Query error:', error);
         throw new Error('Error getting new arrival products');
       }
 
@@ -185,7 +184,6 @@ export const useFeaturedProducts = () => {
         .limit(4);
 
       if (error) {
-        console.error('Query error:', error);
         throw new Error('Error getting featured products');
       }
 

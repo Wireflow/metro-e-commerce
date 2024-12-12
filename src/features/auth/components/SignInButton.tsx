@@ -8,7 +8,7 @@ type Props = ButtonProps & {
 
 const SignInButton = ({ text = 'Sign in', ...props }: Props) => {
   return (
-    <Link href={'/customers/sign-in'}>
+    <Link href={'/customers/sign-in'} onClick={e => e.stopPropagation()}>
       <Button {...props}>
         <p className="max-w-full truncate">{text}</p>
       </Button>

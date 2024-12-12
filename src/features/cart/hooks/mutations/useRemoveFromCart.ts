@@ -4,10 +4,12 @@ import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
 
 import { useCartStore } from '../../store/useCartStore';
+import { useDefaultCart } from '../queries/useDefaultCart';
 
 export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
   const removeFromCart = useCartStore(state => state.removeFromCart);
+  const { data: cartData, error: cartError } = useDefaultCart();
 
   return useMutation({
     mutationKey: ['cart', 'remove'],
@@ -26,10 +28,14 @@ export const useRemoveFromCart = () => {
         throw new Error('No cart item id provided');
       }
 
+      if (!cartData) {
+        throw new Error('No cart found');
+      }
+
       const { data, error } = await supabase
         .from('cart_items')
         .delete()
-        .match({ product_id: productId, customer_id: user?.id });
+        .match({ product_id: productId, customer_id: user?.id, cart_id: cartData.id });
 
       if (error) {
         throw new Error('Failed to remove product from cart');

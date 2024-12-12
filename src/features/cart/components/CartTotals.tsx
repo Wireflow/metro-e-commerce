@@ -60,7 +60,7 @@ const CartTotals = () => {
             description="Proceed to checkout to complete your order"
           />
         </Conditional>
-        <div className="w-full space-y-1.5">
+        <div className="flex w-full flex-col gap-1.5">
           <SummaryRow
             label="Quantity"
             value={String(summary?.total_quantity ?? 0)}

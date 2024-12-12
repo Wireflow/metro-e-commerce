@@ -71,7 +71,14 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
           {
             id: 'sort',
             label: 'Sort',
-            value: filters.sortBy === 'retail_price' ? 'Price' : 'Name',
+            value:
+              filters.sortBy === 'retail_price'
+                ? 'Price'
+                : filters.sortBy === 'discounted_until'
+                  ? 'Discount: Low to High'
+                  : filters.sortBy === 'sales'
+                    ? 'Sales: High to Low'
+                    : 'Name: A to Z',
             onRemove: () => setSortBy(null),
           },
         ]

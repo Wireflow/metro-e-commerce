@@ -351,6 +351,7 @@ export type Database = {
       };
       cart_items: {
         Row: {
+          cart_id: string | null;
           created_at: string;
           customer_id: string;
           id: string;
@@ -358,6 +359,7 @@ export type Database = {
           quantity: number;
         };
         Insert: {
+          cart_id?: string | null;
           created_at?: string;
           customer_id: string;
           id?: string;
@@ -365,6 +367,7 @@ export type Database = {
           quantity?: number;
         };
         Update: {
+          cart_id?: string | null;
           created_at?: string;
           customer_id?: string;
           id?: string;
@@ -372,6 +375,20 @@ export type Database = {
           quantity?: number;
         };
         Relationships: [
+          {
+            foreignKeyName: 'cart_items_cart_id_fkey';
+            columns: ['cart_id'];
+            isOneToOne: false;
+            referencedRelation: 'carts';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_cart_id_fkey';
+            columns: ['cart_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['cart_id'];
+          },
           {
             foreignKeyName: 'cart_items_customer_Id_fkey';
             columns: ['customer_id'];
@@ -482,6 +499,108 @@ export type Database = {
             columns: ['product_id'];
             isOneToOne: false;
             referencedRelation: 'shown_products';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      carts: {
+        Row: {
+          created_at: string;
+          customer_id: string;
+          id: string;
+          is_default: boolean;
+          sales_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          customer_id: string;
+          id?: string;
+          is_default?: boolean;
+          sales_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          customer_id?: string;
+          id?: string;
+          is_default?: boolean;
+          sales_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_sales_id_fkey';
+            columns: ['sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_sales_id_fkey';
+            columns: ['sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_sales_id_fkey';
+            columns: ['sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_sales_id_fkey';
+            columns: ['sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
@@ -637,6 +756,7 @@ export type Database = {
           tobacco_license: string | null;
           tobacco_license_image_url: string | null;
           updated_at: string;
+          wholesale_sales_id: string | null;
         };
         Insert: {
           approved?: boolean;
@@ -660,6 +780,7 @@ export type Database = {
           tobacco_license?: string | null;
           tobacco_license_image_url?: string | null;
           updated_at?: string;
+          wholesale_sales_id?: string | null;
         };
         Update: {
           approved?: boolean;
@@ -683,6 +804,7 @@ export type Database = {
           tobacco_license?: string | null;
           tobacco_license_image_url?: string | null;
           updated_at?: string;
+          wholesale_sales_id?: string | null;
         };
         Relationships: [
           {
@@ -716,6 +838,34 @@ export type Database = {
           {
             foreignKeyName: 'customers_independent_sales_id_fkey';
             columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
@@ -2893,6 +3043,7 @@ export type Database = {
       };
       customer_cart_summary: {
         Row: {
+          cart_id: string | null;
           cart_items: Json | null;
           cart_total: number | null;
           cart_total_with_delivery: number | null;
@@ -5237,9 +5388,9 @@ export type Database = {
     Functions: {
       create_order_from_cart: {
         Args: {
+          p_cart_id: string;
           p_order_type: string;
           p_instructions?: string;
-          p_shipment_cost?: number;
         };
         Returns: Json;
       };

@@ -50,14 +50,22 @@ export const getPaginatedProducts = async (
 
   let countQuery = supabase.from('products').select('id', { count: 'exact', head: true });
 
-  let query = supabase.from('products').select('*, images:product_images(*), barcodes:barcodes(*)');
+  // Base query
+  let query = supabase.from('products').select(`
+      *,
+      images:product_images(*),
+      barcodes:barcodes(*),
+      sales:lifetime_product_sales!inner(sales)
+    `);
 
+  // Apply filters
   [countQuery, query] = applyProductFilters(
     [countQuery, query],
     filters,
     user?.user_metadata?.customer_type
   );
 
+  // Get total count
   const { count: total } = await countQuery;
 
   if (total === null) {
@@ -66,19 +74,27 @@ export const getPaginatedProducts = async (
 
   const offset = (page - 1) * pageSize;
 
+  // Apply sorting
   if (filters.sortBy === 'retail_price') {
     if (user?.user_metadata?.customer_type === 'wholesale') {
       query = query.order('wholesale_price', { ascending: filters.sortOrder === 'asc' });
     } else {
       query = query.order('retail_price', { ascending: filters.sortOrder === 'asc' });
     }
+  } else if (filters.sortBy === 'discounted_until') {
+    query = query
+      .gte('discounted_until', new Date().toISOString())
+      .order('discounted_until', { ascending: true });
+  } else if (filters.sortBy === 'sales') {
+    query = query.order('sales', { ascending: true, referencedTable: 'lifetime_product_sales' });
   } else {
-    query = query.range(offset, offset + pageSize - 1).order(filters.sortBy || 'created_at', {
+    query = query.order(filters.sortBy || 'created_at', {
       ascending: filters.sortOrder === 'asc',
     });
   }
 
-  // Apply pagination and ordering
+  // Apply pagination after sorting
+  query = query.range(offset, offset + pageSize - 1);
 
   // Execute the query
   const { data, error } = await query;

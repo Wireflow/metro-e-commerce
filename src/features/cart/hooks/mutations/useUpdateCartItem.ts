@@ -4,8 +4,11 @@ import { toast } from 'sonner';
 import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
+import { useDefaultCart } from '../queries/useDefaultCart';
+
 export const useUpdateCartItem = () => {
   const queryClient = useQueryClient();
+  const { data: cartData, error: cartError } = useDefaultCart();
 
   return useMutation({
     mutationKey: ['cart', 'update'],
@@ -32,12 +35,16 @@ export const useUpdateCartItem = () => {
         return null;
       }
 
+      if (!cartData) {
+        throw new Error('No cart found');
+      }
+
       const { data, error } = await supabase
         .from('cart_items')
         .update({
           quantity: item?.quantity ?? 0,
         })
-        .eq('id', item.id)
+        .match({ id: item.id, cart_id: cartData.id })
         .select('*')
         .single();
 

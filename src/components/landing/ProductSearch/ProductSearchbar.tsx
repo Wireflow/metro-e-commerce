@@ -21,6 +21,7 @@ const ProductSearchbar = () => {
     enabled: !!searchQuery,
     filters: {
       search: searchQuery,
+      searchFields: ['name', 'description', 'manufacturer', 'barcodes.barcode'],
     },
   });
 

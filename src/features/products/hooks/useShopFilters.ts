@@ -8,7 +8,7 @@ export type ShopFilters = {
   maxPrice?: number;
   manufacturer_ids?: string[];
   search?: string;
-  sortBy?: 'retail_price' | 'name' | 'created_at';
+  sortBy?: 'retail_price' | 'name' | 'created_at' | 'discounted_until' | 'sales';
   sortOrder?: 'asc' | 'desc';
   manufacturers?: string[];
 };
@@ -102,6 +102,8 @@ export const useShopFilters = () => {
     { value: 'created_at', label: 'New Arrivals' },
     { value: 'retail_price', label: 'Price: Low to High' },
     { value: 'name', label: 'Name: A to Z' },
+    { value: 'discounted_until', label: 'Discount: Low to High' },
+    { value: 'sales', label: 'Sales: High to Low' },
   ] as SelectOptions[];
 
   return {
