@@ -1,5 +1,6 @@
 // layout.tsx
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Public_Sans } from 'next/font/google';
@@ -132,6 +133,7 @@ export default async function RootLayout({
             <LayoutProvider>
               {children}
               <SpeedInsights />
+              <Analytics />
             </LayoutProvider>
           </HydrationBoundary>
         </Providers>
