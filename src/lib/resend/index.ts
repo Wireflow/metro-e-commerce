@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import { config } from '@/config';
 
 export const FROM_EMAIL = config.resend.fromEmail!;
+export const FROM_NAME = config.resend.fromName; // Add display name constant
 
 const resendInstance: Resend = new Resend(config.resend.apiKey);
 
@@ -15,12 +16,22 @@ export interface EmailData {
   cc?: string | string[];
   bcc?: string | string[];
   react?: ReactElement;
+  fromName?: string; // Make the from name configurable per email
 }
 
-export const sendEmail = async ({ to, subject, html, text, cc, bcc, react }: EmailData) => {
+export const sendEmail = async ({
+  to,
+  subject,
+  html,
+  text,
+  cc,
+  bcc,
+  react,
+  fromName = FROM_NAME, // Default to constant but allow override
+}: EmailData) => {
   try {
     const response = await resendInstance.emails.send({
-      from: FROM_EMAIL,
+      from: `${fromName} <${FROM_EMAIL}>`, // Format with display name
       to,
       subject,
       html,

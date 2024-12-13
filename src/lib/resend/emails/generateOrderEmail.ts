@@ -117,17 +117,19 @@ export function generateOrderEmail(order: Row<'orders'>, customer: Partial<Row<'
       <p style="color: ${COLORS.darkGray}; font-size: 16px; line-height: 1.5;">${statusContent.message}</p>
 
       <!-- Order Details Box -->
-      <div style="background-color: ${COLORS.lightGray}; border-radius: 8px; padding: 24px; margin: 24px 0;">
+       <div style="background-color: ${COLORS.lightGray}; border-radius: 8px; padding: 24px; margin: 24px 0;">
         <h2 style="margin: 0 0 16px 0; color: ${COLORS.primary}; font-size: 20px; font-weight: bold;">Order Summary</h2>
         <div style="border-bottom: 1px solid ${COLORS.border}; padding-bottom: 12px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: ${COLORS.gray};">Order Number:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> #${order.order_number}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: ${COLORS.gray};">Total Amount:</span>
-            <span style="color: ${COLORS.primary}; font-weight: bold;"> ${formattedAmount}</span>
-          </div>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr style="margin-bottom: 8px;">
+              <td style="color: ${COLORS.gray}; padding-bottom: 8px; width: 140px;">Order Number:</td>
+              <td style="color: ${COLORS.darkGray}; font-weight: bold; padding-bottom: 8px; padding-left: 16px;">#${order.order_number}</td>
+            </tr>
+            <tr>
+              <td style="color: ${COLORS.gray}; width: 140px;">Total Amount:</td>
+              <td style="color: ${COLORS.primary}; font-weight: bold; padding-left: 16px;">${formattedAmount}</td>
+            </tr>
+          </table>
         </div>
       </div>
 

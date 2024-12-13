@@ -48,22 +48,24 @@ export function generateAdminOrderEmailNotification(
       <div style="background-color: ${COLORS.lightGray}; border-radius: 8px; padding: 24px; margin: 24px 0;">
         <h2 style="margin: 0 0 16px 0; color: ${COLORS.primary}; font-size: 20px; font-weight: bold;">Order Details</h2>
         <div style="border-bottom: 1px solid ${COLORS.border}; padding-bottom: 12px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: ${COLORS.gray};">Order Number:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> #${order.order_number}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: ${COLORS.gray};">Business Name:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> ${customer.business_name || 'N/A'}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: ${COLORS.gray};">Order Type:</span>
-            <span style="color: ${COLORS.darkGray}; font-weight: bold;"> ${order.type?.toUpperCase() || 'N/A'}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: ${COLORS.gray};">Total Amount:</span>
-            <span style="color: ${COLORS.primary}; font-weight: bold;"> ${formatCurrency(order.total_amount ?? 0)}</span>
-          </div>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr style="margin-bottom: 8px;">
+              <td style="color: ${COLORS.gray}; padding-bottom: 8px; width: 140px;">Order Number:</td>
+              <td style="color: ${COLORS.darkGray}; font-weight: bold; padding-bottom: 8px; padding-left: 16px;">#${order.order_number}</td>
+            </tr>
+            <tr style="margin-bottom: 8px;">
+              <td style="color: ${COLORS.gray}; padding-bottom: 8px; width: 140px;">Business Name:</td>
+              <td style="color: ${COLORS.darkGray}; font-weight: bold; padding-bottom: 8px; padding-left: 16px;">${customer.business_name || 'N/A'}</td>
+            </tr>
+            <tr style="margin-bottom: 8px;">
+              <td style="color: ${COLORS.gray}; padding-bottom: 8px; width: 140px;">Order Type:</td>
+              <td style="color: ${COLORS.darkGray}; font-weight: bold; padding-bottom: 8px; padding-left: 16px;">${order.type?.toUpperCase() || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td style="color: ${COLORS.gray}; width: 140px;">Total Amount:</td>
+              <td style="color: ${COLORS.primary}; font-weight: bold; padding-left: 16px;">${formatCurrency(order.total_amount ?? 0)}</td>
+            </tr>
+          </table>
         </div>
       </div>
 
