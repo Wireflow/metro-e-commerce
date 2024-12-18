@@ -60,7 +60,7 @@ const QuickDialog = ({
       >
         <div className={cn('flex h-full flex-col', contentClassName)}>
           {title || description ? (
-            <DialogHeader className="flex-shrink-0">
+            <DialogHeader className="mb-2 flex-shrink-0">
               {title && <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>}
               {description && (
                 <DialogDescription className="text-base">{description}</DialogDescription>

@@ -1,10 +1,10 @@
 import { TrashIcon } from 'lucide-react';
 
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useDeletePermission } from '@/features/users/hooks/mutations/useDeletePermission';
 import { CustomerPermission } from '@/features/users/hooks/queries/useCustomerPermissions';
-import { formatDateToString } from '@/utils/dateUtils';
 
 type Props = {
   permission: CustomerPermission;
@@ -22,27 +22,32 @@ const SalesPermissionCard = ({ permission }: Props) => {
 
   return (
     <Card className="w-full">
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <div className="font-medium">
-            {permission.salesperson.first_name} {permission.salesperson.last_name}
-          </div>
-          {permission?.access_granted_date && (
-            <div className="text-sm text-muted-foreground">
-              Access granted: {formatDateToString(new Date(permission.access_granted_date))}
+      <CardContent className="flex items-center justify-between p-5">
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarFallback className="bg-gray-200 text-sm font-semibold">
+              {permission.salesperson.first_name[0]}.{permission.salesperson.last_name[0]}
+            </AvatarFallback>
+          </Avatar>
+          <div className="r flex flex-col justify-between">
+            <div>
+              <p className="text-sm font-semibold">
+                {permission.salesperson.first_name} {permission.salesperson.last_name}
+              </p>
+              <p className="text-xs text-muted-foreground">{permission.salesperson.email}</p>
             </div>
-          )}
+          </div>
         </div>
-      </CardHeader>
-      <CardContent className="pb-2">
-        <div className="text-sm text-muted-foreground">{permission.salesperson.email}</div>
-      </CardContent>
-      <CardFooter className="flex justify-end pt-2">
-        <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isPending}>
-          <TrashIcon className="mr-2 h-4 w-4" />
-          Remove Access
+        <Button
+          variant="destructive"
+          size="icon"
+          className="rounded-full"
+          onClick={handleDelete}
+          disabled={isPending}
+        >
+          <TrashIcon className="h-4 w-4" />
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 };

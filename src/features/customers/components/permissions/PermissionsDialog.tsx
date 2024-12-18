@@ -1,6 +1,6 @@
 import QuickDialog from '@/components/quick/Dialog';
 
-import { useCustomrPermissionsStore } from '../store/useCustomerPermissions';
+import { useCustomrPermissionsStore } from '../../store/useCustomerPermissions';
 import PersmissionsDialogContent from './PersmissionsDialogContent';
 
 type Props = {};
@@ -12,11 +12,11 @@ const PermissionsDialog = () => {
 
   return (
     <QuickDialog
-      className="h-[60vh]"
+      className="flex h-[50vh] flex-col gap-5"
       open={open}
       onOpenChange={setOpen}
       title="Set Permissions"
-      description="Select the user you want to give access to this customer"
+      description="Give access to this customer"
       content={<PersmissionsDialogContent customer={customer} />}
     />
   );

@@ -5834,7 +5834,15 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
       };
+      is_independent_sales: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
       is_sales: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+      is_wholesale_sales: {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
       };

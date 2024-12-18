@@ -12,7 +12,7 @@ import { formatPhoneNumber } from '@/utils/utils';
 import { Customer } from '../schemas/customer';
 import { useCustomrPermissionsStore } from '../store/useCustomerPermissions';
 import CustomerActions from './CustomerActions';
-import PermissionsDialog from './PermissionsDialog';
+import PermissionsDialog from './permissions/PermissionsDialog';
 
 type Props = {
   customers: Customer[];
