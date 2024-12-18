@@ -5,9 +5,11 @@ import {
   PermissionData,
   useCreatePermission,
 } from '@/features/users/hooks/mutations/useCreatePermission';
+import { useCustomerPermissions } from '@/features/users/hooks/queries/useCustomerPermissions';
 import { useIndependentSales } from '@/features/users/hooks/queries/useIndependentSales';
 
 import { Customer } from '../schemas/customer';
+import SalesPermissionCard from './permissions/SalesPermissionCard';
 
 type Props = {
   customer: Customer;
@@ -17,6 +19,7 @@ const PermissionsDialogContent = ({ customer }: Props) => {
   const [search, setSearch] = useState('');
   const { data: independentSales } = useIndependentSales();
   const { mutate: createPermission } = useCreatePermission();
+  const { data: permissions, isLoading } = useCustomerPermissions(customer?.id ?? '');
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -68,6 +71,11 @@ const PermissionsDialogContent = ({ customer }: Props) => {
             : 'No sales found matching your search'}
         </div>
       )}
+      <div>
+        {permissions?.map(p => (
+          <SalesPermissionCard key={`${p.salesperson_id}-${p.customer_id}`} permission={p} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { createClient } from '@/utils/supabase/client';
 
@@ -8,6 +9,8 @@ export type PermissionData = {
 };
 
 export const useCreatePermission = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['users', 'create-permission'],
     mutationFn: async (data: PermissionData) => {
@@ -33,6 +36,10 @@ export const useCreatePermission = () => {
         throw new Error('Failed to create access permission');
       }
       return accessData;
+    },
+    onSuccess: (data, variable) => {
+      toast.success('Successfully granted access');
+      queryClient.invalidateQueries({ queryKey: ['permissions', variable.customerId] });
     },
   });
 };

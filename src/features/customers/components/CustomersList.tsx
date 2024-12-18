@@ -12,13 +12,14 @@ import { formatPhoneNumber } from '@/utils/utils';
 import { Customer } from '../schemas/customer';
 import { useCustomrPermissionsStore } from '../store/useCustomerPermissions';
 import CustomerActions from './CustomerActions';
+import PermissionsDialog from './PermissionsDialog';
 
 type Props = {
   customers: Customer[];
 };
 
 const CustomersList = ({ customers }: Props) => {
-  const { setOpen } = useCustomrPermissionsStore();
+  const { setCustomerAndOpen } = useCustomrPermissionsStore();
   const router = useRouter();
   const fields = useTableFields<Customer>([
     {
@@ -74,7 +75,7 @@ const CustomersList = ({ customers }: Props) => {
           approved={c.approved!}
           blocked={c.blocked!}
           onView={() => router.push(`/admin/customers/${c.id}`)}
-          onPremission={() => setOpen(true)}
+          onPremission={() => setCustomerAndOpen(c)}
         />
       ),
       className: 'text-center',
@@ -84,6 +85,7 @@ const CustomersList = ({ customers }: Props) => {
   return (
     <div>
       <DynamicTable fields={fields} data={customers} />
+      <PermissionsDialog />
     </div>
   );
 };

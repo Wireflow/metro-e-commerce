@@ -1,15 +1,15 @@
 import QuickDialog from '@/components/quick/Dialog';
 
-import { Customer } from '../schemas/customer';
 import { useCustomrPermissionsStore } from '../store/useCustomerPermissions';
 import PersmissionsDialogContent from './PersmissionsDialogContent';
 
-type Props = {
-  customer: Customer;
-};
+type Props = {};
 
-const PermissionsDialog = ({ customer }: Props) => {
-  const { setOpen, open } = useCustomrPermissionsStore();
+const PermissionsDialog = () => {
+  const { setOpen, open, customer } = useCustomrPermissionsStore();
+
+  if (!customer) return null;
+
   return (
     <QuickDialog
       className="h-[60vh]"
