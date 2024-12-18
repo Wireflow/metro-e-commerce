@@ -1,4 +1,4 @@
-import { EllipsisVertical, Eye, Pencil } from 'lucide-react';
+import { EllipsisVertical, Eye, Pencil, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -10,10 +10,18 @@ type Props = {
   blocked: boolean;
   onEdit?: () => void;
   onView?: () => void;
+  onPremission?: () => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CustomerActions = ({ customerId, approved, onEdit, blocked, onView }: Props) => {
+const CustomerActions = ({
+  customerId,
+  approved,
+  onEdit,
+  blocked,
+  onView,
+  onPremission,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,6 +60,20 @@ const CustomerActions = ({ customerId, approved, onEdit, blocked, onView }: Prop
               >
                 <Eye className="h-4 w-4" />
                 View
+              </Button>
+            )}
+            {onPremission && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex w-full items-center justify-start gap-2"
+                onClick={() => {
+                  onPremission();
+                  setIsOpen(false);
+                }}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Set Permissions
               </Button>
             )}
           </div>

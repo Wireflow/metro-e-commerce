@@ -10,6 +10,7 @@ import { formatDateToString } from '@/utils/dateUtils';
 import { formatPhoneNumber } from '@/utils/utils';
 
 import { Customer } from '../schemas/customer';
+import { useCustomrPermissionsStore } from '../store/useCustomerPermissions';
 import CustomerActions from './CustomerActions';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const CustomersList = ({ customers }: Props) => {
+  const { setOpen } = useCustomrPermissionsStore();
   const router = useRouter();
   const fields = useTableFields<Customer>([
     {
@@ -72,13 +74,18 @@ const CustomersList = ({ customers }: Props) => {
           approved={c.approved!}
           blocked={c.blocked!}
           onView={() => router.push(`/admin/customers/${c.id}`)}
+          onPremission={() => setOpen(true)}
         />
       ),
       className: 'text-center',
     },
   ]);
 
-  return <DynamicTable fields={fields} data={customers} />;
+  return (
+    <div>
+      <DynamicTable fields={fields} data={customers} />
+    </div>
+  );
 };
 
 export default CustomersList;

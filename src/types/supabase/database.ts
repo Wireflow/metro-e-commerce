@@ -90,6 +90,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -438,6 +445,13 @@ export type Database = {
             foreignKeyName: 'cart_items_customer_Id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'cart_items_customer_Id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -578,6 +592,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'carts_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
@@ -741,6 +762,140 @@ export type Database = {
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      customer_access: {
+        Row: {
+          access_granted_date: string | null;
+          customer_id: string;
+          granted_by: string;
+          salesperson_id: string;
+        };
+        Insert: {
+          access_granted_date?: string | null;
+          customer_id: string;
+          granted_by: string;
+          salesperson_id: string;
+        };
+        Update: {
+          access_granted_date?: string | null;
+          customer_id?: string;
+          granted_by?: string;
+          salesperson_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'approved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_independent_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'belongs_wholesale_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customer_cart_summary';
+            referencedColumns: ['customer_id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'unapproved_customers';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_granted_by_fkey';
+            columns: ['granted_by'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_granted_by_fkey';
+            columns: ['granted_by'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_granted_by_fkey';
+            columns: ['granted_by'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_granted_by_fkey';
+            columns: ['granted_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['salesperson_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
@@ -1476,6 +1631,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -1632,6 +1794,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
@@ -2053,6 +2222,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wishlist_items_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
@@ -2557,6 +2733,13 @@ export type Database = {
             foreignKeyName: 'addresses_customer_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -2809,6 +2992,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -3011,6 +3201,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -3179,6 +3376,133 @@ export type Database = {
           },
         ];
       };
+      customers_with_address_granted_access: {
+        Row: {
+          approved: boolean | null;
+          approved_at: string | null;
+          approved_tobacco: boolean | null;
+          belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
+          blocked: boolean | null;
+          branch_id: string | null;
+          business_name: string | null;
+          city: string | null;
+          country: string | null;
+          created_at: string | null;
+          customer_type: Database['public']['Enums']['customer_type'] | null;
+          email: string | null;
+          first_name: string | null;
+          has_access: string | null;
+          id: string | null;
+          independent_sales_id: string | null;
+          last_name: string | null;
+          opted_in_text: boolean | null;
+          order_count: number | null;
+          phone: string | null;
+          state: string | null;
+          street: string | null;
+          tax_id: string | null;
+          tax_id_image_url: string | null;
+          tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
+          total_spent: number | null;
+          updated_at: string | null;
+          wholesale_sales_id: string | null;
+          zip_code: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['has_access'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['has_access'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['has_access'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customer_access_salesperson_id_fkey';
+            columns: ['has_access'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_branch_id_fkey';
+            columns: ['branch_id'];
+            isOneToOne: false;
+            referencedRelation: 'branches';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_independent_sales_id_fkey';
+            columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       daily_branch_analytics: {
         Row: {
           branch_id: string | null;
@@ -3276,6 +3600,13 @@ export type Database = {
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'addresses_customer_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
@@ -4105,6 +4436,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -4406,6 +4744,13 @@ export type Database = {
             foreignKeyName: 'payment_methods_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'payment_methods_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -4553,6 +4898,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
@@ -4862,6 +5214,13 @@ export type Database = {
             foreignKeyName: 'orders_customer_id_fkey';
             columns: ['customer_id'];
             isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
             referencedRelation: 'unapproved_customers';
             referencedColumns: ['id'];
           },
@@ -5058,6 +5417,13 @@ export type Database = {
             columns: ['customer_id'];
             isOneToOne: false;
             referencedRelation: 'customers_with_address';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'orders_customer_id_fkey';
+            columns: ['customer_id'];
+            isOneToOne: false;
+            referencedRelation: 'customers_with_address_granted_access';
             referencedColumns: ['id'];
           },
           {
