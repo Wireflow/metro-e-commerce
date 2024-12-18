@@ -64,10 +64,20 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
     {
       key: product => (
         <div>
-          <p>{product?.quantity}</p>
+          <p className="text-center">{product?.quantity ?? 0}</p>
         </div>
       ),
       label: 'Qty',
+    },
+    {
+      key: product =>
+        product.status === 'partial' && (
+          <div className="flex items-center justify-center gap-1">
+            <p className="">{product?.refunded_quantity ?? 0}</p>
+            <p className="text-sm text-gray-500">({formatCurrency(product.refunded_amount)})</p>
+          </div>
+        ),
+      label: 'Refunded',
     },
     {
       key: product => (
@@ -97,13 +107,12 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
       label: 'Total',
       className: 'min-w-[120px]',
     },
+
     {
       key: product => (
-        <div>
-          <Badge variant={GetStatusColor(product.status)}>
-            <span className="text-sm font-bold">{product.status}</span>
-          </Badge>
-        </div>
+        <Badge className="capitalize" variant={GetStatusColor(product.status)}>
+          {product.status}
+        </Badge>
       ),
       label: 'Status',
       className: 'min-w-[120px]',

@@ -20,6 +20,7 @@ export const useCustomerOrdersClient = ({
         .select('*, payment:order_payments(*), customer:customers(*)')
         .order('created_at', { ascending: false })
         .neq('status', 'created')
+        .eq('order_category', 'regular')
         .eq('customer_id', customerId)
         .limit(limit);
 

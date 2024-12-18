@@ -19,7 +19,7 @@ export default async function Admin() {
     endDate: formatDate(new Date(), 'yyyy-MM-dd'),
   });
 
-  const topSellingProducts = await getTopSellingProducts();
+  const topSellingProducts = await getTopSellingProducts({ limit: 25 });
 
   const thisWeeksSales = await getSales({
     startDate: formatDate(thisWeekStart, 'yyyy-MM-dd'),

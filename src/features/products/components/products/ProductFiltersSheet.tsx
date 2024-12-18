@@ -42,6 +42,7 @@ const ProductFiltersSheet = () => {
 
   const sortOptions = [
     { value: 'retail_price', label: 'Retail Price' },
+    { value: 'wholesale_price', label: 'Wholesale Price' },
     { value: 'name', label: 'Name' },
     { value: 'created_at', label: 'Date Created' },
   ];

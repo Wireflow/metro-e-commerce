@@ -6,15 +6,7 @@ import { formatDateToString } from '@/utils/dateUtils';
 
 import { OrderDetails } from '../../schemas/orders';
 
-export type StatusType =
-  | 'created'
-  | 'pending'
-  | 'confirmed'
-  | 'preparing'
-  | 'ready'
-  | 'completed'
-  | 'cancelled'
-  | 'refunded';
+export type StatusType = Enum<'order_status'>;
 
 const getStatusTitle = (status: StatusType, orderType: Enum<'order_type'>) => {
   const statusTitles = {
@@ -52,7 +44,10 @@ const OrderStatus = ({ order }: Props) => {
     return baseStatuses;
   };
 
-  const status = getStatusList();
+  const status =
+    order.order_category === 'return'
+      ? (['pending', 'completed'] as StatusType[])
+      : getStatusList();
 
   const getStatusColor = (itemStatus: StatusType) => {
     if (currentStatus === itemStatus) {
@@ -70,6 +65,7 @@ const OrderStatus = ({ order }: Props) => {
     if (itemIndex < currentIndex) {
       return 'text-green-600';
     }
+
     return 'text-gray-400';
   };
 

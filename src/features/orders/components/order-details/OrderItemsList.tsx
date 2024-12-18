@@ -16,7 +16,7 @@ const OrderItemsList = ({ order }: Props) => {
         <CardContent className="flex flex-col gap-5">
           <div className="flex flex-col justify-between sm:flex-row sm:items-center">
             <div className="flex items-center gap-3 pt-4">
-              <p className="text-lg font-semibold">Order List</p>
+              <p className="text-lg font-semibold">Items</p>
               <Badge variant={'success'}>
                 <span className="text-md font-bold">{order.orderItems.length} Products</span>
               </Badge>
@@ -51,7 +51,7 @@ const OrderItemsList = ({ order }: Props) => {
               </p>
             </div>
           </div>
-          <OrderItemsTable orderItems={order.orderItems} />{' '}
+          <OrderItemsTable orderItems={order.orderItems} />
         </CardContent>
       </Card>
     </div>

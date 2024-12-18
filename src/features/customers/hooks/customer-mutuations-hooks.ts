@@ -68,3 +68,30 @@ export const useApproveCustomerTobacco = () => {
     },
   });
 };
+
+export const useResetApprovalDocuments = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['reset-approval-documents'],
+    mutationFn: ({ id }: { id: string }) =>
+      updateCustomer({
+        id: id,
+        approved_tobacco: false,
+        approved: false,
+        tobacco_license: null,
+        tax_id: null,
+        tobacco_license_image_url: null,
+        tax_id_image_url: null,
+      }),
+    onSuccess: (data, ctx) => {
+      if (data?.success) {
+        toast.success('Reset approval documents!');
+      } else {
+        toast.error(data.error);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+    },
+  });
+};

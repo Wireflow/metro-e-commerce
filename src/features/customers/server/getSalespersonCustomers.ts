@@ -8,7 +8,6 @@ export const getSalespersonCustomers = async (salespersonId: string) => {
   const { data, error } = await supabase
     .from('customers_with_address')
     .select('*')
-    .eq('belongs_to', 'independent')
     .eq('independent_sales_id', salespersonId);
 
   if (error) {

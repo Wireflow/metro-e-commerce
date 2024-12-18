@@ -9,16 +9,25 @@ import { Separator } from '@/components/ui/separator';
 import { Customer } from '../schemas/customer';
 import ApproveCustomerDialog from './ApproveCustomerDialog';
 import ApproveTobaccoDialog from './ApproveTobaccoDialog';
+import ResetCustomerDocuments from './ResetCustomerDocuments';
 
 type Props = {
   customer: Customer;
   onApprove?: () => void;
   onApproveTobacco?: () => void;
+  onResetDocuments?: () => void;
   isMutating?: boolean;
   onBlock?: () => void;
 };
 
-const CustomerProfile = ({ customer, onApprove, onBlock, isMutating, onApproveTobacco }: Props) => {
+const CustomerProfile = ({
+  customer,
+  onApprove,
+  onResetDocuments,
+  onBlock,
+  isMutating,
+  onApproveTobacco,
+}: Props) => {
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString();
@@ -164,9 +173,19 @@ const CustomerProfile = ({ customer, onApprove, onBlock, isMutating, onApproveTo
           <Separator />
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-tight text-muted-foreground">
-              Business Details
-            </h3>
+            <div className="flex justify-between">
+              <h3 className="text-sm font-semibold uppercase tracking-tight text-muted-foreground">
+                Business Details
+              </h3>
+              <div>
+                {!customer.blocked && (
+                  <ResetCustomerDocuments
+                    onResetDocuments={() => onResetDocuments?.()}
+                    isResetting={isMutating!}
+                  />
+                )}
+              </div>
+            </div>
             <div className="space-y-3">
               {customer.tax_id && (
                 <div className="flex items-center gap-2">

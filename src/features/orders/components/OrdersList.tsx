@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Calendar, Check, Info, Package, Store, Truck } from 'lucide-react';
+import { ArrowRight, Calendar, Check, Info, Package, Store, Truck, Undo2 } from 'lucide-react';
 import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
@@ -46,8 +46,16 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     }
   };
 
-  const getOrderTypeInfo = (type: Enum<'order_type'>) => {
-    switch (type) {
+  const getOrderTypeInfo = (order: Order) => {
+    if (order.order_category === 'return') {
+      return {
+        icon: <Undo2 className="h-4 w-4 text-blue-600" />,
+        color: 'bg-blue-50 text-blue-700',
+        label: 'Return',
+      };
+    }
+
+    switch (order.type) {
       case 'delivery':
         return {
           icon: <Truck className="h-4 w-4 text-blue-600" />,
@@ -135,10 +143,10 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
         <div className="flex flex-col gap-2">
           <div className="flex flex-col items-start gap-1.5">
             <div
-              className={`flex items-center gap-1 rounded-md px-2 py-1 ${getOrderTypeInfo(order.type).color}`}
+              className={`flex items-center gap-1 rounded-md px-2 py-1 ${getOrderTypeInfo(order).color}`}
             >
-              {getOrderTypeInfo(order.type).icon}
-              <span className="text-xs font-medium">{getOrderTypeInfo(order.type).label}</span>
+              {getOrderTypeInfo(order).icon}
+              <span className="text-xs font-medium">{getOrderTypeInfo(order).label}</span>
             </div>
             <div className="flex items-start gap-1.5">
               <Calendar className="mt-0.5 h-3.5 w-3.5 text-gray-500" />
@@ -199,11 +207,12 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
                   </>
                 ) : (
                   <>
-                    {' '}
                     Paid {order.payment.payment_type} <Check className="h-3 w-3" />
                   </>
                 )}
               </span>
+            ) : order.order_category === 'return' ? (
+              'Return Order'
             ) : (
               'Payment Failed'
             )}
@@ -223,9 +232,14 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     {
       key: order => (
         <div className="flex flex-col items-center gap-1">
-          <p className="font-medium text-gray-900">{formatCurrency(order.total_amount)}</p>
+          <p className="font-medium text-gray-900">
+            {formatCurrency(
+              order.order_category === 'return' ? order.total_refunded : order.total_amount
+            )}
+          </p>
           <Badge variant="secondary" className="w-fit">
-            {order.total_quantity} items
+            {order.order_category === 'return' ? order.quantity_refunded : order.total_quantity}{' '}
+            items
           </Badge>
           {!!order.shipping_costs && (
             <span className="w-fit rounded-md bg-blue-50 px-2 py-0.5 text-xs text-blue-700">

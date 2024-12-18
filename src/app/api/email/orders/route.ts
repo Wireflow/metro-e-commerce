@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { sendEmail } from '@/lib/resend';
 import { generateAdminOrderEmailNotification } from '@/lib/resend/emails/generateAdminOrderEmailNotification';
+import { generateDeliveryDateEmail } from '@/lib/resend/emails/generateDeliveryEmail';
 import { generateOrderEmail } from '@/lib/resend/emails/generateOrderEmail';
 import { WebhookPayload } from '@/types/webhooks/payloads';
 import { createClient } from '@/utils/supabase/server';
@@ -17,12 +18,17 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
 
-    if (!body.record) {
+    if (!body.record || !body.old_record) {
       return NextResponse.json({ error: 'Order not found' }, { status: 400 });
     }
 
-    if (body.record.status === 'created') {
-      return NextResponse.json({ error: 'Invalid order status' }, { status: 400 });
+    const statusChanged = body.record.status !== body.old_record.status;
+    const deliveryDateSet =
+      !body.old_record.expected_delivery_at && body.record.expected_delivery_at;
+
+    // If neither status changed nor delivery date was set, return early
+    if (!statusChanged && !deliveryDateSet) {
+      return NextResponse.json({ message: 'No relevant changes' }, { status: 200 });
     }
 
     const supabase = createClient();
@@ -33,55 +39,55 @@ export const POST = async (req: AuthenticatedRequest) => {
       .eq('id', body.record.customer_id)
       .single();
 
-    if (customerError) {
-      return NextResponse.json({ error: 'Failed to retrieve customer' }, { status: 400 });
-    }
-
-    if (!customer || !customer?.email) {
+    if (customerError || !customer?.email) {
       return NextResponse.json({ error: 'Customer email is required' }, { status: 400 });
     }
 
-    if (body.record.status === 'pending' && body.old_record?.status !== 'pending') {
-      const { data: branch, error: branchError } = await supabase
-        .from('branches')
-        .select('orders_notified_email')
-        .eq('id', body.record.branch_id)
-        .single();
+    // Handle both status change and delivery date notifications
+    if (statusChanged) {
+      // Existing status change email logic...
+      if (body.record.status === 'pending') {
+        const { data: branch } = await supabase
+          .from('branches')
+          .select('orders_notified_email')
+          .eq('id', body.record.branch_id)
+          .single();
 
-      if (!branchError && branch?.orders_notified_email) {
-        const adminEmail = generateAdminOrderEmailNotification(body.record, customer);
+        if (branch?.orders_notified_email) {
+          const adminEmail = generateAdminOrderEmailNotification(body.record, customer);
+          await sendEmail({
+            to: branch.orders_notified_email,
+            subject: adminEmail.subject,
+            html: adminEmail.html,
+          });
+        }
+      }
 
-        // Send email to admin
-        await sendEmail({
-          to: branch.orders_notified_email,
-          subject: adminEmail.subject,
-          html: adminEmail.html,
-        });
+      const orderEmail = generateOrderEmail(body.record, customer);
+      await sendEmail({
+        to: customer.email,
+        subject: orderEmail.subject,
+        html: orderEmail.html,
+      });
+    }
+
+    // Send delivery date confirmation email if delivery date was just set
+    if (deliveryDateSet) {
+      const deliveryEmail = generateDeliveryDateEmail(body.record, customer);
+      const email = await sendEmail({
+        to: customer.email,
+        subject: deliveryEmail.subject,
+        html: deliveryEmail.html,
+      });
+
+      if (!email.success) {
+        return NextResponse.json({ success: false, error: email.error }, { status: 400 });
       }
     }
 
-    const orderEmail = generateOrderEmail(body.record, customer);
-
-    // Send email to customer
-    const email = await sendEmail({
-      to: customer.email,
-      subject: orderEmail.subject,
-      html: orderEmail.html,
-    });
-
-    if (!email.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: email.error,
-        },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ success: true, data: email.data?.data }, { status: 200 });
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Payment API error:', error);
+    console.error('Webhook API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 };

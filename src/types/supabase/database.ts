@@ -234,6 +234,7 @@ export type Database = {
           is_shipment_allowed: boolean;
           pickup_minimum: number;
           shipment_minimum: number;
+          skip_delivery_minimum_salesperson: boolean;
           status: Database['public']['Enums']['branch_status'];
           tax_percentage: number;
           updated_at: string;
@@ -256,6 +257,7 @@ export type Database = {
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
+          skip_delivery_minimum_salesperson?: boolean;
           status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
           updated_at?: string;
@@ -278,6 +280,7 @@ export type Database = {
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
           shipment_minimum?: number;
+          skip_delivery_minimum_salesperson?: boolean;
           status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
           updated_at?: string;
@@ -505,6 +508,9 @@ export type Database = {
       };
       carts: {
         Row: {
+          belongs_to: Database['public']['Enums']['customer_belongs_to'];
+          cart_number: number;
+          category: Database['public']['Enums']['order_category'];
           created_at: string;
           customer_id: string;
           id: string;
@@ -512,6 +518,9 @@ export type Database = {
           sales_id: string | null;
         };
         Insert: {
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'];
+          cart_number?: number;
+          category?: Database['public']['Enums']['order_category'];
           created_at?: string;
           customer_id: string;
           id?: string;
@@ -519,6 +528,9 @@ export type Database = {
           sales_id?: string | null;
         };
         Update: {
+          belongs_to?: Database['public']['Enums']['customer_belongs_to'];
+          cart_number?: number;
+          category?: Database['public']['Enums']['order_category'];
           created_at?: string;
           customer_id?: string;
           id?: string;
@@ -1130,6 +1142,7 @@ export type Database = {
           check_number: string | null;
           created_at: string;
           id: string;
+          later_payment_method: Database['public']['Enums']['pay_later_methods'] | null;
           order_id: string;
           payment_amount: number;
           payment_date: string | null;
@@ -1143,6 +1156,7 @@ export type Database = {
           check_number?: string | null;
           created_at?: string;
           id?: string;
+          later_payment_method?: Database['public']['Enums']['pay_later_methods'] | null;
           order_id: string;
           payment_amount: number;
           payment_date?: string | null;
@@ -1156,6 +1170,7 @@ export type Database = {
           check_number?: string | null;
           created_at?: string;
           id?: string;
+          later_payment_method?: Database['public']['Enums']['pay_later_methods'] | null;
           order_id?: string;
           payment_amount?: number;
           payment_date?: string | null;
@@ -1318,9 +1333,11 @@ export type Database = {
           fees: number;
           id: string;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'];
           order_number: string;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -1333,6 +1350,7 @@ export type Database = {
           total_before_calculations: number;
           total_discount: number;
           total_quantity: number;
+          total_refunded: number;
           type: Database['public']['Enums']['order_type'];
           updated_at: string;
         };
@@ -1349,9 +1367,11 @@ export type Database = {
           fees?: number;
           id?: string;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'];
           order_number: string;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -1364,6 +1384,7 @@ export type Database = {
           total_before_calculations?: number;
           total_discount?: number;
           total_quantity: number;
+          total_refunded?: number;
           type: Database['public']['Enums']['order_type'];
           updated_at?: string;
         };
@@ -1380,9 +1401,11 @@ export type Database = {
           fees?: number;
           id?: string;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'];
           order_number?: string;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -1395,6 +1418,7 @@ export type Database = {
           total_before_calculations?: number;
           total_discount?: number;
           total_quantity?: number;
+          total_refunded?: number;
           type?: Database['public']['Enums']['order_type'];
           updated_at?: string;
         };
@@ -3086,6 +3110,7 @@ export type Database = {
           tobacco_license_image_url: string | null;
           total_spent: number | null;
           updated_at: string | null;
+          wholesale_sales_id: string | null;
           zip_code: string | null;
         };
         Relationships: [
@@ -3120,6 +3145,34 @@ export type Database = {
           {
             foreignKeyName: 'customers_independent_sales_id_fkey';
             columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
@@ -3974,12 +4027,14 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           payment_status: Database['public']['Enums']['payment_status'] | null;
           payment_type: Database['public']['Enums']['payment_type'] | null;
           phone: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -3992,6 +4047,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -5394,6 +5450,16 @@ export type Database = {
         };
         Returns: Json;
       };
+      create_salesperson_order: {
+        Args: {
+          p_cart_id: string;
+          p_order_type: Database['public']['Enums']['order_type'];
+          p_instructions?: string;
+          p_later_payment_method?: string;
+          p_order_category?: Database['public']['Enums']['order_category'];
+        };
+        Returns: Json;
+      };
       get_user_branch: {
         Args: Record<PropertyKey, never>;
         Returns: string;
@@ -5424,9 +5490,11 @@ export type Database = {
           fees: number;
           id: string;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'];
           order_number: string;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -5439,6 +5507,7 @@ export type Database = {
           total_before_calculations: number;
           total_discount: number;
           total_quantity: number;
+          total_refunded: number;
           type: Database['public']['Enums']['order_type'];
           updated_at: string;
         };
@@ -5451,7 +5520,8 @@ export type Database = {
       customer_belongs_to: 'wholesale' | 'independent';
       customer_type: 'wholesale' | 'retail';
       delivery_fee_type: 'fixed' | 'percentage';
-      order_item_status: 'confirmed' | 'returned';
+      order_category: 'regular' | 'return';
+      order_item_status: 'confirmed' | 'returned' | 'partial';
       order_status:
         | 'created'
         | 'pending'
@@ -5462,6 +5532,7 @@ export type Database = {
         | 'cancelled'
         | 'refunded';
       order_type: 'delivery' | 'pickup' | 'shipment';
+      pay_later_methods: 'cash' | 'check' | 'card';
       payment_status: 'pending' | 'approved' | 'declined' | 'voided';
       payment_type: 'cash' | 'check' | 'later' | 'card' | 'online';
       user_role: 'admin' | 'driver' | 'sales' | 'independent_sales';

@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
 
-import { OrdersFilters } from '../hooks/orders-query-hook';
+import { OrdersFilters, OrderType } from '../hooks/orders-query-hook';
 import { useOrdersFiltersStore } from '../store/useOrdersFilters';
 
 const OrderFiltersSheet = () => {
@@ -48,9 +48,17 @@ const OrderFiltersSheet = () => {
     { value: 'created', label: 'Failed' },
   ];
 
+  const orderTypeOptions = [
+    { value: 'undefined', label: 'All Orders' },
+    { value: 'delivery', label: 'Delivery' },
+    { value: 'pickup', label: 'Pickup' },
+    { value: 'shipment', label: 'Shipment' },
+    { value: 'return', label: 'Return' },
+  ];
+
   const orderOptions = [
-    { label: 'Ascending', value: 'asc' },
     { label: 'Descending', value: 'desc' },
+    { label: 'Ascending', value: 'asc' },
   ];
 
   const handleOrderNumberFieldSearch = (orderNumber: string) => {
@@ -79,6 +87,13 @@ const OrderFiltersSheet = () => {
     setTempFilters(prev => ({
       ...prev,
       [key]: value as OrderStatus,
+    }));
+  };
+
+  const handleOrderTypeChange = (key: 'orderType', value?: string) => {
+    setTempFilters(prev => ({
+      ...prev,
+      [key]: value as OrderType,
     }));
   };
 
@@ -157,6 +172,18 @@ const OrderFiltersSheet = () => {
             </div>
           </div>
 
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Order Type</Label>
+              <QuickSelect
+                placeholder="Select order type"
+                options={orderTypeOptions}
+                value={String(tempFilters.orderType)}
+                onValueChange={value => handleOrderTypeChange('orderType', value)}
+              />
+            </div>
+          </div>
+
           <div className="flex w-full items-center justify-between space-x-2 rounded-sm border p-2">
             <Label>Show Failed</Label>
             <Switch
@@ -167,7 +194,7 @@ const OrderFiltersSheet = () => {
 
           {/* Price Range */}
           <div className="space-y-2">
-            <Label>Price Range</Label>
+            <Label>Order Total Range</Label>
             <div className="flex space-x-2">
               <Input
                 type="number"

@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
+import { Enum } from '@/types/supabase/enum';
 import { createClient } from '@/utils/supabase/client';
 
 import { Order } from '../schemas/orders';
@@ -15,6 +16,8 @@ export const useOrders = ({ enabled = true }) => {
   });
 };
 
+export type OrderType = 'delivery' | 'pickup' | 'shipment' | 'return';
+
 export interface OrdersFilters {
   search?: string;
   searchFields?: 'business_name'[];
@@ -26,6 +29,8 @@ export interface OrdersFilters {
   status?: 'pending' | 'cancelled' | 'completed' | 'refunded' | 'confirmed' | 'preparing';
   customerId?: string;
   showFailed?: boolean;
+  orderType?: OrderType;
+  category?: Enum<'order_category'>;
 }
 
 export interface PaginationParams {

@@ -53,15 +53,11 @@ const DashboardPage = ({ analytics, topSellingProducts, salesChartData, latestOr
             />
           </div>
 
-          {/* Main Content Area */}
           <div className="flex min-h-0 flex-1 flex-col gap-6 lg:flex-row">
-            {/* Left Column - Sales Chart and Orders */}
             <div className="flex min-h-0 flex-col gap-6 lg:w-2/3">
-              {/* Sales Chart */}
               <div className="min-h-0 flex-1">
                 <SalesChart data={salesChartData} />
               </div>
-              {/* Orders List */}
               <Card className="h-full min-h-0 flex-1 overflow-auto shadow-none">
                 <CardHeader>
                   <CardTitle className="md:text-2xl">Latest Orders</CardTitle>
@@ -75,8 +71,6 @@ const DashboardPage = ({ analytics, topSellingProducts, salesChartData, latestOr
                 </CardContent>
               </Card>
             </div>
-
-            {/* Right Column - Top Selling Products */}
             <div className="min-h-0 w-full">
               <TopSellingProducts topSellingProducts={topSellingProducts} />
             </div>

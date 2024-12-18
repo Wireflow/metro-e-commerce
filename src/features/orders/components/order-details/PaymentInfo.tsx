@@ -26,7 +26,11 @@ const PaymentInfo = ({ order }: Props) => {
             <div className="flex w-full flex-col justify-between sm:flex-row">
               <p className="text-[14px] font-bold">Status</p>
               <p className="text-[14px] capitalize text-gray-500">
-                {order?.payment?.payment_status ? order?.payment?.payment_status : 'Payment Failed'}
+                {order.order_category === 'return'
+                  ? 'N/A'
+                  : order?.payment?.payment_status
+                    ? order?.payment?.payment_status
+                    : 'Payment Failed'}
               </p>
             </div>
           </div>
@@ -52,7 +56,9 @@ const PaymentInfo = ({ order }: Props) => {
             <div className="flex w-full flex-col justify-between sm:flex-row">
               <p className="text-[14px] font-bold">Amount</p>
               <p className="text-[14px] text-gray-500">
-                {formatCurrency(order?.payment?.payment_amount)}
+                {order.order_category === 'return'
+                  ? 'N/A'
+                  : formatCurrency(order?.payment?.payment_amount)}
               </p>
             </div>
           </div>

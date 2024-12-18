@@ -69,10 +69,16 @@ const ExportAllOrders = ({ children }: Props) => {
       const rows = orders.map(order => {
         const rowFields = [
           order?.order_number ?? '',
-          order?.type ?? '',
+          order.order_category === 'return' ? 'return' : (order?.type ?? ''),
           order?.status ?? '',
-          formatCurrency(order?.total_amount ?? 0),
-          order?.total_quantity ?? '',
+          formatCurrency(
+            order.order_category === 'return'
+              ? (order?.total_refunded ?? 0)
+              : (order?.total_amount ?? 0)
+          ),
+          order.order_category === 'return'
+            ? (order?.quantity_refunded ?? '0')
+            : (order?.total_quantity ?? ''),
           order?.customer?.business_name ?? '',
           order?.customer?.email ?? '',
           formatPhoneNumber(order?.customer?.phone ?? ''),

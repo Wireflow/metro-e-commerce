@@ -121,13 +121,15 @@ const OrderInfo = ({ order }: Props) => {
             <div className="flex w-full flex-col justify-between sm:flex-row">
               <p className="text-[14px] font-bold">Order Type</p>
               <p className="text-[14px] text-gray-500">
-                {order?.type === 'delivery'
-                  ? 'Delivery'
-                  : order?.type === 'pickup'
-                    ? 'Pick Up'
-                    : order.type === 'shipment'
-                      ? 'Shipment'
-                      : ''}
+                {order.order_category === 'return'
+                  ? 'Return'
+                  : order?.type === 'delivery'
+                    ? 'Delivery'
+                    : order?.type === 'pickup'
+                      ? 'Pick Up'
+                      : order.type === 'shipment'
+                        ? 'Shipment'
+                        : ''}
               </p>
             </div>
           </div>

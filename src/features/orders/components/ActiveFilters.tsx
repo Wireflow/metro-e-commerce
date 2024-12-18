@@ -18,6 +18,10 @@ const formatFilterValue = (key: string, value: string): string => {
       return value.toUpperCase();
     case 'showFailed':
       return value ? 'Yes' : 'No';
+    case 'orderType':
+      return value === 'undefined' ? 'All Orders' : value;
+    case 'status':
+      return value === 'undefined' ? 'All Order Status' : value;
     case 'sortBy':
       return value
         .split('_')
@@ -41,6 +45,7 @@ const getFilterLabel = (key: string): string => {
     sortOrder: 'Sort Order',
     status: 'Status',
     showFailed: 'Show Failed',
+    orderType: 'Order Type',
   };
   return labels[key] || key;
 };

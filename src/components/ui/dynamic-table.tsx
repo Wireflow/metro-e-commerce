@@ -48,7 +48,7 @@ export interface TableField<T> {
   label: string | ((item: T) => React.ReactNode);
   transform?: (value: any, item: T) => React.ReactNode;
   className?: string;
-  disabled?: boolean;
+  disabled?: boolean | ((item: T) => boolean);
 }
 
 interface DynamicTableProps<T> {
@@ -107,6 +107,13 @@ export function DynamicTable<T extends Record<string, any>>({
     return field.label;
   };
 
+  const isFieldDisabled = <T,>(field: TableField<T>, item?: T): boolean => {
+    if (typeof field.disabled === 'function') {
+      return item ? field.disabled(item) : false;
+    }
+    return !!field.disabled;
+  };
+
   return (
     <div className={cn('custom-scrollbar', tableVariants[variant], className)}>
       <Table>
@@ -114,7 +121,7 @@ export function DynamicTable<T extends Record<string, any>>({
           <TableRow className={tableHeaderVariants[variant]}>
             {fields.map(
               (field, index) =>
-                !field?.disabled && (
+                !isFieldDisabled(field) && (
                   <TableHead
                     key={
                       typeof field.key === 'function'
@@ -147,7 +154,7 @@ export function DynamicTable<T extends Record<string, any>>({
               >
                 {fields.map(
                   (field, cellIndex) =>
-                    !field.disabled && (
+                    !isFieldDisabled(field, item) && (
                       <TableCell
                         key={
                           typeof field.key === 'function'
@@ -165,7 +172,7 @@ export function DynamicTable<T extends Record<string, any>>({
           ) : (
             <TableRow className="h-44">
               <TableCell
-                colSpan={fields.filter(f => !f.disabled).length}
+                colSpan={fields.filter(f => !isFieldDisabled(f)).length}
                 className={cn('h-full', tableCellVariants[variant])}
               >
                 <div className="flex h-full items-center justify-center">

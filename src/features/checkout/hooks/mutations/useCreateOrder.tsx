@@ -68,7 +68,7 @@ export const useCreateOrder = () => {
         .returns<Row<'orders'>>();
 
       if (createError || !order) {
-        throw new Error(`Failed to create order: ${createError?.message}`);
+        throw new Error(createError?.message ?? 'Failed to create order');
       }
 
       // Step 2: Handle online payment if selected
@@ -169,16 +169,33 @@ export const useCreateOrder = () => {
         className: 'bg-white rounded-lg shadow-lg p-4 w-full',
       });
     },
-    onSuccess: order => {
+    onSuccess: async order => {
       if (order) {
-        clearCart();
-        router.replace(
-          `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
-        );
-        toast.custom(() => <CheckoutToast variant="success" orderNumber={order?.order_number} />, {
-          duration: 3000,
-          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
-        });
+        try {
+          // Show success toast first
+          toast.custom(
+            () => <CheckoutToast variant="success" orderNumber={order?.order_number} />,
+            {
+              duration: 3000,
+              className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+            }
+          );
+
+          // Clear cart
+          await clearCart();
+
+          // Add a small delay to ensure toast is visible
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          // Use push instead of replace to ensure proper history handling
+          await router.push(
+            `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
+          );
+        } catch (error) {
+          console.error('Navigation error:', error);
+          // Fallback navigation
+          window.location.href = `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`;
+        }
       }
     },
   });

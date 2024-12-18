@@ -9,8 +9,15 @@ import { DateRange } from './getDailyAnalytics';
 
 const supabase = createClient();
 
-export const getTopSellingProducts = async ({ startDate, endDate }: DateRange = {}) => {
-  // Default to last 7 days if no dates provided
+type TopSellingProductsData = DateRange & {
+  limit: number;
+};
+
+export const getTopSellingProducts = async ({
+  startDate,
+  endDate,
+  limit = 5,
+}: TopSellingProductsData) => {
   const defaultEndDate = new Date();
   const defaultStartDate = subDays(defaultEndDate, 7);
 
@@ -34,7 +41,7 @@ export const getTopSellingProducts = async ({ startDate, endDate }: DateRange = 
     query = query.lte('order_date', formattedEndDate);
   }
 
-  const { data, error } = await query.returns<TopSellingProduct[]>().limit(5);
+  const { data, error } = await query.returns<TopSellingProduct[]>().limit(limit);
 
   if (error) {
     console.error('Error fetching top selling products:', error);

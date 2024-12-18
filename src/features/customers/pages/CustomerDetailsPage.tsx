@@ -14,6 +14,7 @@ import {
   useApproveCustomer,
   useApproveCustomerTobacco,
   useBlockCustomer,
+  useResetApprovalDocuments,
 } from '../hooks/customer-mutuations-hooks';
 import { Customer } from '../schemas/customer';
 
@@ -31,6 +32,8 @@ const CustomerDetailsPage = ({ customer, orders }: Props) => {
 
   const { mutate, isPending } = useApproveCustomer();
   const { mutate: blockMutate, isPending: isBlockPending } = useBlockCustomer();
+  const { mutate: resetDocuments, isPending: isResetDocumentsPending } =
+    useResetApprovalDocuments();
   const { mutate: approveTobaccoMutate, isPending: isApproveTobaccoPending } =
     useApproveCustomerTobacco();
 
@@ -50,13 +53,16 @@ const CustomerDetailsPage = ({ customer, orders }: Props) => {
             customer={customer}
             onApprove={() => mutate({ id: customer?.id ?? '', approved: !customer?.approved })}
             onBlock={() => blockMutate({ id: customer?.id ?? '', blocked: !customer?.blocked })}
+            onResetDocuments={() => resetDocuments({ id: customer?.id ?? '' })}
             onApproveTobacco={() =>
               approveTobaccoMutate({
                 id: customer?.id ?? '',
                 approved: !customer?.approved_tobacco,
               })
             }
-            isMutating={isPending || isBlockPending || isApproveTobaccoPending}
+            isMutating={
+              isPending || isBlockPending || isApproveTobaccoPending || isResetDocumentsPending
+            }
           />
         </div>
 
