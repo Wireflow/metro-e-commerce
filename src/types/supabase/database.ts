@@ -902,6 +902,7 @@ export type Database = {
       };
       customers: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'];
           approved: boolean;
           approved_at: string | null;
           approved_tobacco: boolean;
@@ -926,6 +927,7 @@ export type Database = {
           wholesale_sales_id: string | null;
         };
         Insert: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
           approved_tobacco?: boolean;
@@ -950,6 +952,7 @@ export type Database = {
           wholesale_sales_id?: string | null;
         };
         Update: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
           approved_tobacco?: boolean;
@@ -1134,12 +1137,15 @@ export type Database = {
           discount_per_unit: number;
           id: string;
           order_id: string;
+          original_quantity: number;
+          original_total: number;
           product_id: string;
           quantity: number;
           refunded_amount: number;
           refunded_quantity: number;
           status: Database['public']['Enums']['order_item_status'];
           tax_amount: number;
+          tax_per_unit: number;
           total_price: number;
           unit_price: number;
           updated_at: string;
@@ -1150,12 +1156,15 @@ export type Database = {
           discount_per_unit?: number;
           id?: string;
           order_id: string;
+          original_quantity?: number;
+          original_total?: number;
           product_id: string;
           quantity: number;
           refunded_amount?: number;
           refunded_quantity?: number;
           status?: Database['public']['Enums']['order_item_status'];
           tax_amount?: number;
+          tax_per_unit?: number;
           total_price: number;
           unit_price: number;
           updated_at?: string;
@@ -1166,12 +1175,15 @@ export type Database = {
           discount_per_unit?: number;
           id?: string;
           order_id?: string;
+          original_quantity?: number;
+          original_total?: number;
           product_id?: string;
           quantity?: number;
           refunded_amount?: number;
           refunded_quantity?: number;
           status?: Database['public']['Enums']['order_item_status'];
           tax_amount?: number;
+          tax_per_unit?: number;
           total_price?: number;
           unit_price?: number;
           updated_at?: string;
@@ -2858,9 +2870,11 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -2873,6 +2887,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -2889,9 +2904,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -2904,6 +2921,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -2920,9 +2938,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -2935,6 +2955,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -3067,9 +3088,11 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -3082,6 +3105,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -3098,9 +3122,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -3113,6 +3139,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -3129,9 +3156,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -3144,6 +3173,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -4770,9 +4800,11 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -4785,6 +4817,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -4801,9 +4834,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -4816,6 +4851,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -4832,9 +4868,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -4847,6 +4885,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -5080,9 +5119,11 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -5095,6 +5136,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -5111,9 +5153,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -5126,6 +5170,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -5142,9 +5187,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -5157,6 +5204,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -5289,9 +5337,11 @@ export type Database = {
           fees: number | null;
           id: string | null;
           instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'] | null;
           order_number: string | null;
           original_order_number: string | null;
           preparing_at: string | null;
+          quantity_refunded: number | null;
           ready_at: string | null;
           refunded_at: string | null;
           salesperson_customer_id: string | null;
@@ -5304,6 +5354,7 @@ export type Database = {
           total_before_calculations: number | null;
           total_discount: number | null;
           total_quantity: number | null;
+          total_refunded: number | null;
           type: Database['public']['Enums']['order_type'] | null;
           updated_at: string | null;
         };
@@ -5320,9 +5371,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -5335,6 +5388,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -5351,9 +5405,11 @@ export type Database = {
           fees?: number | null;
           id?: string | null;
           instructions?: string | null;
+          order_category?: Database['public']['Enums']['order_category'] | null;
           order_number?: string | null;
           original_order_number?: string | null;
           preparing_at?: string | null;
+          quantity_refunded?: number | null;
           ready_at?: string | null;
           refunded_at?: string | null;
           salesperson_customer_id?: string | null;
@@ -5366,6 +5422,7 @@ export type Database = {
           total_before_calculations?: number | null;
           total_discount?: number | null;
           total_quantity?: number | null;
+          total_refunded?: number | null;
           type?: Database['public']['Enums']['order_type'] | null;
           updated_at?: string | null;
         };
@@ -5826,6 +5883,45 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_order_by_id: {
+        Args: {
+          p_order_id: string;
+        };
+        Returns: {
+          branch_id: string;
+          cancelled_at: string | null;
+          completed_at: string | null;
+          confirmed_at: string | null;
+          created_at: string;
+          customer_id: string;
+          delivery_address_id: string | null;
+          delivery_fee: number;
+          expected_delivery_at: string | null;
+          fees: number;
+          id: string;
+          instructions: string | null;
+          order_category: Database['public']['Enums']['order_category'];
+          order_number: string;
+          original_order_number: string | null;
+          preparing_at: string | null;
+          quantity_refunded: number;
+          ready_at: string | null;
+          refunded_at: string | null;
+          salesperson_customer_id: string | null;
+          salesperson_id: string | null;
+          shipping_costs: number | null;
+          status: Database['public']['Enums']['order_status'];
+          subtotal: number | null;
+          tax: number;
+          total_amount: number;
+          total_before_calculations: number;
+          total_discount: number;
+          total_quantity: number;
+          total_refunded: number;
+          type: Database['public']['Enums']['order_type'];
+          updated_at: string;
+        };
+      };
       get_user_branch: {
         Args: Record<PropertyKey, never>;
         Returns: string;
@@ -5888,6 +5984,7 @@ export type Database = {
       };
     };
     Enums: {
+      acknowledgement_status: 'pending' | 'seen';
       address_type: 'billing' | 'delivery';
       branch_status: 'open' | 'busy' | 'closed';
       card_provider: 'visa' | 'amex' | 'master' | 'discover' | 'unknown';

@@ -22,6 +22,8 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
         return 'destructive';
       case 'confirmed':
         return 'success';
+      case 'partial':
+        return 'warning';
       default:
         return 'default';
     }
@@ -71,7 +73,7 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
     },
     {
       key: product =>
-        product.status === 'partial' && (
+        product.status !== 'confirmed' && (
           <div className="flex items-center justify-center gap-1">
             <p className="">{product?.refunded_quantity ?? 0}</p>
             <p className="text-sm text-gray-500">({formatCurrency(product.refunded_amount)})</p>
@@ -80,23 +82,16 @@ const OrderItemsTable = ({ orderItems, variant = 'default' }: Props) => {
       label: 'Refunded',
     },
     {
-      key: product => (
-        <div>
-          {product?.product?.discounted_until &&
-          product?.product?.discount &&
-          new Date(product?.product?.discounted_until) > new Date() ? (
-            <div className="grid gap-1">
-              <p className="text-xs line-through">
-                {formatCurrency(product?.product?.retail_price)}
-              </p>
-              <p>{formatCurrency(product?.product?.retail_price - product?.product?.discount)}</p>
-            </div>
-          ) : (
-            <p>{formatCurrency(product?.product?.retail_price)}</p>
-          )}
-        </div>
-      ),
+      key: product => <div>{formatCurrency(product.unit_price)}</div>,
       label: 'Price',
+    },
+    {
+      key: product => <div>{formatCurrency(product.tax_amount)}</div>,
+      label: 'Tax',
+    },
+    {
+      key: product => <div>{formatCurrency(product.discount_amount)}</div>,
+      label: 'Discount',
     },
     {
       key: product => (

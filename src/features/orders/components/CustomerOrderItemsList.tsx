@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, Minus, Plus, XCircle } from 'lucide-react';
+import { CheckCircle2, CircleDivide, Minus, Plus, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -102,8 +102,10 @@ const CustomerOrderItemsList = ({ orderItems, variant = 'default', limit }: Prop
         <div className="flex items-center justify-center">
           {product.status === 'returned' ? (
             <XCircle className="h-5 w-5 text-red-600" />
-          ) : (
+          ) : product.status === 'confirmed' ? (
             <CheckCircle2 className="h-5 w-5 text-green-600" />
+          ) : (
+            <CircleDivide className="h-5 w-5 text-yellow-600" />
           )}
         </div>
       ),

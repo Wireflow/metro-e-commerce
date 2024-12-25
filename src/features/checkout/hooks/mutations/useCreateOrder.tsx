@@ -71,6 +71,14 @@ export const useCreateOrder = () => {
         throw new Error(createError?.message ?? 'Failed to create order');
       }
 
+      const { data: currOrder, error: currOrderError } = await supabase.rpc('get_order_by_id', {
+        p_order_id: order.id,
+      });
+
+      if (currOrderError || !currOrder) {
+        throw new Error('Failed to get current order');
+      }
+
       // Step 2: Handle online payment if selected
       if (data.paymentOption === 'online') {
         try {
@@ -92,7 +100,7 @@ export const useCreateOrder = () => {
           // Authorize payment
           const { error: paymentError, data: payment } = await paymentApi.authorizeToken({
             token: method.token,
-            amount: order.total_amount,
+            amount: currOrder.total_amount,
           });
 
           if (paymentError) {
@@ -100,10 +108,10 @@ export const useCreateOrder = () => {
           }
 
           const { error: paymentMethodError } = await supabase.from('order_payments').insert({
-            order_id: order.id,
+            order_id: currOrder.id,
             payment_method_id: method.id,
             payment_type: 'online',
-            payment_amount: order.total_amount,
+            payment_amount: currOrder.total_amount,
             payment_status: 'pending',
             payment_date: new Date().toISOString(),
             tran_key: payment?.tranKey,
@@ -117,7 +125,7 @@ export const useCreateOrder = () => {
           const { data: updatedOrder, error: updateError } = await supabase.rpc(
             'update_order_status',
             {
-              p_order_id: order.id,
+              p_order_id: currOrder.id,
               p_status: 'pending',
             }
           );
@@ -128,16 +136,16 @@ export const useCreateOrder = () => {
 
           return updatedOrder;
         } catch (error) {
-          cancelOrder(order.id);
+          cancelOrder(currOrder.id);
           throw error;
         }
       }
 
       if (data.paymentOption === 'later') {
         const { error: paymentMethodError } = await supabase.from('order_payments').insert({
-          order_id: order.id,
+          order_id: currOrder.id,
           payment_type: 'later',
-          payment_amount: order.total_amount,
+          payment_amount: currOrder.total_amount,
           payment_status: 'pending',
         });
 
@@ -149,7 +157,7 @@ export const useCreateOrder = () => {
         const { data: updatedOrder, error: updateError } = await supabase.rpc(
           'update_order_status',
           {
-            p_order_id: order.id,
+            p_order_id: currOrder.id,
             p_status: 'pending',
           }
         );

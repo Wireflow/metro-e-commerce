@@ -55,7 +55,7 @@ export const getPaginatedProducts = async (
       *,
       images:product_images(*),
       barcodes:barcodes(*),
-      sales:lifetime_product_sales!inner(sales)
+      sales:lifetime_product_sales!left(sales)
     `);
 
   // Apply filters

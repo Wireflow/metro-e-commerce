@@ -18,7 +18,7 @@ const OrderItemsList = ({ order }: Props) => {
             <div className="flex items-center gap-3 pt-4">
               <p className="text-lg font-semibold">Items</p>
               <Badge variant={'success'}>
-                <span className="text-md font-bold">{order.orderItems.length} Products</span>
+                <span className="text-md font-bold">{order.total_quantity} Products</span>
               </Badge>
             </div>
             <p>
@@ -28,20 +28,16 @@ const OrderItemsList = ({ order }: Props) => {
           <div className="flex flex-col items-start gap-2">
             <div className="flex flex-col gap-2">
               <p className="md:text-md text-sm font-medium text-neutral-500">
-                Subtotal: {formatCurrency(order.total_before_calculations)}
+                Subtotal: {formatCurrency(order?.subtotal ?? 0)}
               </p>
               <p className="md:text-md text-sm font-medium text-neutral-500">
                 Tax: {formatCurrency(order.tax)}
               </p>
-              {order.shipping_costs ? (
-                <p className="md:text-md text-sm font-medium text-neutral-500">
-                  Shipping Costs: {formatCurrency(order.shipping_costs)}
-                </p>
-              ) : (
-                ''
-              )}
               <p className="md:text-md text-sm font-medium text-neutral-500">
                 Fees: {formatCurrency(order.fees)}
+              </p>
+              <p className="md:text-md text-sm font-medium text-neutral-500">
+                Shipping Costs: {formatCurrency(order.shipping_costs ?? 0)}
               </p>
               <p className="md:text-md text-sm font-medium text-red-500">
                 Discount: {formatCurrency(order.total_discount)}
