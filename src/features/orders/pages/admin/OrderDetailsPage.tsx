@@ -26,9 +26,12 @@ const OrderDetailsPage = ({ id }: Props) => {
           <OrderItemsList order={order} />
         </div>
         <div className="flex flex-col gap-5">
-          <div className="hidden xl:block">
-            <PaymentInfo order={order} />
-          </div>
+          {order.order_category === 'regular' && (
+            <div className="hidden xl:block">
+              <PaymentInfo order={order} />
+            </div>
+          )}
+
           <div className="hidden w-full flex-col gap-5 lg:col-span-1 xl:flex">
             <OrderAddress order={order} />
             <OrderStatus order={order} />

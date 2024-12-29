@@ -58,15 +58,23 @@ const ProductGeneralInfo = ({ control }: ProductGeneralInfoProps) => {
             description="Brand or manufacturer name"
             placeholder="Hershey's, Samsung, Apple"
           />
-          <div className="mt-4">
-            <CheckboxField
-              className="data-[state=checked]:bg-black"
-              control={control}
-              name="general_info.is_tobacco"
-              label="Is Tobacco Product"
-              description="For tobacco-related products"
-            />
-          </div>
+          <InputField
+            type="number"
+            control={control}
+            name="general_info.case_count"
+            label="Case Count"
+            description="Amount items in each case"
+            placeholder="24"
+          />
+        </div>
+        <div className="mt-4">
+          <CheckboxField
+            className="data-[state=checked]:bg-black"
+            control={control}
+            name="general_info.is_tobacco"
+            label="Is Tobacco Product"
+            description="For tobacco-related products"
+          />
         </div>
       </CardContent>
     </Card>

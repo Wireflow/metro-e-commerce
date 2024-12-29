@@ -10,6 +10,7 @@ export const GeneralInfoSchema = z.object({
   published: z.boolean().optional(),
   is_featured: z.boolean().optional(),
   item_number: z.string().optional(),
+  case_count: z.number().optional(),
 });
 
 export type GeneralInfoFormData = z.infer<typeof GeneralInfoSchema>;

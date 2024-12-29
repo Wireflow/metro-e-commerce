@@ -52,6 +52,7 @@ const AddProductForm = () => {
         name: undefined,
         description: undefined,
         unit: undefined,
+        case_count: undefined,
         manufacturer: undefined,
         is_tobacco: false,
         item_number: undefined,

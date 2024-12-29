@@ -12,7 +12,7 @@ const PermissionsDialog = () => {
 
   return (
     <QuickDialog
-      className="flex h-[50vh] flex-col gap-5"
+      className="flex h-[40vh] flex-col gap-5"
       open={open}
       onOpenChange={setOpen}
       title="Set Permissions"

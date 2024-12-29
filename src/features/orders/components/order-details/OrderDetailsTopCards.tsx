@@ -14,9 +14,12 @@ const OrderDetailsTopCards = ({ order }: Props) => {
     <div className="grid grid-cols-1 gap-5 2xl:grid-cols-2">
       <OrderInfo order={order} />
       <CustomerInfo order={order} />
-      <div className="block xl:hidden">
-        <PaymentInfo order={order} />
-      </div>
+      {order.order_category === 'regular' && (
+        <div className="block xl:hidden">
+          <PaymentInfo order={order} />
+        </div>
+      )}
+
       <div className="flex flex-col gap-5 lg:col-span-1 xl:hidden">
         <OrderAddress order={order} />
         <OrderStatus order={order} />

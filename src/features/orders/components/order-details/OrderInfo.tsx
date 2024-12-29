@@ -93,9 +93,20 @@ const OrderInfo = ({ order }: Props) => {
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-3 pt-4">
           <p className="h-fit text-lg font-semibold">Order #{order?.order_number}</p>
-          <Badge variant={getBadgeVariantOrderStatus(order?.status)} className="py-1 capitalize">
+          <Badge
+            variant={
+              order.order_category === 'return'
+                ? 'warning'
+                : getBadgeVariantOrderStatus(order?.status)
+            }
+            className="py-1 capitalize"
+          >
             <span className="text-[14px] capitalize">
-              {order?.status === 'created' ? 'Failed' : order?.status}
+              {order?.status === 'created'
+                ? 'Failed'
+                : order.order_category === 'return'
+                  ? `Return ${order?.status}`
+                  : order?.status}
             </span>
           </Badge>
         </div>

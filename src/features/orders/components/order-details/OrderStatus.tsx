@@ -8,11 +8,23 @@ import { OrderDetails } from '../../schemas/orders';
 
 export type StatusType = Enum<'order_status'>;
 
-const getStatusTitle = (status: StatusType, orderType: Enum<'order_type'>) => {
+const getStatusTitle = (
+  status: StatusType,
+  orderType: Enum<'order_type'>,
+  orderCategory: Enum<'order_category'>
+) => {
+  if (orderCategory === 'return') {
+    const returnStatusTitles = {
+      confirmed: 'Return Confirmed',
+      completed: 'Return Completed',
+    };
+    return returnStatusTitles[status as keyof typeof returnStatusTitles] || status;
+  }
+
   const statusTitles = {
     created: `Processing ${orderType === 'delivery' ? 'Delivery' : orderType === 'shipment' ? 'Shipment' : 'Pick Up'}`,
     pending: 'Order Sent to Warehouse',
-    confirmed: `Accepted Order`,
+    confirmed: 'Accepted Order',
     preparing: `Preparing for ${orderType === 'delivery' ? 'Delivery' : orderType === 'shipment' ? 'Shipment' : 'Pick Up'}`,
     ready: `Ready to ${orderType === 'delivery' ? 'Deliver' : orderType === 'shipment' ? 'Ship' : 'Pick Up'}`,
     completed: `Completed ${orderType === 'delivery' ? 'Delivery' : orderType === 'shipment' ? 'Shipment' : 'Pick Up'}`,
@@ -29,8 +41,13 @@ type Props = {
 const OrderStatus = ({ order }: Props) => {
   const currentStatus = (order.status as StatusType) || 'created';
 
-  // Always show base statuses, only add cancelled/refunded if they are the current status
   const getStatusList = (): StatusType[] => {
+    // If it's a return order, only show confirmed and completed
+    if (order.order_category === 'return') {
+      return ['confirmed', 'completed'] as StatusType[];
+    }
+
+    // Regular order flow
     const baseStatuses: StatusType[] = ['pending', 'confirmed', 'preparing', 'ready', 'completed'];
 
     if (currentStatus === 'cancelled') {
@@ -44,10 +61,7 @@ const OrderStatus = ({ order }: Props) => {
     return baseStatuses;
   };
 
-  const status =
-    order.order_category === 'return'
-      ? (['pending', 'completed'] as StatusType[])
-      : getStatusList();
+  const status = getStatusList();
 
   const getStatusColor = (itemStatus: StatusType) => {
     if (currentStatus === itemStatus) {
@@ -114,7 +128,9 @@ const OrderStatus = ({ order }: Props) => {
                     <Clock className="h-full w-full" />
                   </div>
                   <div>
-                    <p className="capitalize">{getStatusTitle(statusItem, order.type)}</p>
+                    <p className="capitalize">
+                      {getStatusTitle(statusItem, order.type, order.order_category)}
+                    </p>
                     {timestamp ? (
                       <p className="text-xs text-gray-500">
                         {formatDateToString(new Date(timestamp))}

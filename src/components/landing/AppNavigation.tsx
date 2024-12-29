@@ -2,21 +2,36 @@
 
 import { Heart } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import WithAuth from '@/features/auth/components/WithAuth';
+import { signOut } from '@/features/auth/server/signOut';
 import CartPopover from '@/features/cart/components/CartPopover';
 import { useBranch } from '@/hooks/queries/useMetro';
 import { useUser } from '@/hooks/useUser';
 
 import Logo from '../branding/Logo';
 import Container from '../layout/Container';
+import { Button } from '../ui/button';
 import LoginPopover from './LoginPopover';
 import ProductSearchbar from './ProductSearch/ProductSearchbar';
 
 const AppNavigation = () => {
   const { branch } = useBranch();
-  const { metadata } = useUser();
+  const { metadata, user } = useUser();
+  const router = useRouter();
+
   const role = metadata.role;
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.refresh();
+      window.location.href = window.location.pathname;
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <div className="bg-theme-secondary">
@@ -54,7 +69,13 @@ const AppNavigation = () => {
                     <Heart className="h-7 w-7 text-white" />
                   </Link>
                 </WithAuth>
-                <LoginPopover />
+                <WithAuth loadingPlaceholder={<LoginPopover />} fallback={<LoginPopover />}>
+                  {metadata && !metadata.approved ? (
+                    <Button onClick={handleSignOut}>Sign out</Button>
+                  ) : (
+                    <LoginPopover />
+                  )}
+                </WithAuth>
               </>
             )}
           </div>
@@ -82,7 +103,11 @@ const AppNavigation = () => {
                       <Heart className="h-7 w-7 text-white" />
                     </Link>
                   </WithAuth>
-                  <LoginPopover />
+                  {!metadata.approved && metadata.id ? (
+                    <Button onClick={handleSignOut}>Sign out</Button>
+                  ) : (
+                    <LoginPopover />
+                  )}
                 </>
               )}
             </div>

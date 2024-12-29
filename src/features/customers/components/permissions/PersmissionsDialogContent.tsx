@@ -30,19 +30,21 @@ const PermissionsDialogContent = ({ customer }: Props) => {
           </DialogHeader>
         </div>
 
-        {permissions && permissions.length > 0 ? (
-          <div className="mt-2 flex flex-col gap-2">
-            {permissions.map(p => (
-              <SalesPermissionCard key={`${p.salesperson_id}-${p.customer_id}`} permission={p} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-8 text-center text-gray-500">
-            {search.trim() === ''
-              ? 'Start typing to search sales'
-              : 'No sales found matching your search'}
-          </div>
-        )}
+        <div>
+          {permissions && permissions.length > 0 ? (
+            <div className="mt-2 flex flex-col gap-2">
+              {permissions.map(p => (
+                <SalesPermissionCard key={`${p.salesperson_id}-${p.customer_id}`} permission={p} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-8 text-center text-gray-500">
+              {search.trim() === ''
+                ? 'Start typing to search sales'
+                : 'No sales found matching your search'}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

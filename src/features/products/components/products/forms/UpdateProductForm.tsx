@@ -81,6 +81,7 @@ const UpdateProductForm = ({ product }: Props) => {
         is_featured: product.is_featured,
         in_stock: product.in_stock,
         published: product.published,
+        case_count: product.case_count ?? undefined,
         item_number: product.item_number ?? undefined,
       },
       pricing_info: {
@@ -125,6 +126,7 @@ const UpdateProductForm = ({ product }: Props) => {
         is_featured: product.is_featured,
         in_stock: product.in_stock,
         published: product.published,
+        case_count: product.case_count ?? undefined,
         item_number: product.item_number ?? undefined,
       },
       pricing_info: {
