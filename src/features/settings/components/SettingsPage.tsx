@@ -1,4 +1,5 @@
 'use client';
+
 import { Animate } from '@/components/animation/Animate';
 import Container from '@/components/layout/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

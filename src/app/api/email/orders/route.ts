@@ -22,6 +22,10 @@ export const POST = async (req: AuthenticatedRequest) => {
       return NextResponse.json({ error: 'Order not found' }, { status: 400 });
     }
 
+    if (body.record.order_category === 'return') {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+    }
+
     const statusChanged = body.record.status !== body.old_record.status;
     const deliveryDateSet =
       !body.old_record.expected_delivery_at && body.record.expected_delivery_at;

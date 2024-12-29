@@ -317,6 +317,7 @@ export type Database = {
           orders_notified_email: string | null;
           phone: string;
           state: string;
+          textLogoUrl: string | null;
           twitterUrl: string;
           updated_at: string | null;
           zip_code: string;
@@ -335,6 +336,7 @@ export type Database = {
           orders_notified_email?: string | null;
           phone: string;
           state: string;
+          textLogoUrl?: string | null;
           twitterUrl?: string;
           updated_at?: string | null;
           zip_code: string;
@@ -353,6 +355,7 @@ export type Database = {
           orders_notified_email?: string | null;
           phone?: string;
           state?: string;
+          textLogoUrl?: string | null;
           twitterUrl?: string;
           updated_at?: string | null;
           zip_code?: string;
@@ -1915,6 +1918,7 @@ export type Database = {
       products: {
         Row: {
           branch_id: string;
+          case_count: number | null;
           category_id: string;
           cost_price: number;
           created_at: string;
@@ -1940,6 +1944,7 @@ export type Database = {
         };
         Insert: {
           branch_id: string;
+          case_count?: number | null;
           category_id: string;
           cost_price?: number;
           created_at?: string;
@@ -1965,6 +1970,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string;
+          case_count?: number | null;
           category_id?: string;
           cost_price?: number;
           created_at?: string;
@@ -2327,6 +2333,7 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           last_name: string | null;
+          phone: string | null;
           role: Database['public']['Enums']['user_role'] | null;
           updated_at: string | null;
         };
@@ -2339,6 +2346,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -2351,6 +2359,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -4144,6 +4153,7 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           last_name: string | null;
+          phone: string | null;
           role: Database['public']['Enums']['user_role'] | null;
           updated_at: string | null;
         };
@@ -4156,6 +4166,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -4168,6 +4179,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -4237,6 +4249,7 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           last_name: string | null;
+          phone: string | null;
           role: Database['public']['Enums']['user_role'] | null;
           updated_at: string | null;
         };
@@ -4249,6 +4262,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -4261,6 +4275,7 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           last_name?: string | null;
+          phone?: string | null;
           role?: Database['public']['Enums']['user_role'] | null;
           updated_at?: string | null;
         };
@@ -5865,6 +5880,56 @@ export type Database = {
       };
     };
     Functions: {
+      adjust_order_items_quantities:
+        | {
+            Args: {
+              items: Json[];
+            };
+            Returns: {
+              created_at: string;
+              discount_amount: number;
+              discount_per_unit: number;
+              id: string;
+              order_id: string;
+              original_quantity: number;
+              original_total: number;
+              product_id: string;
+              quantity: number;
+              refunded_amount: number;
+              refunded_quantity: number;
+              status: Database['public']['Enums']['order_item_status'];
+              tax_amount: number;
+              tax_per_unit: number;
+              total_price: number;
+              unit_price: number;
+              updated_at: string;
+            }[];
+          }
+        | {
+            Args: {
+              items: Json[];
+              user_id: string;
+            };
+            Returns: {
+              created_at: string;
+              discount_amount: number;
+              discount_per_unit: number;
+              id: string;
+              order_id: string;
+              original_quantity: number;
+              original_total: number;
+              product_id: string;
+              quantity: number;
+              refunded_amount: number;
+              refunded_quantity: number;
+              status: Database['public']['Enums']['order_item_status'];
+              tax_amount: number;
+              tax_per_unit: number;
+              total_price: number;
+              unit_price: number;
+              updated_at: string;
+            }[];
+          };
       create_order_from_cart: {
         Args: {
           p_cart_id: string;
@@ -5942,6 +6007,56 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
       };
+      update_order_items_refund_quantities:
+        | {
+            Args: {
+              items: Json[];
+            };
+            Returns: {
+              created_at: string;
+              discount_amount: number;
+              discount_per_unit: number;
+              id: string;
+              order_id: string;
+              original_quantity: number;
+              original_total: number;
+              product_id: string;
+              quantity: number;
+              refunded_amount: number;
+              refunded_quantity: number;
+              status: Database['public']['Enums']['order_item_status'];
+              tax_amount: number;
+              tax_per_unit: number;
+              total_price: number;
+              unit_price: number;
+              updated_at: string;
+            }[];
+          }
+        | {
+            Args: {
+              items: Json[];
+              user_id: string;
+            };
+            Returns: {
+              created_at: string;
+              discount_amount: number;
+              discount_per_unit: number;
+              id: string;
+              order_id: string;
+              original_quantity: number;
+              original_total: number;
+              product_id: string;
+              quantity: number;
+              refunded_amount: number;
+              refunded_quantity: number;
+              status: Database['public']['Enums']['order_item_status'];
+              tax_amount: number;
+              tax_per_unit: number;
+              total_price: number;
+              unit_price: number;
+              updated_at: string;
+            }[];
+          };
       update_order_status: {
         Args: {
           p_order_id: string;
