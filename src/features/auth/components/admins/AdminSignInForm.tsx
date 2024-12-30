@@ -1,9 +1,10 @@
+/* eslint-disable simple-import-sort/imports */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -11,7 +12,7 @@ import InputField from '@/components/form/InputField';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { SignInSchema, SignInType } from '../../schemas/sign-in';
+import { SignInSchema, type SignInType } from '../../schemas/sign-in';
 import { signInAdminAction } from '../../server/signInAdminAction';
 
 const AdminSignInForm = () => {
@@ -54,7 +55,10 @@ const AdminSignInForm = () => {
             label={
               <div className="flex justify-between">
                 <p>Password</p>
-                <Link className="text-xs text-foreground underline" href="/forgot-password">
+                <Link
+                  className="text-xs text-foreground underline"
+                  href="/customers/forgot-password"
+                >
                   Forgot Password?
                 </Link>
               </div>

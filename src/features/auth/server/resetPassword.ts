@@ -33,10 +33,20 @@ export const resetPasswordAction = async (data: ResetPasswordType) => {
     user.data.user?.user_metadata.role === 'independent_sales'
   ) {
     await supabase.auth.signOut();
+    return {
+      data: {
+        signUserOut: true,
+        message: 'Password updated successfully',
+      },
+      error: null,
+    };
   }
 
   return {
-    data: 'Password updated successfully',
+    data: {
+      signUserOut: false,
+      message: 'Password updated successfully',
+    },
     error: null,
   };
 };

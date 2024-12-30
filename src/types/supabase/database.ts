@@ -229,6 +229,7 @@ export type Database = {
           delivery_fee_type: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius: number;
           delivery_minimum: number;
+          enforce_delivery_minimum_for_sales: boolean;
           id: string;
           is_app_enabled: boolean;
           is_card_payment_allowed: boolean;
@@ -252,6 +253,7 @@ export type Database = {
           delivery_fee_type?: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius?: number;
           delivery_minimum?: number;
+          enforce_delivery_minimum_for_sales?: boolean;
           id?: string;
           is_app_enabled?: boolean;
           is_card_payment_allowed?: boolean;
@@ -275,6 +277,7 @@ export type Database = {
           delivery_fee_type?: Database['public']['Enums']['delivery_fee_type'];
           delivery_miles_radius?: number;
           delivery_minimum?: number;
+          enforce_delivery_minimum_for_sales?: boolean;
           id?: string;
           is_app_enabled?: boolean;
           is_card_payment_allowed?: boolean;
@@ -2129,6 +2132,21 @@ export type Database = {
             referencedColumns: ['id'];
           },
         ];
+      };
+      sequence_control: {
+        Row: {
+          last_reset: string | null;
+          name: string;
+        };
+        Insert: {
+          last_reset?: string | null;
+          name: string;
+        };
+        Update: {
+          last_reset?: string | null;
+          name?: string;
+        };
+        Relationships: [];
       };
       users: {
         Row: {

@@ -1,9 +1,10 @@
 'use client';
 
-import { Heart } from 'lucide-react';
+import { Heart, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import SignOutButton from '@/features/auth/components/SignOutButton';
 import WithAuth from '@/features/auth/components/WithAuth';
 import { signOut } from '@/features/auth/server/signOut';
 import CartPopover from '@/features/cart/components/CartPopover';
@@ -18,7 +19,7 @@ import ProductSearchbar from './ProductSearch/ProductSearchbar';
 
 const AppNavigation = () => {
   const { branch } = useBranch();
-  const { metadata, user } = useUser();
+  const { metadata } = useUser();
   const router = useRouter();
 
   const role = metadata.role;
@@ -70,8 +71,10 @@ const AppNavigation = () => {
                   </Link>
                 </WithAuth>
                 <WithAuth loadingPlaceholder={<LoginPopover />} fallback={<LoginPopover />}>
-                  {metadata && !metadata.approved ? (
-                    <Button onClick={handleSignOut}>Sign out</Button>
+                  {metadata && !metadata.approved && !metadata.tax_id_image_url ? (
+                    <SignOutButton variant={'minimal'} className="bg-white text-black">
+                      Sign out <LogOut className="h-5 w-5" />
+                    </SignOutButton>
                   ) : (
                     <LoginPopover />
                   )}

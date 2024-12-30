@@ -8,6 +8,7 @@ const placeholderProduct: PromotedProduct = {
   label: 'Featured Item',
   branch_id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
   product: {
+    case_count: 1,
     id: '11111111-1111-1111-1111-111111111111',
     name: 'Sample Product 1',
     unit: 'piece',
@@ -44,6 +45,7 @@ const placeholderProduct2: PromotedProduct = {
   label: 'New Arrival',
   branch_id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
   product: {
+    case_count: 1,
     id: '22222222-2222-2222-2222-222222222222',
     name: 'Sample Product 2',
     unit: 'piece',
