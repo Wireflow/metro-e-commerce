@@ -2150,7 +2150,7 @@ export type Database = {
       };
       users: {
         Row: {
-          admin_pin: string;
+          admin_pin: string | null;
           blocked: boolean;
           branch_id: string;
           created_at: string;
@@ -2163,7 +2163,7 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
-          admin_pin?: string;
+          admin_pin?: string | null;
           blocked?: boolean;
           branch_id: string;
           created_at?: string;
@@ -2176,7 +2176,7 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
-          admin_pin?: string;
+          admin_pin?: string | null;
           blocked?: boolean;
           branch_id?: string;
           created_at?: string;
