@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 
 import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';
@@ -20,13 +20,16 @@ type Props = {
   children: React.ReactNode;
 };
 
-const avoidKeywords = ['admin', 'disabled'];
+const avoidKeywords = ['admin', 'disabled', 'sales'];
 
 const LayoutProvider = ({ children }: Props) => {
   const pathname = usePathname();
   const { metadata } = useUser();
   const { data: branchSettings } = useBranchSettings();
+  const searchParams = useSearchParams();
   const redirect = useRouter();
+
+  const isSales = searchParams.get('sales') === 'true';
 
   const shouldShowComponents = useMemo(() => {
     return !avoidKeywords.some(keyword => pathname.toLowerCase().includes(keyword.toLowerCase()));
@@ -44,7 +47,7 @@ const LayoutProvider = ({ children }: Props) => {
 
   return (
     <>
-      {shouldShowComponents && (
+      {shouldShowComponents && !isSales && (
         <>
           <AdminAlert />
           <EditModePrompt />
@@ -57,7 +60,7 @@ const LayoutProvider = ({ children }: Props) => {
       )}
       {children}
       <ProductDetailsDialog />
-      {shouldShowComponents && <Footer />}
+      {shouldShowComponents && !isSales && <Footer />}
     </>
   );
 };
