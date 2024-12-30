@@ -85,7 +85,6 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
             </div>
             <p className="text-wrap text-2xl font-medium">
               {product?.name ?? 'N/A'} | {product?.manufacturer ?? 'N/A'} | {product?.unit ?? 'N/A'}{' '}
-              {`${product?.case_count ? ` |  ${product?.case_count} pieces` : ''} `}
             </p>
             {shortenText && product?.description && (
               <p className="text-sm text-gray-500">{truncate(product.description)}</p>
@@ -114,13 +113,13 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
               Item Number: <span className="font-semibold">{product?.item_number ?? 'N/A'}</span>
             </p>
             <p>
-              Unit Count: <span className="font-semibold">{product?.unit ?? 'N/A'}</span>
+              Unit: <span className="font-semibold">{product?.unit ?? 'N/A'}</span>
             </p>
             <p>
               Case Count: <span className="font-semibold">{product?.case_count ?? 'N/A'}</span>
             </p>
 
-            <div>
+            <div className="flex gap-1">
               <p>Skus:</p>
               <div className="flex flex-col gap-1">
                 <p className="font-semibold">{product?.barcodes[0]?.barcode ?? 'N/A'}</p>

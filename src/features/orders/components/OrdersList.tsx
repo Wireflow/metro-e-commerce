@@ -255,8 +255,19 @@ const OrdersList = ({ orders, disabledFields, variant = 'default' }: Props) => {
     {
       key: order => (
         <div className="flex flex-col items-start gap-2">
-          <Badge variant={getBadgeVariantOrderStatus(order.status)} className="capitalize">
-            {order?.status === 'created' ? 'failed' : order?.status}
+          <Badge
+            variant={
+              order.order_category === 'return'
+                ? 'warning'
+                : getBadgeVariantOrderStatus(order?.status)
+            }
+            className="capitalize"
+          >
+            {order?.status === 'created'
+              ? 'failed'
+              : order.order_category === 'return'
+                ? `Return ${order?.status}`
+                : order?.status}
           </Badge>
           {getOrderStatusDate(order) && (
             <p className="ml-0.5 text-xs text-gray-500">

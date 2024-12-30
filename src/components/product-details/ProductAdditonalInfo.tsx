@@ -13,6 +13,7 @@ const ProductAdditonalInfo = ({ product, category }: Props) => {
   const additionalInfo = [
     { label: 'Manufacturer', value: product?.manufacturer },
     { label: 'Unit', value: product?.unit },
+    { label: 'Case Count', value: product?.case_count ?? 'N/A' },
     { label: 'Barcode', value: product?.barcodes?.[0]?.barcode },
     { label: 'Category', value: category?.name },
     { label: 'Tobacco Product', value: product?.is_tobacco ? 'Yes' : 'No' },

@@ -16,7 +16,7 @@ const PermissionsDialogContent = ({ customer }: Props) => {
   const { data: permissions } = useCustomerPermissions(customer?.id ?? '');
 
   return (
-    <div className="">
+    <div className="flex h-[35vh] flex-col gap-5 overflow-auto custom-scrollbar">
       <div className="relative">
         {/* Sticky search bar */}
         <div className="sticky top-0 z-10 bg-white">
@@ -30,7 +30,7 @@ const PermissionsDialogContent = ({ customer }: Props) => {
           </DialogHeader>
         </div>
 
-        <div>
+        <div className="overflow-hidden custom-scrollbar">
           {permissions && permissions.length > 0 ? (
             <div className="mt-2 flex flex-col gap-2">
               {permissions.map(p => (
