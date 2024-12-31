@@ -8,17 +8,34 @@ import {
   Store,
   UserCircle,
 } from 'lucide-react';
+import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 import { Row } from '@/types/supabase/table';
+
+import { useUpdateSalesStatus } from '../hooks/mutations/useUpdateSalesStatus';
 
 type Props = {
   user: Row<'users'>;
 };
 
 const UserProfileCard = ({ user }: Props) => {
-  // Role-specific configurations
+  const { mutate: updateUserStatus } = useUpdateSalesStatus();
+  const [blocked, setBlocked] = useState(user.blocked);
+
+  const handleBlockedChange = (value: boolean) => {
+    if (blocked === value) return;
+    setBlocked(value);
+    updateUserStatus({
+      blocked: value,
+      sales_id: user.id,
+    });
+  };
+
+  console.log(blocked);
+
   const roleConfig = {
     admin: {
       icon: Shield,
@@ -48,7 +65,7 @@ const UserProfileCard = ({ user }: Props) => {
 
   return (
     <Card className="shadow-none lg:col-span-2">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
@@ -57,7 +74,7 @@ const UserProfileCard = ({ user }: Props) => {
                 {user.last_name?.[0]?.toUpperCase()}
               </span>
             </div>
-            {user.blocked && (
+            {blocked && (
               <div className="absolute -bottom-1 -right-1 rounded-full bg-red-100 p-1">
                 <ShieldAlert className="h-4 w-4 text-red-600" />
               </div>
@@ -76,6 +93,7 @@ const UserProfileCard = ({ user }: Props) => {
             <CardDescription className="mt-1">ID: {user.id.slice(0, 8)}</CardDescription>
           </div>
         </div>
+        <Switch onCheckedChange={() => handleBlockedChange(!blocked)} checked={blocked} />
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-3">
@@ -98,7 +116,7 @@ const UserProfileCard = ({ user }: Props) => {
 
         {/* Status Indicators */}
         <div className="mt-4 flex flex-wrap gap-2">
-          {user.blocked && (
+          {blocked && (
             <Badge variant="outline" className="bg-red-50 text-red-700">
               <ShieldAlert className="mr-1 h-3 w-3" />
               Account Blocked

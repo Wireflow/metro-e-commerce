@@ -102,34 +102,37 @@ export type Database = {
           },
         ];
       };
-      app_releases: {
+      app_versions: {
         Row: {
+          app_type: Database['public']['Enums']['app_type'];
           branch_id: string;
+          created_at: string;
+          force_update: boolean;
           id: string;
-          message: string | null;
-          must_update: boolean;
-          released_at: string;
+          min_version: string;
           version: string;
         };
         Insert: {
+          app_type: Database['public']['Enums']['app_type'];
           branch_id: string;
+          created_at?: string;
+          force_update: boolean;
           id?: string;
-          message?: string | null;
-          must_update?: boolean;
-          released_at?: string;
+          min_version: string;
           version: string;
         };
         Update: {
+          app_type?: Database['public']['Enums']['app_type'];
           branch_id?: string;
+          created_at?: string;
+          force_update?: boolean;
           id?: string;
-          message?: string | null;
-          must_update?: boolean;
-          released_at?: string;
+          min_version?: string;
           version?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'app_releases_branch_id_fkey';
+            foreignKeyName: 'app_versions_branch_id_fkey';
             columns: ['branch_id'];
             isOneToOne: false;
             referencedRelation: 'branches';
@@ -922,6 +925,7 @@ export type Database = {
           first_name: string;
           id: string;
           independent_sales_id: string | null;
+          is_new_user: boolean;
           last_name: string;
           opted_in_text: boolean;
           phone: string;
@@ -947,6 +951,7 @@ export type Database = {
           first_name: string;
           id?: string;
           independent_sales_id?: string | null;
+          is_new_user?: boolean;
           last_name: string;
           opted_in_text?: boolean;
           phone: string;
@@ -972,6 +977,7 @@ export type Database = {
           first_name?: string;
           id?: string;
           independent_sales_id?: string | null;
+          is_new_user?: boolean;
           last_name?: string;
           opted_in_text?: boolean;
           phone?: string;
@@ -2157,6 +2163,7 @@ export type Database = {
           email: string;
           first_name: string;
           id: string;
+          is_new_user: boolean;
           last_name: string;
           phone: string | null;
           role: Database['public']['Enums']['user_role'];
@@ -2170,6 +2177,7 @@ export type Database = {
           email: string;
           first_name: string;
           id?: string;
+          is_new_user?: boolean;
           last_name: string;
           phone?: string | null;
           role: Database['public']['Enums']['user_role'];
@@ -2183,6 +2191,7 @@ export type Database = {
           email?: string;
           first_name?: string;
           id?: string;
+          is_new_user?: boolean;
           last_name?: string;
           phone?: string | null;
           role?: Database['public']['Enums']['user_role'];
@@ -3337,6 +3346,7 @@ export type Database = {
       };
       customers_with_address: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
           approved_tobacco: boolean | null;
@@ -3352,6 +3362,7 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           order_count: number | null;
@@ -3822,6 +3833,7 @@ export type Database = {
       featured_products: {
         Row: {
           branch_id: string | null;
+          case_count: number | null;
           category_id: string | null;
           cost_price: number | null;
           created_at: string | null;
@@ -3847,6 +3859,7 @@ export type Database = {
         };
         Insert: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -3872,6 +3885,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -3936,6 +3950,7 @@ export type Database = {
       hidden_products: {
         Row: {
           branch_id: string | null;
+          case_count: number | null;
           category_id: string | null;
           cost_price: number | null;
           created_at: string | null;
@@ -3961,6 +3976,7 @@ export type Database = {
         };
         Insert: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -3986,6 +4002,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -4050,6 +4067,7 @@ export type Database = {
       in_stock_products: {
         Row: {
           branch_id: string | null;
+          case_count: number | null;
           category_id: string | null;
           cost_price: number | null;
           created_at: string | null;
@@ -4075,6 +4093,7 @@ export type Database = {
         };
         Insert: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -4100,6 +4119,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -4563,6 +4583,7 @@ export type Database = {
       out_of_stock_products: {
         Row: {
           branch_id: string | null;
+          case_count: number | null;
           category_id: string | null;
           cost_price: number | null;
           created_at: string | null;
@@ -4588,6 +4609,7 @@ export type Database = {
         };
         Insert: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -4613,6 +4635,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -5623,6 +5646,7 @@ export type Database = {
       shown_products: {
         Row: {
           branch_id: string | null;
+          case_count: number | null;
           category_id: string | null;
           cost_price: number | null;
           created_at: string | null;
@@ -5648,6 +5672,7 @@ export type Database = {
         };
         Insert: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -5673,6 +5698,7 @@ export type Database = {
         };
         Update: {
           branch_id?: string | null;
+          case_count?: number | null;
           category_id?: string | null;
           cost_price?: number | null;
           created_at?: string | null;
@@ -6119,6 +6145,7 @@ export type Database = {
     Enums: {
       acknowledgement_status: 'pending' | 'seen';
       address_type: 'billing' | 'delivery';
+      app_type: 'sales' | 'customers' | 'orders';
       branch_status: 'open' | 'busy' | 'closed';
       card_provider: 'visa' | 'amex' | 'master' | 'discover' | 'unknown';
       customer_belongs_to: 'wholesale' | 'independent';

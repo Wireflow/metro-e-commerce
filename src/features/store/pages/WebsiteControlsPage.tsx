@@ -8,7 +8,6 @@ import PageHeader from '@/components/layout/PageHeader';
 import AppAvailability from '../components/website-controls/AppAvailability';
 import CardPaymentControl from '../components/website-controls/CardPaymentControl';
 import NotifiedEmail from '../components/website-controls/NotifiedEmail';
-import SocialMediaLinks from '../components/website-controls/SocialMediaLinks';
 import StoreStatus from '../components/website-controls/StoreStatus';
 import TaxControl from '../components/website-controls/TaxControl';
 import { useBranchSettings } from '../hooks/queries/useBranchSettings';
@@ -36,7 +35,6 @@ const WebsiteControlsPage = () => {
         <AppAvailability branchSettings={branchSettings} />
         <CardPaymentControl branchSettings={branchSettings} />
         <TaxControl branchSettings={branchSettings} />
-        <SocialMediaLinks />
         <NotifiedEmail />
       </div>
     </AnimatedDiv>

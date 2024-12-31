@@ -12,8 +12,8 @@ export const CreateUserSchema = z
         /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
         'Please enter a valid phone number'
       ),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+    confirmPassword: z.string().min(1, 'Please confirm your password').optional(),
     role: z.enum(['sales', 'independent_sales'], {
       errorMap: () => ({ message: 'Please select a valid role' }),
     }),
@@ -23,4 +23,15 @@ export const CreateUserSchema = z
     path: ['confirmPassword'],
   });
 
+export const UpdatePasswordSchema = z
+  .object({
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z.string().min(1, 'Please confirm your password'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
+
 export type CreateUserType = z.infer<typeof CreateUserSchema>;
+export type UpdatePasswordType = z.infer<typeof UpdatePasswordSchema>;

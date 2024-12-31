@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Info } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import InputField from '@/components/form/InputField';
@@ -23,9 +24,7 @@ const AddSalesRepForm = ({ onSuccess }: Props) => {
       firstName: '',
       lastName: '',
       email: '',
-      password: '',
       phone: '',
-      confirmPassword: '',
       role: undefined,
     },
     mode: 'onChange',
@@ -86,20 +85,12 @@ const AddSalesRepForm = ({ onSuccess }: Props) => {
           label="Email"
           type="email"
         />
-        <InputField
-          control={form.control}
-          name="password"
-          placeholder="Password"
-          label="Password"
-          type="password"
-        />
-        <InputField
-          control={form.control}
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          label="Confirm Password"
-          type="password"
-        />
+        <div className="flex items-center gap-2">
+          <Info color="red" size={20} />
+          <p className="text-xs">
+            Sales representative will be receieve an email with a temporary password
+          </p>
+        </div>
         <Button
           type="submit"
           variant={'black'}

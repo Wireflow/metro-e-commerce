@@ -1,7 +1,15 @@
 'use client';
 
 import { endOfMonth, startOfMonth } from 'date-fns';
-import { FolderTree, LayoutDashboard, Package, ShoppingCart, Store, Users } from 'lucide-react';
+import {
+  FolderTree,
+  LayoutDashboard,
+  Package,
+  Settings,
+  ShoppingCart,
+  Store,
+  Users,
+} from 'lucide-react';
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 
@@ -114,6 +122,16 @@ const navigationGroups = [
             url: '/admin/users/sales',
           },
         ],
+      },
+    ],
+  },
+  {
+    label: 'System',
+    items: [
+      {
+        title: 'Business Settings',
+        url: '/admin/settings',
+        icon: Settings,
       },
     ],
   },
