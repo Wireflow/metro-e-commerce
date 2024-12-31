@@ -68,7 +68,7 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
       >
         <div className="w-full md:w-1/2">
           <MultiImageViewer
-            imagesUrls={imagesUrls.length > 0 ? imagesUrls : [PLACEHOLDER_IMG_URL]}
+            imagesUrls={imagesUrls?.length > 0 ? imagesUrls : [PLACEHOLDER_IMG_URL]}
           />
         </div>
         <div className="flex w-full flex-col gap-4 md:w-1/2">

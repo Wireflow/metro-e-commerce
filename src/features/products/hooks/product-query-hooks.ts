@@ -171,11 +171,12 @@ export const useFeaturedProducts = () => {
       const supabase = createClient();
 
       const { data, error } = await supabase
-        .from('featured_products')
+        .from('products')
         .select(
           `
         *,
-           images:product_images(*)
+           images:product_images(*),
+           barcodes:barcodes(id, barcode)
         `
         )
         .eq('published', true)

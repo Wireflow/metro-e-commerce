@@ -25,7 +25,7 @@ export const getTopSellingProducts = async ({
   const formattedEndDate = endDate || format(defaultEndDate, 'yyyy-MM-dd');
 
   let query = supabase
-    .from('product_sales_analytics')
+    .from('lifetime_product_sales')
     .select('*, product:products(*, images:product_images(*))')
     .order('sales', { ascending: false });
 
