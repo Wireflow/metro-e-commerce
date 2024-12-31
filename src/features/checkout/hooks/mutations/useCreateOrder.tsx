@@ -1,9 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import CheckoutToast from '@/components/toasts/CheckoutToast';
-import { useClearCart } from '@/features/cart/hooks/mutations/useClearCart';
 import { useDefaultCart } from '@/features/cart/hooks/queries/useDefaultCart';
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
 import { useOrderMinimum } from '@/hooks/useOrderMinimum';
@@ -24,9 +23,9 @@ type OrderData = {
 export const useCreateOrder = () => {
   const { isPossible: isDeliveryPossible, refetch: checkDeliveryPossible } = useDeliveryPossible();
   const { meetsMinimum, reason } = useOrderMinimum();
-  const { mutate: clearCart } = useClearCart();
   const { mutate: cancelOrder } = useCancelOrder();
   const { data: cartData, error: cartError } = useDefaultCart();
+  const queryClient = useQueryClient();
 
   const router = useRouter();
 
@@ -179,31 +178,17 @@ export const useCreateOrder = () => {
     },
     onSuccess: async order => {
       if (order) {
-        try {
-          // Show success toast first
-          toast.custom(
-            () => <CheckoutToast variant="success" orderNumber={order?.order_number} />,
-            {
-              duration: 3000,
-              className: 'bg-white rounded-lg shadow-lg p-4 w-full',
-            }
-          );
+        toast.custom(() => <CheckoutToast variant="success" orderNumber={order?.order_number} />, {
+          duration: 3000,
+          className: 'bg-white rounded-lg shadow-lg p-4 w-full',
+        });
+        router.push(
+          `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
+        );
 
-          // Clear cart
-          await clearCart();
-
-          // Add a small delay to ensure toast is visible
-          await new Promise(resolve => setTimeout(resolve, 100));
-
-          // Use push instead of replace to ensure proper history handling
-          await router.push(
-            `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
-          );
-        } catch (error) {
-          console.error('Navigation error:', error);
-          // Fallback navigation
-          window.location.href = `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`;
-        }
+        setTimeout(() => {
+          queryClient.invalidateQueries({ queryKey: ['cart'] });
+        }, 1000);
       }
     },
   });

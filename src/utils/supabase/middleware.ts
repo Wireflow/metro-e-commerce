@@ -69,6 +69,10 @@ export const updateSession = async (request: NextRequest) => {
 
     const authError = user?.error || error;
 
+    if (customer && customer?.is_new_user) {
+      return NextResponse.redirect(new URL('/reset-password', request.url));
+    }
+
     if (customer && !customer.approved) {
       if (!customer.tax_id || !customer.tax_id_image_url) {
         return NextResponse.redirect(new URL('/customers/approve/retail', request.url));

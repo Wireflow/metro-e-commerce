@@ -38,7 +38,7 @@ const CheckoutSummary = ({
   notes,
 }: CheckoutSummaryProps) => {
   const [showAll, setShowAll] = useState(false);
-  const { mutate: createOrder, isPending: isCreatingOrder } = useCreateOrder();
+  const { mutate: createOrder, isPending: isCreatingOrder, isSuccess } = useCreateOrder();
   const { paymentMethodId, paymentOption } = useCartStore();
   const { reason, meetsMinimum } = useOrderMinimum();
   const { isPossible: isDeliveryPossible } = useDeliveryPossible();

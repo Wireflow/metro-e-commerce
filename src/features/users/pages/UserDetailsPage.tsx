@@ -76,13 +76,13 @@ const UserDetailsPage = ({ user, orders, customers }: Props) => {
 
             <div className="flex-1 overflow-hidden px-4 pb-4">
               <TabsContent value="orders" className="mt-0 h-full border-none p-0">
-                <div className="h-full overflow-hidden rounded-lg border bg-card">
+                <div className="max-h-[600px] overflow-auto rounded-lg border bg-card custom-scrollbar">
                   <OrdersList orders={orders} />
                 </div>
               </TabsContent>
 
               <TabsContent value="customers" className="mt-0 h-full border-none p-0">
-                <div className="h-full overflow-hidden rounded-lg border bg-card">
+                <div className="max-h-[600px] overflow-auto rounded-lg border bg-card custom-scrollbar">
                   <CustomersList customers={customers} />
                 </div>
               </TabsContent>

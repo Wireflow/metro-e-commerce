@@ -32,6 +32,17 @@ export const signInAction = actionClient.schema(SignInSchema).action(async ({ pa
     return { success: false, message: 'Your account has been blocked' };
   }
 
+  if (customer.is_new_user) {
+    return {
+      success: true,
+      redirect: '/reset-password',
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+      },
+    };
+  }
+
   // Check if customer needs to complete tax ID verification
   if (!customer.approved && (!customer.tax_id || !customer.tax_id_image_url)) {
     return {

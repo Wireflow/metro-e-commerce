@@ -19,6 +19,9 @@ export const resetPasswordAction = async (data: ResetPasswordType) => {
 
   const { error } = await supabase.auth.updateUser({
     password: data.password,
+    data: {
+      is_new_user: false,
+    },
   });
 
   if (error) {
@@ -27,6 +30,13 @@ export const resetPasswordAction = async (data: ResetPasswordType) => {
       data: null,
     };
   }
+
+  await supabase
+    .from('customers')
+    .update({
+      is_new_user: false,
+    })
+    .eq('id', user.data.user?.id ?? '');
 
   if (
     user.data.user?.user_metadata.role === 'sales' ||
