@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import ProductDetailsDialog from '@/features/products/components/ProductDetailsDialog';
 import { useBranchSettings } from '@/features/store/hooks/queries/useBranchSettings';
@@ -29,9 +29,6 @@ const LayoutProvider = ({ children }: Props) => {
   const { data: branchSettings } = useBranchSettings();
   const searchParams = useSearchParams();
   const redirect = useRouter();
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const [bannerHeight, setBannerHeight] = useState(0);
-
   const isSales = searchParams.get('sales') === 'true';
 
   const shouldShowComponents = useMemo(() => {
@@ -47,15 +44,6 @@ const LayoutProvider = ({ children }: Props) => {
       redirect.push('/disabled');
     }
   }, [branchSettings, redirect, isAdmin, isAdminPath]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const BranchStatusBanner = ({ status }: { status: string }) => {
     const statusConfig = {
