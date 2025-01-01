@@ -13,9 +13,8 @@ import Footer from '../landing/Footer/Footer';
 import EditModePrompt from '../landing/Header/EditModePrompt';
 import PromoBanner from '../landing/PromoBanner';
 import SocialsBanner from '../landing/SocialsBanner';
-import { Alert, AlertDescription } from '../ui/alert';
+import { Alert } from '../ui/alert';
 import AdminAlert from './AdminAlert';
-import Container from './Container';
 import PendingApproval from './PendingApproval';
 
 type Props = {
@@ -61,17 +60,15 @@ const LayoutProvider = ({ children }: Props) => {
   const BranchStatusBanner = ({ status }: { status: string }) => {
     const statusConfig = {
       busy: {
-        title: "We're currently handling a high volume of orders",
-        description: 'Our team is working hard to process everything',
+        title: "We're currently experiencing a high volume of orders!",
         variant: 'warning',
       },
       closed: {
-        title: "We're currently closed",
-        description: 'Please check back later for updates.',
+        title: "We're currently closed!",
         variant: 'destructive',
       },
       open: {
-        title: "We're open with normal business hours",
+        title: "We're open with normal business hours!",
         description: '',
         variant: 'success',
       },
@@ -83,34 +80,14 @@ const LayoutProvider = ({ children }: Props) => {
 
     return (
       <>
-        <div
-          ref={el => {
-            if (el && !hasScrolled) {
-              setBannerHeight(el.offsetHeight);
-            }
-          }}
-          className={`w-full border-b bg-theme-secondary transition-all duration-300 ${
-            hasScrolled ? 'fixed left-0 top-0 z-[10000]' : 'relative'
-          }`}
-        >
-          <Container>
-            <Alert
-              variant={config.variant as 'success' | 'destructive' | 'warning'}
-              className="rounded-none border-none duration-300 animate-in fade-in"
-            >
-              <AlertDescription className="flex flex-col items-center justify-center gap-2 text-center md:flex-row">
-                <span className="font-semibold">{config.title}</span>
-                {config.description && (
-                  <>
-                    <span className="hidden text-sm md:block">•</span>
-                    <span>{config.description}</span>
-                  </>
-                )}
-              </AlertDescription>
-            </Alert>
-          </Container>
+        <div className={`h-10 w-full border-b border-gray-400 bg-theme-secondary`}>
+          <Alert
+            variant={config.variant as 'success' | 'destructive' | 'warning'}
+            className="flex items-center justify-center gap-2 rounded-none border-none text-center"
+          >
+            <span className="font-semibold">{config.title}</span>
+          </Alert>
         </div>
-        {hasScrolled && <div style={{ height: `${bannerHeight}px` }} />}
       </>
     );
   };

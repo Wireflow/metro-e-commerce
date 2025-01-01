@@ -24,6 +24,7 @@ const VerifyTaxIDForm = () => {
     defaultValues: {
       tax_id: '',
       tax_id_image: undefined,
+      photo_id_image: undefined,
     },
     mode: 'onChange',
   });
@@ -40,10 +41,17 @@ const VerifyTaxIDForm = () => {
     name: 'tax_id_image',
   });
 
+  const { field: photoIdImage } = useController({
+    control: form.control,
+    name: 'photo_id_image',
+  });
   const handleImageSelect = (file: File | null) => {
     taxIdImage.onChange(file);
   };
 
+  const handlePhotoIdImageSelect = (file: File | null) => {
+    photoIdImage.onChange(file);
+  };
   const onSubmit = (data: TaxIdApproveType) => {
     submitTaxID(data);
   };
@@ -62,13 +70,23 @@ const VerifyTaxIDForm = () => {
             onChange={handleTaxIdChange}
             pattern="\d{2}-\d{7}"
           />
+          <div>
+            <p className="my-2 text-sm text-gray-500">Upload Tax ID Image</p>
+            <ImageDropzone
+              className="h-full"
+              onImageSelect={handleImageSelect}
+              image={form.getValues('tax_id_image')}
+            />
+          </div>
 
-          <ImageDropzone
-            className="h-full"
-            onImageSelect={handleImageSelect}
-            image={form.getValues('tax_id_image')}
-          />
-
+          <div>
+            <p className="my-2 text-sm text-gray-500">Front of your Photo ID (Required)</p>
+            <ImageDropzone
+              className="h-full"
+              onImageSelect={handlePhotoIdImageSelect}
+              image={form.getValues('photo_id_image')}
+            />
+          </div>
           <Button
             type="submit"
             disabled={isPending || !form.formState.isValid}

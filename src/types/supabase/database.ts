@@ -914,6 +914,7 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'];
           approved: boolean;
           approved_at: string | null;
+          approved_photoId: boolean | null;
           approved_tobacco: boolean;
           belongs_to: Database['public']['Enums']['customer_belongs_to'];
           blocked: boolean;
@@ -929,6 +930,7 @@ export type Database = {
           last_name: string;
           opted_in_text: boolean;
           phone: string;
+          photo_id_image_url: string;
           tax_id: string | null;
           tax_id_image_url: string | null;
           tobacco_license: string | null;
@@ -940,6 +942,7 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
+          approved_photoId?: boolean | null;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -955,6 +958,7 @@ export type Database = {
           last_name: string;
           opted_in_text?: boolean;
           phone: string;
+          photo_id_image_url?: string;
           tax_id?: string | null;
           tax_id_image_url?: string | null;
           tobacco_license?: string | null;
@@ -966,6 +970,7 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
+          approved_photoId?: boolean | null;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -981,6 +986,7 @@ export type Database = {
           last_name?: string;
           opted_in_text?: boolean;
           phone?: string;
+          photo_id_image_url?: string;
           tax_id?: string | null;
           tax_id_image_url?: string | null;
           tobacco_license?: string | null;
@@ -3349,6 +3355,7 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_photoId: boolean | null;
           approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
@@ -3367,6 +3374,7 @@ export type Database = {
           opted_in_text: boolean | null;
           order_count: number | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           state: string | null;
           street: string | null;
           tax_id: string | null;
@@ -3446,8 +3454,10 @@ export type Database = {
       };
       customers_with_address_granted_access: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_photoId: boolean | null;
           approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
@@ -3462,10 +3472,12 @@ export type Database = {
           has_access: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           order_count: number | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           state: string | null;
           street: string | null;
           tax_id: string | null;

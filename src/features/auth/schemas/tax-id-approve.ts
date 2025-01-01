@@ -20,6 +20,13 @@ export const TaxIdApproveSchema = z
       const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       return file instanceof File && validTypes.includes(file.type);
     }, 'File must be a JPEG or PNG image'),
+    photo_id_image: FileSchema.refine(
+      file => file instanceof File && file.size <= 5 * 1024 * 1024, // 5MB
+      'File must be less than 5MB'
+    ).refine(file => {
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      return file instanceof File && validTypes.includes(file.type);
+    }, 'File must be a JPEG or PNG image'),
   })
   .refine(
     data => {
