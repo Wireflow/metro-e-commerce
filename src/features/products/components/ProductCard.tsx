@@ -146,16 +146,20 @@ const ProductTitle = ({
   product,
   size = 'md',
   className,
+  isVertical = false,
 }: {
   product: Product;
   size?: 'sm' | 'md';
   className?: string;
+  isVertical?: boolean;
 }) => {
   const isTobacco = product?.is_tobacco;
 
   return (
     <div className="space-y-1">
-      <div className="flex flex-col items-start gap-2 md:flex-row">
+      <div
+        className={cn('flex flex-row items-center gap-2', !isVertical && 'flex-col items-start')}
+      >
         <TobaccoBadge isTobacco={isTobacco} />
         <WithAuth
           disableAdmin

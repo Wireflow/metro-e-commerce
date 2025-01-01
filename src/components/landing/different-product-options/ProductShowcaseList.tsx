@@ -55,6 +55,7 @@ const ProductShowcaseList = ({ data, title, href }: Props) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <ProductCard.Title
+                    isVertical
                     size="sm"
                     product={product}
                     className="max-w-[250px] text-wrap"
