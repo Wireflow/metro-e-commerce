@@ -62,23 +62,13 @@ const CustomerProfile = ({
         );
       case 'wholesale':
         return (
-          <Badge variant="outline" className={badgeClasses}>
+          <Badge variant="outline-info" className={badgeClasses}>
             Wholesale Account
           </Badge>
         );
       default:
         return null;
     }
-  };
-
-  const getBelongsToBadge = () => {
-    if (!customer.belongs_to) return null;
-
-    return (
-      <Badge variant="info" className="font-medium">
-        {customer.belongs_to === 'wholesale' ? 'Wholesale Customer' : 'Sales Rep Customer'}
-      </Badge>
-    );
   };
 
   return (
@@ -90,10 +80,7 @@ const CustomerProfile = ({
               <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
                 {customer.first_name} {customer.last_name}
               </h2>
-              <div className="flex flex-wrap gap-2">
-                {getCustomerTypeBadge()}
-                {getBelongsToBadge()}
-              </div>
+              <div className="flex flex-wrap gap-2">{getCustomerTypeBadge()}</div>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex flex-row items-center gap-2 sm:flex-col sm:items-end">

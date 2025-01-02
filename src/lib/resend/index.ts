@@ -30,7 +30,7 @@ export const sendEmail = async ({
   fromName = FROM_NAME, // Default to constant but allow override
 }: EmailData) => {
   try {
-    const response = await resendInstance.emails.send({
+    const { data, error } = await resendInstance.emails.send({
       from: `${fromName} <${FROM_EMAIL}>`, // Format with display name
       to,
       subject,
@@ -41,7 +41,11 @@ export const sendEmail = async ({
       react: react || undefined,
     });
 
-    return { success: true, data: response };
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data };
   } catch (error) {
     console.error('Failed to send email:', error);
     return {

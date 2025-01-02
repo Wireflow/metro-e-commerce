@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WithAuth from '@/features/auth/components/WithAuth';
+import { useIsEditMode } from '@/features/promotions/hooks/useIsEditMode';
 
 import { Button } from '../ui/button';
 import Container from './Container';
@@ -11,12 +12,18 @@ const AdminAlert = () => {
   const params = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const isEditMode = useIsEditMode();
 
   const handleAddEditMode = () => {
     const newParams = new URLSearchParams(params);
     newParams.append('edit', 'true');
     router.replace(`${pathname}?${newParams.toString()}`);
   };
+
+  if (isEditMode) {
+    return null;
+  }
+
   return (
     <WithAuth rules={{ requiredRole: 'admin' }}>
       <div className="bg-theme-sky-blue text-white">

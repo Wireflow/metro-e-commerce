@@ -43,7 +43,7 @@ const ProductShowcaseList = ({ data, title, href }: Props) => {
                   e.stopPropagation();
                   router.push(`/products/${product?.id}`);
                 }}
-                className="flex cursor-pointer items-center gap-4 overflow-hidden p-0"
+                className="flex w-full cursor-pointer items-center gap-4 overflow-hidden p-0"
               >
                 <div className="relative h-32 w-28 flex-shrink-0 overflow-hidden">
                   <ProductCard.Image
@@ -53,12 +53,12 @@ const ProductShowcaseList = ({ data, title, href }: Props) => {
                     disableSaleBadge
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1 overflow-hidden">
                   <ProductCard.Title
                     isVertical
                     size="sm"
                     product={product}
-                    className="max-w-[250px] text-wrap"
+                    className="w-full truncate whitespace-nowrap"
                   />
                   <ProductCard.Price product={product} className="w-fit" />
                   <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>

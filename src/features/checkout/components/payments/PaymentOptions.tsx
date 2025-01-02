@@ -24,7 +24,7 @@ const PaymentOptions = ({
   paymentOption,
 }: Props) => {
   const [selected, setSelected] = useState<ViewRow<'payment_methods_with_spending'> | null>(null);
-  const { setPaymentMethodId } = useCartStore();
+  const { setPaymentMethodId, paymentMethodId } = useCartStore();
 
   const handleSelect = (payment: ViewRow<'payment_methods_with_spending'>) => {
     if (!payment.id) return;
@@ -32,6 +32,8 @@ const PaymentOptions = ({
     setSelected(payment);
     onSelect?.(payment);
   };
+
+  const selectedPayment = payments.find(payment => payment.id === paymentMethodId);
 
   return (
     <div>
@@ -42,7 +44,11 @@ const PaymentOptions = ({
         </div>
         <div>
           {paymentOption === 'online' && (
-            <PaymentsRadioList payments={payments} selected={selected} onSelect={handleSelect} />
+            <PaymentsRadioList
+              payments={payments}
+              selected={selectedPayment}
+              onSelect={handleSelect}
+            />
           )}
           {paymentOption === 'later' && (
             <div className="border-t p-4 px-8">

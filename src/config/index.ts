@@ -14,4 +14,5 @@ export const config = {
     fromName: process.env.RESEND_FROM_NAME,
   },
   baseUrl: process.env.NEXT_PUBLIC_WEBSITE_URL || 'localhost:3000',
+  salesAppUrl: process.env.NEXT_PUBLIC_SALES_APP_URL || 'localhost:3000',
 };

@@ -65,7 +65,7 @@ export const POST = async (req: AuthenticatedRequest) => {
       );
     }
 
-    return NextResponse.json({ success: true, data: email.data?.data }, { status: 200 });
+    return NextResponse.json({ success: true, data: email.data }, { status: 200 });
   } catch (error) {
     console.error('Shipping Notification API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

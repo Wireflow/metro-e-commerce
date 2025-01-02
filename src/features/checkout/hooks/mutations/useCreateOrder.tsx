@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import CheckoutToast from '@/components/toasts/CheckoutToast';
 import { useDefaultCart } from '@/features/cart/hooks/queries/useDefaultCart';
 import { useDeliveryPossible } from '@/features/cart/hooks/queries/useDeliveryPossible';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 import { useOrderMinimum } from '@/hooks/useOrderMinimum';
 import { Enum } from '@/types/supabase/enum';
 import { Row } from '@/types/supabase/table';
@@ -25,6 +26,7 @@ export const useCreateOrder = () => {
   const { meetsMinimum, reason } = useOrderMinimum();
   const { mutate: cancelOrder } = useCancelOrder();
   const { data: cartData, error: cartError } = useDefaultCart();
+  const { clearCart } = useCartStore();
   const queryClient = useQueryClient();
 
   const router = useRouter();
@@ -185,6 +187,7 @@ export const useCreateOrder = () => {
         router.push(
           `/customer/checkout/placed?orderId=${order?.id}&orderNumber=${order?.order_number}`
         );
+        clearCart();
 
         setTimeout(() => {
           queryClient.invalidateQueries({ queryKey: ['cart'] });
