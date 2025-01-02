@@ -53,17 +53,25 @@ const ProductShowcaseList = ({ data, title, href }: Props) => {
                     disableSaleBadge
                   />
                 </div>
-                <div className="flex flex-col gap-1">
-                  <ProductCard.Title
-                    isVertical
-                    size="sm"
-                    product={product}
-                    className="max-w-[250px] text-wrap"
-                  />
-                  <ProductCard.Price product={product} className="w-fit" />
-                  <ProductCard.AdminEditButton product={product} className="w-fi4 mr-2" size={'sm'}>
-                    Edit Product
-                  </ProductCard.AdminEditButton>
+                <div className="flex w-full flex-col">
+                  <div>
+                    <ProductCard.Title
+                      isVertical
+                      size="sm"
+                      product={product}
+                      className="max-w-[350px] text-wrap"
+                    />
+                    <ProductCard.Price product={product} className="w-fit" />
+                  </div>
+                  <div className="ite flex justify-end gap-2">
+                    <ProductCard.AdminEditButton
+                      product={product}
+                      className="mr-2 w-fit"
+                      size={'sm'}
+                    >
+                      Edit Product
+                    </ProductCard.AdminEditButton>
+                  </div>
                 </div>
               </ProductCard>
             );

@@ -1,6 +1,8 @@
+import { Plus, ShoppingCart } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import List, { ListProps } from '@/components/List';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 import { getEditModePath } from '@/lib/editRouting';
 
 import { Product } from '../../schemas/products';
@@ -11,6 +13,7 @@ type Props = Omit<ListProps<Product>, 'renderItem'> & {
 };
 
 const PublicProductList = ({ renderItem, ...props }: Props) => {
+  const getCartItemById = useCartStore(state => state.getCartItemById);
   const searchParams = useSearchParams();
   const router = useRouter();
   const handleProductClick = (productId: string) => {
@@ -27,6 +30,11 @@ const PublicProductList = ({ renderItem, ...props }: Props) => {
       <div className="flex flex-col gap-1">
         <ProductCard.Title product={item} size="sm" className="truncate" />
         <ProductCard.Price product={item} />
+        <div className="flex items-end justify-end">
+          <ProductCard.AddToCartButton product={item} className="h-8 w-8 rounded-full">
+            {!getCartItemById(item?.id) ? <Plus /> : <ShoppingCart />}
+          </ProductCard.AddToCartButton>
+        </div>
         <ProductCard.AdminEditButton product={item} />
       </div>
     </ProductCard>

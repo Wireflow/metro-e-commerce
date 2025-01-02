@@ -1,7 +1,8 @@
 'use client';
 
-import { Edit } from 'lucide-react';
+import { ArrowRight, Edit } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import Container from '@/components/layout/Container';
 import { Button } from '@/components/ui/button';
@@ -15,20 +16,32 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import WithAuth from '@/features/auth/components/WithAuth';
 import { useIsEditMode } from '@/features/promotions/hooks/useIsEditMode';
+import { getEditModeUrl } from '@/lib/editRouting';
 
 import { usePublishedCategories } from '../../hooks/queries/usePublishedCategories';
 import CategoryCard from '../CategoryCard';
 
 const ShopCategories = () => {
   const isInEditMode = useIsEditMode();
+  const searchParams = useSearchParams();
+
   const { data: categories, isLoading } = usePublishedCategories();
 
   return (
     <Container className="relative">
       <div className="relative">
-        <h2 className="mb-6 text-center text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
-          Shop by Category
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="mb-6 text-center text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
+            Shop by Category
+          </h2>
+          <Link href={getEditModeUrl('/categories', searchParams)}>
+            <Button className="w-fit text-theme-sky-blue" variant={'link'}>
+              <span className="hidden sm:block">Shop All Categories</span>{' '}
+              <span className="block sm:hidden">Shop All</span>
+              <ArrowRight className="h-6 w-6" />
+            </Button>
+          </Link>
+        </div>
 
         <div className="relative mx-auto w-full p-4">
           <Carousel

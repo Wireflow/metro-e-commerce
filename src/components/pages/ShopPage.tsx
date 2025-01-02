@@ -48,11 +48,13 @@ const ShopPage = () => {
     setSortBy,
     sortOptions,
     setPage,
+    setTobacco,
+    tobacco,
     page,
     pageSize,
     selectedManufacturers,
   } = useShopFilters();
-
+  console.log(filters);
   const { data: productPages, isLoading } = usePaginatedProducts(
     {
       ...filters,
@@ -77,14 +79,14 @@ const ShopPage = () => {
   return (
     <div>
       <div className="bg-gray-200">
-        <Container className="flex items-center">
-          <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
-        </Container>
+        <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
       </div>
       <Container className="mt-2 flex gap-8 md:mt-8">
         {!isMobile ? (
           <aside className="md:w-[250px] md:flex-shrink-0">
             <ProductFilters
+              tobacco={tobacco}
+              setTobacco={setTobacco}
               setSelectedManufacturers={setSelectedManufacturers}
               setCategoryId={setCategory}
               setPriceRange={setPriceRange}

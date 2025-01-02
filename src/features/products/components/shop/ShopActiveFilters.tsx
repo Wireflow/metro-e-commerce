@@ -14,6 +14,7 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
     filters,
     setCategoryId,
     setPriceRange,
+    setTobacco,
     setSearchQuery,
     setSelectedManufacturers,
     setSortBy,
@@ -80,6 +81,16 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
                     ? 'Sales: High to Low'
                     : 'Name: A to Z',
             onRemove: () => setSortBy(null),
+          },
+        ]
+      : []),
+    ...(filters.is_tobacco
+      ? [
+          {
+            id: 'tobacco',
+            label: 'Tobacco',
+            value: filters.is_tobacco ? 'Yes' : 'No',
+            onRemove: () => setTobacco(null),
           },
         ]
       : []),

@@ -76,7 +76,7 @@ const CustomerProfile = ({
 
     return (
       <Badge variant="info" className="font-medium">
-        {customer.belongs_to === 'wholesale' ? 'Wholesale Customer' : 'Sales Rep Customer'}
+        {customer.belongs_to === 'wholesale' ? 'Website Customer' : 'Sales Rep Customer'}
       </Badge>
     );
   };

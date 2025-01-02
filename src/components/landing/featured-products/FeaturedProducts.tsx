@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
         className="hover:scale-102 md::w-[350px] transform bg-gray-200 transition-transform"
         label={promotion?.label ?? ''}
       >
-        <div className="flex h-full flex-col items-center justify-between p-4 sm:flex-row sm:justify-around md:flex-col md:justify-between lg:justify-center">
+        <div className="flex h-full flex-col items-center justify-between gap-5 p-4 sm:flex-row sm:justify-around md:flex-col md:justify-between lg:justify-center">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="flex flex-col items-center">
               <PromoCard.Label />
@@ -45,9 +45,9 @@ const FeaturedProducts = () => {
             <PromoCard.Action />
           </div>
 
-          {/* <div className="">
+          <div className="">
             <PromoCard.Image className="h-[150px] w-[150px]" />
-          </div> */}
+          </div>
         </div>
       </PromoCard>
 

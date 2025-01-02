@@ -914,7 +914,7 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'];
           approved: boolean;
           approved_at: string | null;
-          approved_photoId: boolean | null;
+          approved_photoId: boolean;
           approved_tobacco: boolean;
           belongs_to: Database['public']['Enums']['customer_belongs_to'];
           blocked: boolean;
@@ -942,7 +942,7 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
-          approved_photoId?: boolean | null;
+          approved_photoId?: boolean;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -970,7 +970,7 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
-          approved_photoId?: boolean | null;
+          approved_photoId?: boolean;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -5892,8 +5892,10 @@ export type Database = {
         Row: {
           branch_id: string | null;
           order_date: string | null;
+          order_ids: string[] | null;
           revenue: number | null;
           salesperson_id: string | null;
+          total_orders: number | null;
           total_products_sold: number | null;
         };
         Relationships: [
