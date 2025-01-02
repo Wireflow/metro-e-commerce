@@ -41,7 +41,7 @@ const CustomerDetailsPage = ({ customer, orders }: Props) => {
     <AnimatedDiv>
       <PageHeader
         title={'Product Details'}
-        description="View & edit product details"
+        description="View & edit customer details"
         breadcrumbs={breadcrumbs}
         className="flex-none"
       />

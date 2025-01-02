@@ -2,6 +2,7 @@
 
 import { XCircle } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,17 @@ const EditModePrompt = () => {
   const pathname = usePathname();
   const router = useRouter();
   const isInEditMode = params.get('edit') === 'true';
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!isInEditMode || !!open) return null;
 
@@ -26,7 +38,7 @@ const EditModePrompt = () => {
   return (
     <WithAuth rules={{ requiredRole: 'admin' }}>
       <Alert
-        className="fixed left-0 right-0 top-0 z-[200] rounded-t-none border-none bg-primary text-white animate-in fade-in slide-in-from-top-2"
+        className={`left-0 right-0 top-0 z-[200] border-none bg-primary text-white animate-in fade-in slide-in-from-top-2 ${isScrolled ? 'fixed rounded-t-none shadow-md' : 'relative rounded-none'}`}
         variant="default"
       >
         <AlertDescription className="flex flex-col items-start justify-between gap-3 p-2 text-sm sm:flex-row sm:items-center sm:gap-4">

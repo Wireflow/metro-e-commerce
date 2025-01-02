@@ -33,8 +33,10 @@ const ProductTopFilters = ({
     setPriceRange,
     setSelectedManufacturers,
     categoryId,
+    setTobacco,
     priceRange,
     selectedManufacturers,
+    tobacco,
   } = useShopFilters();
 
   return (
@@ -57,6 +59,8 @@ const ProductTopFilters = ({
             </SheetTrigger>
             <SheetContent className="overflow-scroll">
               <ProductFilters
+                tobacco={tobacco}
+                setTobacco={setTobacco}
                 setSelectedManufacturers={setSelectedManufacturers}
                 setCategoryId={setCategoryId}
                 setPriceRange={setPriceRange}

@@ -48,7 +48,7 @@ const AccountInfoSchema = z
       .string()
       .min(8, 'Password must be at least 8 characters')
       .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
         'Password must contain at least one letter and one number'
       ),
     confirm_password: z.string(),

@@ -1,7 +1,8 @@
-import { parseAsArrayOf, parseAsInteger, parseAsString, useQueryState } from 'nuqs';
+import { parseAsArrayOf, parseAsBoolean, parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useCallback, useMemo, useRef } from 'react';
 
 export type ShopFilters = {
+  is_tobacco: boolean;
   published: boolean;
   category_id?: string;
   minPrice?: number;
@@ -36,6 +37,9 @@ export const useShopFilters = () => {
   // Category
   const [categoryId, setCategoryId] = useQueryState('category', parseAsString.withDefault(''));
 
+  // Tobacco
+  const [tobacco, setTobacco] = useQueryState('is_tobacco', parseAsBoolean.withDefault(false));
+
   // Price Range with debounce
   const priceRangeParser = parseAsArrayOf(parseAsInteger).withDefault([0, 0]);
   const [priceRange, setPriceRangeImmediate] = useQueryState('price', priceRangeParser);
@@ -62,6 +66,7 @@ export const useShopFilters = () => {
 
   const filters = useMemo(
     (): ShopFilters => ({
+      is_tobacco: tobacco,
       published: true,
       category_id: categoryId || undefined,
       minPrice: priceRange[0] || undefined,
@@ -72,7 +77,7 @@ export const useShopFilters = () => {
       sortOrder: sortBy === 'retail_price' ? 'desc' : 'asc',
       manufacturers: selectedManufacturers?.length ? selectedManufacturers : undefined,
     }),
-    [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery]
+    [categoryId, priceRange, selectedManufacturers, sortBy, searchQuery, tobacco]
   );
 
   const clearFilters = useCallback(async () => {
@@ -82,6 +87,7 @@ export const useShopFilters = () => {
     }
 
     await Promise.all([
+      setTobacco,
       setCategoryId(null),
       setPriceRangeImmediate([0, 0]), // Use immediate setter for clearing
       setSearchQuery(null),
@@ -90,6 +96,7 @@ export const useShopFilters = () => {
       setPage(1),
     ]);
   }, [
+    setTobacco,
     setCategoryId,
     setPriceRangeImmediate,
     setSearchQuery,
@@ -116,8 +123,10 @@ export const useShopFilters = () => {
     sortBy,
     page,
     pageSize,
+    tobacco,
 
     // Setters
+    setTobacco,
     setCategoryId,
     setPriceRange, // This is now the debounced version
     setSearchQuery,

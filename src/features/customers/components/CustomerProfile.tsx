@@ -71,6 +71,16 @@ const CustomerProfile = ({
     }
   };
 
+  const getBelongsToBadge = () => {
+    if (!customer.belongs_to) return null;
+
+    return (
+      <Badge variant="info" className="font-medium">
+        {customer.belongs_to === 'wholesale' ? 'Website Customer' : 'Sales Rep Customer'}
+      </Badge>
+    );
+  };
+
   return (
     <Card className="row-span-2 h-full border-border shadow-sm">
       <CardHeader className="pb-2">
