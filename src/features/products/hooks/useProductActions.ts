@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
 import { useRemoveFromCart } from '@/features/cart/hooks/mutations/useRemoveFromCart';
 import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
@@ -15,7 +17,7 @@ export const useProductActions = (product: Product) => {
 
   return {
     cart: {
-      add: () => addToCart({ product_id: product.id, quantity: 1 }),
+      add: () => addToCart({ product_id: product.id, quantity: 1, id: uuidv4() }),
       remove: () => removeFromCart(product.id),
       isLoading: isAddingToCart || isRemovingFromCart,
     },
