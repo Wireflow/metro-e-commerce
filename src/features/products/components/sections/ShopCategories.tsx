@@ -31,7 +31,7 @@ const ShopCategories = () => {
     <Container className="relative">
       <div className="relative">
         <div className="flex items-center justify-between">
-          <h2 className="mb-6 text-center text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
+          <h2 className="text-center text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
             Shop by Category
           </h2>
           <Link href={getEditModeUrl('/categories', searchParams)}>

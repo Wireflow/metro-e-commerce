@@ -48,7 +48,7 @@ const CategoryListHeader = ({ activeTabs, setActiveTabs, category }: Props) => {
   return (
     <div className="flex w-full flex-col gap-4 md:justify-between xl:flex-row xl:items-center">
       <div className="">
-        <p className="text-lg font-bold md:text-xl">{category?.name}</p>
+        <p className="text-lg font-bold capitalize md:text-xl">{category?.name}</p>
       </div>
 
       <div className="flex items-center justify-between gap-1 lg:gap-2">

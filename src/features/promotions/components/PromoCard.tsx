@@ -133,9 +133,9 @@ const PromoPrice = ({
 
   return (
     <div className={cn('flex gap-1', className)}>
-      {prefix && <span className="font-medium text-black">{prefix}</span>}
+      {prefix && <span className="font-medium text-primary">{prefix}</span>}
       <PriceSection disableCompare product={product} />
-      {suffix && <span className="font-medium text-black">{suffix}</span>}
+      {suffix && <span className="font-medium text-primary">{suffix}</span>}
     </div>
   );
 };
@@ -207,7 +207,7 @@ const PromoImage = ({
   return product?.images && product?.images.length > 0 ? (
     <div
       className={cn(
-        'relative z-10 mb-4 min-h-[150px] min-w-[300px] md:min-w-[125px] lg:min-w-[100px] xl:min-w-[250px]',
+        'relative z-10 mb-4 min-h-[150px] min-w-[300px] md:min-w-[140px] lg:min-w-[150px] xl:min-w-[250px]',
         'flex items-center justify-center',
         className
       )}

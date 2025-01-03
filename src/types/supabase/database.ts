@@ -923,7 +923,6 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'];
           approved: boolean;
           approved_at: string | null;
-          approved_photoId: boolean;
           approved_tobacco: boolean;
           belongs_to: Database['public']['Enums']['customer_belongs_to'];
           blocked: boolean;
@@ -951,7 +950,6 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
-          approved_photoId?: boolean;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -979,7 +977,6 @@ export type Database = {
           acknowledgement?: Database['public']['Enums']['acknowledgement_status'];
           approved?: boolean;
           approved_at?: string | null;
-          approved_photoId?: boolean;
           approved_tobacco?: boolean;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'];
           blocked?: boolean;
@@ -2417,8 +2414,10 @@ export type Database = {
       };
       approved_customers: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
           branch_id: string | null;
@@ -2429,16 +2428,23 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           tax_id: string | null;
+          tax_id_image_url: string | null;
           tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
           updated_at: string | null;
+          wholesale_sales_id: string | null;
         };
         Insert: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2449,16 +2455,23 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Update: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2469,12 +2482,17 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Relationships: [
           {
@@ -2508,6 +2526,34 @@ export type Database = {
           {
             foreignKeyName: 'customers_independent_sales_id_fkey';
             columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
@@ -2516,8 +2562,10 @@ export type Database = {
       };
       belongs_independent_customers: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
           branch_id: string | null;
@@ -2528,16 +2576,23 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           tax_id: string | null;
+          tax_id_image_url: string | null;
           tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
           updated_at: string | null;
+          wholesale_sales_id: string | null;
         };
         Insert: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2548,16 +2603,23 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Update: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2568,12 +2630,17 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Relationships: [
           {
@@ -2611,12 +2678,42 @@ export type Database = {
             referencedRelation: 'users';
             referencedColumns: ['id'];
           },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       belongs_wholesale_customers: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
           branch_id: string | null;
@@ -2627,16 +2724,23 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           tax_id: string | null;
+          tax_id_image_url: string | null;
           tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
           updated_at: string | null;
+          wholesale_sales_id: string | null;
         };
         Insert: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2647,16 +2751,23 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Update: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -2667,12 +2778,17 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Relationships: [
           {
@@ -2706,6 +2822,34 @@ export type Database = {
           {
             foreignKeyName: 'customers_independent_sales_id_fkey';
             columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
@@ -3364,7 +3508,6 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
-          approved_photoId: boolean | null;
           approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
@@ -3466,7 +3609,6 @@ export type Database = {
           acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
-          approved_photoId: boolean | null;
           approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
@@ -5783,8 +5925,10 @@ export type Database = {
       };
       unapproved_customers: {
         Row: {
+          acknowledgement: Database['public']['Enums']['acknowledgement_status'] | null;
           approved: boolean | null;
           approved_at: string | null;
+          approved_tobacco: boolean | null;
           belongs_to: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked: boolean | null;
           branch_id: string | null;
@@ -5795,16 +5939,23 @@ export type Database = {
           first_name: string | null;
           id: string | null;
           independent_sales_id: string | null;
+          is_new_user: boolean | null;
           last_name: string | null;
           opted_in_text: boolean | null;
           phone: string | null;
+          photo_id_image_url: string | null;
           tax_id: string | null;
+          tax_id_image_url: string | null;
           tobacco_license: string | null;
+          tobacco_license_image_url: string | null;
           updated_at: string | null;
+          wholesale_sales_id: string | null;
         };
         Insert: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -5815,16 +5966,23 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Update: {
+          acknowledgement?: Database['public']['Enums']['acknowledgement_status'] | null;
           approved?: boolean | null;
           approved_at?: string | null;
+          approved_tobacco?: boolean | null;
           belongs_to?: Database['public']['Enums']['customer_belongs_to'] | null;
           blocked?: boolean | null;
           branch_id?: string | null;
@@ -5835,12 +5993,17 @@ export type Database = {
           first_name?: string | null;
           id?: string | null;
           independent_sales_id?: string | null;
+          is_new_user?: boolean | null;
           last_name?: string | null;
           opted_in_text?: boolean | null;
           phone?: string | null;
+          photo_id_image_url?: string | null;
           tax_id?: string | null;
+          tax_id_image_url?: string | null;
           tobacco_license?: string | null;
+          tobacco_license_image_url?: string | null;
           updated_at?: string | null;
+          wholesale_sales_id?: string | null;
         };
         Relationships: [
           {
@@ -5874,6 +6037,34 @@ export type Database = {
           {
             foreignKeyName: 'customers_independent_sales_id_fkey';
             columns: ['independent_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'admin_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'independent_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
+            isOneToOne: false;
+            referencedRelation: 'inhouse_sales_users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'customers_wholesale_sales_id_fkey';
+            columns: ['wholesale_sales_id'];
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];

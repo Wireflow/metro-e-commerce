@@ -36,36 +36,19 @@ const ProductOptions = () => {
 
   return (
     <Container className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {showFlashSales ? (
-        <div className="md:col-span-2 lg:col-span-2">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <ProductShowcaseList
-              data={products}
-              title="Flash Sales"
-              href={`/shop?sort=discounted_until`}
-            />
-            <ProductShowcaseList
-              data={bestSellers}
-              title="Best Sellers"
-              href={`/shop?sort=sales`}
-            />
-          </div>
+      <div className="md:col-span-2 lg:col-span-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <ProductShowcaseList data={bestSellers} title="Best Sellers" href={`/shop?sort=sales`} />
+          <ProductShowcaseList data={newArrivals} title="New Arrivals" href={'/shop'} />
         </div>
-      ) : (
-        <div className="md:col-span-4 lg:col-span-4">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <ProductShowcaseList
-              data={bestSellers}
-              title="Best Sellers"
-              href={`/shop?sort=sales`}
-            />
-            <ProductShowcaseList data={newArrivals} title="New Arrivals" href={'/shop'} />
-          </div>
-        </div>
-      )}
+      </div>
       {showFlashSales && (
         <div className="md:col-span-2 lg:col-span-1">
-          <ProductShowcaseList data={newArrivals} title="New Arrivals" href={'/shop'} />
+          <ProductShowcaseList
+            data={products}
+            title="Flash Sales"
+            href={`/shop?sort=discounted_until`}
+          />
         </div>
       )}
     </Container>

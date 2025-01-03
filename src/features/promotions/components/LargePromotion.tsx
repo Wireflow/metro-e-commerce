@@ -42,8 +42,8 @@ const LargePromotion = () => {
         <div className="mx-auto flex max-w-[1000px] flex-col items-center gap-8 md:flex-row md:justify-between">
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <PromoCard.Label />
-            <PromoCard.Title className="mb-3 text-lg uppercase sm:text-xl md:mb-4 md:text-2xl lg:text-4xl" />
-            <PromoCard.Description className="mb-4 max-w-[400px] text-sm sm:text-base" />
+            <PromoCard.Title className="mb-3 text-2xl uppercase sm:text-xl md:mb-4 md:text-2xl lg:text-4xl" />
+            <PromoCard.Description className="mb-4 line-clamp-3 text-wrap text-sm sm:text-base" />
             <PromoCard.Action />
           </div>
 

@@ -17,7 +17,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
   const isInEditMode = useIsEditMode();
 
   return (
-    <div className="relative grid h-full min-h-[420px] flex-1 place-items-center overflow-hidden rounded-lg bg-gray-100">
+    <div className="relative grid h-full min-h-[420px] flex-1 place-items-center overflow-hidden bg-gray-100">
       <div className="flex w-full flex-col md:flex-row">
         {/* Content Section */}
         <div className="flex-1 p-8">
@@ -37,7 +37,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
         </div>
 
         {/* Image Section with Background Removal */}
-        <div className="relative mr-10 h-[300px] w-full md:h-auto md:w-1/2">
+        <div className="relative flex h-[250px] items-center justify-center md:h-auto md:w-1/2">
           {promotion?.image_url && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative h-full w-full">
@@ -48,7 +48,7 @@ const HeroCard = ({ promotion }: HeroCardProps) => {
                     alt={promotion.title || 'Promotion image'}
                     priority
                     fill
-                    className="max-w-[700px] object-contain mix-blend-multiply"
+                    className="mx-auto max-w-[300px] object-contain mix-blend-multiply sm:max-w-[400px] md:max-w-[500px]"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{
                       maskImage: 'linear-gradient(to bottom, black, black)',

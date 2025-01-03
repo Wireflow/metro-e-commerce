@@ -83,23 +83,25 @@ const FeaturedCategory = () => {
           className="flex h-full w-full flex-col justify-center bg-theme-yellow"
         >
           <div className="flex w-full flex-col items-center justify-between sm:justify-around md:flex-row lg:flex-col">
-            <div className="flex justify-center md:block">
-              <PromoCard.Image className="hidden h-[300px] w-[300px] md:block" />
-            </div>
             <div className="flex flex-col items-center justify-center text-center">
               <PromoCard.Label />
-              <PromoCard.Title className="text-center text-2xl md:text-lg lg:text-2xl 2xl:text-3xl" />
-              <PromoCard.Description className="max-w-[300px]" />
+              <PromoCard.Title className="text-center text-2xl 2xl:text-3xl" />
+              <PromoCard.Description className="text-wrap text-sm md:text-base" />
               <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
-                <div className="mt-3 flex items-center justify-center gap-1">
-                  <p>Only for</p>
+                <div className="mt-3 flex flex-col items-center justify-center gap-1">
+                  <div className="rounded-full bg-white px-2 py-1 text-gray-500">
+                    <p className="px-5 text-lg font-semibold text-primary">Sale</p>
+                  </div>
                   <PromoCard.Price
-                    className="rounded-[2px] bg-white px-2 py-1 text-sm"
+                    className="rounded-[2px] px-2 py-1 text-xl font-black text-theme-sky-blue"
                     suffix="USD"
                   />
                 </div>
               </WithAuth>
               <PromoCard.Action className="w-full" />
+            </div>
+            <div className="flex justify-center md:block">
+              <PromoCard.Image className="hidden h-[300px] w-[300px] md:block" />
             </div>
           </div>
         </PromoCard>

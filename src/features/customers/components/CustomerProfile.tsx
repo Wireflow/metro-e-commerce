@@ -90,7 +90,10 @@ const CustomerProfile = ({
               <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
                 {customer.first_name} {customer.last_name}
               </h2>
-              <div className="flex flex-wrap gap-2">{getCustomerTypeBadge()}</div>
+              <div className="flex flex-wrap gap-2">
+                {getCustomerTypeBadge()}
+                {getBelongsToBadge()}
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex flex-row items-center gap-2 sm:flex-col sm:items-end">

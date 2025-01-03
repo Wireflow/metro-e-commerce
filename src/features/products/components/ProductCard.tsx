@@ -122,9 +122,11 @@ export const PriceSection = ({
             )}
             {disableCompare ? (
               isValidDiscount ? (
-                <p className="font-medium text-black">{formatCurrency(price - (discount ?? 0))}</p>
+                <p className="font-medium text-primary">
+                  {formatCurrency(price - (discount ?? 0))}
+                </p>
               ) : (
-                <p className="font-medium text-black">{formatCurrency(price)}</p>
+                <p className="font-medium text-primary">{formatCurrency(price)}</p>
               )
             ) : null}
           </div>

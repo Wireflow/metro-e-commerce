@@ -37,7 +37,7 @@ const DualPromotions = () => {
                   <PromoCard.Title className="block w-full max-w-full truncate text-2xl capitalize" />
                 </div>
                 <div className="w-full">
-                  <PromoCard.Description className="block w-full text-sm sm:text-sm md:w-80 2xl:text-lg" />
+                  <PromoCard.Description className="block text-wrap text-sm sm:text-sm 2xl:text-lg" />
                 </div>
               </div>
               <PromoCard.Action className="mt-4" />

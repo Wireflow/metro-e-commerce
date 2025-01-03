@@ -4,7 +4,7 @@ import BreadCrumbQuickUI from '@/components/layout/BreadCrumbQuickUI';
 import Container from '@/components/layout/Container';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import CategoryCard from '../products/components/CategoryCard';
+import CategoryPageCard from '../products/components/CategoryPageCard';
 import { useCategories } from '../products/hooks/category-query-hooks';
 
 type Props = {};
@@ -32,9 +32,9 @@ const CategoriesPage = (props: Props) => {
   return (
     <>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
-      <Container className="grid grid-cols-1 gap-4 py-10 md:grid-cols-2 lg:grid-cols-4">
+      <Container className="grid grid-cols-2 gap-4 py-10 md:grid-cols-3 lg:grid-cols-4">
         {categories?.map((category, index) => {
-          return <CategoryCard key={index} category={category} />;
+          return <CategoryPageCard className="w-full" key={index} category={category} />;
         })}
       </Container>
       <SubscribeToNewsLetter />

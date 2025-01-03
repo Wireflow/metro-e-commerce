@@ -111,7 +111,7 @@ const ShopPage = () => {
                   <PromoCard.Image object="contain" />
                   <div className="flex flex-col items-center">
                     <PromoCard.Price />
-                    <PromoCard.Description className="text-wrap text-center" />
+                    <PromoCard.Description className="line-clamp-3 text-wrap text-center" />
                   </div>
                   <PromoCard.Action className="w-full" />
                 </PromoCard>
@@ -141,6 +141,33 @@ const ShopPage = () => {
               variant="round"
             />
           </div>
+          {isMobile && (
+            <>
+              {promotion && (
+                <div className="mt-6">
+                  <PromoCard
+                    promotedProduct={promotion}
+                    product={promotion?.product}
+                    label={promotion.label ?? 'Promotion'}
+                    className="flex flex-col items-center justify-center"
+                  >
+                    <div className="flex flex-col items-center">
+                      <PromoCard.Label />
+                      <div>
+                        <PromoCard.Title className="mb-2 text-wrap text-center" />
+                      </div>
+                    </div>
+                    <PromoCard.Image object="contain" />
+                    <div className="flex flex-col items-center">
+                      <PromoCard.Price />
+                      <PromoCard.Description className="line-clamp-3 text-wrap text-center" />
+                    </div>
+                    <PromoCard.Action className="w-full" />
+                  </PromoCard>
+                </div>
+              )}
+            </>
+          )}
         </main>
       </Container>
     </div>

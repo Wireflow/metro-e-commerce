@@ -84,7 +84,7 @@ const HeroPromoCarousel = ({ customPromos, isLoading }: HeroPromoCarouselProps) 
         setApi={setApi}
         className="h-full w-full"
       >
-        <CarouselContent className="h-full" wrapperClassName="h-full">
+        <CarouselContent className="h-full" wrapperClassName="h-full ">
           {customPromos?.map((promo, index) => (
             <CarouselItem key={promo.id || index} className="h-full pl-2 md:pl-4">
               <HeroCard promotion={promo} />
