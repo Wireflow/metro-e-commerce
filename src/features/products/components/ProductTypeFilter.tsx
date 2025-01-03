@@ -6,14 +6,14 @@ type Props = {
 };
 
 const ProductTypeFilter = ({ onChange, value }: Props) => {
-  const handleOnSelect = (checked: boolean, type: 'all' | boolean) => {
+  const handleOnSelect = (checked: boolean, type: boolean | null) => {
     if (checked) {
-      onChange(type === 'all' ? null : type);
+      onChange(type);
     }
   };
 
   const productTypes = [
-    { id: 'all', value: 'all', label: 'All Product Types' },
+    { id: 'all', value: null, label: 'All Products' },
     { id: 'tobacco', value: true, label: 'Tobacco' },
     { id: 'non-tobacco', value: false, label: 'Non-Tobacco' },
   ];
@@ -26,11 +26,11 @@ const ProductTypeFilter = ({ onChange, value }: Props) => {
           <div key={type.id} className="flex items-center gap-1.5">
             <Checkbox
               id={type.id}
-              checked={type.value === 'all' ? value === null : value === type.value}
+              checked={type.value === null ? value === null : value === type.value}
               onCheckedChange={checked =>
                 handleOnSelect(
                   checked as boolean,
-                  type.value === 'all' ? 'all' : (type.value as boolean)
+                  type.value === null ? null : (type.value as boolean)
                 )
               }
             />

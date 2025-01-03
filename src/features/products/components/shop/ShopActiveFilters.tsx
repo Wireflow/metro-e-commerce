@@ -84,12 +84,13 @@ const ShopActiveFilters = ({ resultsCount }: Props) => {
           },
         ]
       : []),
-    ...(filters.is_tobacco
+    ...(filters.is_tobacco !== undefined
       ? [
           {
             id: 'tobacco',
             label: 'Tobacco',
-            value: filters.is_tobacco ? 'Yes' : 'No',
+            value:
+              filters.is_tobacco === true ? 'Yes' : filters.is_tobacco === false ? 'No' : 'All',
             onRemove: () => setTobacco(null),
           },
         ]

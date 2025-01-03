@@ -5,7 +5,6 @@ import { X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { DynamicTable, useTableFields } from '@/components/ui/dynamic-table';
 import ProductCard from '@/features/products/components/ProductCard';
-import QuantityControl from '@/features/products/components/QuantityControl';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useUser } from '@/hooks/useUser';
 import { formatCurrency } from '@/utils/utils';
@@ -66,28 +65,12 @@ const CartProductList = ({ cartItems }: Props) => {
       label: 'Price',
     },
     {
-      key: item =>
-        item &&
-        item?.quantity > 0 && (
-          <QuantityControl
-            quantity={item?.quantity ?? 0}
-            onIncrease={() => {
-              updatedCartItem({
-                product_id: item?.product?.id,
-                quantity: (item?.quantity ?? 0) + 1,
-                id: item?.id ?? '',
-              });
-            }}
-            onDecrease={() => {
-              updatedCartItem({
-                product_id: item?.product?.id,
-                quantity: (item?.quantity ?? 0) - 1,
-                id: item?.id ?? '',
-              });
-            }}
-            disabled={!item?.product?.in_stock || isUpdating}
-          />
-        ),
+      key: item => (
+        <div className="max-w-[120px]">
+          <ProductCard.AddToCartButton product={item.product} />
+        </div>
+      ),
+
       label: 'Quantity',
       className: 'min-w-[120px]',
     },
@@ -120,8 +103,8 @@ const CartProductList = ({ cartItems }: Props) => {
                 disableHoverEffect
                 disableSaleBadge
                 product={item.product}
-                className="h-[90px] w-[90px] rounded-md"
-                object="cover"
+                className="h-[90px] w-[100px] rounded-md"
+                object="contain"
               />
               <div className="flex-1 space-y-2">
                 <div className="flex justify-between">
@@ -145,25 +128,9 @@ const CartProductList = ({ cartItems }: Props) => {
                 <ProductCard.Price product={item.product} className="text-sm font-semibold" />
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-sm text-gray-500">Quantity</span>
-                  <QuantityControl
-                    quantity={item?.quantity ?? 0}
-                    onIncrease={() => {
-                      updatedCartItem({
-                        product_id: item.product.id,
-                        quantity: (item?.quantity ?? 0) + 1,
-                        id: item?.id ?? '',
-                      });
-                    }}
-                    onDecrease={() => {
-                      updatedCartItem({
-                        product_id: item.product.id,
-                        quantity: (item?.quantity ?? 0) - 1,
-                        id: item?.id ?? '',
-                      });
-                    }}
-                    disabled={!item.product.in_stock || isUpdating}
-                    debounceMs={100}
-                  />
+                  <div className="max-w-[120px]">
+                    <ProductCard.AddToCartButton product={item.product} />
+                  </div>
                 </div>
               </div>
             </div>

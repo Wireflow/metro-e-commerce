@@ -126,9 +126,9 @@ export default async function RootLayout({
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API_KEY}&libraries=places`}
           strategy="afterInteractive"
         />
-        <Toaster />
 
         <Providers>
+          <Toaster />
           <HydrationBoundary state={dehydrate(queryClient)}>
             <LayoutProvider>
               {children}

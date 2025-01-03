@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Row } from '@/types/supabase/table';
 import { createClient } from '@/utils/supabase/client';
 
+import { CartItem } from '../../store/useCartStore';
 import { useDefaultCart } from '../queries/useDefaultCart';
 
 export const useUpdateCartItem = () => {
@@ -54,15 +55,48 @@ export const useUpdateCartItem = () => {
 
       return data;
     },
-    onSuccess: () => {
-      toast.success('Updated quantity to cart');
+    onMutate: async newItem => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['cart'] });
+
+      // Snapshot the previous value
+      const previousCart = queryClient.getQueryData<CartItem[]>(['cart']) ?? [];
+
+      // Create updated cart data
+      const updatedCart = previousCart.map(cartItem => {
+        if (cartItem.id === newItem.id) {
+          return {
+            ...cartItem,
+            quantity: newItem.quantity,
+          };
+        }
+        return cartItem;
+      });
+
+      // If quantity is 0 or less, remove the item
+      if (newItem.quantity <= 0) {
+        const filteredCart = updatedCart.filter(item => item.id !== newItem.id);
+        queryClient.setQueryData(['cart'], filteredCart);
+      } else {
+        // Otherwise update the quantity
+        queryClient.setQueryData(['cart'], updatedCart);
+      }
+
+      return { previousCart };
     },
-    onError: error => {
-      toast.error(error.message ?? 'Failed to add quanttiy to cart');
+    onError: (error, item, context) => {
+      // Revert to the previous state if there was an error
+      if (context?.previousCart) {
+        queryClient.setQueryData(['cart'], context.previousCart);
+      }
+      toast.error(error.message ?? 'Failed to update quantity');
     },
+
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
+      // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
+      queryClient.invalidateQueries({ queryKey: ['cart', 'summary'] });
     },
   });
 };

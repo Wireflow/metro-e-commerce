@@ -12,7 +12,7 @@ type ProductFiltersProps = {
   setSelectedManufacturers: (manufacturers: string[] | null) => void;
   setCategoryId: (categoryId: string | null) => void;
   setPriceRange: (priceRange: [number, number] | null) => void;
-  setTobacco: (tobacco: boolean) => void;
+  setTobacco: (tobacco: boolean | null) => void;
   categoryId: string;
   priceRange: number[];
   manfacturers: string[];
@@ -41,7 +41,7 @@ const ProductFilters = ({
   };
 
   const handleTobaccoChange = (tobacco: boolean | null) => {
-    setTobacco(tobacco ?? false);
+    setTobacco(tobacco);
   };
 
   if (isLoading || isLoadingManufacturers) {

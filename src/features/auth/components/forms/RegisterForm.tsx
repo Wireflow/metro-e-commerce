@@ -1,8 +1,9 @@
+/* eslint-disable simple-import-sort/imports */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -63,6 +64,7 @@ const RegisterForm = () => {
         email: '',
         password: '',
         confirm_password: '',
+        terms_and_conditions: false,
       },
     },
     mode: 'onChange',

@@ -79,7 +79,7 @@ const BestDeals = ({ className }: Props) => {
         <WithAuth disableAdmin rules={{ customCheck: metadata => !!metadata?.approved }}>
           <div className="flex flex-wrap gap-2">
             <ProductCard.WishlistButton product={product} />
-            <ProductCard.AddToCartButton product={product} className="flex-1" />
+            <ProductCard.AddToCartButton product={product} className="h-9 flex-1" />
             <ProductCard.QuickViewButton product={product}>
               View Product
             </ProductCard.QuickViewButton>

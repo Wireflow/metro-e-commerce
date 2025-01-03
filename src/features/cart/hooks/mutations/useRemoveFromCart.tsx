@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import ProductToast from '@/components/toasts/ProductToast';
 import { createClient } from '@/utils/supabase/client';
 
-import { useCartStore } from '../../store/useCartStore';
+import { CartItem } from '../../store/useCartStore';
 import { useDefaultCart } from '../queries/useDefaultCart';
 
 export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
-  const removeFromCart = useCartStore(state => state.removeFromCart);
-  const { data: cartData, error: cartError } = useDefaultCart();
+  const { data: cartData } = useDefaultCart();
 
   return useMutation({
     mutationKey: ['cart', 'remove'],
@@ -41,19 +41,41 @@ export const useRemoveFromCart = () => {
         throw new Error('Failed to remove product from cart');
       }
 
-      removeFromCart(productId);
-
       return data;
     },
-    onSuccess: () => {
-      toast.success('Removed product from cart');
+    onMutate: async productId => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['cart'] });
+
+      // Snapshot the previous value
+      const previousCart = queryClient.getQueryData<CartItem[]>(['cart']) ?? [];
+
+      // Optimistically remove the item from the cart
+      const updatedCart = previousCart.filter(item => item.product_id !== productId);
+      queryClient.setQueryData(['cart'], updatedCart);
+
+      return { previousCart };
     },
-    onError: error => {
+    onError: (error, _, context) => {
+      // Revert to the previous state if there was an error
+      if (context?.previousCart) {
+        queryClient.setQueryData(['cart'], context.previousCart);
+      }
       toast.error(error.message ?? 'Failed to remove product from cart');
     },
+    onSuccess: () => {
+      toast.custom(
+        () => {
+          return <ProductToast variant="removed" />;
+        },
+        { duration: 3000, className: 'bg-white rounded-lg shadow-lg p-4 w-full' }
+      );
+    },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
+      // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart', 'item'] });
+      queryClient.invalidateQueries({ queryKey: ['cart', 'summary'] });
     },
   });
 };

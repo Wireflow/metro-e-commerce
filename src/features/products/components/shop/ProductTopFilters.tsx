@@ -40,7 +40,7 @@ const ProductTopFilters = ({
   } = useShopFilters();
 
   return (
-    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div className="relative flex flex-col justify-between gap-4 md:flex-row md:items-center">
       <div className="max-w-[400px] flex-1">
         <DebouncedSearchInput value={searchQuery} onChange={setSearchQuery} />
       </div>
@@ -52,22 +52,28 @@ const ProductTopFilters = ({
         />
         {isMobile && (
           <Sheet>
-            <SheetTrigger>
-              <Button>
-                Filters <Filter className="h-4 w-4 text-white" />
+            <SheetTrigger asChild>
+              <Button variant="default" className="gap-2">
+                <Filter className="h-4 w-4" />
+                Filters
               </Button>
             </SheetTrigger>
-            <SheetContent className="overflow-scroll">
-              <ProductFilters
-                tobacco={tobacco}
-                setTobacco={setTobacco}
-                setSelectedManufacturers={setSelectedManufacturers}
-                setCategoryId={setCategoryId}
-                setPriceRange={setPriceRange}
-                categoryId={categoryId}
-                priceRange={priceRange}
-                manfacturers={selectedManufacturers}
-              />
+            <SheetContent
+              side="right"
+              className="fixed inset-y-0 right-0 w-full max-w-xs overflow-y-auto"
+            >
+              <div className="h-full py-6">
+                <ProductFilters
+                  tobacco={tobacco}
+                  setTobacco={setTobacco}
+                  setSelectedManufacturers={setSelectedManufacturers}
+                  setCategoryId={setCategoryId}
+                  setPriceRange={setPriceRange}
+                  categoryId={categoryId}
+                  priceRange={priceRange}
+                  manfacturers={selectedManufacturers}
+                />
+              </div>
             </SheetContent>
           </Sheet>
         )}

@@ -37,12 +37,16 @@ export const applyProductFilters = (
     }
 
     // Apply category filter
-    if (filters.category_id) {
+    if (filters.category_id !== undefined) {
       modifiedQuery = modifiedQuery.eq('category_id', filters.category_id);
     }
 
-    if (filters.is_discounted) {
+    if (filters.is_discounted !== undefined) {
       modifiedQuery = modifiedQuery.gte('discounted_until', new Date().toISOString());
+    }
+
+    if (filters.is_tobacco !== undefined) {
+      modifiedQuery = modifiedQuery.eq('is_tobacco', filters.is_tobacco);
     }
 
     // Apply price range filters

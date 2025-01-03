@@ -244,10 +244,12 @@ export type Database = {
           is_pickup_allowed: boolean;
           is_shipment_allowed: boolean;
           pickup_minimum: number;
+          privacyPolicy: Json | null;
           shipment_minimum: number;
           skip_delivery_minimum_salesperson: boolean;
           status: Database['public']['Enums']['branch_status'];
           tax_percentage: number;
+          termsOfService: Json | null;
           updated_at: string;
         };
         Insert: {
@@ -268,10 +270,12 @@ export type Database = {
           is_pickup_allowed?: boolean;
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
+          privacyPolicy?: Json | null;
           shipment_minimum?: number;
           skip_delivery_minimum_salesperson?: boolean;
           status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
+          termsOfService?: Json | null;
           updated_at?: string;
         };
         Update: {
@@ -292,10 +296,12 @@ export type Database = {
           is_pickup_allowed?: boolean;
           is_shipment_allowed?: boolean;
           pickup_minimum?: number;
+          privacyPolicy?: Json | null;
           shipment_minimum?: number;
           skip_delivery_minimum_salesperson?: boolean;
           status?: Database['public']['Enums']['branch_status'];
           tax_percentage?: number;
+          termsOfService?: Json | null;
           updated_at?: string;
         };
         Relationships: [
@@ -318,6 +324,7 @@ export type Database = {
           facebookUrl: string;
           id: string;
           instagramUrl: string;
+          locationImageUrl: string | null;
           logoUrl: string | null;
           name: string;
           orders_notified_email: string | null;
@@ -337,6 +344,7 @@ export type Database = {
           facebookUrl?: string;
           id?: string;
           instagramUrl?: string;
+          locationImageUrl?: string | null;
           logoUrl?: string | null;
           name: string;
           orders_notified_email?: string | null;
@@ -356,6 +364,7 @@ export type Database = {
           facebookUrl?: string;
           id?: string;
           instagramUrl?: string;
+          locationImageUrl?: string | null;
           logoUrl?: string | null;
           name?: string;
           orders_notified_email?: string | null;

@@ -54,7 +54,6 @@ const ShopPage = () => {
     pageSize,
     selectedManufacturers,
   } = useShopFilters();
-  console.log(filters);
   const { data: productPages, isLoading } = usePaginatedProducts(
     {
       ...filters,

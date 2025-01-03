@@ -4,6 +4,7 @@ import { Clock, Eye, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MouseEvent, ReactNode } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Badge } from '@/components/ui/badge';
 import { Button, ButtonProps } from '@/components/ui/button';
@@ -13,7 +14,8 @@ import SignInButton from '@/features/auth/components/SignInButton';
 import WithAuth, { UserMetadata } from '@/features/auth/components/WithAuth';
 import { useAddToCart } from '@/features/cart/hooks/mutations/useAddToCart';
 import { useRemoveFromCart } from '@/features/cart/hooks/mutations/useRemoveFromCart';
-import { useCartStore } from '@/features/cart/store/useCartStore';
+import { useUpdateCartItem } from '@/features/cart/hooks/mutations/useUpdateCartItem';
+import { useCart } from '@/features/cart/hooks/queries/useCart';
 import { useAddToWishlist } from '@/features/wishlist/hooks/mutations/useAddToWishlist';
 import { useDeleteFromWishList } from '@/features/wishlist/hooks/mutations/useDeleteFromWishlist';
 import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
@@ -24,6 +26,7 @@ import { formatCurrency, truncate } from '@/utils/utils';
 import { Product } from '../schemas/products';
 import { useQuickViewStore } from '../store/useQuickViewStore';
 import { validateProductDiscount } from '../utils/validateDiscount';
+import QuantityControl from './QuantityControl';
 import TobaccoBadge from './TobaccoBadge';
 
 type ProductCardProps = {
@@ -285,6 +288,9 @@ const ProductImage = ({
   const hasValidDiscount = validateProductDiscount(product);
   const getWishlistItemById = useWishlistStore(state => state.getWishlistItemById);
   const wishlistItem = getWishlistItemById(product?.id);
+  const { data: cart } = useCart();
+
+  const cartItem = cart?.find(item => item.product_id === product?.id);
 
   return (
     <div className={cn('relative aspect-square h-full w-full', className)}>
@@ -313,7 +319,7 @@ const ProductImage = ({
         <WithAuth rules={{ customCheck: metadata => !!metadata?.approved }}>
           <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50 opacity-0 transition-all duration-300 hover:opacity-100">
             <div className="flex items-center justify-center gap-1.5">
-              {product?.in_stock && (
+              {!cartItem && (
                 <ProductAddToCartButton
                   product={product}
                   size={'icon'}
@@ -396,23 +402,67 @@ const ProductAddToCartButton = ({
   ...props
 }: ButtonProps & { product: Product; children?: React.ReactNode }) => {
   const { mutate: addToCart, isPending } = useAddToCart();
-  const getCartItemById = useCartStore(state => state.getCartItemById);
+  const { mutate: updatedCartItem } = useUpdateCartItem();
+  const { metadata } = useUser();
+
+  const { data: cart } = useCart();
 
   const handleAddToCart = () => {
+    if (product.is_tobacco && !metadata.approved_tobacco) {
+      return;
+    }
     addToCart({
       product_id: product?.id,
       quantity: 1,
+      id: uuidv4(),
     });
   };
 
-  const cartItem = getCartItemById(product?.id);
+  const handleQuantityUpdate = (newQuantity: number) => {
+    if (!cartItem?.id || !product?.id) return;
+
+    if (product.is_tobacco && !metadata.approved_tobacco) {
+      return;
+    }
+
+    updatedCartItem({
+      product_id: product.id,
+      quantity: newQuantity,
+      id: cartItem.id,
+    });
+  };
+
+  const cartItem = cart?.find(item => item.product_id === product?.id);
+
+  if (cartItem) {
+    return (
+      <WithAuth
+        disableAdmin
+        rules={{
+          customCheck: metadata => {
+            return !!metadata?.approved;
+          },
+        }}
+      >
+        <QuantityControl
+          className={props.className}
+          onIncrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) + 1)}
+          onDecrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) - 1)}
+          max={product?.max_per_order ?? undefined}
+          quantity={cartItem?.quantity ?? 0}
+          onChange={handleQuantityUpdate}
+          disabled={!product?.in_stock}
+        />
+      </WithAuth>
+    );
+  }
 
   const defaultChildren = !product?.in_stock
     ? 'Out of Stock'
     : !!cartItem
-      ? 'In Cart'
-      : isPending
-        ? 'Adding...'
+      ? 'Already in Cart'
+      : product.is_tobacco && !metadata.approved_tobacco
+        ? 'Requires Approval'
         : 'Add to Cart';
 
   return (
@@ -420,17 +470,19 @@ const ProductAddToCartButton = ({
       disableAdmin
       rules={{
         customCheck: metadata => {
-          if (product?.is_tobacco) {
-            return !!metadata?.approved && !!metadata?.approved_tobacco;
-          } else {
-            return !!metadata?.approved;
-          }
+          return !!metadata?.approved;
         },
       }}
     >
       <Button
         className={cn('w-full', props.className)}
-        variant={product?.in_stock ? undefined : 'destructive'}
+        variant={
+          product?.in_stock
+            ? product.is_tobacco && !metadata.approved_tobacco
+              ? 'warning'
+              : undefined
+            : 'destructive'
+        }
         disabled={!product?.in_stock || isPending || !!cartItem}
         onClick={e => {
           e.stopPropagation();

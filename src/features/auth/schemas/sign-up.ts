@@ -52,6 +52,9 @@ const AccountInfoSchema = z
         'Password must contain at least one letter and one number'
       ),
     confirm_password: z.string(),
+    terms_and_conditions: z.boolean().refine(val => val === true, {
+      message: 'You must agree to the terms and conditions',
+    }),
   })
   .refine(data => data.password === data.confirm_password, {
     message: 'Passwords do not match',

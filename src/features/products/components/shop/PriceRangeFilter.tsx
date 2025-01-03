@@ -29,10 +29,15 @@ type Props = {
 
 const PriceRangeFilter = ({ onChange, defaultValue = [0, 0] }: Props) => {
   const [selectedRange, setSelectedRange] = useState<Range>(defaultValue);
+  const [inputValues, setInputValues] = useState<[string, string]>(['', '']);
 
   const handleSelect = (range: Range) => {
     const sanitizedRange = sanitizeRange(range);
     setSelectedRange(sanitizedRange);
+    setInputValues([
+      sanitizedRange[0] ? sanitizedRange[0].toString() : '',
+      sanitizedRange[1] ? sanitizedRange[1].toString() : '',
+    ]);
     onChange?.(sanitizedRange);
   };
 
@@ -47,9 +52,15 @@ const PriceRangeFilter = ({ onChange, defaultValue = [0, 0] }: Props) => {
   }, [defaultValue]);
 
   const handleInputChange = (value: string, index: 0 | 1) => {
-    const numValue = parseInt(value.replace(/[^0-9]/g, '')) || 0;
-    const newRange: Range = [...selectedRange] as Range;
-    newRange[index] = numValue;
+    // Allow any input while typing
+    const newInputValues = [...inputValues] as [string, string];
+    newInputValues[index] = value.replace(/[^0-9]/g, '');
+    setInputValues(newInputValues);
+  };
+
+  const handleInputBlur = (index: 0 | 1) => {
+    // Only validate and update the range when input loses focus
+    const newRange: Range = [parseInt(inputValues[0]) || 0, parseInt(inputValues[1]) || 0];
     handleSelect(newRange);
   };
 
@@ -86,23 +97,35 @@ const PriceRangeFilter = ({ onChange, defaultValue = [0, 0] }: Props) => {
           max={MAX_PRICE}
         />
       </div>
-      <div className="mb-4 flex gap-2">
-        <Input
-          type="text"
-          placeholder="Min"
-          value={selectedRange[0] || ''}
-          onChange={e => handleInputChange(e.target.value, 0)}
-          className="text-right"
-        />
-        <Input
-          type="text"
-          placeholder="Max"
-          value={selectedRange[1] || ''}
-          onChange={e => handleInputChange(e.target.value, 1)}
-          className="text-right"
-        />
+      <div className="space-y-2">
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="Min"
+            value={inputValues[0]}
+            onChange={e => handleInputChange(e.target.value, 0)}
+            onBlur={() => handleInputBlur(0)}
+            className="text-right"
+          />
+          <Input
+            type="text"
+            placeholder="Max"
+            value={inputValues[1]}
+            onChange={e => handleInputChange(e.target.value, 1)}
+            onBlur={() => handleInputBlur(1)}
+            className="text-right"
+          />
+        </div>
+        <div>
+          {parseInt(inputValues[0]) > parseInt(inputValues[1]) &&
+            parseInt(inputValues[1]) !== 0 && (
+              <p className="text-xs text-muted-foreground">
+                Maximum price will be adjusted to be greater than minimum price
+              </p>
+            )}
+        </div>
       </div>
-      <ScrollArea className="max-h-[300px]">
+      <ScrollArea className="mt-1 max-h-[300px]">
         <RadioGroup value={JSON.stringify(selectedRange)}>
           {RANGES.map((range, index) => renderRange(range, index))}
         </RadioGroup>

@@ -24,7 +24,7 @@ const buttonVariants = cva(
         success:
           'bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm hover:shadow-emerald-200/50 dark:hover:shadow-emerald-900/50',
         warning:
-          'bg-amber-500 text-white hover:bg-amber-600 shadow-sm hover:shadow-amber-200/50 dark:hover:shadow-amber-900/50',
+          'bg-amber-200 text-white hover:bg-amber-100 shadow-sm hover:shadow-amber-200/50 dark:hover:shadow-amber-900/50 text-amber-700',
         soft: 'bg-primary/10 text-primary hover:bg-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30',
         glass:
           'backdrop-blur-sm bg-white/10 border border-white/20 text-white shadow-sm hover:bg-white/20 dark:hover:border-white/30',

@@ -1,69 +1,64 @@
 import { Minus, Plus } from 'lucide-react';
-import { useCallback, useEffect, useRef } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 type QuantityControlProps = {
   quantity: number;
   onIncrease: () => void;
   onDecrease: () => void;
+  onChange: (value: number) => void;
   className?: string;
   disabled?: boolean;
-  min?: number;
-  max?: number;
-  debounceMs?: number;
+  min?: number | null;
+  max?: number | null;
 };
 
 const QuantityControl = ({
   quantity,
   onIncrease,
   onDecrease,
+  onChange,
   className,
   disabled = false,
-  debounceMs = 300,
+  min = 0,
+  max,
 }: QuantityControlProps) => {
-  const increaseTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const decreaseTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isAtMin = min !== null && min !== undefined && quantity <= min;
+  const isAtMax = max !== null && max !== undefined && quantity >= max;
 
-  const handleIncrease = useCallback(() => {
-    // Clear any existing timer
-    if (increaseTimerRef.current) {
-      clearTimeout(increaseTimerRef.current);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^\d]/g, '');
+    if (!value) return;
+
+    let newValue = parseInt(value, 10);
+
+    // Clamp the value between min and max if they exist
+    if (min !== null && min !== undefined) {
+      newValue = Math.max(min, newValue);
+    }
+    if (max !== null && max !== undefined) {
+      newValue = Math.min(max, newValue);
     }
 
-    // Set new timer
-    increaseTimerRef.current = setTimeout(() => {
+    onChange(newValue);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp' && !isAtMax) {
+      e.preventDefault();
       onIncrease();
-    }, debounceMs);
-  }, [onIncrease, debounceMs]);
-
-  const handleDecrease = useCallback(() => {
-    // Clear any existing timer
-    if (decreaseTimerRef.current) {
-      clearTimeout(decreaseTimerRef.current);
-    }
-
-    // Set new timer
-    decreaseTimerRef.current = setTimeout(() => {
+    } else if (e.key === 'ArrowDown' && !isAtMin) {
+      e.preventDefault();
       onDecrease();
-    }, debounceMs);
-  }, [onDecrease, debounceMs]);
-
-  // Clean up timers on unmount
-  useEffect(() => {
-    return () => {
-      if (increaseTimerRef.current) {
-        clearTimeout(increaseTimerRef.current);
-      }
-      if (decreaseTimerRef.current) {
-        clearTimeout(decreaseTimerRef.current);
-      }
-    };
-  }, []);
+    }
+  };
 
   return (
     <div
+      onClick={e => e.stopPropagation()}
       className={cn(
         'inline-flex h-10 items-center rounded-[1px] border',
         disabled && 'opacity-50',
@@ -73,23 +68,30 @@ const QuantityControl = ({
       <Button
         variant="ghost"
         size="lg"
-        className="h-9 w-9 rounded-none border-r-0 px-0"
-        onClick={handleDecrease}
-        disabled={disabled}
+        className="h-9 w-9 shrink-0 rounded-none border-r-0 px-0"
+        onClick={onDecrease}
+        disabled={disabled || isAtMin}
       >
         <Minus className="h-4 w-4" />
       </Button>
 
-      <div className="flex h-9 w-9 items-center justify-center text-sm font-medium">
-        {String(quantity)}
-      </div>
+      <Input
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9]*"
+        value={quantity}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        disabled={disabled}
+        className="h-9 w-full min-w-[40px] rounded-none border-0 text-center text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+      />
 
       <Button
         variant="ghost"
         size="lg"
-        className="h-9 w-9 rounded-none border-l-0 px-0"
-        onClick={handleIncrease}
-        disabled={disabled}
+        className="h-9 w-9 shrink-0 rounded-none border-l-0 px-0"
+        onClick={onIncrease}
+        disabled={disabled || isAtMax}
       >
         <Plus className="h-4 w-4" />
       </Button>

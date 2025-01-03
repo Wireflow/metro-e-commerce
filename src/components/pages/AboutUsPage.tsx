@@ -1,7 +1,10 @@
+'use client';
+
 import { CheckCheck } from 'lucide-react';
 import Image from 'next/image';
 
 import { ourFeatures } from '@/data/constants';
+import { useBranch } from '@/hooks/queries/useMetro';
 
 import ProductOptions from '../landing/different-product-options/ProductOptions';
 import SubscribeToNewsLetter from '../landing/subscribe/SubscribeToNewsLetter';
@@ -9,6 +12,8 @@ import BreadCrumbQuickUI from '../layout/BreadCrumbQuickUI';
 import Container from '../layout/Container';
 
 const AboutUsPage = () => {
+  const { branch } = useBranch();
+
   const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about-us' },
@@ -18,7 +23,7 @@ const AboutUsPage = () => {
     <div>
       <BreadCrumbQuickUI breadcrumbs={breadcrumbs} />
 
-      <Container className="flex flex-col pt-20">
+      <Container className="flex flex-col pt-10">
         <h1 className="w-fit border-b border-primary text-3xl font-semibold">About Us</h1>
         <div className="flex flex-col-reverse gap-10 xl:flex-row xl:items-center">
           <div className="flex flex-col gap-7">
@@ -26,16 +31,16 @@ const AboutUsPage = () => {
               <div className="w-fit bg-theme-sky-blue px-5 py-2 text-white">
                 <p className="text-sm">WHO WE ARE</p>
               </div>
-              <h1 className="text-2xl font-semibold md:text-4xl">METRO CASH & CARRY</h1>
+              <h1 className="text-2xl font-semibold uppercase md:text-4xl">{branch?.name}</h1>
             </div>
             <p className="max-w-screen-sm text-sm text-neutral-600">
-              Metro Cash & Carry Michigan is your trusted wholesale retailer, dedicated to providing
-              a diverse selection of high-quality products at competitive prices. We serve
-              businesses of all sizes, from small shops to large restaurants, offering fresh
-              produce, groceries, and non-food items sourced from reliable suppliers. With a
-              commitment to exceptional customer service and strong client relationships, we make it
-              easy for you to find everything you need to thrive in Michigan&apos;s vibrant
-              marketplace. Experience the Metro difference today!
+              {branch?.name} is your trusted wholesale retailer, dedicated to providing a diverse
+              selection of high-quality products at competitive prices. We serve businesses of all
+              sizes, from small shops to large restaurants, offering fresh produce, groceries, and
+              non-food items sourced from reliable suppliers. With a commitment to exceptional
+              customer service and strong client relationships, we make it easy for you to find
+              everything you need to thrive&apos;s in your vibrant marketplace. Experience the
+              difference today!
             </p>
             <div className="flex flex-col gap-3">
               {ourFeatures.map((feature, index) => {
@@ -49,7 +54,7 @@ const AboutUsPage = () => {
             </div>
           </div>
           <Image
-            src="/WholesaleImage.jpg"
+            src={branch?.locationImageUrl ?? ''}
             alt="Wholesale Image"
             width={500}
             height={500}

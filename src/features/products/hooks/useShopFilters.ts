@@ -2,7 +2,7 @@ import { parseAsArrayOf, parseAsBoolean, parseAsInteger, parseAsString, useQuery
 import { useCallback, useMemo, useRef } from 'react';
 
 export type ShopFilters = {
-  is_tobacco: boolean;
+  is_tobacco?: boolean;
   published: boolean;
   category_id?: string;
   minPrice?: number;
@@ -38,7 +38,7 @@ export const useShopFilters = () => {
   const [categoryId, setCategoryId] = useQueryState('category', parseAsString.withDefault(''));
 
   // Tobacco
-  const [tobacco, setTobacco] = useQueryState('is_tobacco', parseAsBoolean.withDefault(false));
+  const [tobacco, setTobacco] = useQueryState('is_tobacco', parseAsBoolean);
 
   // Price Range with debounce
   const priceRangeParser = parseAsArrayOf(parseAsInteger).withDefault([0, 0]);
@@ -66,7 +66,7 @@ export const useShopFilters = () => {
 
   const filters = useMemo(
     (): ShopFilters => ({
-      is_tobacco: tobacco,
+      is_tobacco: tobacco ?? undefined,
       published: true,
       category_id: categoryId || undefined,
       minPrice: priceRange[0] || undefined,
@@ -87,7 +87,7 @@ export const useShopFilters = () => {
     }
 
     await Promise.all([
-      setTobacco,
+      setTobacco(null),
       setCategoryId(null),
       setPriceRangeImmediate([0, 0]), // Use immediate setter for clearing
       setSearchQuery(null),

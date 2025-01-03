@@ -22,6 +22,7 @@ export interface ProductFilters {
   sortOrder?: 'asc' | 'desc';
   is_discounted?: boolean;
   manufacturers?: string[];
+  is_tobacco?: boolean;
 }
 
 interface UseProductsOptions {

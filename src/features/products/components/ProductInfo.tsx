@@ -6,8 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { PLACEHOLDER_IMG_URL } from '@/data/constants';
 import WithAuth from '@/features/auth/components/WithAuth';
 import SupportedPayments from '@/features/cart/components/SupportedPayments';
-import { useUpdateCartItem } from '@/features/cart/hooks/mutations/useUpdateCartItem';
-import { useCartItemById } from '@/features/cart/hooks/queries/useCartItemById';
+import { useCart } from '@/features/cart/hooks/queries/useCart';
 import { useWishlistStore } from '@/features/wishlist/store/useWishlistStore';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
@@ -17,7 +16,6 @@ import { Product } from '../schemas/products';
 import { validateProductDiscount } from '../utils/validateDiscount';
 import MultiImageViewer from './MultiImageViewer';
 import ProductCard, { PriceSection } from './ProductCard';
-import QuantityControl from './QuantityControl';
 import TobaccoBadge from './TobaccoBadge';
 
 type Props = {
@@ -28,10 +26,9 @@ type Props = {
 
 const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = false }) => {
   const { metadata } = useUser();
-  const { data: cartItem } = useCartItemById({
-    product_id: product?.id ?? '',
-  });
-  const { mutate: updatedCartItem, isPending: isUpdating } = useUpdateCartItem();
+  const { data: cart } = useCart();
+  const cartItem = cart?.find(item => item?.product_id === product?.id);
+
   const getWishlistItemById = useWishlistStore(state => state?.getWishlistItemById ?? (() => null));
 
   if (!product) {
@@ -47,16 +44,6 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
 
   // Handle customer type and pricing safely
   const customerType = metadata?.customer_type ?? 'retail';
-
-  const handleQuantityUpdate = (newQuantity: number) => {
-    if (!cartItem?.id || !product?.id) return;
-
-    updatedCartItem({
-      product_id: product.id,
-      quantity: newQuantity,
-      id: cartItem.id,
-    });
-  };
 
   return (
     <Animate type="fade">
@@ -105,7 +92,6 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
             <p>
               Brand: <span className="font-semibold">{product?.manufacturer ?? 'N/A'}</span>
             </p>
-
             <p>
               Category: <span className="font-semibold">N/A</span>
             </p>
@@ -118,7 +104,6 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
             <p>
               Case Count: <span className="font-semibold">{product?.case_count ?? 'N/A'}</span>
             </p>
-
             <div className="flex gap-1">
               <p>Skus:</p>
               <div className="flex flex-col gap-1">
@@ -153,33 +138,23 @@ const ProductInfo: React.FC<Props> = ({ product, border = false, shortenText = f
               )}
             />
           </div>
-          <div className="flex items-center gap-2">
-            {cartItem && (cartItem?.quantity ?? 0) > 0 && (
-              <QuantityControl
-                quantity={cartItem?.quantity ?? 0}
-                onIncrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) + 1)}
-                onDecrease={() => handleQuantityUpdate((cartItem?.quantity ?? 0) - 1)}
-                disabled={!product?.in_stock || isUpdating}
-              />
-            )}
+          <div className="flex flex-col gap-2">
             <ProductCard.AdminEditButton size={'lg'} product={product} className="w-full" />
-            <ProductCard.AddToCartButton
-              product={product}
-              className="w-full"
-              size={'lg'}
-              disabled={!!cartItem}
-            />
-          </div>
-          <div className="flex items-center gap-1">
-            <ProductCard.WishlistButton
-              className="shadow-none"
-              size={'default'}
-              product={product}
-              variant={'outline'}
-            >
-              <Heart className={cn('h-5 w-5', { 'fill-red-500 text-red-500': !!wishlistItem })} />
-              <p>{wishlistItem ? 'Remove from Wishlist' : 'Add to Wishlist'}</p>
-            </ProductCard.WishlistButton>
+            <div className="flex w-full justify-between gap-3">
+              <ProductCard.WishlistButton
+                className="px-4 shadow-none"
+                size={'lg'}
+                product={product}
+                variant={'outline'}
+              >
+                <Heart className={cn('h-5 w-5', { 'fill-red-500 text-red-500': !!wishlistItem })} />
+              </ProductCard.WishlistButton>
+              <ProductCard.AddToCartButton
+                product={product}
+                className={cn('flex-1', { 'max-w-[150px]': cartItem })}
+                size={'lg'}
+              />
+            </div>
           </div>
           <SupportedPayments />
         </div>
